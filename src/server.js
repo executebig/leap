@@ -40,7 +40,7 @@ const minifierOpts = {
 
 const sessionConfig = {
   secret: config.session.secret,
-  name: '_continuitySession',
+  name: '_leapSession',
   store: new RedisSessionStore({
     client: require('@db/redis').client
   }),
