@@ -7,6 +7,7 @@ const auth = require('@routes/auth')
 
 /** Initialize auth system */
 router.use(auth.router)
+router.use(auth.passAuthContext)
 
 /** Directly rendered pages */
 router.get('/', (req, res) => {
@@ -16,6 +17,10 @@ router.get('/', (req, res) => {
 })
 router.use('/debug', require('@routes/debug'))
 
-router.use(auth.authenticate)
+// TODO: Error pages should go here.
+
+/** Everything below this line will be protected behind auth */
+
+router.use(auth.forceAuth)
 
 module.exports = router

@@ -3,7 +3,7 @@ const config = require('@config')
 const { Pool } = require('pg')
 const pool = new Pool({
   connectionString: config.database,
-  ssl: { rejectUnauthorized: false },
+  ssl: false,
   connectionTimeoutMillis: 5000
 })
 

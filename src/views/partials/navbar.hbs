@@ -10,4 +10,16 @@
             <span aria-hidden="true"></span>
         </a>
     </div>
+    <div class="navbar-menu">
+        <div class="navbar-start">
+            <!-- navbar items -->
+        </div>
+        <div class="navbar-end">
+            {{#if user}}
+                {{user.email}}
+            {{else}}
+                Logged Out
+            {{/if}}
+        </div>
+    </div>
 </nav>

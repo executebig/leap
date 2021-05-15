@@ -3,6 +3,7 @@
 */
 
 const config = require('@config')
+const db = require('@db')
 
 const router = require('express').Router()
 const { auth } = require('express-openid-connect')
@@ -15,8 +16,7 @@ const authConfig = {
   clientID: config.auth0.client,
   issuerBaseURL: config.auth0.domain,
   routes: {
-    login: '/login',
-    callback: '/gateway'
+    login: false
   }
 }
 
@@ -24,25 +24,42 @@ const authConfig = {
 router.use(auth(authConfig))
 
 router.get('/login', (req, res) => {
-  return res.oidc.login({ connection: 'Discord', returnTo: '/auth/gateway' })
+  return res.oidc.login({
+    connection: 'Discord',
+    returnTo: '/gateway'
+  })
 })
 
-router.post('/gateway', async (req, res) => {
-  
-  // TODO: set up user in database
+router.get('/gateway', async (req, res) => {
+  await db.query(
+    'INSERT INTO users (user_id, email, avatar, last_synced) VALUES ($1, $2, $3, NOW()) \
+                  ON CONFLICT (user_id) DO UPDATE \
+                  SET email = EXCLUDED.email, avatar = EXCLUDED.avatar',
+    [req.oidc.user.sub, req.oidc.user.email, req.oidc.user.picture]
+  )
 
-  res.redirect('/')
+  return res.redirect('/')
 })
 
-const authenticate = async (req, res, next) => {
+/* pass all user context to rendering */
+const passAuthContext = async (req, res, next) => {
+  // context is optional
+  if (req.oidc.isAuthenticated()) {
+    // pass context
+    res.locals.user = req.oidc.user
+  }
+
+  next()
+}
+
+/* forces authentication  */
+const forceAuth = async (req, res, next) => {
   /* enforce custom login - optional */
   if (req.oidc.isAuthenticated()) {
-    res.locals.user = req.oidc.user
-
     next()
   } else {
     return res.redirect('/login')
   }
 }
 
-module.exports = { router, authenticate }
+module.exports = { router, passAuthContext, forceAuth }
