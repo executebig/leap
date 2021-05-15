@@ -1,12 +1,21 @@
-async function routes(fastify, options){
-    fastify.get('/', async function(request, reply) {
-         reply.view("pages/home", { title: "Test" })
-    }), 
+/** 
+ * @author Mingjie Jiang
+ * Main router for the application, handles all routing
+*/
+const router = require('express').Router()
+const auth = require('@routes/auth')
 
-    fastify.get('/bye', async function(request, reply) {
-         return {bye: 'good bye'} 
-    }) 
-}
+/** Initialize auth system */
+router.use(auth.router)
 
-module.exports = routes
-module.exports.autoPrefix = '/'
+/** Directly rendered pages */
+router.get('/', (req, res) => {
+    res.render('pages/app', {
+        title: "Home"
+    })
+})
+router.use('/debug', require('@routes/debug'))
+
+router.use(auth.authenticate)
+
+module.exports = router
