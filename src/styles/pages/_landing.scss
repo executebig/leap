@@ -1,3 +1,59 @@
 .page__landing {
-    
+  #intro {
+    padding: 3rem 0 5rem;
+
+    .title {
+      font-size: 10vw;
+      text-shadow: -5px 0 $primary, 0 5px $primary, 5px 0 $primary, 0 -5px $primary;
+
+      @keyframes blink {
+        from {
+          opacity: 0.3;
+        }
+
+        to {
+          opacity: 1;
+        }
+      }
+
+      span {
+        transition: opacity 0s;
+
+        &.tech {
+          animation: blink 1.5s infinite steps(2, start);
+        }
+
+        &.roulette {
+          animation: blink 1.5s infinite reverse steps(2, start);
+        }
+      }
+    }
+
+    .subtitle {
+      font-size: 3vw;
+      font-weight: bold;
+
+      a.cta {
+        color: #fff;
+        text-decoration: underline;
+      }
+
+      .keyword {
+        opacity: 0.3;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+
+      .comma {
+        opacity: 0.3;
+      }
+    }
+
+    .dice {
+      display: inline;
+      vertical-align: middle;
+    }
+  }
 }

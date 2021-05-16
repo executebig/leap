@@ -1,9 +1,17 @@
 <div class="page__landing">
-    <section class="hero is-large is-brand">
-        <div class="hero-body has-text-centered">
-            <h1 class="title is-1">Tech Roulette</h1>
-            <p>
-                Task details will be presented to you once you select your task. Once selected, you will not be able to change it, and you will have a week to complete it.
+    <section id="intro" class="section is-brand">
+        <div class="container">
+            <h1 class="title"><span class="tech">Tech</span> <span class="roulette">Roulette</span></h1>
+            <p class="subtitle">
+                <!-- whitespace controlled -->
+                {{~#each keywords~}}
+                {{#eq @index 0}}
+                    {{else}}<span class="comma">, </span>{{/eq}}
+                <span class="keyword">{{~this~}}</span>
+                {{~/each~}}
+            </p>
+            <p class="subtitle">
+                <a href="/login" class="cta">Register/Login with Discord →</a>
             </p>
         </div>
     </section>

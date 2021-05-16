@@ -10,17 +10,7 @@ router.use(auth.router)
 router.use(auth.passAuthContext)
 
 /** Directly rendered pages */
-router.get('/', (req, res) => {
-  if (req.oidc.isAuthenticated()) {
-    return res.render('pages/dash', {
-      title: 'Dashboard'
-    })
-  } else {
-    return res.render('pages/landing', {
-      title: 'Home'
-    })
-  }
-})
+router.use('/', require('@routes/home'))
 router.use('/debug', require('@routes/debug'))
 router.use('/admin', require('@routes/admin'))
 
