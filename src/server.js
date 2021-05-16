@@ -65,11 +65,7 @@ const sassConfig = {
   dest: path.join(__dirname, './static/styles'),
   outputStyle: 'compressed',
   prefix: '/static/styles',
-  includePaths: [
-    path.join(__dirname, '../node_modules'),
-    path.join(__dirname, 'styles'),
-    '.'
-  ]
+  includePaths: [path.join(__dirname, '../node_modules'), path.join(__dirname, 'styles'), '.']
 }
 
 /** Logging Setup */
@@ -85,9 +81,9 @@ app.use(
     (tokens, req, res) => {
       return `${chalk.green(`+ #${tokens.id(req, res)}`)} [${chalk.yellow(
         tokens.method(req, res)
-      )}] Started ${chalk.blue(
-        tokens.url(req, res)
-      )} for ${chalk.blue(tokens['remote-addr'](req, res))}`
+      )}] Started ${chalk.blue(tokens.url(req, res))} for ${chalk.blue(
+        tokens['remote-addr'](req, res)
+      )}`
     },
     { immediate: true, skip: (req, res) => config.testing }
   )
@@ -97,11 +93,11 @@ app.use(
     (tokens, req, res) => {
       return `${chalk.red(`- #${tokens.id(req, res)}`)} [${chalk.yellow(
         tokens.method(req, res)
-      )}] Completed ${chalk.yellow(
-        tokens.status(req, res)
-      )} ${tokens.res(req, res, 'content-length')} in ${chalk.green(
-        tokens['response-time'](req, res)
-      )}ms`
+      )}] Completed ${chalk.yellow(tokens.status(req, res))} ${tokens.res(
+        req,
+        res,
+        'content-length'
+      )} in ${chalk.green(tokens['response-time'](req, res))}ms`
     },
     { skip: (req, res) => config.testing }
   )
@@ -124,10 +120,7 @@ app.use((req, res, next) => {
 })
 
 /** Create basic routes */
-app.use(
-  '/static',
-  express.static(path.join(__dirname, './static'))
-)
+app.use('/static', express.static(path.join(__dirname, './static')))
 app.use(require('@routes/index'))
 
 /** Instantiate server */

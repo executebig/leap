@@ -10,10 +10,7 @@ const db = require('@db')
 /** allow admins only */
 router.use((req, res, next) => {
   if (!res.locals.user.admin) {
-    req.flash(
-      'error',
-      'You do not have permission to access this page.'
-    )
+    req.flash('error', 'You do not have permission to access this page.')
     res.redirect('/')
   }
   res.locals.admin_zone = true

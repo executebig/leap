@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
     })
   } else {
     return res.render('pages/landing', {
-        title: 'Home'
+      title: 'Home'
     })
   }
 })
