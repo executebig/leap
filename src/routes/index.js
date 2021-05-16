@@ -22,6 +22,7 @@ router.get('/', (req, res) => {
   }
 })
 router.use('/debug', require('@routes/debug'))
+router.use('/admin', require('@routes/admin'))
 
 // TODO: Error pages should go here.
 
