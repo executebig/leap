@@ -16,7 +16,7 @@ process.env.NODE_ENV = 'testing'
 
 describe('Express server functions', () => {
   suppressLogs()
-  
+
   it('responds to ping', () => {
     return chai
       .request(app)
