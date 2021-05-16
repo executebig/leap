@@ -32,11 +32,16 @@ router.get('/callback', async (req, res) => {
 })
 
 /* pass all user context to rendering */
-const passAuthContext = (req, res, next) => {
+const passAuthContext = async (req, res, next) => {
   // context is optional
   if (req.oidc.isAuthenticated()) {
     // pass context
+    const adminCheck = await db.query('SELECT admin FROM users WHERE user_id = $1', [
+      req.oidc.user.sub
+    ])
+
     res.locals.user = req.oidc.user
+    res.locals.user.admin = adminCheck.rows[0].admin
   }
 
   next()

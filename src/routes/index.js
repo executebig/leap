@@ -17,11 +17,12 @@ router.get('/', (req, res) => {
     })
   } else {
     return res.render('pages/landing', {
-        title: 'Home'
+      title: 'Home'
     })
   }
 })
 router.use('/debug', require('@routes/debug'))
+router.use('/admin', require('@routes/admin'))
 
 // TODO: Error pages should go here.
 
