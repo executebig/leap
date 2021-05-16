@@ -15,10 +15,13 @@ $family-sans-serif: 'Space Grotesk', BlinkMacSystemFont,
 
 /** Bulma setup */
 // TODO: If possible, modulize this import to mininize CSS size
-@import 'bulma'; 
+@import 'brand'; // extends Bulma with Brand configs
+@import 'bulma/bulma.sass';
 
 /** Global modules */
 @import 'global';
 
 /** Components and partials */
-@import 'components/task'
+@import 'components/task';
+
+@import 'pages/landing';

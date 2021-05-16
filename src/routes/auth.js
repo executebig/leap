@@ -14,23 +14,13 @@ const authConfig = {
   secret: config.auth0.secret,
   baseURL: config.baseUrl,
   clientID: config.auth0.client,
-  issuerBaseURL: config.auth0.domain,
-  routes: {
-    login: false
-  }
+  issuerBaseURL: config.auth0.domain
 }
 
 /** attach /logout, /callback */
 router.use(auth(authConfig))
 
-router.get('/login', (req, res) => {
-  return res.oidc.login({
-    connection: 'Discord',
-    returnTo: '/gateway'
-  })
-})
-
-router.get('/gateway', async (req, res) => {
+router.get('/callback', async (req, res) => {
   await db.query(
     'INSERT INTO users (user_id, email, avatar, last_synced) VALUES ($1, $2, $3, NOW()) \
                   ON CONFLICT (user_id) DO UPDATE \
@@ -42,7 +32,7 @@ router.get('/gateway', async (req, res) => {
 })
 
 /* pass all user context to rendering */
-const passAuthContext = async (req, res, next) => {
+const passAuthContext = (req, res, next) => {
   // context is optional
   if (req.oidc.isAuthenticated()) {
     // pass context
@@ -53,7 +43,7 @@ const passAuthContext = async (req, res, next) => {
 }
 
 /* forces authentication  */
-const forceAuth = async (req, res, next) => {
+const forceAuth = (req, res, next) => {
   /* enforce custom login - optional */
   if (req.oidc.isAuthenticated()) {
     next()

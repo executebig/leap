@@ -1,7 +1,7 @@
-/** 
+/**
  * @author Mingjie Jiang
  * Main router for the application, handles all routing
-*/
+ */
 const router = require('express').Router()
 const auth = require('@routes/auth')
 
@@ -11,9 +11,15 @@ router.use(auth.passAuthContext)
 
 /** Directly rendered pages */
 router.get('/', (req, res) => {
-    res.render('pages/app', {
-        title: "Home"
+  if (req.oidc.isAuthenticated()) {
+    return res.render('pages/dash', {
+      title: 'Dashboard'
     })
+  } else {
+    return res.render('pages/landing', {
+        title: 'Home'
+    })
+  }
 })
 router.use('/debug', require('@routes/debug'))
 

@@ -17,6 +17,7 @@ const cookieParser = require('cookie-parser')
 const exphbs = require('express-handlebars')
 const reqId = require('express-request-id')()
 const morgan = require('morgan')
+const chalk = require('chalk')
 const compression = require('compression')
 
 // local imports
@@ -79,13 +80,29 @@ app.set('trust proxy', 1)
 app.use(reqId)
 app.use(
   morgan(
-    '[:method #:id] Started :method :url for :remote-addr',
+    // '[:method #:id] Started :method :url for :remote-addr',
+
+    (tokens, req, res) => {
+      return `${chalk.green(`+ #${tokens.id(req, res)}`)} [${chalk.yellow(
+        tokens.method(req, res)
+      )}] Started ${chalk.blue(
+        tokens.url(req, res)
+      )} for ${chalk.blue(tokens['remote-addr'](req, res))}`
+    },
     { immediate: true, skip: (req, res) => config.testing }
   )
 )
 app.use(
   morgan(
-    '[:method #:id] Completed :status :res[content-length] in :response-time ms',
+    (tokens, req, res) => {
+      return `${chalk.red(`- #${tokens.id(req, res)}`)} [${chalk.yellow(
+        tokens.method(req, res)
+      )}] Completed ${chalk.yellow(
+        tokens.status(req, res)
+      )} ${tokens.res(req, res, 'content-length')} in ${chalk.green(
+        tokens['response-time'](req, res)
+      )}ms`
+    },
     { skip: (req, res) => config.testing }
   )
 )
