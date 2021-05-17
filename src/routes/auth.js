@@ -23,6 +23,10 @@ const authConfig = {
 /** attach /logout, /callback */
 router.use(auth(authConfig))
 
+router.get('/join', (req, res) => {
+  res.oidc.login({ returnTo: '/gateway', authorizationParams: { screen_hint: 'signup' } })
+})
+
 router.get('/login', (req, res) => {
   return res.oidc.login({
     returnTo: '/gateway'
@@ -52,7 +56,7 @@ const passAuthContext = async (req, res, next) => {
     ])
 
     res.locals.user = req.oidc.user
-    
+
     if (adminCheck.rows.length > 0) {
       res.locals.user.admin = adminCheck.rows[0].admin
     }

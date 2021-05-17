@@ -18,8 +18,11 @@
             {{#if user}}
                 {{user.email}}
             {{else}}
+                <a class="navbar-item" href="/join">
+                    Join
+                </a>
                 <a class="navbar-item" href="/login">
-                    Login/Register
+                    Login
                 </a>
             {{/if}}
         </div>
