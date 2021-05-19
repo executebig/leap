@@ -1,4 +1,4 @@
-.task {
+.project {
   position: relative;
   height: 600px;
 
@@ -6,9 +6,9 @@
   flex-direction: column;
   justify-content: flex-end;
 
-  text-shadow: 0 2px 4px rgba(black, 0.25);
   color: white;
   font-weight: 500;
+  text-shadow: 0 2px 4px rgba(black, 0.25);
 
   overflow: hidden;
   border-radius: 20px;
@@ -16,7 +16,7 @@
   box-sizing: border-box;
   padding: 24px 32px;
 
-  .task-bg {
+  &__bg {
     position: absolute;
     z-index: -2;
     top: 0;
@@ -27,7 +27,7 @@
     object-fit: cover;
   }
 
-  .task-overlay-1 {
+  &__overlay--1 {
     position: absolute;
     z-index: -1;
     top: 0;
@@ -56,5 +56,11 @@
     *:first-child {
       margin-right: auto;
     }
+  }
+}
+
+.page__dash {
+  .projects {
+    gap: 1.5rem;
   }
 }
