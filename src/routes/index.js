@@ -12,41 +12,112 @@ router.use(auth.passAuthContext)
 /** Directly rendered pages */
 router.get('/', (req, res) => {
   if (req.oidc.isAuthenticated()) {
-    return res.render('pages/dash', {
-      title: 'Dashboard',
-      // Temporary test object to simulate network req
-      data: {
-        projects: [
-          {
-            title: '“Simon Says”',
-            description:
-              'This is a hardware task. You’ll be getting a hardware kit in the mail, and you’ll be expected to complete the design.',
-            type: 'Learning Task',
-            thumbnailUrl: '<WIP | url to image>',
-            numModulesRequired: 3,
-            numModulesAvailable: 6
+    // Simulates user state -- see User & Task Interaction Megathread for more details
+    // inprogress | completed | idle
+    let state = 'inprogress'
+
+    if (state === 'idle') {
+      return res.render('pages/dash', {
+        title: 'Dashboard',
+        // Temporary test object to simulate network req
+        data: {
+          projects: [
+            {
+              title: '“Simon Says”',
+              description:
+                'This is a hardware task. You’ll be getting a hardware kit in the mail, and you’ll be expected to complete the design.',
+              type: 'Learning Task',
+              thumbnailUrl: '<WIP | url to image>',
+              numModulesRequired: 3,
+              numModulesAvailable: 6
+            },
+            {
+              title: '“Ship Wreck”',
+              description:
+                'This is a data science task. You’ll be getting a set of data to analyze, and you’ll be expected to present your results.',
+              type: 'Learning Task',
+              thumbnailUrl: '<WIP | url to image>',
+              numModulesRequired: 2,
+              numModulesAvailable: 3
+            },
+            {
+              title: '“Justice Matrix”',
+              description:
+                'This is an ethics in tech task. You’ll be given specifications and asked to design an algorithm to solve a problem ethically.',
+              type: 'Learning Task',
+              thumbnailUrl: '<WIP | url to image>',
+              numModulesRequired: 2,
+              numModulesAvailable: 8
+            }
+          ]
+        }
+      })
+    } else if (state === 'inprogress') {
+      return res.render('pages/modules', {
+        title: 'Modules',
+        // Temporary test object to simulate network req
+        data: {
+          project: {
+              title: '“Simon Says”',
+              description:
+                'This is a hardware task. You’ll be getting a hardware kit in the mail, and you’ll be expected to complete the design.',
+              type: 'Learning Task',
+              thumbnailUrl: '<WIP | url to image>',
+              numModulesRequired: 3,
+              numModulesAvailable: 6
           },
-          {
-            title: '“Ship Wreck”',
-            description:
-              'This is a data science task. You’ll be getting a set of data to analyze, and you’ll be expected to present your results.',
-            type: 'Learning Task',
-            thumbnailUrl: '<WIP | url to image>',
-            numModulesRequired: 2,
-            numModulesAvailable: 3
-          },
-          {
-            title: '“Justice Matrix”',
-            description:
-              'This is an ethics in tech task. You’ll be given specifications and asked to design an algorithm to solve a problem ethically.',
-            type: 'Learning Task',
-            thumbnailUrl: '<WIP | url to image>',
-            numModulesRequired: 2,
-            numModulesAvailable: 8
-          }
-        ]
-      }
-    })
+          modulesRequired: [
+            {
+              title: 'Blinking Lights',
+              description: 'Create a ring of blinking lights using iterative loops & Adafruit MakeCode.',
+              points: 1
+            },
+            {
+              title: 'Blinking Lights',
+              description: 'Create a ring of blinking lights using iterative loops & Adafruit MakeCode.',
+              points: 1
+            },
+            {
+              title: 'Blinking Lights',
+              description: 'Create a ring of blinking lights using iterative loops & Adafruit MakeCode.',
+              points: 1
+            },
+          ],
+          modulesOptional: [
+            {
+              title: 'Blinking Lights',
+              description: 'Create a ring of blinking lights using iterative loops & Adafruit MakeCode.',
+              points: 1
+            },
+            {
+              title: 'Blinking Lights',
+              description: 'Create a ring of blinking lights using iterative loops & Adafruit MakeCode.',
+              points: 1
+            },
+            {
+              title: 'Blinking Lights',
+              description: 'Create a ring of blinking lights using iterative loops & Adafruit MakeCode.',
+              points: 1
+            },
+            {
+              title: 'Blinking Lights',
+              description: 'Create a ring of blinking lights using iterative loops & Adafruit MakeCode.',
+              points: 1
+            },
+            {
+              title: 'Blinking Lights',
+              description: 'Create a ring of blinking lights using iterative loops & Adafruit MakeCode.',
+              points: 1
+            },
+            {
+              title: 'Blinking Lights',
+              description: 'Create a ring of blinking lights using iterative loops & Adafruit MakeCode.',
+              points: 1
+            }
+          ]
+        }
+      })
+    }
   } else {
     return res.render('pages/landing', {
       title: 'Home'
