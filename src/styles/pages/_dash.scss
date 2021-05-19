@@ -16,7 +16,7 @@
   box-sizing: border-box;
   padding: 24px 32px;
 
-  &-bg {
+  &__bg {
     position: absolute;
     z-index: -2;
     top: 0;
@@ -27,7 +27,7 @@
     object-fit: cover;
   }
 
-  &-overlay-1 {
+  &__overlay--1 {
     position: absolute;
     z-index: -1;
     top: 0;
