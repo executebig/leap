@@ -1,0 +1,33 @@
+.page__module {
+  .module {
+    display: flex;
+    flex-direction: row;
+
+    overflow: hidden;
+
+    min-height: 400px;
+
+    &__img {
+      width: 320px;
+      height: inherit;
+
+      object-fit: cover;
+    }
+
+    .content {
+      * {
+        color: $primary;
+        font-weight: 500;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-weight: bold;
+      }
+    }
+  }
+}
