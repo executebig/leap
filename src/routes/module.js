@@ -26,11 +26,15 @@ let modules = [
   }
 ]
 
+// TODO: Implement db queries for module & authorized access
 router.get('/:uuid', (req, res, next) => {
   // Simulate db query for module based on id
   const module = modules.find((e) => e.id === req.params.uuid)
 
-  if (!module) next()
+  // Simulate auth check for module
+  const authorized = true
+
+  if (!module || !authorized) next()
 
   res.render('pages/module', {
     title: module.title,
