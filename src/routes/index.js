@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
   if (req.oidc.isAuthenticated()) {
     // Simulates user state -- see User & Task Interaction Megathread for more details
     // inprogress | completed | idle
-    let state = 'inprogress'
+    let state = 'idle'
 
     if (state === 'idle') {
       return res.render('pages/dash', {
