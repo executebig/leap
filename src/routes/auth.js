@@ -6,73 +6,54 @@ const config = require('@config')
 const db = require('@db')
 
 const router = require('express').Router()
-const { auth } = require('express-openid-connect')
+const UserController = require('@controllers/user.controllers')
+const generateLoginJWT = require('@libs/jwt').generateLoginJWT
+const mailer = require('@libs/mailer')
+const passport = require('@libs/passport')
 
-const authConfig = {
-  authRequired: false,
-  auth0Logout: true,
-  secret: config.auth0.secret,
-  baseURL: config.baseUrl,
-  clientID: config.auth0.client,
-  issuerBaseURL: config.auth0.domain,
-  routes: {
-    login: false
+router.get(
+  '/login',
+  (req, res, next) => {
+    const { incorrectToken, token } = req.query
+
+    if (token) {
+      next()
+    } else {
+      res.render('pages/account/invalid-token', { title: 'Invalid Token' })
+    }
+  },
+  passport.authenticate('jwt', {
+    successReturnToOrRedirect: '/dash',
+    failureRedirect: '/login?incorrectToken=true'
+  }),
+
+  (req, res) => {}
+)
+
+router.post('/login', async (req, res) => {
+  const email = req.body.email.toLowerCase()
+  const validate = require('@libs/validateEmail')
+
+  if (!validate(email)) {
+    return req.flash('error', 'Invalid email format. Please check your input and try again!')
   }
-}
 
-/** attach /logout, /callback */
-router.use(auth(authConfig))
+  // valid email from this point on
+  const user = await UserController.getOrCreateUserByEmail(email)
 
-router.get('/join', (req, res) => {
-  res.oidc.login({ returnTo: '/gateway', authorizationParams: { screen_hint: 'signup' } })
+  // user with $email now exists, send magic link
+  generateLoginJWT(user).then((token) => {
+    mailer.sendMagic(email, token)
+  })
+
+  res.redirect('/auth/link-sent?email=' + email)
 })
 
-router.get('/login', (req, res) => {
-  return res.oidc.login({
-    returnTo: '/gateway'
+router.get('/link-sent', (req, res) => {
+  let email = req.query.email
+  res.render('pages/auth/link-sent', {
+    email
   })
 })
 
-router.get('/gateway', async (req, res) => {
-  await db.query(
-    'INSERT INTO users (user_id, email, avatar, last_synced) VALUES ($1, $2, $3, NOW()) \
-                  ON CONFLICT (user_id) DO UPDATE \
-                  SET email = EXCLUDED.email, avatar = EXCLUDED.avatar',
-    [req.oidc.user.sub, req.oidc.user.email, req.oidc.user.picture]
-  )
-
-  return res.redirect('/')
-})
-
-/* pass all user context to rendering */
-const passAuthContext = async (req, res, next) => {
-  // context is optional
-  console.log('context passed @ ' + req.id)
-
-  if (req.oidc.isAuthenticated()) {
-    // pass context
-    const adminCheck = await db.query('SELECT admin FROM users WHERE user_id = $1', [
-      req.oidc.user.sub
-    ])
-
-    res.locals.user = req.oidc.user
-
-    if (adminCheck.rows.length > 0) {
-      res.locals.user.admin = adminCheck.rows[0].admin
-    }
-  }
-
-  next()
-}
-
-/* forces authentication  */
-const forceAuth = (req, res, next) => {
-  /* enforce custom login - optional */
-  if (req.oidc.isAuthenticated()) {
-    next()
-  } else {
-    return res.redirect('/login')
-  }
-}
-
-module.exports = { router, passAuthContext, forceAuth }
+module.exports = router
