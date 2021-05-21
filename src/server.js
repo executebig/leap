@@ -23,6 +23,8 @@ const compression = require('compression')
 // local imports
 const config = require('@config')
 const hbsHelpers = require('@libs/helpers')
+const passport = require('@libs/passport')
+const truncateString = require('@libs/truncateString')
 
 // initialize server
 const app = express()
@@ -72,16 +74,15 @@ const sassConfig = {
 morgan.token('id', (req) => req.id.split('-')[0])
 /** Express Server Setup */
 app.use(compression())
+app.use(express.json())
 app.set('trust proxy', 1)
 app.use(reqId)
 app.use(
   morgan(
-    // '[:method #:id] Started :method :url for :remote-addr',
-
     (tokens, req, res) => {
       return `${chalk.green(`+ #${tokens.id(req, res)}`)} [${chalk.yellow(
         tokens.method(req, res)
-      )}] Started ${chalk.blue(tokens.url(req, res))} for ${chalk.blue(
+      )}] Started ${chalk.blue(truncateString(tokens.url(req, res), 36))} for ${chalk.blue(
         tokens['remote-addr'](req, res)
       )}`
     },
@@ -110,6 +111,8 @@ app.engine('.hbs', exphbs(handlebarsConfig))
 app.set('view engine', '.hbs')
 app.use(sass(sassConfig))
 app.use(express.urlencoded({ extended: false }))
+app.use(passport.initialize())
+app.use(passport.session())
 
 /** Set up flash messages */
 app.use((req, res, next) => {
@@ -121,11 +124,11 @@ app.use((req, res, next) => {
 
 /** Create basic routes */
 app.use('/static', express.static(path.join(__dirname, './static')))
-app.use(require('@routes/index'))
+app.use(require('@routes'))
 
 /** Instantiate server */
 http.listen(config.port, () => {
-  console.log(`Leap started on port ${config.baseUrl}\n`)
+  console.log(`Leap started on ${config.domain}\n`)
 })
 
 /** Exports the server for testing */

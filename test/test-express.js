@@ -14,7 +14,7 @@ chai.use(chaiHttp)
 
 process.env.NODE_ENV = 'testing'
 
-describe('Express server functions', () => {
+describe('Test Express server functions', () => {
   suppressLogs()
 
   it('responds to ping', () => {
