@@ -18,7 +18,7 @@
   "private": true,
   "scripts": {
     "start": "node src/server.js",
-    "test": "NODE_ENV=testing mocha"
+    "test": "NODE_ENV=testing mocha --exit"
   },
   "dependencies": {
     "bulma": "^0.9.2",
