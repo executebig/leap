@@ -1,7 +1,7 @@
 create table if not exists users (
-    user_id text not null constraint users_pk primary key,
+    user_id uuid default uuid_generate_v4() not null constraint users_pk primary key,
     email text not null,
-    last_synced timestamp,
+    created_at timestamp not null,
     avatar text,
     admin boolean default false
 );
