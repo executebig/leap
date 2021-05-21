@@ -17,6 +17,11 @@ router.get(
     const { incorrectToken, token } = req.query
 
     if (token) {
+      res.cookie('_jwt', token, {
+        httpOnly: true,
+        secure: config.production,
+        maxAge: 12 * 3600 * 1000
+      })
       next()
     } else {
       res.render('pages/account/invalid-token', { title: 'Invalid Token' })
@@ -27,7 +32,9 @@ router.get(
     failureRedirect: '/login?incorrectToken=true'
   }),
 
-  (req, res) => {}
+  (req, res) => {
+    console.log(token)
+  }
 )
 
 router.post('/login', async (req, res) => {
@@ -47,6 +54,13 @@ router.post('/login', async (req, res) => {
   })
 
   res.redirect('/auth/link-sent?email=' + email)
+})
+
+router.get('/logout', (req, res) => {
+  res.clearCookie('_jwt')
+  req.session.destroy()
+
+  res.redirect('/')
 })
 
 router.get('/link-sent', (req, res) => {

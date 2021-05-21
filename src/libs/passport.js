@@ -17,7 +17,13 @@ const jwtOptions = {
   audience: config.domain,
   secretOrKey: config.auth.secret,
   algorithms: 'HS256',
-  jwtFromRequest: ExtractJwt.fromUrlQueryParameter('token')
+  jwtFromRequest: (req) => {
+    if (req.query.token) {
+      return ExtractJwt.fromUrlQueryParameter('token')(req)
+    } else {
+      return req && req.cookies['_jwt']
+    }
+  }
 }
 
 passport.serializeUser(function (user, done) {
