@@ -13,12 +13,13 @@ router.use((req, res, next) => {
     req.flash('error', 'You do not have permission to access this page.')
     res.redirect('/')
   }
-  res.locals.admin_zone = true
+
+  res.locals.layout = 'admin'
   next()
 })
 
 router.get('/', (req, res) => {
-  res.send({ admin: 'success' })
+  res.render('pages/admin/dashboard', { title: 'Dashboard' })
 })
 
 module.exports = router

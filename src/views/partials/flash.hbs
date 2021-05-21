@@ -1,23 +1,25 @@
-<!-- Flashed notifications -->
-{{#if error}}
-    <div class="notification is-danger flash-message mb-0">
-        <button class="delete" id="close-flash"></button>
-        {{error}}
-    </div>
-    <script>
-        document.getElementById('close-flash').addEventListener('click', function (e) {
-            this.parentNode.style.display = 'none'
-        })
-    </script>
-{{/if}}
-{{#if success}}
-    <div class="notification is-success flash-message mb-0">
-        <button class="delete" id="close-flash"></button>
-        {{success}}
-    </div>
-    <script>
-        document.getElementById('close-flash').addEventListener('click', function (e) {
-            this.parentNode.style.display = 'none'
-        })
-    </script>
-{{/if}}
+<div class="flash-notification">
+    <!-- Flashed notifications -->
+    {{#if error}}
+        <div class="notification is-danger flash-message mb-0">
+            <button class="delete" id="close-flash"></button>
+            {{error}}
+        </div>
+        <script>
+            document.getElementById('close-flash').addEventListener('click', function (e) {
+                this.parentNode.style.display = 'none'
+            })
+        </script>
+    {{/if}}
+    {{#if success}}
+        <div class="notification is-success flash-message mb-0">
+            <button class="delete" id="close-flash"></button>
+            {{success}}
+        </div>
+        <script>
+            document.getElementById('close-flash').addEventListener('click', function (e) {
+                this.parentNode.style.display = 'none'
+            })
+        </script>
+    {{/if}}
+</div>

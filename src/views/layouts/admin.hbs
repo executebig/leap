@@ -12,13 +12,17 @@
 </head>
 
 <body>
-    <div class="layout">
-        {{> navbar }}
-
-        {{{body}}}
-        
-        {{> flash}}
+    <div class="columns layout">
+        <div class="column is-2 menu-column">
+            {{> admin/menu }}
+        </div>
+        <main class="main column main-column">
+            <div class="container">
+                {{{ body }}}
+            </div>
+        </main>
     </div>
+    {{> flash}}
 </body>
 
 </html>
