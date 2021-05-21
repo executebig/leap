@@ -2,10 +2,9 @@
   .modules {
     position: relative;
 
-    // flex: 1;
-    display: inline-flex;
-    // flex-wrap: wrap;
-    overflow-x: scroll;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
 
     color: white;
 
@@ -48,6 +47,8 @@
 }
 
 .module {
+  flex: 0 0 auto;
+
   box-sizing: border-box;
   padding: 24px 32px;
 
