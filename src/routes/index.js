@@ -6,12 +6,6 @@ const router = require('express').Router()
 const passport = require('@libs/passport')
 const authMiddlewares = require('@middlewares/auth.middlewares')
 
-/** pass user context to each page load */
-router.use((req, res, next) => {
-  res.locals.user = req.user
-  next()
-})
-
 /** Directly rendered pages */
 router.get('/', authMiddlewares.optionalAuth, (req, res) => {
   return res.render('pages/landing', {
