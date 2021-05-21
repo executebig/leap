@@ -1,0 +1,83 @@
+.menu {
+  min-height: 100vh;
+  padding-left: 1.2rem;
+  padding-right: 1.2rem;
+  padding-top: 1.5rem;
+  border-right: 1px solid $grey-lighter;
+
+  position: relative;
+
+  .menu-logo {
+    margin-bottom: 2rem;
+    padding: 0;
+    width: 100%;
+
+    ion-icon {
+      color: $dark;
+    }
+
+    img {
+      width: 2rem;
+      vertical-align: middle;
+    }
+
+    span.menu-logo-text {
+      font-weight: 800;
+      vertical-align: middle;
+      color: $dark;
+      font-size: 1.5rem;
+      text-transform: none;
+      margin-left: 5px;
+    }
+  }
+
+  .menu-list li {
+    a {
+      &.disabled {
+        pointer-events: none;
+      }
+
+      &.world {
+        &.locked {
+          opacity: 0.5;
+          &::before {
+            content: '🔐';
+            display: inline-block;
+            width: 25px;
+          }
+
+          &::after {
+            content: ' (Locked)';
+          }
+        }
+        &.unlocked {
+          &::before {
+            content: '🔓';
+            display: inline-block;
+            width: 25px;
+          }
+        }
+      }
+    }
+  }
+
+  .menu-bottom {
+    width: 100%;
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
+    position: absolute;
+    bottom: 1rem;
+    right: 0;
+
+    .copyright {
+      margin-top: 0.5rem;
+      text-align: center;
+      font-size: 0.75rem;
+      color: $grey-lighter;
+
+      a {
+        color: $grey-lighter;
+      }
+    }
+  }
+}

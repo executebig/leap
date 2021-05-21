@@ -22,6 +22,8 @@ $family-sans-serif: 'Space Grotesk', BlinkMacSystemFont, -apple-system, 'Segoe U
 
 /** Components and partials */
 @import 'components/flash';
+@import 'components/menu';
+@import 'components/icon';
 
 @import 'pages/landing';
 @import 'pages/dash';
