@@ -124,7 +124,7 @@ app.use((req, res, next) => {
 
 /** Create basic routes */
 app.use('/static', express.static(path.join(__dirname, './static')))
-app.use(require('@routes/index'))
+app.use(require('@routes'))
 
 /** Instantiate server */
 http.listen(config.port, () => {

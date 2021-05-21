@@ -22,13 +22,13 @@ router.get('/', authMiddlewares.optionalAuth, (req, res) => {
 // TODO: Error pages should go here.
 
 /** Separate routers */
-router.use('/auth', require('@routes/auth'))
+router.use('/auth', require('@routes/auth.routes'))
 
 /** Force authentication for all routers below */
 router.use(authMiddlewares.checkAuth)
 
-router.use('/dash', require('@routes/dash'))
-router.use('/debug', require('@routes/debug'))
-router.use('/admin', require('@routes/admin'))
+router.use('/dash', require('@routes/dash.routes'))
+router.use('/debug', require('@routes/debug.routes'))
+router.use('/admin', require('@routes/admin.routes'))
 
 module.exports = router
