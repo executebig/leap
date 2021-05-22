@@ -21,11 +21,18 @@
 {{/inline}}
 
 <div class='page__modules'>
-  <section class='hero container'>
-    <div class='hero-body'>
-      <h1 class='title is-1 has-text-primary has-text-weight-bold'>Week 5 — “Simon Says”</h1>
-    </div>
-  </section>
+  {{#with data.project}}
+    <section class='hero container'>
+      <div class='hero-body'>
+        <h1 class='title is-1 has-text-primary has-text-weight-bold'>Week 5 — {{title}}</h1>
+
+        <div>
+          <span class="tag is-primary is-medium has-text-weight-medium">{{numModulesRequired}} ⌛ Total</span>
+          <span class="tag is-primary is-medium has-text-weight-medium">{{numModulesAvailable}} 💎 Available</span>
+        </div>
+      </div>
+    </section>
+  {{/with}}
 
   <section class='section container'>
     <h2 class="title">Required Modules</h2>
