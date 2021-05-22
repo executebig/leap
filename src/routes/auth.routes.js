@@ -29,7 +29,8 @@ router.get(
   },
   passport.authenticate('jwt', {
     successReturnToOrRedirect: '/dash',
-    failureRedirect: '/login?incorrectToken=true'
+    failureRedirect: '/',
+    failureFlash: 'Invalid token. Please try logging in again.'
   }),
 
   (req, res) => {

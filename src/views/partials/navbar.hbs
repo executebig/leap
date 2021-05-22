@@ -1,7 +1,8 @@
-<nav class="navbar is-primary" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
+<nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
         <a class="navbar-item" href="/">
-            <img src="/static/brand/icon-white.png" alt="" class="mr-1">
+            <ion-icon name="dice-outline" size="large"></ion-icon>
             <h1>Tech Roulette</h1>
         </a>
         <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
@@ -16,15 +17,11 @@
         </div>
         <div class="navbar-end">
             {{#if user}}
-                {{user.email}}
-            {{else}}
-                <a class="navbar-item" href="/join">
-                    Join
-                </a>
-                <a class="navbar-item" href="/login">
-                    Login
+                <a class="navbar-item" href="/">
+                    {{user.email}}
                 </a>
             {{/if}}
         </div>
+    </div>
     </div>
 </nav>
