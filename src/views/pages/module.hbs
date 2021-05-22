@@ -1,0 +1,32 @@
+{{#with data}}
+  <div class='page__module'>
+    <section class='hero container'>
+      <div class='hero-body'>
+        <h1 class='title is-1 pb-3 has-text-primary has-text-weight-bold'>{{title}}</h1>
+        <h2 class='subtitle has-text-primary has-text-weight-semibold'>Week 5 — “Simon Says” ·
+          Required Module</h2>
+      </div>
+    </section>
+
+    <section class='module container box p-0'>
+      <img src='/static/tmp.png' alt='' class='module__img image' />
+      <div class='p-5'>
+        <div class='module__inner'>
+          <div class='content'>
+            {{{content}}}
+          </div>
+
+          <div class="module__inner__bottom">
+            <button class='button'>Task Resources</button>
+            <button class='button is-primary'>
+              <b>Submit task</b>
+              <span class='icon'>
+                <ion-icon name='arrow-forward-outline'></ion-icon>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+{{/with}}
