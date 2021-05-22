@@ -1,12 +1,50 @@
 <div class="page__landing">
-    <section class="hero is-large is-brand">
+    <section class="section landing">
         <div class="container">
-            <div class="hero-body has-text-centered">
-                <h1 class="title is-1">Tech Roulette</h1>
-                {{stringify user}}
-                <form method="post" action="/auth/login">
-                    <input class="input" placeholder="email@example.com" name="email" type="email">
+            <div class="intro">
+                <h1 class="title is-1">Explore dozens of exciting topics in computer science this summer!</h1>
+                <p class="tagline">
+                    Join <span class="field">
+                        <ion-icon name="dice-outline" size="large"></ion-icon><span>Tech Roulette</span>
+                    </span>, where you'll be exploring different fields like
+                    <span class="field">
+                        <ion-icon name="hardware-chip-outline" size="large"></ion-icon><span>hardware engineering</span>
+                    </span>,
+                    <span class="field">
+                        <ion-icon name="game-controller-outline" size="large"></ion-icon><span>game design</span>
+                    </span>, or
+                    <span class="field">
+                        <ion-icon name="pulse-outline" size="large"></ion-icon><span>artificial intelligence</span>
+                    </span>
+                    &nbsp;through a
+                    <span class="field">
+                        <ion-icon name="shuffle-outline" size="large"></ion-icon><span>randomly</span>
+                    </span>
+                    &nbsp;selected project every week alongside of 
+                    <span class="field">
+                        <ion-icon name="people-outline" size="large"></ion-icon><span>500 students</span>
+                    </span>, all while earning
+                    <span class="field">
+                        <ion-icon name="diamond-outline" size="large"></ion-icon><span>rewards & perks</span>
+                    </span>. Your summer will be filled with
+                    <span class="field">
+                        <ion-icon name="happy-outline" size="large"></ion-icon><span>possibilities</span>
+                    </span>.
+                </p>
+                <p class="cta">Register for FREE &mdash; no experience needed!</p>
+            </div>
+            <div class="email-form">
+                <form class="form" method="post" action="/auth/login">
+                    <input id="email-input" class="input" type="text" placeholder="Enter your email" name="email" required="true" autofocus>
+                    <button class="button is-primary" type="submit" id="submit-button">
+                        Register Now</button>
                 </form>
+            </div>
+            <div class="fineprint">
+                <p>
+                    Program offered by <a href="https://executebig.org/?utm_source=TR_Home_Fineprint" target="_blank">Execute Big</a>, a 501(c)(3) non-profit (EIN 85-2160468). 
+                    Students under 13 must register with parent consent. 
+                    We only collect information we need, and we will never share your email with anyone else &ndash; not even sponsors. <a href="https://executebig.org/privacy/?utm_source=TR_Home_Fineprint" target="_blank">Privacy →</a></p>
             </div>
         </div>
     </section>
