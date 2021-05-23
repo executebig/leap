@@ -2,6 +2,12 @@ html {
   height: 100%;
 }
 
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 .layout {
   padding: 0;
   margin: 0;

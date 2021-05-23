@@ -16,7 +16,10 @@
 @import 'global';
 
 /** Components and partials */
+@import 'components/text';
 @import 'components/navbar';
+@import 'components/header';
+@import 'components/footer';
 @import 'components/container';
 @import 'components/flash';
 @import 'components/menu';

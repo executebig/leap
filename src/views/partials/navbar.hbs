@@ -1,27 +1,29 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="container">
         <div class="navbar-brand">
-        <a class="navbar-item" href="/">
-            <ion-icon name="dice-outline" size="large"></ion-icon>
-            <h1>Tech Roulette</h1>
-        </a>
-        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-        </a>
-    </div>
-    <div class="navbar-menu">
-        <div class="navbar-start">
-            <!-- navbar items -->
+            <a class="navbar-item tr-branding" href="/">
+                <div class="tr-branding">
+                    <ion-icon name="dice-outline" size="large"></ion-icon>
+                    <span>Tech Roulette</span>
+                </div>
+            </a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
         </div>
-        <div class="navbar-end">
-            {{#if user}}
-                <a class="navbar-item" href="/">
-                    {{user.email}}
-                </a>
-            {{/if}}
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                <!-- navbar items -->
+            </div>
+            <div class="navbar-end">
+                {{#if user}}
+                    <a class="navbar-item" href="/">
+                        {{user.email}}
+                    </a>
+                {{/if}}
+            </div>
         </div>
-    </div>
     </div>
 </nav>

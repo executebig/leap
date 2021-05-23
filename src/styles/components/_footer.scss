@@ -1,0 +1,24 @@
+body > footer.footer {
+  margin-top: auto;
+  background-color: transparent;
+  padding: 3rem 1.5rem 3rem;
+
+  .tr-branding {
+      margin-bottom: 10px;
+  }
+
+  p, li {
+    color: $hint;
+    font-size: .9rem;
+    line-height: 2;
+  }
+
+  ul {
+      > li {
+        display: inline-block;
+        margin-right: 12px;
+        zoom:1;
+        *display:inline; /* this fix is needed for IE7- */
+      }
+  }
+}
