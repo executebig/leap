@@ -35,7 +35,8 @@ router.use('/auth', require('@routes/auth.routes'))
 /** Force authentication for all routers below */
 router.use(authMiddlewares.checkAuth)
 
-router.use('/dash', require('@routes/dash.routes'))
+router.use('/dash', require('@middlewares/state.middlewares').routeState, require('@routes/dash.routes'))
+router.use('/account', require('@routes/account.routes'))
 router.use('/debug', require('@routes/debug.routes'))
 router.use('/admin', require('@routes/admin.routes'))
 router.use('/modules', require('@routes/modules.routes'))
