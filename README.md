@@ -15,6 +15,8 @@ See [.env.example](.env.example). Copy the file to `.env`.
 * `COOKIE_SECRET`: 256-bit key for cookies.
 * `SESSION_SECRET`: 256-bit key for sessions.
 * `DOMAIN`: Domain used for signing JWT and setting the root for client-facing emails.
+* `FLAGS`: Debugging/Developing flags for special features, separated by commas. Available flags:
+    * `print_email`: Will print important email contents to log instead of actually sending the email.
 
 ### Setup PostgreSQL Schema
 
