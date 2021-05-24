@@ -22,8 +22,6 @@ See [.env.example](.env.example). Copy the file to `.env`.
 
 See [sql/db.sql](sql/db.sql). Execute all queries. 
 
-If database reports `uuid_generate_v4()` does not exist, run `CREATE EXTENSION IF NOT EXISTS "uuid-ossp";` before the script.
-
 ### Develop & Run
 
 ```bash
