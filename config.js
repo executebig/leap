@@ -16,5 +16,6 @@ module.exports = {
   },
   database: process.env.DATABASE_URL,
   redis: process.env.REDIS_URL,
-  email: process.env.EMAIL_URL
+  email: process.env.EMAIL_URL,
+  flags: process.env.FLAGS.split(',')
 }
