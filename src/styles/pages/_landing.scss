@@ -86,10 +86,9 @@
 
       .form {
         border: 2px solid $primary;
-        border-radius: 15px;
         padding: 0.3rem;
         display: flex;
-        border-radius: 5px;
+        border-radius: 0.5rem;
         transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
         background-color: $white-offset;
         background-image: $wave-pattern;
@@ -102,7 +101,6 @@
           border: none;
           outline: none;
           background: none;
-          border-radius: 15px;
           padding: calc(0.3em - 1px) calc(0.75em - 1px);
           font-size: 1rem;
         }

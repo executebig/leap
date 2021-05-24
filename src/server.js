@@ -128,7 +128,7 @@ app.use(require('@routes'))
 
 /** Instantiate server */
 http.listen(config.port, () => {
-  console.log(`Leap started on ${config.domain}\n`)
+  console.log(`Leap started on ${config.production ? "https://" : "http://"}${config.domain}\n`)
 })
 
 /** Exports the server for testing */
