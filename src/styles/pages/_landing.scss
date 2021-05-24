@@ -1,9 +1,14 @@
 .page__landing {
-  .waves {
+  video.waves {
     position: fixed;
     top: 0;
     left: 0;
-    opacity: .8;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+    animation: fadeIn 2s ease both;
+    animation-delay: 1s;
   }
 
   .section.landing {
@@ -11,10 +16,26 @@
 
     .intro {
       margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease both;
+      animation-delay: 0.5s;
 
       @media screen and (min-width: 768px) {
         padding-top: 100px;
         max-width: 80%;
+      }
+
+      @keyframes fadeInUp {
+        0% {
+          transform: translateY(5rem);
+          opacity: 0;
+        }
+
+
+        100% {
+          transform: translateY(0);
+          opacity: 1;
+        }
       }
 
       h1.title {
@@ -62,8 +83,6 @@
         }
       }
 
-
-
       @media screen and (max-width: 1024px) {
         h1.title {
           font-size: 2.2rem;
@@ -75,7 +94,6 @@
 
           &.tagline .field span {
             font-size: 1rem;
-
           }
         }
       }
@@ -83,6 +101,9 @@
 
     .email-form {
       max-width: 30rem;
+      animation: fadeIn 0.6s ease both;
+      animation-delay: .8s;
+      opacity: 0;
 
       .form {
         border: 2px solid $primary;
@@ -129,11 +150,24 @@
     .fineprint {
       margin-top: 2rem;
       max-width: 40rem;
+      animation: fadeIn 0.6s ease both;
+      animation-delay: .8s;
+      opacity: 0;
 
       p {
-          color: $hint;
-          font-size: .8rem;
+        color: $hint;
+        font-size: 0.8rem;
       }
+    }
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
     }
   }
 }
