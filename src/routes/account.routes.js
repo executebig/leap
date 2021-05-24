@@ -27,7 +27,7 @@ router.post('/onboard', async (req, res) => {
         ? null
         : `${req.body.addr_street_1}, ${req.body.addr_street_2}, ${req.body.addr_city}, ${req.body.addr_state}`,
     phone: req.body.phone,
-    state: 'idle'
+    state: 'completed'
   }
 
   const user = await UserController.updateUser(req.user.user_id, data)
