@@ -1,5 +1,19 @@
 a {
-    &:hover {
-        text-decoration: underline;
-    }
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.is-discord {
+  border-radius: 3px;
+  padding: 0 2px;
+  color: #505cdc;
+  background-color: #5865f226;
+  transition: background-color 50ms ease-out, color 50ms ease-out;
+
+  &:hover {
+    color: #fff;
+    background-color: #5865f2;
+    text-decoration: none;
+  }
 }
