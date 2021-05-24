@@ -4,7 +4,162 @@
         <p>We're so, so, so excited to have you here. Tell us a little more about yourself, so we can help you get the most out of Tech Roulette!</p>
     </div>
 </section>
-
-<section class="section information">
-    
+<section class="section pt-0 information">
+    <div class="container">
+        <form method="post">
+            <div class="columns mb-0">
+                <div class="column">
+                    <div class="field f_age">
+                        <label class="label">Hi there, what is your first name?</label>
+                        <p class="control">
+                            <input name="first_name" class="input" type="text" required>
+                        </p>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field f_parent_email">
+                        <label class="label">What is your last name?</label>
+                        <p class="control">
+                            <input name="last_name" class="input" type="text" required>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="field f_display_name">
+                <label class="label">How would you like to be tagged?</label>
+                <p class="control has-icons-left">
+                    <input name="display_name" class="input" type="text" placeholder="JaneSteak0808" onkeyup="v_display_name(this)" required>
+                    <span class="icon is-small is-left">
+                        <ion-icon name="at-outline"></ion-icon>
+                    </span>
+                </p>
+                <p class="help">This is what other players of Tech Roulette will know you as! Don't worry, you can change this later. Letters & numbers only.</p>
+            </div>
+            <div class="columns mb-0">
+                <div class="column col_age">
+                    <div class="field f_age">
+                        <label class="label">How old are you?</label>
+                        <p class="control has-icons-left">
+                            <input name="age" class="input" type="number" min="0" max="100" onchange="c_age(this)" required>
+                            <span class="icon is-small is-left i_age">
+                                <ion-icon name="shield-checkmark-outline"></ion-icon>
+                            </span>
+                        </p>
+                        <p class="help h_age">If you are under 13, your parents will need to help you register, and we will immediately discard your personal information after the program.</p>
+                    </div>
+                </div>
+                <div class="column col_parent" style="display: none">
+                    <div class="field f_parent_email">
+                        <label class="label">What is your parent/guardian's email address?</label>
+                        <p class="control has-icons-left">
+                            <input name="parent_email" class="input input_parent_email" type="email" placeholder="missrabbit@peppapig.com">
+                            <span class="icon is-small is-left i_age">
+                                <ion-icon name="mail-outline"></ion-icon>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="field f_no_shipping">
+                <label class="label">Some logistical information about rewards shipping...</label>
+                <p>Unfortunately, due to shipping restrictions, we are unable to ship outside of the United States. You may also opt out of receiving any physical rewards for the program if you do not wish to provide us with your shipping address.</p>
+                <label class="checkbox mt-3">
+                    <input type="checkbox" onchange="c_no_shipping(this)">
+                    I live outside the 50 states of United States and Washington D.C., or would like to opt-out of receiving physical rewards for Tech Roulette.
+                </label>
+            </div>
+            <div class="field f_address">
+                <label class="label">Let us know where we should send your swag and rewards! (U.S. addresses only)</label>
+                <div class="control">
+                    <input name="street_1" class="input input_street_1 mb-1" type="text" placeholder="Street Address 1" required />
+                    <input name="street_2" class="input input_street_2 mb-1" type="text" placeholder="Street Address 2 (Optional)" />
+                    <div class="columns mt-0 pt-0">
+                        <div class="column mt-0 pt-0">
+                            <input name="city" class="input input_city" type="text" placeholder="City (e.g. San Francisco)" required />
+                            <p class="help">Please do not abbreviate.</p>
+                        </div>
+                        <div class="column mt-0 pt-0">
+                            <input name="city" class="input input_state" type="text" placeholder="U.S. State (e.g. CA)" required />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field f_phone">
+                <label class="label">Almost there! Can we have your phone number?</label>
+                <p class="control has-icons-left">
+                    <input name="phone" class="input" type="tel" placeholder="123-456-7890" required>
+                    <span class="icon is-small is-left">
+                        <ion-icon name="call-outline"></ion-icon>
+                    </span>
+                </p>
+                <p class="help">This is completely optional, but we'll be able to send you reminders in case you lose your streaks!</p>
+            </div>
+            <div class="field f_terms">
+                <label class="label">Finally, here are few more important logistical things you should know:</label>
+                <label class="checkbox mt-3">
+                    <input type="checkbox" required>
+                    Tech Roulette a program of Execute Big, a Maryland-based non-profit organization. Execute Big does not sell your data, show advertisements to you with your data,
+                    or share your data to third parties in any other ways. Your information is safe with us. By checking this box, you are aware of the data processors that we listed
+                    in our <a href="https://executebig.org/privacy?utm_source=TR_Onboard">Privacy Disclosure</a>.
+                </label>
+                <label class="checkbox mt-3">
+                    <input type="checkbox" required>
+                    Execute Big creates inclusive exploration programs for everyone. To accomplish this, We need everyone’s help to keep our programs safe and productive.
+                    By checking this box, you agree to and affirm that you will abide to our <a href="https://executebig.org/privacy?utm_source=TR_Onboard">Code of Conduct</a>.
+                </label>
+                <label class="checkbox mt-3">
+                    <input type="checkbox" required>
+                    You retain all rights to the work you created through our programs. However, you may not redistribute the contents of Execute Big programs and curricula 
+                    in any way. If you would like to use Execute Big-created content for educational purposes, please get in touch with us.
+                </label>
+            </div>
+            <button class="button is-primary is-fullwidth is-large" type="submit">🚀 Let's Rock! 🚀</button>
+        </form>
+    </div>
 </section>
+<script>
+    /** Form validators */
+    function v_display_name(el) {
+        if (/[^|A-Za-z0-9]+/g.test(el.value))
+            el.value = el.value.replace(/[^|A-Za-z0-9]+/g, '')
+    }
+
+    function c_age(el) {
+        const helper = document.querySelector('.h_age')
+        const icon = document.querySelector('.i_age')
+        const parent_form = document.querySelector('.col_parent')
+        const parent_field = document.querySelector('.input_parent_email')
+        let age = el.value
+
+        if (parseInt(age) < 13) {
+            helper.classList.add('is-link')
+            icon.classList.add('is-lit')
+            parent_form.style.display = 'block'
+            parent_field.attributes.required = 'required'
+        } else {
+            helper.classList.remove('is-link')
+            icon.classList.remove('is-lit')
+            parent_form.style.display = 'none'
+            parent_field.attributes.required = ""
+        }
+    }
+
+    function c_no_shipping(el) {
+        const addressWrap = document.querySelector('.f_address')
+        const street_1 = document.querySelector('.input_street_1')
+        const city = document.querySelector('.input_city')
+        const state = document.querySelector('.input_state')
+
+        if (el.checked) {
+            addressWrap.style.display = 'none'
+            street_1.attributes.required = ""
+            city.attributes.required = ""
+            state.attributes.required = ""
+        } else {
+            addressWrap.style.display = 'block'
+            street_1.attributes.required = "required"
+            city.attributes.required = "required"
+            state.attributes.required = "required"
+        }
+    }
+</script>
