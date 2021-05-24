@@ -26,7 +26,7 @@ exports.getUserByEmail = async (email) => {
 
 /** creates the user with the email address, returns the UUID */
 exports.createUserByEmail = async (email) => {
-    const q = await db.query('INSERT INTO users (email, created_at) VALUES ($1, NOW()) RETURNING *', [email])
+    const q = await db.query('INSERT INTO users (email, created_at, updated_at) VALUES ($1, NOW(), NOW()) RETURNING *', [email])
 
     return q.rows[0]
 }
@@ -49,6 +49,7 @@ exports.updateUser = async (user_id, data) => {
     Object.keys(data).forEach((key, i) => {
         set.push(`${key} = ($${i + 1})`)
     })
+    set.push('updated_at = NOW()')
     query.push(set.join(', '))
     query.push(`WHERE user_id = ${user_id} RETURNING *`)
 
