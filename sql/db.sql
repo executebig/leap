@@ -1,9 +1,10 @@
 create table if not exists users (
-    user_id uuid default uuid_generate_v4() not null constraint users_pk primary key,
+    user_id serial not null constraint users_pk primary key,
     email text not null,
     created_at timestamp not null,
-    avatar text,
-    admin boolean default false
+    updated_at timestamp not null,
+    admin boolean default false,
+    state user_state default 'onboarding' :: user_state not null
 );
 
-create unique index if not exists users_user_id_uindex on users (user_id);
+create unique index if not exists users_user_id_uindex_2 on users (user_id);

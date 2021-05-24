@@ -8,9 +8,8 @@
       .navbar-item {
         color: $primary;
 
-        h1 {
-          font-weight: bold;
-          font-size: 1.2rem;
+        &:hover {
+          text-decoration: none;
         }
       }
     }

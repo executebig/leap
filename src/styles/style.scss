@@ -16,13 +16,18 @@
 @import 'global';
 
 /** Components and partials */
+@import 'components/text';
 @import 'components/navbar';
+@import 'components/header';
+@import 'components/footer';
 @import 'components/container';
 @import 'components/flash';
 @import 'components/menu';
 @import 'components/icon';
+@import 'components/button';
 
 @import 'pages/landing';
 @import 'pages/modules';
 @import 'pages/module';
 @import 'pages/dash';
+@import 'pages/onboard';
