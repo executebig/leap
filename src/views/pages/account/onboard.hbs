@@ -12,7 +12,7 @@
                     <div class="field f_age">
                         <label class="label">Hi there, what is your first name?</label>
                         <p class="control">
-                            <input name="first_name" class="input" type="text" required>
+                            <input name="first_name" class="input" type="text" required />
                         </p>
                     </div>
                 </div>
@@ -20,7 +20,7 @@
                     <div class="field f_parent_email">
                         <label class="label">What is your last name?</label>
                         <p class="control">
-                            <input name="last_name" class="input" type="text" required>
+                            <input name="last_name" class="input" type="text" required />
                         </p>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
                     <div class="field f_age">
                         <label class="label">How old are you?</label>
                         <p class="control has-icons-left">
-                            <input name="age" class="input" type="number" min="0" max="100" onchange="c_age(this)" required>
+                            <input name="age" class="input" type="number" min="0" max="100" onchange="c_age(this)" required />
                             <span class="icon is-small is-left i_age">
                                 <ion-icon name="shield-checkmark-outline"></ion-icon>
                             </span>
@@ -52,7 +52,7 @@
                     <div class="field f_parent_email">
                         <label class="label">What is your parent/guardian's email address?</label>
                         <p class="control has-icons-left">
-                            <input name="parent_email" class="input input_parent_email" type="email" placeholder="missrabbit@peppapig.com">
+                            <input name="parent_email" class="input input_parent_email" type="email" placeholder="missrabbit@peppapig.com" />
                             <span class="icon is-small is-left i_age">
                                 <ion-icon name="mail-outline"></ion-icon>
                             </span>
@@ -64,22 +64,22 @@
                 <label class="label">Some logistical information about rewards shipping...</label>
                 <p>Unfortunately, due to shipping restrictions, we are unable to ship outside of the United States. You may also opt out of receiving any physical rewards for the program if you do not wish to provide us with your shipping address.</p>
                 <label class="checkbox mt-3">
-                    <input type="checkbox" onchange="c_no_shipping(this)">
+                    <input type="checkbox" onchange="c_no_shipping(this)" name="no_shipping">
                     I live outside the 50 states of United States and Washington D.C., or would like to opt-out of receiving physical rewards for Tech Roulette.
                 </label>
             </div>
             <div class="field f_address">
                 <label class="label">Let us know where we should send your swag and rewards! (U.S. addresses only)</label>
                 <div class="control">
-                    <input name="street_1" class="input input_street_1 mb-1" type="text" placeholder="Street Address 1" required />
-                    <input name="street_2" class="input input_street_2 mb-1" type="text" placeholder="Street Address 2 (Optional)" />
+                    <input name="addr_street_1" class="input input_street_1 mb-1" type="text" placeholder="Street Address 1" required />
+                    <input name="addr_street_2" class="input input_street_2 mb-1" type="text" placeholder="Street Address 2 (Optional)" />
                     <div class="columns mt-0 pt-0">
                         <div class="column mt-0 pt-0">
-                            <input name="city" class="input input_city" type="text" placeholder="City (e.g. San Francisco)" required />
+                            <input name="addr_city" class="input input_city" type="text" placeholder="City (e.g. San Francisco)" required />
                             <p class="help">Please do not abbreviate.</p>
                         </div>
                         <div class="column mt-0 pt-0">
-                            <input name="city" class="input input_state" type="text" placeholder="U.S. State (e.g. CA)" required />
+                            <input name="addr_state" class="input input_state" type="text" placeholder="U.S. State (e.g. CA)" required />
                         </div>
                     </div>
                 </div>
@@ -87,7 +87,7 @@
             <div class="field f_phone">
                 <label class="label">Almost there! Can we have your phone number?</label>
                 <p class="control has-icons-left">
-                    <input name="phone" class="input" type="tel" placeholder="123-456-7890" required>
+                    <input name="phone" class="input" type="tel" placeholder="123-456-7890" />
                     <span class="icon is-small is-left">
                         <ion-icon name="call-outline"></ion-icon>
                     </span>
@@ -135,12 +135,12 @@
             helper.classList.add('is-link')
             icon.classList.add('is-lit')
             parent_form.style.display = 'block'
-            parent_field.attributes.required = 'required'
+            parent_field.required = true
         } else {
             helper.classList.remove('is-link')
             icon.classList.remove('is-lit')
             parent_form.style.display = 'none'
-            parent_field.attributes.required = ""
+            parent_field.required = false
         }
     }
 
@@ -152,14 +152,14 @@
 
         if (el.checked) {
             addressWrap.style.display = 'none'
-            street_1.attributes.required = ""
-            city.attributes.required = ""
-            state.attributes.required = ""
+            street_1.required = false
+            city.required = false
+            state.required = false
         } else {
             addressWrap.style.display = 'block'
-            street_1.attributes.required = "required"
-            city.attributes.required = "required"
-            state.attributes.required = "required"
+            street_1.required = true
+            city.required = true
+            state.required = true
         }
     }
 </script>
