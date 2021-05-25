@@ -19,7 +19,7 @@ router.use((req, res, next) => {
 })
 
 router.get('/', (req, res) => {
-  res.render('pages/admin/dashboard', { title: 'Dashboard' })
+  res.render('pages/admin/dashboard')
 })
 
 module.exports = router

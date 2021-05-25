@@ -11,7 +11,7 @@ router.get('/onboard', (req, res) => {
     return res.redirect('/dash')
   }
 
-  res.render('pages/account/onboard', { title: 'Welcome' })
+  res.render('pages/account/onboard')
 })
 
 router.post('/onboard', async (req, res) => {

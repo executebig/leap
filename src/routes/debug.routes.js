@@ -12,10 +12,4 @@ router.get('/emails/magic', (req, res) => {
   res.render('emails/magic', { layout: false })
 })
 
-router.get('/home', (req, res) => {
-  return res.render('pages/landing', {
-    title: 'Home'
-  })
-})
-
 module.exports = router
