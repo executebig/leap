@@ -1,0 +1,21 @@
+.card {
+  border: 3px solid $primary;
+  border-radius: 0.8rem;
+  .card-header {
+    box-shadow: none;
+    border-bottom: 2px solid rgba($primary, 0.5);
+
+    .card-header-title {
+      color: $primary;
+
+      ion-icon {
+        vertical-align: top;
+
+        & + * {
+          vertical-align: bottom;
+          margin-bottom: -4px;
+        }
+      }
+    }
+  }
+}

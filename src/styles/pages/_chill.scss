@@ -1,0 +1,22 @@
+.page__chill {
+  .activities {
+    .countdown {
+      color: $primary;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .column {
+      display: flex;
+
+      .card {
+        border-radius: 0.8rem;
+        width: 100%;
+
+        a.button {
+          margin-right: 1rem;
+        }
+      }
+    }
+  }
+}
