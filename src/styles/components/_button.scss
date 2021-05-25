@@ -1,5 +1,15 @@
 .button {
-    border-radius: 0.5rem;
-    white-space: nowrap;
-    font-weight: bold;
+  border-radius: 0.5rem;
+  white-space: nowrap;
+  font-weight: bold;
+
+  background-color: $white-offset;
+  color: $primary;
+  border: none;
+
+  transition: all 250ms ease-out;
+
+  &:hover {
+    text-decoration: none;
+  }
 }

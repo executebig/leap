@@ -1,25 +1,25 @@
-section.information {
-
-form {
-    .field {
+.page__onboard {
+  section.information {
+    form {
+      .field {
         margin-bottom: 1.5rem;
-    
+
         .icon {
-            &.is-lit {
-                color: $primary !important;
-            }
+          &.is-lit {
+            color: $primary !important;
+          }
         }
 
         > label.label {
-            font-size: 1.1rem;
-            color: $primary;
+          font-size: 1.1rem;
+          color: $primary;
         }
 
         label.checkbox {
-            font-weight: bold;
-            line-height: 1.5;
+          font-weight: bold;
+          line-height: 1.5;
         }
+      }
     }
-}
-
+  }
 }

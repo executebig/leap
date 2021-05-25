@@ -6,3 +6,15 @@ ion-icon {
     vertical-align: middle;
   }
 }
+
+h1,
+h2,
+h3,
+.title {
+  ion-icon {
+    vertical-align: top;
+    & + * {
+      vertical-align: baseline;
+    }
+  }
+}

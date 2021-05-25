@@ -36,14 +36,21 @@
                         <ion-icon name="happy-outline" size="large"></ion-icon><span>possibilities</span>
                     </span>.
                 </p>
-                <p class="cta">Register for FREE &mdash; no experience needed!</p>
+                {{#unless user}}
+                    <p class="cta">Register for FREE &mdash; no experience needed!</p>
+                {{/unless}}
             </div>
             <div class="email-form">
-                <form class="form" method="post" action="/auth/login">
-                    <input id="email-input" class="input" type="text" placeholder="Enter your email" name="email" required="true">
-                    <button class="button is-primary" type="submit" id="submit-button">
-                        Register Now</button>
-                </form>
+                {{#if user}}
+                    <a class="button is-primary" href="/dash">
+                        Go to Dashboard »</a>
+                {{else}}
+                    <form class="form" method="post" action="/auth/login">
+                        <input id="email-input" class="input" type="text" placeholder="Enter your email" name="email" required="true">
+                        <button class="button is-primary" type="submit" id="submit-button">
+                            Register/Log In</button>
+                    </form>
+                {{/if}}
             </div>
             <div class="fineprint">
                 <p>
