@@ -2,6 +2,8 @@
  * @author Mingjie Jiang
  * Main router for the application, handles all routing
  */
+const config = require('@config')
+
 const router = require('express').Router()
 const passport = require('@libs/passport')
 const authMiddlewares = require('@middlewares/auth.middlewares')
@@ -15,7 +17,11 @@ router.get('/', authMiddlewares.optionalAuth, (req, res) => {
 
 /** Separate routers */
 router.use('/auth', require('@routes/auth.routes'))
-router.use('/debug', require('@routes/debug.routes'))
+
+if (!config.production) {
+  // do not enable debug routes during prod 
+  router.use('/debug', require('@routes/debug.routes'))
+}
 
 /** Force authentication for all routers below */
 router.use(authMiddlewares.checkAuth)
