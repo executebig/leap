@@ -8,9 +8,7 @@ const authMiddlewares = require('@middlewares/auth.middlewares')
 
 /** Directly rendered pages */
 router.get('/', authMiddlewares.optionalAuth, (req, res) => {
-  res.render('pages/landing', {
-    title: 'Home'
-  })
+  res.render('pages/landing', { titleOverride: true })
 })
 
 // TODO: Error pages should go here.
@@ -22,9 +20,7 @@ router.use('/auth', require('@routes/auth.routes'))
 router.use(authMiddlewares.checkAuth)
 
 router.get('/chill', (req, res) => {
-  return res.render('pages/chill', {
-    title: 'Chill Zone'
-  })
+  return res.render('pages/chill')
 })
 
 router.use(

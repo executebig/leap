@@ -8,7 +8,8 @@
     <link rel="icon" href="/static/brand/icon-blue.png" />
     <script type="module" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.esm.js" async></script>
     <script nomodule="" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.js" async></script>
-    <title>{{ title }} | Tech Roulette</title>
+    <title>{{block title}}{{#unless titleOverride}} – Tech Roulette{{/unless}}</title>
+    {{#extend title}}{{../title}}{{/extend}}
 </head>
 
 <body>

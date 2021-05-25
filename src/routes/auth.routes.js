@@ -24,7 +24,8 @@ router.get(
       })
       next()
     } else {
-      res.render('pages/account/invalid-token', { title: 'Invalid Token' })
+      req.flash('error', 'Invalid token. Please try logging in again.')
+      res.redirect('/')
     }
   },
   passport.authenticate('jwt', {
