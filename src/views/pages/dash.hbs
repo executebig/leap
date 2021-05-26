@@ -13,18 +13,18 @@
 
   <section class='section container'>
     <div class='columns projects'>
-      {{#each data.projects}}
+      {{#each projects}}
         <div class='column project'>
           <h2>{{title}}</h2>
           <p>{{description}}</p>
 
           <span>
-            <p>{{numModulesRequired}} ⌛ · Independent · {{type}}</p>
-            <p>+{{numModulesAvailable}} 💎 Available</p>
+            <p>{{modules_required}} ⌛ · Independent · {{type}}</p>
+            <p>+{{modules_available}} 💎 Available</p>
           </span>
 
           <img
-            src='/static/tmp.png'
+            src={{thumbnail_url}}
             alt=''
             srcset=''
             class='project__bg'

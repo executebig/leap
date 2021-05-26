@@ -1,4 +1,4 @@
-/** 
+/**
     @author Mingjie Jiang
     Middlewares that interacts with the "state" property of the JWT token
  */
