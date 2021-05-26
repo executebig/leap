@@ -5,17 +5,27 @@
 const db = require('@db')
 
 exports.getProjectById = async (project_id) => {
-  const q = await db.query('SELECT * FROM projects WHERE project_id = $1', [project_id])
+  const q = await db.query('SELECT *, (SELECT coalesce(sum(points), 0) FROM modules WHERE project_id = $1) AS pts_total FROM projects WHERE project_id = $1', [project_id])
 
   return q?.rows[0]
 }
 
-// Returns num amount of random projects
-// Query doesn't scale well w/ larger datasets, but should be fine for our purposes
-exports.getRandomProjects = async (num) => {
-  const q = await db.query('SELECT * FROM projects ORDER BY random() LIMIT $1', [num])
+exports.getProjectsByIds = async (project_ids) => {
+  let projects = []
 
-  return q?.rows
+  for (let id of project_ids) {
+    projects.push(await this.getProjectById(id))
+  }
+
+  return projects
+}
+
+// Returns num amount of random project ids
+// Query doesn't scale well w/ larger datasets, but should be fine for our purposes
+exports.getRandomProjectIds = async (num) => {
+  const q = await db.query('SELECT project_id FROM projects ORDER BY random() LIMIT $1', [num])
+
+  return q?.rows.map(e => e.project_id)
 }
 
 // Returns modules associated w/ project, filtered by required flag

@@ -8,11 +8,11 @@ const router = require('express').Router()
 const ProjectController = require('@controllers/project.controllers')
 
 router.get('/', async (req, res) => {
+  const projects = await ProjectController.getProjectsByIds(req.user.project_pool)
+
   return res.render('pages/dash', {
     title: 'Dashboard',
-    // TODO: Pulling random projects directly for testing
-    // This should only happen every week
-    projects: await ProjectController.getRandomProjects(3)
+    projects
   })
 })
 

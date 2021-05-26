@@ -3,18 +3,46 @@
     Middlewares that interacts with the "state" property of the JWT token
  */
 
+const ConfigController = require('@controllers/config.controllers')
+const UserController = require('@controllers/user.controllers')
+const ProjectController = require('@controllers/project.controllers')
+
 // this middleware must execute after authentication
-exports.routeState = (req, res, next) => {
+exports.routeState = async (req, res, next) => {
   if (!req.user) {
     throw new Error(`Fatal: Please do not use "routeState" without authenticating the user.`)
     System.exit(-1)
   }
 
-  switch (req.user.state) {
+  let userObj = req.user
+
+  if (req.user.state !== 'onboarding') {
+    const week = parseInt(await ConfigController.get('week'), 10)
+
+    if (req.user.current_week < week) {
+      const project_pool = await ProjectController.getRandomProjectIds(3)
+
+      const newUser = await UserController.updateUser(req.user.user_id, {
+        current_week: week,
+        state: 'pending',
+        project_pool
+      })
+
+      req.login(newUser, (err) => {
+        if (err) {
+          req.flash('error', err.message)
+        } else {
+          userObj = newUser
+        }
+      })
+    }
+  }
+
+  switch (userObj.state) {
     case 'onboarding':
       return res.redirect('/account/onboard')
       break
-    case 'completed':
+    case 'ready':
       return res.redirect('/chill')
       break
     default:
