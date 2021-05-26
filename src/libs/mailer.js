@@ -28,6 +28,7 @@ exports.sendMagic = async (email, token) => {
   }
 
   await transporter.sendMail({
+    from: config.email.from,
     to: email,
     subject: 'Your Tech Roulette log in link',
     template: 'magic',
