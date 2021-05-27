@@ -6,9 +6,7 @@
 
       <span class="module__container__bottom">
         <button class="button">
-          <span>
-            Get Started
-          </span>
+          <span>Get Started</span>
           <span class="icon">
             <ion-icon name='arrow-forward-outline'></ion-icon>
           </span>
@@ -21,34 +19,35 @@
 {{/inline}}
 
 <div class='page__modules'>
-  {{#with data.project}}
-    <section class='hero container'>
-      <div class='hero-body'>
-        <h1 class='title is-1 has-text-primary has-text-weight-bold'>Week 5 — {{title}}</h1>
+  <section class='section header'>
+    <div class='container'>
+      <h1 class='title is-1 has-text-primary has-text-weight-bold'>Week {{week}} — {{data.project.title}}</h1>
 
-        <div>
-          <span class="tag is-primary is-medium has-text-weight-medium">{{num_modules_required}} ⌛ Total</span>
-          <span class="tag is-primary is-medium has-text-weight-medium">{{num_modules_available}} 💎 Available</span>
-        </div>
+      <div>
+        <span class="tag is-primary is-medium"><b>{{data.project.pts_total}} 💎 Available</b></span>
       </div>
-    </section>
-  {{/with}}
-
-  <section class='section container'>
-    <h2 class="title">Required Modules</h2>
-    <div class='modules modules--required'>
-      {{#each data.modules_required}}
-        {{>module}}
-      {{/each}}
     </div>
   </section>
 
-  <section class="section container">
-    <h2 class="title">Optional Modules: Complete to Earn Additional Gems!</h2>
-    <div class='modules modules--optional'>
-      {{#each data.modules_optional}}
-        {{>module}}
-      {{/each}}
+  <section class='section py-2'>
+    <div class="container">
+      <h2 class="title">Required Modules</h2>
+      <div class='modules modules--required pb-2'>
+        {{#each data.modules_required}}
+          {{>module}}
+        {{/each}}
+      </div>
+    </div>
+  </section>
+
+  <section class='section'>
+    <div class="container">
+      <h2 class="title">Optional Modules: Complete to Earn Additional Gems!</h2>
+      <div class='modules modules--optional pb-2'>
+        {{#each data.modules_optional}}
+          {{>module}}
+        {{/each}}
+      </div>
     </div>
   </section>
 </div>
