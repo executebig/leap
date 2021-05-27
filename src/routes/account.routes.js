@@ -31,22 +31,41 @@ router.post('/onboard', async (req, res) => {
   }
 
   const user = await UserController.updateUser(req.user.user_id, data)
-  refreshUser(req, res, user)
+  refreshUser(req, res, user, '/account/invite')
+})
+
+router.get('/invite', (req, res) => {
+  res.render('pages/account/invite')
+})
+
+router.post('/invite', async (req, res) => {
+  UserController.inviteUser(req.body.email_1, req.user)
+
+  if (req.body.email_2) {
+    UserController.inviteUser(req.body.email_2, req.user)
+  }
+
+  if (req.body.email_3) {
+    UserController.inviteUser(req.body.email_3, req.user)
+  }
+
+  req.flash('success', 'Invites sent! Welcome to Tech Roulette <3')
+  res.redirect('/dash')
 })
 
 /* updates the req.user object */
 router.get('/refresh', async (req, res) => {
   const user = await UserController.getUserById(req.user.user_id)
-  refreshUser(req, res, user)
+  refreshUser(req, res, user, '/dash')
 })
 
-const refreshUser = (req, res, user) => {
+const refreshUser = (req, res, user, redirect) => {
   req.login(user, (err) => {
     if (err) {
       req.flash('error', err.message)
-      res.redirect('/dash')
+      res.redirect(redirect)
     } else {
-      res.redirect('/dash')
+      res.redirect(redirect)
     }
   })
 }

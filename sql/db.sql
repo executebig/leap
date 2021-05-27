@@ -1,4 +1,4 @@
-create type user_state as enum ('onboarding', 'inprogress', 'completed', 'pending', 'ready');
+create type user_state as enum ('onboarding', 'inprogress', 'completed', 'pending', 'ready', 'invited');
 create type project_type as enum ('learning', 'competitive', 'collaborative');
 
 create table if not exists users (
@@ -21,7 +21,8 @@ create table if not exists users (
     age integer,
     address text,
     phone text,
-    no_shipping boolean default false not null
+    no_shipping boolean default false not null,
+    referrer integer
 );
 
 create table if not exists projects (

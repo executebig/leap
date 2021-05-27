@@ -43,6 +43,6 @@ describe('Test email validation library', () => {
     it('fails extra dots (mid)', () => assert.isFalse(validate('Abc..123@example.com')))
     it('fails extra dots (tld)', () => assert.isFalse(validate('email@example..com')))
     it('fails extra dots (front)', () => assert.isFalse(validate('.email@example.com')))
-    it('fails extra dots (end)', () => assert.isFalse(validate('.email@example.com')))
+    it('fails extra dots (end)', () => assert.isFalse(validate('email.@example.com')))
   })
 })

@@ -453,7 +453,7 @@
 </head>
 
 <body>
-    <span class="preheader">Log in to your Tech Roulette account</span>
+    <span class="preheader">Join {{referrer.first_name}} this summer at Tech Roulette!</span>
     <table class="email-wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation">
         <tr>
             <td align="center">
@@ -473,8 +473,22 @@
                                 <tr>
                                     <td class="content-cell">
                                         <div class="f-fallback">
-                                            <h1>Hi there!</h1>
-                                            <p>Please click the button below to log in to your Tech Roulette account. <strong>You should be opening this email on the device that you want to log in on</strong>.</p>
+                                            <h1>Hey there!</h1>
+                                            <p>
+                                                You just received an <strong>exclusive invite from {{referrer.first_name}} {{referrer.last_name}} (@{{referrer.display_name}})</strong>,
+                                                who wants to ask you to join them at Tech Roulette this summer!
+                                            </p>
+
+                                            <p>
+                                                Tech Roulette is an summer event where you get to explore exciting new fields in computer science like hardware engineering, 
+                                                game design , or artificial intelligence all through randomly selected projects every week alongside 500 other students. You'll
+                                                have the chance to earn hardware & software gifts and prizes through completing projects, participating in community events, and 
+                                                even just checking in on Discord every day!
+                                            </p>
+                                            <p>
+                                                Interested? Registering for Tech Roulette is completely free, and you do not need any technical experience to join. It takes just a few
+                                                minutes to get started!
+                                            </p>
                                             <!-- Action -->
                                             <table class="body-action" align="center" width="100%" cellpadding="0" cellspacing="0" role="presentation">
                                                 <tr>
@@ -482,7 +496,7 @@
                                                         <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
                                                             <tr>
                                                                 <td align="center">
-                                                                    <a href="{{magic}}" class="f-fallback button" target="_blank">Click Me!</a>
+                                                                    <a href="{{entryUrl}}" class="f-fallback button" target="_blank">Register Now!</a>
                                                                 </td>
                                                             </tr>
                                                         </table>
@@ -490,16 +504,15 @@
                                                 </tr>
                                             </table>
                                             <p>If you have any questions, you should email <a href="mailto:hi@techroulette.xyz">hi@techroulette.xyz</a>. Please do not reply to this email.</p>
-                                            <p><strong>Enjoy Tech Roulette!</strong>
+                                            <p><strong>We hope to see you at Tech Roulette!</strong>
                                                 <br>Execute Big Team
                                             </p>
-                                            <p><strong>P.S.</strong> Need help getting started? Check out our <a href="{{help_url}}">help documentation</a>.</p>
                                             <!-- Sub copy -->
                                             <table class="body-sub" role="presentation">
                                                 <tr>
                                                     <td>
                                                         <p class="f-fallback sub">If you’re having trouble with the button above, copy and paste the URL below into your web browser.</p>
-                                                        <p class="f-fallback sub">{{magic}}</p>
+                                                        <p class="f-fallback sub">{{entryUrl}}</p>
                                                     </td>
                                                 </tr>
                                             </table>

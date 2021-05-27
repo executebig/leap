@@ -50,6 +50,10 @@ router.post('/login', async (req, res) => {
   // valid email from this point on
   const user = await UserController.getOrCreateUserByEmail(email)
 
+  if (user.state === 'invited') {
+    await UserController.updateUser(user.user_id, { state: 'onboarding' })
+  }
+
   // user with $email now exists, send magic link
   generateLoginJWT(user).then((token) => {
     mailer.sendMagic(email, token)
