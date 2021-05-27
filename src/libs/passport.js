@@ -1,5 +1,5 @@
-/** 
-    @author Mingjie Jiang 
+/**
+    @author Mingjie Jiang
     @source https://reallifeprogramming.com/how-to-implement-magic-link-authentication-using-jwt-in-node-8193196bcd78
     Configure passport
  */

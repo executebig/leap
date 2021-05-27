@@ -13,24 +13,26 @@
 
   <section class='section container'>
     <div class='columns projects'>
-      {{#each data.projects}}
-        <div class='column project'>
-          <h2>{{title}}</h2>
-          <p>{{description}}</p>
+      {{#each projects}}
+        <a href="" class="href"></a>
+          <div class='column project'>
+            <h2>{{title}}</h2>
+            <p>{{description}}</p>
 
-          <span>
-            <p>{{numModulesRequired}} ⌛ · Independent · {{type}}</p>
-            <p>+{{numModulesAvailable}} 💎 Available</p>
-          </span>
+            <span>
+              <p>Independent · {{capitalize type}}</p>
+              <p>+{{pts_total}} 💎 Available</p>
+            </span>
 
-          <img
-            src='/static/tmp.png'
-            alt=''
-            srcset=''
-            class='project__bg'
-          />
-          <div class='project__overlay--1'></div>
-        </div>
+            <img
+              src={{thumbnail_url}}
+              alt=''
+              srcset=''
+              class='project__bg'
+            />
+            <div class='project__overlay--1'></div>
+          </div>
+        </a>
       {{/each}}
     </div>
   </section>

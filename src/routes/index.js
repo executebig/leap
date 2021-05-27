@@ -19,7 +19,7 @@ router.get('/', authMiddlewares.optionalAuth, (req, res) => {
 router.use('/auth', require('@routes/auth.routes'))
 
 if (!config.production) {
-  // do not enable debug routes during prod 
+  // do not enable debug routes during prod
   router.use('/debug', require('@routes/debug.routes'))
 }
 

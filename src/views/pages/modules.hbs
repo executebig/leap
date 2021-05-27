@@ -27,8 +27,8 @@
         <h1 class='title is-1 has-text-primary has-text-weight-bold'>Week 5 — {{title}}</h1>
 
         <div>
-          <span class="tag is-primary is-medium has-text-weight-medium">{{numModulesRequired}} ⌛ Total</span>
-          <span class="tag is-primary is-medium has-text-weight-medium">{{numModulesAvailable}} 💎 Available</span>
+          <span class="tag is-primary is-medium has-text-weight-medium">{{num_modules_required}} ⌛ Total</span>
+          <span class="tag is-primary is-medium has-text-weight-medium">{{num_modules_available}} 💎 Available</span>
         </div>
       </div>
     </section>
@@ -37,7 +37,7 @@
   <section class='section container'>
     <h2 class="title">Required Modules</h2>
     <div class='modules modules--required'>
-      {{#each data.modulesRequired}}
+      {{#each data.modules_required}}
         {{>module}}
       {{/each}}
     </div>
@@ -46,7 +46,7 @@
   <section class="section container">
     <h2 class="title">Optional Modules: Complete to Earn Additional Gems!</h2>
     <div class='modules modules--optional'>
-      {{#each data.modulesOptional}}
+      {{#each data.modules_optional}}
         {{>module}}
       {{/each}}
     </div>
