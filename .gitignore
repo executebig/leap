@@ -266,3 +266,5 @@ zsdoc/data
 
 # Ignore compiled styles
 /src/static/styles/style.css
+
+.idea
