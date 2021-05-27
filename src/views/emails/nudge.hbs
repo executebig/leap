@@ -453,7 +453,7 @@
 </head>
 
 <body>
-    <span class="preheader">Log in to your Tech Roulette account</span>
+    <span class="preheader">{{referrer.first_name}} is reminding you to complete your information for Tech Roulette!</span>
     <table class="email-wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation">
         <tr>
             <td align="center">
@@ -473,8 +473,12 @@
                                 <tr>
                                     <td class="content-cell">
                                         <div class="f-fallback">
-                                            <h1>Hi there!</h1>
-                                            <p>Please click the button below to log in to your Tech Roulette account. <strong>You should be opening this email on the device that you want to log in on</strong>.</p>
+                                            <h1>Hey there!</h1>
+                                            <p>
+                                                This is a reminder from {{referrer.first_name}} {{referrer.last_name}} (@{{referrer.display_name}}) 
+                                                that you should complete your profile for Tech Roulette! Don't miss your chance to earn software & hardware
+                                                prizes while exploring different fields of CS this summer!
+                                            </p>
                                             <!-- Action -->
                                             <table class="body-action" align="center" width="100%" cellpadding="0" cellspacing="0" role="presentation">
                                                 <tr>
@@ -482,7 +486,7 @@
                                                         <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
                                                             <tr>
                                                                 <td align="center">
-                                                                    <a href="{{magic}}" class="f-fallback button" target="_blank">Click Me!</a>
+                                                                    <a href="{{entryUrl}}" class="f-fallback button" target="_blank">Complete Profile Now!</a>
                                                                 </td>
                                                             </tr>
                                                         </table>
@@ -493,13 +497,12 @@
                                             <p><strong>Enjoy Tech Roulette!</strong>
                                                 <br>Execute Big Team
                                             </p>
-                                            <p><strong>P.S.</strong> Need help getting started? Check out our <a href="{{help_url}}">help documentation</a>.</p>
                                             <!-- Sub copy -->
                                             <table class="body-sub" role="presentation">
                                                 <tr>
                                                     <td>
                                                         <p class="f-fallback sub">If you’re having trouble with the button above, copy and paste the URL below into your web browser.</p>
-                                                        <p class="f-fallback sub">{{magic}}</p>
+                                                        <p class="f-fallback sub">{{entryUrl}}</p>
                                                     </td>
                                                 </tr>
                                             </table>

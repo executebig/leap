@@ -38,3 +38,35 @@ exports.sendMagic = async (email, token) => {
     }
   })
 }
+
+exports.sendInvite = async (email, referrer) => {
+  let entryUrl = `https://${config.domain}/?email=${email}`
+
+  await transporter.sendMail({
+    from: config.email.from,
+    to: email,
+    subject: `Join ${referrer.first_name} at Tech Roulette!`,
+    template: 'invite',
+    context: {
+      referrer,
+      entryUrl,
+      layout: false
+    }
+  })
+}
+
+exports.sendNudge = async (email, referrer) => {
+  let entryUrl = `https://${config.domain}/?email=${email}`
+
+  await transporter.sendMail({
+    from: config.email.from,
+    to: email,
+    subject: `${referrer.first_name} is reminding you to complete your Tech Roulette profile!`,
+    template: 'nudge',
+    context: {
+      referrer,
+      entryUrl,
+      layout: false
+    }
+  })
+}

@@ -1,0 +1,54 @@
+{{#extend title}}Invite Others{{/extend}}
+    <div class="page__invite">
+        <section class="section header">
+            <div class="container">
+                <h1 class="title">Invite Your Friends!</h1>
+                <p>
+                    Tech Roulette is more fun with friends &mdash; invite your friends to play Tech Roulette with you by entering their emails below,
+                    and we'll send them an exclusive invite from you! You'll be able to enter community activities with your friends to win prizes.
+                </p>
+            </div>
+        </section>
+        <section class="section pt-0 invite">
+            <div class="container">
+                <form method="post">
+                    <div class="mb-5">
+                        <div class="field mb-5">
+                            <label class="label">Invitation #1</label>
+                            <p class="control has-icons-left">
+                                <input name="email_1" class="input" type="text" placeholder="peppapig@peppapig.com" required>
+                                <span class="icon is-small is-left">
+                                    <ion-icon name="mail-outline"></ion-icon>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="field mb-5">
+                            <label class="label">Invitation #2</label>
+                            <p class="control has-icons-left">
+                                <input name="email_2" class="input" type="text" placeholder="candycat@peppapig.com">
+                                <span class="icon is-small is-left">
+                                    <ion-icon name="mail-outline"></ion-icon>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="field mb-5">
+                            <label class="label">Invitation #3</label>
+                            <p class="control has-icons-left">
+                                <input name="email_3" class="input" type="text" placeholder="zuzuzebra@peppapig.com">
+                                <span class="icon is-small is-left">
+                                    <ion-icon name="mail-outline"></ion-icon>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    <button class="button is-primary"><span class="mr-2">Send Invites</span>
+                        <ion-icon name="send"></ion-icon>
+                    </button>
+                    <a href="/dash" class="ml-3 button"><span class="mr-2">Skip Now & Invite Later</span>
+                        <ion-icon name="play-forward"></ion-icon>
+                    </a>
+                    <p class="help">You can always invite more friends later through your account page.</p>
+                </form>
+            </div>
+        </section>
+    </div>
