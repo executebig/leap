@@ -7,7 +7,11 @@ create table if not exists users (
     updated_at timestamp not null,
     admin boolean default false,
     state user_state default 'onboarding' :: user_state not null,
+
+    points int default 0 not null,
     current_week int default -1 not null,
+    current_project int default -1 not null,
+    project_pool int[] default array[]::int[] not null,
 
     email text not null,
     parent_email text,
@@ -17,9 +21,7 @@ create table if not exists users (
     age integer,
     address text,
     phone text,
-    no_shipping boolean default false not null,
-
-    project_pool int[] default array[]::int[] not null
+    no_shipping boolean default false not null
 );
 
 create table if not exists projects (
