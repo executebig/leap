@@ -15,8 +15,8 @@
           color: $primary;
         }
 
-        label.checkbox {
-          font-weight: bold;
+        label.checkbox,
+        label.radio {
           line-height: 1.5;
         }
       }

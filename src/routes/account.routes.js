@@ -21,7 +21,7 @@ router.post('/onboard', async (req, res) => {
     display_name: req.body.display_name,
     age: parseInt(req.body.age),
     parent_email: req.body.parent_email,
-    no_shipping: req.body.no_shipping === 'on',
+    no_shipping: req.body.no_shipping === 'true',
     address:
       req.body.no_shipping === 'on'
         ? null
