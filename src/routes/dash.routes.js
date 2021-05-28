@@ -8,6 +8,16 @@ const router = require('express').Router()
 const ProjectController = require('@controllers/project.controllers')
 const UserController = require('@controllers/user.controllers')
 
+router.use('/', (req, res, next) => {
+  if (req.user.state === 'inprogress') {
+    return res.redirect('/modules')
+  } else if (req.user.state !== 'pending') {
+    return res.redirect('/')
+  }
+
+  next()
+})
+
 router.get('/', async (req, res) => {
   const projects = await ProjectController.getProjectsByIds(req.user.project_pool)
 
