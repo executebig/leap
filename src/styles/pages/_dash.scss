@@ -19,7 +19,7 @@
   margin: $column-gap;
 
   &:hover > &__overlay--1 {
-    background: linear-gradient(to top, darken($primary, 50%), transparent 60%);
+    background: linear-gradient(to top, darken($primary, 40%), transparent 60%);
   }
 
   &__bg {
