@@ -19,6 +19,7 @@ const reqId = require('express-request-id')()
 const morgan = require('morgan')
 const chalk = require('chalk')
 const compression = require('compression')
+const minifyHTML = require('express-minify-html-2')
 
 // local imports
 const config = require('@config')
@@ -33,12 +34,18 @@ const RedisSessionStore = connectRedis(session)
 
 // configuration details
 const minifierOpts = {
-  removeComments: true,
-  removeCommentsFromCDATA: true,
-  collapseWhitespace: true,
-  collapseBooleanAttributes: true,
-  removeAttributeQuotes: true,
-  removeEmptyAttributes: true
+  override: true,
+  exception_url: false,
+  htmlMinifier: {
+    removeComments: true,
+    removeCommentsFromCDATA: true,
+    collapseWhitespace: true,
+    collapseBooleanAttributes: true,
+    removeAttributeQuotes: true,
+    removeEmptyAttributes: true,
+    minifyJS: true,
+    minifyCSS: true
+  }
 }
 
 const sessionConfig = {
@@ -48,7 +55,7 @@ const sessionConfig = {
     client: require('@db/redis').client
   }),
   cookie: {
-    secure: config.production
+    secure: config.env === 'production'
   },
   resave: false,
   saveUninitialized: true
@@ -73,6 +80,9 @@ const sassConfig = {
 /** Logging Setup */
 morgan.token('id', (req) => req.id.split('-')[0])
 /** Express Server Setup */
+if (config.env === 'production') {
+  app.use(minifyHTML(minifierOpts))
+}
 app.use(compression())
 app.use(express.json())
 app.set('trust proxy', 1)
@@ -86,7 +96,7 @@ app.use(
         tokens['remote-addr'](req, res)
       )}`
     },
-    { immediate: true, skip: (req, res) => config.testing }
+    { immediate: true, skip: (req, res) => config.env === 'testing' }
   )
 )
 app.use(
@@ -100,7 +110,7 @@ app.use(
         'content-length'
       )} in ${chalk.green(tokens['response-time'](req, res))}ms`
     },
-    { skip: (req, res) => config.testing }
+    { skip: (req, res) => config.env === 'testing' }
   )
 )
 app.use(cookieParser())
@@ -114,10 +124,11 @@ app.use(express.urlencoded({ extended: false }))
 app.use(passport.initialize())
 app.use(passport.session())
 
-/** Set up flash messages */
+/** Set up additional context */
 app.use((req, res, next) => {
   res.locals.error = req.flash('error')
   res.locals.success = req.flash('success')
+  res.locals.env = config.env
 
   next()
 })
@@ -128,7 +139,9 @@ app.use(require('@routes'))
 
 /** Instantiate server */
 http.listen(config.port, () => {
-  console.log(`Leap started on ${config.production ? "https://" : "http://"}${config.domain}\n`)
+  console.log(
+    `Leap started on ${config.env === 'production' ? 'https://' : 'http://'}${config.domain}\n`
+  )
 })
 
 /** Exports the server for testing */

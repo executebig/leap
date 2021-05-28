@@ -19,7 +19,7 @@ router.get(
     if (token) {
       res.cookie('_jwt', token, {
         httpOnly: true,
-        secure: config.production,
+        secure: config.env === 'production',
         maxAge: 12 * 3600 * 1000
       })
       next()
