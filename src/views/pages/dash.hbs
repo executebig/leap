@@ -1,8 +1,8 @@
 {{#extend title}}Dashboard{{/extend}}
 
-<div class="page__dash">
-  <section class='hero container'>
-    <div class='hero-body'>
+<div class='page__dash'>
+  <section class='section header pb-4'>
+    <div class='container'>
       <h1 class='title is-primary'>Welcome back! Pick your adventure...</h1>
       <p>
         Task details will be presented to you once you select your task. Once selected, you will not
@@ -11,29 +11,26 @@
     </div>
   </section>
 
-  <section class='section container'>
-    <div class='columns projects'>
-      {{#each projects}}
-        <a href="" class="href"></a>
-          <div class='column project'>
-            <h2>{{title}}</h2>
-            <p>{{description}}</p>
+  <section class='section'>
+    <div class='container'>
+      <div class='columns projects'>
+        {{#each projects}}
+          <a href=''>
+            <div class='column project'>
+              <h2>{{title}}</h2>
+              <p>{{description}}</p>
 
-            <span>
-              <p>Independent · {{capitalize type}}</p>
-              <p>+{{pts_total}} 💎 Available</p>
-            </span>
+              <span>
+                <p>Independent · {{capitalize type}}</p>
+                <p>+{{pts_total}} 💎 Available</p>
+              </span>
 
-            <img
-              src={{thumbnail_url}}
-              alt=''
-              srcset=''
-              class='project__bg'
-            />
-            <div class='project__overlay--1'></div>
-          </div>
-        </a>
-      {{/each}}
+              <img src={{thumbnail_url}} alt='' class='project__bg' />
+              <div class='project__overlay--1'></div>
+            </div>
+          </a>
+        {{/each}}
+      </div>
     </div>
   </section>
 </div>
