@@ -3,26 +3,29 @@ create type project_type as enum ('learning', 'competitive', 'collaborative');
 
 create table if not exists users (
     user_id serial not null constraint users_pk primary key,
-    created_at timestamp not null,
-    updated_at timestamp not null,
-    admin boolean default false,
-    state user_state default 'onboarding' :: user_state not null,
 
-    points int default 0 not null,
-    current_week int default -1 not null,
-    current_project int default -1 not null,
-    project_pool int[] default array[]::int[] not null,
-
-    email text not null,
-    parent_email text,
     display_name text,
     first_name text,
     last_name text,
     age integer,
     address text,
     phone text,
+    email text not null,
+    parent_email text,
     no_shipping boolean default false not null,
-    referrer integer
+    referrer integer,
+
+    created_at timestamp not null,
+    updated_at timestamp not null,
+    state user_state default 'onboarding' :: user_state not null,
+    admin boolean default false,
+
+    points int default 0 not null,
+    current_week int default -1 not null,
+    current_project int default -1 not null,
+    prev_projects int[] default array[]::int[] not null,
+    prev_modules int[] default array[]::int[] not null,
+    project_pool int[] default array[]::int[] not null
 );
 
 create table if not exists projects (

@@ -24,9 +24,10 @@ exports.routeState = async (req, res, next) => {
 
       // TODO: Store past projects
       const newUser = await UserController.updateUser(req.user.user_id, {
-        current_week: week,
         state: 'pending',
+        current_week: week,
         current_project: -1,
+        prev_projects: [...req.user.prev_projects, req.user.current_project],
         project_pool
       })
 
