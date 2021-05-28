@@ -12,6 +12,7 @@ specifiers:
   dotenv: ^9.0.2
   express: ^4.17.1
   express-handlebars: ^5.3.2
+  express-minify-html-2: ^1.0.1
   express-request-id: ^1.4.1
   express-session: ^1.17.2
   handlebars: ^4.7.7
@@ -39,6 +40,7 @@ dependencies:
   dotenv: 9.0.2
   express: 4.17.1
   express-handlebars: 5.3.2
+  express-minify-html-2: 1.0.1
   express-request-id: 1.4.1
   express-session: 1.17.2
   handlebars: 4.7.7
@@ -736,6 +738,13 @@ packages:
       handlebars: 4.7.7
     dev: false
 
+  /express-minify-html-2/1.0.1:
+    resolution: {integrity: sha512-nj82eJtynjbye8AgN8L4HzVX+xWDY+d5RJSNrJbATbIdfxO6z91EgLN89U78MZV1z9ACEdzlWWXvvPTZ1+jQWg==}
+    dependencies:
+      html-minifier: 4.0.0
+      lodash.merge: 4.6.2
+    dev: false
+
   /express-request-id/1.4.1:
     resolution: {integrity: sha512-qpxK6XhDYtdx9FvxwCHkUeZVWtkGbWR87hBAzGECfwYF/QQCPXEwwB2/9NGkOR1tT7/aLs9mma3CT0vjSzuZVw==}
     dependencies:
@@ -1384,6 +1393,10 @@ packages:
 
   /lodash.isstring/4.0.1:
     resolution: {integrity: sha1-1SfftUVuynzJu5XV2ur4i6VKVFE=}
+    dev: false
+
+  /lodash.merge/4.6.2:
+    resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
     dev: false
 
   /lodash.once/4.1.1:

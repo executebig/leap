@@ -2,8 +2,7 @@ require('dotenv').config()
 
 module.exports = {
   port: process.env.PORT || 3000,
-  production: process.env.NODE_ENV === 'production',
-  testing: process.env.NODE_ENV === 'testing',
+  env: process.env.NODE_ENV || 'development',
   domain: process.env.DOMAIN,
   session: {
     secret: process.env.SESSION_SECRET
