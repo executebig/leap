@@ -15,7 +15,7 @@
         width: 400px;
         height: 200px;
 
-        background: radial-gradient(circle at bottom right, rgba($primary, 0.5), $primary 20%);
+        background-color: $primary;
 
         h2 {
           font-size: 1.8rem;
@@ -80,16 +80,31 @@
         margin-right: auto;
       }
 
-      button {
+      p {
+        font-weight: bold;
+      }
+
+      a {
         color: white;
         background: none;
         border: none;
         padding-left: 0;
-      }
 
-      button,
-      p {
-        font-weight: bold;
+        transition: margin 150ms ease;
+
+        ion-icon {
+          transition: margin 150ms ease;
+        }
+
+        &:hover, &:active, &:focus {
+          color: white;
+
+          margin-left: 4px;
+
+          ion-icon {
+            margin-left: 3px;
+          }
+        }
       }
     }
   }

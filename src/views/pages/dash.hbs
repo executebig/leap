@@ -1,8 +1,8 @@
 {{#extend title}}Dashboard{{/extend}}
 
-<div class="page__dash">
-  <section class='hero container'>
-    <div class='hero-body'>
+<div class='page__dash'>
+  <section class='section header pb-4'>
+    <div class='container'>
       <h1 class='title is-primary'>Welcome back! Pick your adventure...</h1>
       <p>
         Task details will be presented to you once you select your task. Once selected, you will not
@@ -11,11 +11,16 @@
     </div>
   </section>
 
-  <section class='section container'>
-    <div class='columns projects'>
-      {{#each projects}}
-        <a href="" class="href"></a>
-          <div class='column project'>
+  <section class='section'>
+    <div class='container'>
+      <div class='columns projects'>
+        {{#each projects}}
+          <div
+            class='column is-clickable project'
+            tabindex='0'
+            project-id="{{project_id}}"
+            project-title="{{title}}"
+          >
             <h2>{{title}}</h2>
             <p>{{description}}</p>
 
@@ -24,16 +29,77 @@
               <p>+{{pts_total}} 💎 Available</p>
             </span>
 
-            <img
-              src={{thumbnail_url}}
-              alt=''
-              srcset=''
-              class='project__bg'
-            />
+            <img src={{thumbnail_url}} alt='' class='project__bg' />
             <div class='project__overlay--1'></div>
           </div>
-        </a>
-      {{/each}}
+        {{/each}}
+      </div>
     </div>
   </section>
+
+  <div class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="box p-5">
+        <h1 class="title is-2 has-text-primary">Heads up!</h1>
+
+        <div class="block modal-message">
+          You're about to select <b class="modal-project-title"></b> as your project for the next week. Once you've selected a project for the week, <b class="has-text-danger">you cannot change your mind.</b>
+        </div>
+
+        <div class="block has-text-weight-bold">
+          Are you sure you want to continue?
+        </div>
+
+        <button class="button is-danger is-light modal-cancel">
+          <span>Pick again</span>
+          <span class="icon">
+            <ion-icon name='refresh-outline'></ion-icon>
+          </span>
+          <span>
+
+        <button class="button is-primary is-pulled-right">
+          <span>Let's do this!</span>
+          <span class="icon">
+            <ion-icon name='arrow-forward-outline'></ion-icon>
+          </span>
+        </button>
+      </div>
+    </div>
+    <button class="modal-close modal-cancel is-large" aria-label="close"></button>
+  </div>
 </div>
+
+<script>
+  const modal = document.querySelector(".modal")
+  const modalProjectTitle = modal.querySelector('.modal-project-title')
+
+  // Close modal on ESC keypress
+  document.addEventListener('keydown', ({ key }) => {
+    if (key === 'Escape') {
+      modal.classList.remove('is-active')
+    }
+  })
+
+  // Bind projects to modal + form
+  document.querySelectorAll('.project')
+    .forEach(node => {
+      const title = node.getAttribute('project-title')
+      const id = node.getAttribute('project-id')
+
+      node.addEventListener('click', () => {
+        modal.classList.add('is-active')
+
+        modalProjectTitle.textContent = title
+      })
+    })
+
+  // Close modal on background & cancel button click
+  document.querySelectorAll('.modal-cancel, .modal-background')
+    .forEach(node => {
+      node.addEventListener('click', () => {
+        modal.classList.remove('is-active')
+      })
+    })
+
+</script>
