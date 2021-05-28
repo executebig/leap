@@ -12,14 +12,12 @@ router.get('/', async (req, res) => {
   return res.render('pages/modules', {
     title: 'Modules',
     week: req.user.current_week,
-    // TODO: Use user selected project id
-    data: await ProjectController.getProjectAndModulesById(1)
+    data: await ProjectController.getProjectAndModulesById(req.user.current_project)
   })
 })
 
-// TODO: Implement db queries for module & authorized access
 router.get('/:id', async (req, res, next) => {
-  const module = await ModuleController.getModule(req.params.id, 1)
+  const module = await ModuleController.getModule(req.params.id, req.user.current_project)
 
   if (!module) return next()
 
