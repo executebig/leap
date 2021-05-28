@@ -20,7 +20,7 @@ exports.routeState = async (req, res, next) => {
     const week = parseInt(await ConfigController.get('week'), 10)
 
     if (req.user.current_week < week) {
-      const project_pool = await ProjectController.getRandomProjectIds(3)
+      const project_pool = await ProjectController.getRandomProjectIds(3, req.user.prev_projects)
 
       // TODO: Store past projects
       const newUser = await UserController.updateUser(req.user.user_id, {

@@ -22,8 +22,8 @@ exports.getProjectsByIds = async (project_ids) => {
 
 // Returns num amount of random project ids
 // Query doesn't scale well w/ larger datasets, but should be fine for our purposes
-exports.getRandomProjectIds = async (num) => {
-  const q = await db.query('SELECT project_id FROM projects ORDER BY random() LIMIT $1', [num])
+exports.getRandomProjectIds = async (num, exclude) => {
+  const q = await db.query('SELECT project_id FROM projects WHERE NOT project_id = ANY ($2) ORDER BY random() LIMIT $1', [num, exclude])
 
   return q?.rows.map(e => e.project_id)
 }
