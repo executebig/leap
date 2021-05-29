@@ -22,8 +22,8 @@ const adblockerModal = `
                             but it'll be hard for us to do that without learning more about how you participate in Tech Roulette. 
                         </p>
                         <p>
-                            <strong>Execute Big is a 501(c)(3) nonprofit organization. We do not run third-party ads, and nor do 
-                            we profit with your data.</strong>
+                            <strong>Execute Big is a 501(c)(3) nonprofit organization. We do not run third-party ads, and we do 
+                            not profit from your data.</strong>
                         </p>
                         <p class="mb-0">You can read more about how we store and process research data on our 
                         <a href="https://executebig.org/research/privacy?utm_source=TR_AdbModal" target="_blank" rel="noopener">Research Privacy</a> page.
