@@ -50,6 +50,8 @@
 
         &.tagline {
           color: $hint;
+          line-height: 2.2;
+          margin-bottom: 1rem;
 
           em {
             font-style: normal;
@@ -58,10 +60,11 @@
           }
 
           .field {
-            display: inline;
+            display: inline-block;
             font-weight: bold;
             color: $primary;
             font-size: 0;
+            margin-bottom: 0;
 
             ion-icon {
               vertical-align: middle;
