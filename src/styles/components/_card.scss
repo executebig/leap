@@ -19,3 +19,38 @@
     }
   }
 }
+
+.modal-card {
+  border: 3px solid $primary;
+  border-radius: 0.8rem;
+  .modal-card-head {
+    box-shadow: none;
+    border-bottom: 2px solid rgba($primary, 0.5);
+    background-color: white;
+
+    .modal-card-title {
+      color: $primary;
+      font-weight: bold;
+      font-family: $family-header;
+
+      ion-icon {
+        vertical-align: top;
+
+        & + * {
+          vertical-align: bottom;
+          margin-bottom: -4px;
+        }
+      }
+    }
+  }
+
+  .modal-card-body {
+    h1,
+    h2,
+    h3,
+    p {
+      font-family: $family-sans-serif;
+      margin-bottom: 1rem;
+    }
+  }
+}

@@ -9,9 +9,7 @@ const passport = require('@libs/passport')
 const authMiddlewares = require('@middlewares/auth.middlewares')
 
 /** Directly rendered pages */
-router.get('/', authMiddlewares.optionalAuth, (req, res) => {
-  res.render('pages/landing', { titleOverride: true })
-})
+router.use('/', require('@routes/static.routes'))
 
 // TODO: Error pages should go here.
 
