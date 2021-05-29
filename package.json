@@ -21,9 +21,11 @@
     "test": "NODE_ENV=testing mocha --exit"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "bulma": "^0.9.2",
     "chalk": "^4.1.1",
     "compression": "^1.7.4",
+    "concat-stream": "^2.0.0",
     "connect-flash": "^0.1.1",
     "connect-redis": "^5.2.0",
     "cookie-parser": "^1.4.5",
