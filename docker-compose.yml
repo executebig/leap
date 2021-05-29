@@ -1,0 +1,28 @@
+services:
+  leap:
+    build: .
+    command: npm run start
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      DATABASE_URL: postgresql://leap:${POSTGRES_PASSWORD}@postgres/leap
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis
+
+  postgres:
+    build: ./sql
+    environment:
+      POSTGRES_DB: leap
+      POSTGRES_USER: leap
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - /var/lib/postgres
+    ports:
+      - '5432:5432'
+
+  redis:
+    image: redis:6.2.3-alpine
+    ports:
+      - '6379:6379'
