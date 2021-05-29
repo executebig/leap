@@ -39,34 +39,38 @@
 
   <div class="modal">
     <div class="modal-background"></div>
-    <div class="modal-content">
-      <form class="box p-5" action="" method="POST">
-        <h1 class="title is-2 has-text-primary">Heads up!</h1>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <h1 class="modal-card-title">Heads up!</h1>
+      </header>
 
-        <div class="block modal-message">
+      <section class="modal-card-body">
+        <p class="modal-message">
           You're about to select <b class="modal-project-title"></b> as your project for the next week. Once you've selected a project for the week, <b class="has-text-danger">you cannot change your mind.</b>
-        </div>
+        </p>
 
-        <div class="block has-text-weight-bold">
-          Are you sure you want to continue?
-        </div>
+        <b>Are you sure you want to continue?</b>
+      </section>
 
-        <button class="button is-danger is-light modal-cancel" type="reset">
-          <span>Pick again</span>
-          <span class="icon">
-            <ion-icon name='refresh-outline'></ion-icon>
-          </span>
-          <span>
+      <footer class="modal-card-foot">
+        <form action="" method="POST" style="width: 100%">
+          <button class="button is-danger modal-cancel" type="reset">
+            <span>Pick again</span>
+            <span class="icon">
+              <ion-icon name='refresh-outline'></ion-icon>
+            </span>
+            <span>
 
-        <button class="button is-primary is-pulled-right" type="submit">
-          <span>Let's do this!</span>
-          <span class="icon">
-            <ion-icon name='arrow-forward-outline'></ion-icon>
-          </span>
-        </button>
+          <button class="button is-primary is-pulled-right" type="submit">
+            <span>Let's do this!</span>
+            <span class="icon">
+              <ion-icon name='arrow-forward-outline'></ion-icon>
+            </span>
+          </button>
 
-        <input type="hidden" name="project_id" class="modal-project-id">
-      </form>
+          <input type="hidden" name="project_id" class="modal-project-id">
+        </form>
+      </footer>
     </div>
     <button class="modal-close modal-cancel is-large" aria-label="close"></button>
   </div>
