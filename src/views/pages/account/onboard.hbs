@@ -88,12 +88,15 @@
                             <input name="addr_street_1" class="input input_street_1 mb-1" type="text" placeholder="Street Address 1" required />
                             <input name="addr_street_2" class="input input_street_2 mb-1" type="text" placeholder="Street Address 2 (Optional)" />
                             <div class="columns mt-0 pt-0">
-                                <div class="column mt-0 pt-0">
+                                <div class="column is-half mt-0 pt-0">
                                     <input name="addr_city" class="input input_city" type="text" placeholder="City (e.g. San Francisco)" required />
                                     <p class="help">Please do not abbreviate.</p>
                                 </div>
                                 <div class="column mt-0 pt-0">
                                     <input name="addr_state" class="input input_state" type="text" placeholder="U.S. State (e.g. CA)" required />
+                                </div>
+                                <div class="column mt-0 pt-0">
+                                    <input name="addr_zip" class="input input_zip" type="text" pattern="[0-9]*" placeholder="ZIP Code" required />
                                 </div>
                             </div>
                         </div>

@@ -1,6 +1,7 @@
 const router = require('express').Router()
 
 const UserController = require('@controllers/user.controllers')
+const addrSanitizer = require('@libs/addressSanitizer')
 
 router.get('/', (req, res) => {})
 
@@ -25,7 +26,13 @@ router.post('/onboard', async (req, res) => {
     address:
       req.body.no_shipping === 'on'
         ? null
-        : `${req.body.addr_street_1}, ${req.body.addr_street_2}, ${req.body.addr_city}, ${req.body.addr_state}`,
+        : addrSanitizer({
+            s1: req.body.addr_street_1,
+            s2: req.body.addr_street_2,
+            city: req.body.addr_city,
+            state: req.body.addr_state,
+            zip: req.body.addr_zip
+          }),
     phone: req.body.phone,
     state: 'ready'
   }
