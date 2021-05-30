@@ -47,7 +47,8 @@
     "nodemailer-express-handlebars": "^4.0.0",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
-    "pg": "^8.6.0"
+    "pg": "^8.6.0",
+    "us-state-codes": "^1.1.2"
   },
   "_moduleAliases": {
     "@config": "./config.js",
