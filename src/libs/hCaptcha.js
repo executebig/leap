@@ -3,6 +3,10 @@ const config = require('@config')
 const hcaptcha = require('hcaptcha')
 
 const validate = (req, res, next) => {
+  if (config.env === 'development') {
+    return next()
+  }
+
   const token = req.body && req.body['h-captcha-response']
 
   if (!token) {

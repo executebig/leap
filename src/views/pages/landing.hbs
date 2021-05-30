@@ -1,86 +1,91 @@
 {{#extend title}}Tech Roulette: Explore technology & earn rewards this summer!{{/extend}}
-    
-<div class="page__landing">
-    <video class="waves" poster="poster.jpg" autoplay playsinline muted loop>
-        <source src="/static/videos/waves.webm" type="video/webm">
-        <source src="/static/videos/waves.mp4" type="video/mp4">
-    </video>
-    <div class="waves"></div>
-    <section class="section landing">
-        <div class="container">
-            <div class="intro">
-                <h1 class="title is-1">Explore your future in a bold world of technology &ndash; all in your free time!</h1>
-                <p class="tagline">
-                    Join <span class="field">
-                        <ion-icon name="dice-outline" size="large"></ion-icon><span>Tech Roulette</span>
-                    </span>, where you can explore different fields of technology like
-                    <span class="field">
-                        <ion-icon name="hardware-chip-outline" size="large"></ion-icon><span>hardware engineering</span>
-                    </span>,
-                    <span class="field">
-                        <ion-icon name="game-controller-outline" size="large"></ion-icon><span>game design</span>
-                    </span>, or
-                    <span class="field">
-                        <ion-icon name="pulse-outline" size="large"></ion-icon><span>artificial intelligence</span>
-                    </span>
-                    through building a
-                    <span class="field">
-                        <ion-icon name="shuffle-outline" size="large"></ion-icon><span>randomly</span>
-                    </span>
-                    &nbsp;selected project every week. With
-                    <span class="field">
-                        <ion-icon name="people-outline" size="large"></ion-icon><span>500 students</span>
-                    </span>&nbsp;learning and earning
-                    <span class="field">
-                        <ion-icon name="diamond-outline" size="large"></ion-icon><span>rewards</span>
-                    </span>
-                    &nbsp;along with you, you'll discover a whole new world of
-                    <span class="field">
-                        <ion-icon name="happy-outline" size="large"></ion-icon><span>opportunities</span>
-                    </span>.
-                </p>
-                {{#unless user}}
-                    <p class="cta">Register for FREE &mdash; ZERO experience needed!</p>
-                {{/unless}}
-            </div>
-            <div class="email-form">
-                {{#if user}}
-                    <a class="button is-primary" href="/dash">
-                        Go to Dashboard »</a>
-                {{else}}
-                    <form class="form" method="post" action="/auth/login" id="authForm">
-                        <input id="email-input" class="input" type="text" placeholder="Enter your email" name="email" required="true" />
+    <div class="page__landing">
+        <video class="waves" poster="poster.jpg" autoplay playsinline muted loop>
+            <source src="/static/videos/waves.webm" type="video/webm">
+            <source src="/static/videos/waves.mp4" type="video/mp4">
+        </video>
+        <div class="waves"></div>
+        <section class="section landing">
+            <div class="container">
+                <div class="intro">
+                    <h1 class="title is-1">Explore your future in a bold world of technology &ndash; all in your free time!</h1>
+                    <p class="tagline">
+                        Join <span class="field">
+                            <ion-icon name="dice-outline" size="large"></ion-icon><span>Tech Roulette</span>
+                        </span>, where you can explore different fields of technology like
+                        <span class="field">
+                            <ion-icon name="hardware-chip-outline" size="large"></ion-icon><span>hardware engineering</span>
+                        </span>,
+                        <span class="field">
+                            <ion-icon name="game-controller-outline" size="large"></ion-icon><span>game design</span>
+                        </span>, or
+                        <span class="field">
+                            <ion-icon name="pulse-outline" size="large"></ion-icon><span>artificial intelligence</span>
+                        </span>
+                        through building a
+                        <span class="field">
+                            <ion-icon name="shuffle-outline" size="large"></ion-icon><span>randomly</span>
+                        </span>
+                        &nbsp;selected project every week. With
+                        <span class="field">
+                            <ion-icon name="people-outline" size="large"></ion-icon><span>500 students</span>
+                        </span>&nbsp;learning and earning
+                        <span class="field">
+                            <ion-icon name="diamond-outline" size="large"></ion-icon><span>rewards</span>
+                        </span>
+                        &nbsp;along with you, you'll discover a whole new world of
+                        <span class="field">
+                            <ion-icon name="happy-outline" size="large"></ion-icon><span>opportunities</span>
+                        </span>.
+                    </p>
+                    {{#unless user}}
+                        <p class="cta">Register for FREE &mdash; ZERO experience needed!</p>
+                    {{/unless}}
+                </div>
+                <div class="email-form">
+                    {{#if user}}
+                        <a class="button is-primary" href="/dash">
+                            Go to Dashboard »</a>
+                    {{else}}
+                        <form class="form" method="post" action="/auth/login" id="authForm">
+                            <input id="email-input" class="input" type="text" placeholder="Enter your email" name="email" required="true" />
+                            {{#eq env "development"}}
+                    {{else}}
                         <div id="hcaptcha" class="h-captcha" data-sitekey="{{hCaptcha.siteKey}}" data-callback="onLogin" data-size="invisible"></div>
-                        <button class="button is-primary" id="submit-button">
-                            Register/Log In</button>
-                    </form>
-                    <script src="https://hcaptcha.com/1/api.js" async defer></script>
-                    <script>
-                        function onLogin(token) {
-                            console.log(token)
-                            document.getElementById('authForm').submit()
-                        }
-
-                        function validate(event) {
-                            const input = document.querySelector('#email-input')
-                            event.preventDefault();
-
-                            if (!input.checkValidity()) {
-                                input.reportValidity()
-                            } else {
-                                hcaptcha.execute()
+                            {{/eq}}
+                            <button class="button is-primary" id="submit-button">
+                                Register/Log In</button>
+                        </form>
+                        {{#eq env "development"}}
+                    {{else}}
+                        <script src="https://hcaptcha.com/1/api.js" async defer></script>
+                        <script>
+                            function onLogin(token) {
+                                console.log(token)
+                                document.getElementById('authForm').submit()
                             }
-                        }
 
-                        document.getElementById('submit-button').addEventListener('click', validate)
-                    </script>
-                {{/if}}
+                            function validate(event) {
+                                const input = document.querySelector('#email-input')
+                                event.preventDefault();
+
+                                if (!input.checkValidity()) {
+                                    input.reportValidity()
+                                } else {
+                                    hcaptcha.execute()
+                                }
+                            }
+
+                            document.getElementById('submit-button').addEventListener('click', validate)
+                        </script>
+                        {{/eq}}
+                    {{/if}}
+                </div>
+                <div class="fineprint">
+                    <p>
+                        Students under 13 must register with parent consent.
+                        We only collect information we need, and we will never share your data with anyone else &ndash; not even sponsors. <a href="https://executebig.org/privacy/?utm_source=TR_Home_Fineprint" target="_blank">Privacy →</a></p>
+                </div>
             </div>
-            <div class="fineprint">
-                <p>
-                    Students under 13 must register with parent consent.
-                    We only collect information we need, and we will never share your data with anyone else &ndash; not even sponsors. <a href="https://executebig.org/privacy/?utm_source=TR_Home_Fineprint" target="_blank">Privacy →</a></p>
-            </div>
-        </div>
-    </section>
-</div>
+        </section>
+    </div>
