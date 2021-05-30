@@ -13,6 +13,10 @@ module.exports = {
   auth: {
     secret: process.env.AUTH_SECRET
   },
+  hCaptcha: {
+    siteKey: process.env.HCAPTCHA_SITEKEY,
+    secret: process.env.HCAPTCHA_SECRET
+  },
   database: process.env.DATABASE_URL,
   redis: process.env.REDIS_URL,
   email: {

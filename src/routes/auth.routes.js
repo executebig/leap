@@ -6,10 +6,12 @@ const config = require('@config')
 const db = require('@db')
 
 const router = require('express').Router()
+
 const UserController = require('@controllers/user.controllers')
 const generateLoginJWT = require('@libs/jwt').generateLoginJWT
 const mailer = require('@libs/mailer')
 const passport = require('@libs/passport')
+const hcaptcha = require('@libs/hCaptcha')
 
 router.get(
   '/login',
@@ -39,7 +41,7 @@ router.get(
   }
 )
 
-router.post('/login', async (req, res) => {
+router.post('/login', hcaptcha.validate, async (req, res) => {
   const email = req.body.email.toLowerCase()
   const validate = require('@libs/validateEmail')
 
