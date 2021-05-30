@@ -1,10 +1,11 @@
-/** 
-    @author Mingjie Jiang 
+/**
+    @author Mingjie Jiang
  */
 
 const db = require('@db')
 const mailer = require('@libs/mailer')
 const validateEmail = require('@libs/validateEmail')
+const EOController = require('@controllers/eo.controllers')
 
 exports.getUserById = async (user_id) => {
   const q = await db.query('SELECT * FROM users WHERE user_id = $1', [user_id])

@@ -19,5 +19,9 @@ module.exports = {
     url: process.env.EMAIL_URL,
     from: process.env.EMAIL_FROM
   },
+  emailOctopus: {
+    key: process.env.EO_API_KEY,
+    listId: process.env.EO_LIST_ID
+  },
   flags: process.env.FLAGS ? process.env.FLAGS.split(',') : []
 }
