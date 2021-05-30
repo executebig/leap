@@ -18,6 +18,7 @@ specifiers:
   express-request-id: ^1.4.1
   express-session: ^1.17.2
   handlebars: ^4.7.7
+  hcaptcha: ^0.0.2
   html-minifier: ^4.0.0
   ioredis: ^4.27.2
   jsonwebtoken: ^8.5.1
@@ -48,6 +49,7 @@ dependencies:
   express-request-id: 1.4.1
   express-session: 1.17.2
   handlebars: 4.7.7
+  hcaptcha: 0.0.2
   html-minifier: 4.0.0
   ioredis: 4.27.2
   jsonwebtoken: 8.5.1
@@ -1106,6 +1108,10 @@ packages:
     engines: {node: '>= 0.4.0'}
     dependencies:
       function-bind: 1.1.1
+
+  /hcaptcha/0.0.2:
+    resolution: {integrity: sha512-wWOncj/sY+q8s7tV12tjn3cFNoQhSu3l/7nTJi4QkFKALQi9XnduoXrV/KFzLg5lnB+5560zSAoi9YdYPDw6Eg==}
+    dev: false
 
   /he/1.2.0:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}

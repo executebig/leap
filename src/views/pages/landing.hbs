@@ -1,5 +1,5 @@
-{{#extend title}}Tech Roulette: Explore CS & earn rewards this summer!{{/extend}}
-
+{{#extend title}}Tech Roulette: Explore technology & earn rewards this summer!{{/extend}}
+    
 <div class="page__landing">
     <video class="waves" poster="poster.jpg" autoplay playsinline muted loop>
         <source src="/static/videos/waves.webm" type="video/webm">
@@ -9,11 +9,11 @@
     <section class="section landing">
         <div class="container">
             <div class="intro">
-                <h1 class="title is-1">Explore dozens of exciting topics in computer science this summer!</h1>
+                <h1 class="title is-1">Explore your future in a bold world of technology &ndash; all in your free time!</h1>
                 <p class="tagline">
                     Join <span class="field">
                         <ion-icon name="dice-outline" size="large"></ion-icon><span>Tech Roulette</span>
-                    </span>, where you'll be exploring different fields like
+                    </span>, where you can explore different fields of technology like
                     <span class="field">
                         <ion-icon name="hardware-chip-outline" size="large"></ion-icon><span>hardware engineering</span>
                     </span>,
@@ -23,23 +23,24 @@
                     <span class="field">
                         <ion-icon name="pulse-outline" size="large"></ion-icon><span>artificial intelligence</span>
                     </span>
-                    &nbsp;through a
+                    through building a
                     <span class="field">
                         <ion-icon name="shuffle-outline" size="large"></ion-icon><span>randomly</span>
                     </span>
-                    &nbsp;selected project every week alongside of
+                    &nbsp;selected project every week. With
                     <span class="field">
                         <ion-icon name="people-outline" size="large"></ion-icon><span>500 students</span>
-                    </span>, all while earning
+                    </span>&nbsp;learning and earning
                     <span class="field">
-                        <ion-icon name="diamond-outline" size="large"></ion-icon><span>rewards & perks</span>
-                    </span>. Your summer will be filled with
+                        <ion-icon name="diamond-outline" size="large"></ion-icon><span>rewards</span>
+                    </span>
+                    &nbsp;along with you, you'll discover a whole new world of
                     <span class="field">
-                        <ion-icon name="happy-outline" size="large"></ion-icon><span>possibilities</span>
+                        <ion-icon name="happy-outline" size="large"></ion-icon><span>opportunities</span>
                     </span>.
                 </p>
                 {{#unless user}}
-                    <p class="cta">Register for FREE &mdash; no experience needed!</p>
+                    <p class="cta">Register for FREE &mdash; ZERO experience needed!</p>
                 {{/unless}}
             </div>
             <div class="email-form">
@@ -47,11 +48,32 @@
                     <a class="button is-primary" href="/dash">
                         Go to Dashboard »</a>
                 {{else}}
-                    <form class="form" method="post" action="/auth/login">
-                        <input id="email-input" class="input" type="text" placeholder="Enter your email" name="email" required="true">
-                        <button class="button is-primary" type="submit" id="submit-button">
+                    <form class="form" method="post" action="/auth/login" id="authForm">
+                        <input id="email-input" class="input" type="text" placeholder="Enter your email" name="email" required="true" />
+                        <div id="hcaptcha" class="h-captcha" data-sitekey="{{hCaptcha.siteKey}}" data-callback="onLogin" data-size="invisible"></div>
+                        <button class="button is-primary" id="submit-button">
                             Register/Log In</button>
                     </form>
+                    <script src="https://hcaptcha.com/1/api.js" async defer></script>
+                    <script>
+                        function onLogin(token) {
+                            console.log(token)
+                            document.getElementById('authForm').submit()
+                        }
+
+                        function validate(event) {
+                            const input = document.querySelector('#email-input')
+                            event.preventDefault();
+
+                            if (!input.checkValidity()) {
+                                input.reportValidity()
+                            } else {
+                                hcaptcha.execute()
+                            }
+                        }
+
+                        document.getElementById('submit-button').addEventListener('click', validate)
+                    </script>
                 {{/if}}
             </div>
             <div class="fineprint">
