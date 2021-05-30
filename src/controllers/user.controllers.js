@@ -1,10 +1,11 @@
-/** 
-    @author Mingjie Jiang 
+/**
+    @author Mingjie Jiang
  */
 
 const db = require('@db')
 const mailer = require('@libs/mailer')
 const validateEmail = require('@libs/validateEmail')
+const EOController = require('@controllers/eo.controllers')
 
 exports.getUserById = async (user_id) => {
   const q = await db.query('SELECT * FROM users WHERE user_id = $1', [user_id])
@@ -32,6 +33,9 @@ exports.createUserByEmail = async (email) => {
     'INSERT INTO users (email, created_at, updated_at) VALUES ($1, NOW(), NOW()) RETURNING *',
     [email]
   )
+
+  // Add user to EO contacts
+  await EOController.addContact(email)
 
   return q.rows[0]
 }
@@ -62,8 +66,12 @@ exports.updateUser = async (user_id, data) => {
     return data[key]
   })
 
-  const q = await db.query(query.join(' '), vals)
-  return q.rows[0]
+  const newUser = (await db.query(query.join(' '), vals))?.rows[0]
+
+  // Update contact data on EO
+  await EOController.updateContact(newUser)
+
+  return newUser
 }
 
 exports.inviteUser = async (email, referrer) => {
@@ -84,8 +92,9 @@ exports.inviteUser = async (email, referrer) => {
       return
     }
   } else {
-    // new user, send invite and create user
+    // new user, send invite, add EO contact, & create user
     await mailer.sendInvite(email, referrer)
+    await EOController.addContact(email)
     await db.query(
       `INSERT INTO users (email, created_at, updated_at, referrer, state) VALUES ($1, NOW(), NOW(), $2, 'invited') RETURNING *`,
       [email, referrer.user_id]
