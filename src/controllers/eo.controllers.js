@@ -4,62 +4,71 @@
 
 const axios = require('axios')
 const crypto = require('crypto')
+const { RateLimiter } = require('limiter')
 
 const config = require('@config')
 
-const errorHandler = (err) => {
-  if (err.response) {
-    const { code, message } = err.response.data.error
-    console.error(`[EmailOctopus] ${err.message}`)
-    console.error(`[EmailOctopus] ${code}: ${message}`)
-  } else {
-    console.error(`[EmailOctopus] ${err}`)
-  }
-}
+const limiter = new RateLimiter({ tokensPerInterval: 4, interval: 'second' })
 
-exports.addContact = async (email) => {
-  return axios
-    .post(`https://emailoctopus.com/api/1.5/lists/${config.emailOctopus.listId}/contacts`, {
+exports.updateContact = async (
+  { email, first_name, last_name, display_name, user_id, state, age, address, no_shipping },
+  newContact = false
+) => {
+  await limiter.removeTokens(1)
+
+  const fields = {
+    FirstName: first_name,
+    LastName: last_name,
+    DisplayName: display_name,
+    UserID: user_id,
+    State: state,
+    Age: age,
+    Address: address,
+    NoShipping: !!no_shipping
+  }
+
+  return axios({
+    method: newContact ? 'POST' : 'PUT',
+    url: `https://emailoctopus.com/api/1.5/lists/${config.emailOctopus.listId}/contacts${
+      newContact ? '' : '/' + crypto.createHash('md5').update(email).digest('hex')
+    }`,
+    data: {
       api_key: config.emailOctopus.key,
       email_address: email,
-      status: 'UNSUBSCRIBED'
+      status: 'SUBSCRIBED',
+      fields
+    }
+  })
+    .then(() => {
+      console.log(`[EmailOctopus] ${newContact ? 'Created' : 'Updated'} contact for: ${email}`)
     })
-    .then(() => console.log(`[EmailOctopus] Created contact for ${email}`))
-    .catch(errorHandler)
-}
+    .catch(async (err) => {
+      if (err?.response?.data?.error) {
+        const { code, message } = err.response.data.error
+        console.error(`[EmailOctopus] ${err.message}`)
+        console.error(`[EmailOctopus] ${code}: ${message}`)
 
-exports.updateContact = async ({
-  email,
-  first_name,
-  last_name,
-  display_name,
-  age,
-  user_id,
-  state,
-  no_shipping,
-  address
-}) => {
-  const emailMd5 = crypto.createHash('md5').update(email).digest('hex')
-
-  return axios
-    .put(
-      `https://emailoctopus.com/api/1.5/lists/${config.emailOctopus.listId}/contacts/${emailMd5}`,
-      {
-        api_key: config.emailOctopus.key,
-        email_address: email,
-        fields: {
-          FirstName: first_name,
-          LastName: last_name,
-          DisplayName: display_name,
-          Age: age,
-          UserID: user_id,
-          State: state,
-          NoShipping: !!no_shipping,
-          Address: address
-        },
-        status: 'SUBSCRIBED'
+        if (code === 'MEMBER_NOT_FOUND') {
+          await limiter.removeTokens(1)
+          axios
+            .post(`https://emailoctopus.com/api/1.5/lists/${config.emailOctopus.listId}/contacts`, {
+              api_key: config.emailOctopus.key,
+              email_address: email,
+              status: 'SUBSCRIBED',
+              fields
+            })
+            .then(() => {
+              console.log(`[EmailOctopus] Creating contact for: ${email}`)
+            })
+            .catch((err) => {
+              console.error(`[EmailOctopus] An error occurred while creating the contact: ${err}`)
+              console.error(err)
+              console.error(err?.response?.data?.error)
+            })
+        }
+      } else {
+        console.error(`[EmailOctopus] ${err}`)
+        console.error(err)
       }
-    )
-    .then(() => console.log(`[EmailOctopus] Updated contact for ${email}`))
-    .catch(errorHandler)
+    })
 }

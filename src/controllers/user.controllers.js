@@ -35,7 +35,7 @@ exports.createUserByEmail = async (email) => {
   )
 
   // Add user to EO contacts
-  await EOController.addContact(email)
+  EOController.updateContact({ email, state: 'onboarding' }, true)
 
   return q.rows[0]
 }
@@ -68,15 +68,15 @@ exports.updateUser = async (user_id, data) => {
 
   const newUser = (await db.query(query.join(' '), vals))?.rows[0]
 
-  // Update contact data on EO
-  await EOController.updateContact(newUser)
+  // Add user to EO contacts
+  EOController.updateContact(newUser)
 
   return newUser
 }
 
 exports.inviteUser = async (email, referrer) => {
   // silently exit if email invalid
-  if (!validateEmail(email)) {
+  if (!validateEmail(email) || email === referrer.email) {
     return
   }
 
@@ -94,7 +94,7 @@ exports.inviteUser = async (email, referrer) => {
   } else {
     // new user, send invite, add EO contact, & create user
     await mailer.sendInvite(email, referrer)
-    await EOController.addContact(email)
+    EOController.updateContact({ email, state: 'invited' }, true)
     await db.query(
       `INSERT INTO users (email, created_at, updated_at, referrer, state) VALUES ($1, NOW(), NOW(), $2, 'invited') RETURNING *`,
       [email, referrer.user_id]

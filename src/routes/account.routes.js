@@ -1,6 +1,7 @@
 const router = require('express').Router()
 
 const UserController = require('@controllers/user.controllers')
+const EOController = require('@controllers/eo.controllers')
 const addrSanitizer = require('@libs/addressSanitizer')
 
 router.get('/', (req, res) => {})
@@ -21,7 +22,7 @@ router.post('/onboard', async (req, res) => {
     last_name: req.body.last_name,
     display_name: req.body.display_name,
     age: parseInt(req.body.age),
-    parent_email: req.body.parent_email,
+    parent_email: req.body.parent_email.toLowerCase(),
     no_shipping: req.body.no_shipping === 'true',
     address:
       req.body.no_shipping === 'on'
@@ -38,6 +39,10 @@ router.post('/onboard', async (req, res) => {
   }
 
   const user = await UserController.updateUser(req.user.user_id, data)
+
+  // Update contact data on EO
+  await EOController.updateContact(user)
+
   refreshUser(req, res, user, '/account/invite')
 })
 
@@ -46,14 +51,14 @@ router.get('/invite', (req, res) => {
 })
 
 router.post('/invite', async (req, res) => {
-  UserController.inviteUser(req.body.email_1, req.user)
+  UserController.inviteUser(req.body.email_1.toLowerCase(), req.user)
 
   if (req.body.email_2) {
-    UserController.inviteUser(req.body.email_2, req.user)
+    UserController.inviteUser(req.body.email_2.toLowerCase(), req.user)
   }
 
   if (req.body.email_3) {
-    UserController.inviteUser(req.body.email_3, req.user)
+    UserController.inviteUser(req.body.email_3.toLowerCase(), req.user)
   }
 
   req.flash('success', 'Invites sent! Welcome to Tech Roulette <3')
