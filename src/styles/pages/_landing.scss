@@ -31,7 +31,6 @@
           opacity: 0;
         }
 
-
         100% {
           transform: translateY(0);
           opacity: 1;
@@ -102,13 +101,26 @@
       }
     }
 
+    .invited_banner {
+      .notification {
+        background-color: #fff;
+        border-radius: 0.5rem;
+        border: 2px solid $secondary;
+        color: $secondary;
+      }
+
+      @media screen and (min-width: 768px) {
+        max-width: 55%;
+      }
+    }
+
     .email-form {
-      max-width: 30rem;
       animation: fadeIn 0.6s ease both;
-      animation-delay: .8s;
+      animation-delay: 0.8s;
       opacity: 0;
 
       .form {
+        max-width: 30rem;
         border: 2px solid $primary;
         padding: 0.3rem;
         display: flex;
@@ -117,6 +129,22 @@
         background-color: $white-offset;
         background-image: $wave-pattern;
         background-repeat: repeat;
+
+        &.is-prefilled {
+          display: block;
+          background: none;
+          border: transparent;
+          padding: 0;
+          max-width: none;
+
+          input.input {
+            display: none;
+          }
+
+          button.button {
+            margin-top: 1rem;
+          }
+        }
 
         input.input {
           box-shadow: none;
@@ -154,7 +182,7 @@
       margin-top: 2rem;
       max-width: 40rem;
       animation: fadeIn 0.6s ease both;
-      animation-delay: .8s;
+      animation-delay: 0.8s;
       opacity: 0;
 
       p {

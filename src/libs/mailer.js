@@ -39,8 +39,19 @@ exports.sendMagic = async (email, token) => {
   })
 }
 
+const btoa = b => Buffer.from(b).toString('base64')
+
 exports.sendInvite = async (email, referrer) => {
-  let entryUrl = `https://${config.domain}/?email=${email}`
+  const data = {
+    email,
+    referrer: {
+      first_name: referrer.first_name,
+      last_name: referrer.last_name,
+      display_name: referrer.display_name
+    }
+  }
+  const encodedData = btoa(JSON.stringify(data))
+  const entryUrl = `https://${config.domain}/?referral=${encodedData}`
 
   await transporter.sendMail({
     from: config.email.from,
@@ -56,7 +67,16 @@ exports.sendInvite = async (email, referrer) => {
 }
 
 exports.sendNudge = async (email, referrer) => {
-  let entryUrl = `https://${config.domain}/?email=${email}`
+  const data = {
+    email,
+    referrer: {
+      first_name: referrer.first_name,
+      last_name: referrer.last_name,
+      display_name: referrer.display_name
+    }
+  }
+  const encodedData = btoa(JSON.stringify(data))
+  const entryUrl = `https://${config.domain}/?referral=${encodedData}`
 
   await transporter.sendMail({
     from: config.email.from,
