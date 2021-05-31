@@ -84,7 +84,7 @@ exports.inviteUser = async (email, referrer) => {
   const userCheck = await db.query('SELECT state FROM users WHERE email = $1', [email])
   if (userCheck.rows.length > 0) {
     // user exists
-    if (userCheck.rows[0].state === 'onboarding') {
+    if (userCheck.rows[0].state === 'onboarding' || userCheck.rows[0].state === 'invited') {
       // send onboarding nudge
       await mailer.sendNudge(email, referrer)
     } else {

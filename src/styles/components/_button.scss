@@ -9,6 +9,11 @@
 
   transition: all 250ms ease-out;
 
+  &.is-secondary {
+    background-color: $secondary;
+    color: #fff;
+  }
+
   &:hover {
     text-decoration: none;
   }

@@ -47,17 +47,35 @@
                         <a class="button is-primary" href="/dash">
                             Go to Dashboard »</a>
                     {{else}}
-                        <form class="form" method="post" action="/auth/login" id="authForm">
-                            <input id="email-input" class="input" type="text" placeholder="Enter your email" name="email" required="true" />
+                        <form class="form{{#if referral}} is-prefilled{{/if}}" method="post" action="/auth/login" id="authForm">
+                            <input id="email-input" class="input" type="text" placeholder="Enter your email" name="email" value="{{referral.email}}" required="true" {{#if referral}} readonly{{/if}} />
                             {{#eq env "development"}}
-                    {{else}}
-                        <div id="hcaptcha" class="h-captcha" data-sitekey="{{hCaptcha.siteKey}}" data-callback="onLogin" data-size="invisible"></div>
+                                <!-- no hCaptcha during dev -->
+                            {{else}}
+                                <div id="hcaptcha" class="h-captcha" data-sitekey="{{hCaptcha.siteKey}}" data-callback="onLogin" data-size="invisible"></div>
                             {{/eq}}
-                            <button class="button is-primary" id="submit-button">
-                                Register/Log In</button>
+                            
+                            {{#if referral}}
+                                <div class="invited_banner">
+                                    <div class="notification">
+                                        <p>
+                                            You received an <strong>exclusive invite from {{referral.referrer.first_name}} (@{{referral.referrer.display_name}})</strong>
+                                            &mdash; click the button below to log in & complete your profile now to confirm your spot & be eligible for rewards as soon as
+                                            the game starts!
+                                        </p>
+
+                                        <button class="button is-secondary" id="submit-button"><ion-icon name="checkmark-done"></ion-icon><span>Accept Invite »</span></button>
+                                        <p class="help mt-2">Using email address <strong>{{referral.email}}</strong> &mdash; you can change it after your register.</p>
+                                        <p class="help mt-0">Not your email at all? <a href="/">Click here to start over »</a></p>
+                                    </div>
+                                </div>
+                            {{else}}
+                                <button class="button is-primary" id="submit-button">Register/Log In</button>
+                            {{/if}}
                         </form>
                         {{#eq env "development"}}
-                    {{else}}
+                            <!-- no hCaptcha during dev -->
+                        {{else}}
                         <script src="https://hcaptcha.com/1/api.js" async defer></script>
                         <script>
                             function onLogin(token) {
