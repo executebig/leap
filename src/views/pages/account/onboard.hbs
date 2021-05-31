@@ -172,6 +172,7 @@
                 const street_1 = document.querySelector('.input_street_1')
                 const city = document.querySelector('.input_city')
                 const state = document.querySelector('.input_state')
+                const zip = document.querySelector('.input_zip')
 
                 const selection = document.querySelector('input[name="no_shipping"]:checked').value
 
@@ -180,11 +181,13 @@
                     street_1.required = false
                     city.required = false
                     state.required = false
+                    zip.required = false
                 } else {
                     addressWrap.style.display = 'block'
                     street_1.required = true
                     city.required = true
                     state.required = true
+                    zip.required = true
                 }
             }
         </script>
