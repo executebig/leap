@@ -1,6 +1,7 @@
 const router = require('express').Router()
 
 const UserController = require('@controllers/user.controllers')
+const EOController = require('@controllers/eo.controllers')
 const addrSanitizer = require('@libs/addressSanitizer')
 
 router.get('/', (req, res) => {})
@@ -38,6 +39,10 @@ router.post('/onboard', async (req, res) => {
   }
 
   const user = await UserController.updateUser(req.user.user_id, data)
+
+  // Update contact data on EO
+  await EOController.updateContact(user)
+
   refreshUser(req, res, user, '/account/invite')
 })
 

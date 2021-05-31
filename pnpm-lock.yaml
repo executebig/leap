@@ -22,6 +22,7 @@ specifiers:
   html-minifier: ^4.0.0
   ioredis: ^4.27.2
   jsonwebtoken: ^8.5.1
+  limiter: ^2.1.0
   mocha: ^8.4.0
   mocha-suppress-logs: ^0.2.0
   module-alias: ^2.2.2
@@ -54,6 +55,7 @@ dependencies:
   html-minifier: 4.0.0
   ioredis: 4.27.2
   jsonwebtoken: 8.5.1
+  limiter: 2.1.0
   module-alias: 2.2.2
   morgan: 1.10.0
   node-sass-middleware: 0.11.0
@@ -1366,6 +1368,10 @@ packages:
       verror: 1.10.0
     dev: false
 
+  /just-performance/4.3.0:
+    resolution: {integrity: sha512-L7RjvtJsL0QO8xFs5wEoDDzzJwoiowRw6Rn/GnvldlchS2JQr9wFYPiwZcDfrbbujEKqKN0tvENdbjXdYhDp5Q==}
+    dev: false
+
   /jwa/1.4.1:
     resolution: {integrity: sha512-qiLX/xhEEFKUAJ6FiBMbes3w9ATzyk5W7Hvzpa/SLYdxNtng+gcurvrI7TbACjIXlsJyr05/S1oUhZrc63evQA==}
     dependencies:
@@ -1379,6 +1385,12 @@ packages:
     dependencies:
       jwa: 1.4.1
       safe-buffer: 5.2.1
+    dev: false
+
+  /limiter/2.1.0:
+    resolution: {integrity: sha512-361TYz6iay6n+9KvUUImqdLuFigK+K79qrUtBsXhJTLdH4rIt/r1y8r1iozwh8KbZNpujbFTSh74mJ7bwbAMOw==}
+    dependencies:
+      just-performance: 4.3.0
     dev: false
 
   /load-json-file/1.1.0:
