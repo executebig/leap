@@ -1,0 +1,20 @@
+.page__verified {
+  h1 {
+    color: $primary;
+  }
+}
+
+.page__pending {
+  h1 {
+    color: $primary;
+  }
+
+  .loading {
+    margin-bottom: 2rem;
+
+    svg path,
+    svg rect {
+      fill: $primary;
+    }
+  }
+}

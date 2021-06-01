@@ -11,11 +11,16 @@ const db = require('@db')
 router.use((req, res, next) => {
   if (!res.locals.user.admin) {
     req.flash('error', 'You do not have permission to access this page.')
-    res.redirect('/')
-  }
 
-  res.locals.layout = 'admin'
-  next()
+    if (req.user) {
+      return res.redirect('/dash')
+    } else {
+      return res.redirect('/')
+    }
+  } else {
+    res.locals.layout = 'admin'
+    next()
+  }
 })
 
 router.get('/', (req, res) => {

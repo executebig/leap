@@ -1,4 +1,4 @@
-{{#extend title}}Tech Roulette: Explore technology & earn rewards this summer!{{/extend}}
+{{#extend "title"}}Tech Roulette: Explore technology & earn rewards this summer!{{/extend}}
     <div class="page__landing">
         <video class="waves" poster="poster.jpg" autoplay playsinline muted loop>
             <source src="/static/videos/waves.webm" type="video/webm">
@@ -76,6 +76,7 @@
                         {{#eq env "development"}}
                             <!-- no hCaptcha during dev -->
                         {{else}}
+                        {{#extend "scripts"}}
                         <script src="https://hcaptcha.com/1/api.js" async defer></script>
                         <script>
                             function onLogin(token) {
@@ -96,6 +97,7 @@
 
                             document.getElementById('submit-button').addEventListener('click', validate)
                         </script>
+                        {{/extend}}
                         {{/eq}}
                     {{/if}}
                 </div>
