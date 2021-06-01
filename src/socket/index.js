@@ -6,10 +6,7 @@
 let io = null
 
 exports.init = (http) => {
-  io = require('socket.io')(http, {
-    transports: ['websocket'],
-    upgrade: false
-  })
+  io = require('socket.io')(http)
 
   io.on('connection', (socket) => {
     console.log(`[Socket] ${socket.id} connected`)

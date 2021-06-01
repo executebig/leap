@@ -26,7 +26,10 @@
 </div>
 {{#extend "scripts"}}
     <script>
-        const socket = io()
+        const socket = io({
+            transports: ['websocket'],
+            upgrade: false
+        })
         const hash = "{{{../hash}}}"
         const windowCloseHandler = (e) => {
             e.preventDefault()
