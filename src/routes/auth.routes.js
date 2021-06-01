@@ -74,7 +74,7 @@ router.get('/magic', stopLoggedInUsers, (req, res) => {
         redis.del(`AUTH_${hash}`)
         io.to(`AUTH_${hash}`).emit('authenticate', token)
         // res.redirect('/auth/login?token=' + token)
-        return res.redirect('/auth/verified')
+        return res.redirect('/auth/verified?token=' + token)
       } else {
         req.flash('error', 'Invalid login link. Please try logging in again.')
         return res.redirect('/')
@@ -137,7 +137,10 @@ router.get('/pending', stopLoggedInUsers, (req, res) => {
 })
 
 router.get('/verified', stopLoggedInUsers, (req, res) => {
-  res.render('pages/auth/verified')
+  const token = req.query.token
+  res.render('pages/auth/verified', {
+    token
+  })
 })
 
 module.exports = router
