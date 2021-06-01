@@ -7,7 +7,8 @@ let io = null
 
 exports.init = (http) => {
   io = require('socket.io')(http, {
-    transports: ["websocket"]
+    transports: ['websocket'],
+    upgrade: false
   })
 
   io.on('connection', (socket) => {
