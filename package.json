@@ -49,6 +49,7 @@
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "pg": "^8.6.0",
+    "socket.io": "^4.1.2",
     "us-state-codes": "^1.1.2"
   },
   "_moduleAliases": {
@@ -58,7 +59,8 @@
     "@db": "./src/db",
     "@libs": "./src/libs",
     "@controllers": "./src/controllers",
-    "@middlewares": "./src/middlewares"
+    "@middlewares": "./src/middlewares",
+    "@socket": "./src/socket"
   },
   "devDependencies": {
     "chai": "^4.3.4",

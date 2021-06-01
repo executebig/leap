@@ -8,6 +8,14 @@ const router = require('express').Router()
 const passport = require('@libs/passport')
 const authMiddlewares = require('@middlewares/auth.middlewares')
 
+/** Set up additional context */
+router.use((req, res, next) => {
+  res.locals.flash = req.flash()
+  res.locals.env = config.env
+
+  next()
+})
+
 /** Directly rendered pages */
 router.use('/', require('@routes/static.routes'))
 
@@ -23,10 +31,6 @@ if (!config.env === 'production') {
 
 /** Force authentication for all routers below */
 router.use(authMiddlewares.checkAuth)
-
-router.get('/chill', (req, res) => {
-  return res.render('pages/chill')
-})
 
 router.use(
   '/dash',

@@ -32,6 +32,9 @@ const app = express()
 const http = require('http').createServer(app)
 const RedisSessionStore = connectRedis(session)
 
+// setup socket.io
+const io = require('@socket').init(http)
+
 // configuration details
 const minifierOpts = {
   override: true,
@@ -113,7 +116,7 @@ app.use(
     { skip: (req, res) => config.env === 'testing' }
   )
 )
-app.use(cookieParser())
+app.use(cookieParser(config.cookie.secret))
 app.use(session(sessionConfig))
 app.use(flash())
 app.set('views', path.join(__dirname, './views'))
@@ -123,15 +126,6 @@ app.use(sass(sassConfig))
 app.use(express.urlencoded({ extended: false }))
 app.use(passport.initialize())
 app.use(passport.session())
-
-/** Set up additional context */
-app.use((req, res, next) => {
-  res.locals.error = req.flash('error')
-  res.locals.success = req.flash('success')
-  res.locals.env = config.env
-
-  next()
-})
 
 /** Create basic routes */
 app.use('/static', express.static(path.join(__dirname, './static')))

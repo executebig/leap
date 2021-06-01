@@ -19,4 +19,9 @@ router.get('/', authMiddlewares.optionalAuth, (req, res) => {
   })
 })
 
+router.get('/chill', (req, res) => {
+  req.flash('error', 'Test')
+  res.render('pages/chill')
+})
+
 module.exports = router
