@@ -23,6 +23,8 @@ const stopLoggedInUsers = (req, res, next) => {
   if (req.user) {
     req.flash('error', 'You are already logged in!')
     res.redirect('/dash')
+  } else {
+    next()
   }
 }
 
