@@ -141,7 +141,7 @@
         color: $primary;
         font-style: normal;
         position: relative;
-        
+
         .scribble {
           position: absolute;
           height: 90px;
@@ -176,6 +176,50 @@
         color: $primary;
         font-weight: bold;
         font-style: normal;
+      }
+    }
+
+    .samples {
+      margin-top: 2rem;
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: scroll;
+
+      color: white;
+
+      .card {
+        flex: 0 0 auto;
+        width: 350px;
+        margin-right: 2rem;
+        transition: all 150ms ease;
+
+        &:hover {
+          border-color: $secondary;
+  
+          .card-content .title {
+            color: $secondary;
+          }
+        }
+
+        .card-content {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          h2 {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: $primary;
+            margin-bottom: 0.5rem;
+            transition: all 150ms ease;
+          }
+  
+          p.meta {
+            font-weight: bold;
+            font-size: 1rem;
+            margin-bottom: 0;
+          }
+        }
       }
     }
   }
