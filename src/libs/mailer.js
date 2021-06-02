@@ -53,6 +53,11 @@ exports.sendInvite = async (email, referrer) => {
   const encodedData = btoa(JSON.stringify(data))
   const entryUrl = `https://${config.domain}/?referral=${encodedData}`
 
+  if (config.flags.includes('print_email')) {
+    console.log(`Referrer invite (${referrer.display_name} -> ${email}): ${entryUrl.replace('https://', 'http://')}`)
+    return
+  }
+
   await transporter.sendMail({
     from: config.email.from,
     to: email,
@@ -77,6 +82,11 @@ exports.sendNudge = async (email, referrer) => {
   }
   const encodedData = btoa(JSON.stringify(data))
   const entryUrl = `https://${config.domain}/?referral=${encodedData}`
+
+  if (config.flags.includes('print_email')) {
+    console.log(`Referrer nudge (${referrer.display_name} -> ${email}): ${entryUrl.replace('https://', 'http://')}`)
+    return
+  }
 
   await transporter.sendMail({
     from: config.email.from,

@@ -1,14 +1,14 @@
-# Leap 
+# Leap
 
 ## Setup
 
 ### Setup Environment Variables
 
-See [.env.example](.env.example). Copy the file to `.env`. 
+See [.env.example](.env.example). Copy the file to `.env`.
 
 * `PORT`: (Optional) Server port. Default 3000.
-* `NODE_ENV`: (Optional) Server environment: "development", "production", or "testing". Default development. 
-* `DATABASE_URL`: PostgreSQL database connection string. 
+* `NODE_ENV`: (Optional) Server environment: "development", "production", or "testing". Default development.
+* `DATABASE_URL`: PostgreSQL database connection string.
 * `REDIS_URL`: Redis server connection string.
 * `EMAIL_URL`: SMTP/SMTPS connection string, see [Nodemailer](https://nodemailer.com/smtp/).
 * `AUTH_SECRET`: JWT secret. Generate with `node -e "console.log(require('crypto').randomBytes(256).toString('base64'));"`.
@@ -19,10 +19,11 @@ See [.env.example](.env.example). Copy the file to `.env`.
 * `DOMAIN`: Domain used for signing JWT and setting the root for client-facing emails.
 * `FLAGS`: Debugging/Developing flags for special features, separated by commas. Available flags:
     * `print_email`: Will print important email contents to log instead of actually sending the email.
+    * `disable_eo`: Will disable all outgoing EmailOctopus actions
 
 ### Setup PostgreSQL Schema
 
-See [sql/db.sql](sql/db.sql). Execute all queries. 
+See [sql/db.sql](sql/db.sql). Execute all queries.
 
 ### Develop & Run
 
