@@ -25,7 +25,8 @@ create table if not exists users (
     current_project int default -1 not null,
     prev_projects int[] default array[]::int[] not null,
     prev_modules int[] default array[]::int[] not null,
-    project_pool int[] default array[]::int[] not null
+    project_pool int[] default array[]::int[] not null,
+    badges int[] default array[]::int[] not null
 );
 
 create table if not exists projects (
@@ -55,6 +56,14 @@ create table if not exists modules (
         on delete set null
 );
 
+create table if not exists badges (
+   badge_id serial not null constraint badges_pk primary key,
+
+   title text not null,
+   description text not null,
+   enabled bool not null default false
+);
+
 create table config (
     key text not null constraint config_pk primary key,
     value text
@@ -63,4 +72,5 @@ create table config (
 create unique index if not exists users_user_id_uindex_2 on users (user_id);
 create unique index if not exists projects_project_id_uindex on projects (project_id);
 create unique index if not exists modules_module_id_uindex on modules (module_id);
+create unique index if not exists badges_badge_id_uindex on badges (badge_id);
 create unique index if not exists config_key_uindex on config (key);
