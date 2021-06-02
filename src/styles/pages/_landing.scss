@@ -1,14 +1,12 @@
 .page__landing {
   video.waves {
-    position: fixed;
-    top: 0;
+    position: absolute;
+    top: -10%;
     left: 0;
     width: 100vw;
     height: 100vh;
     object-fit: cover;
     z-index: -1;
-    animation: fadeIn 2s ease both;
-    animation-delay: 1s;
   }
 
   .section.landing {
@@ -16,25 +14,10 @@
 
     .intro {
       margin-bottom: 2rem;
-      opacity: 0;
-      animation: fadeInUp 0.6s ease both;
-      animation-delay: 0.5s;
 
       @media screen and (min-width: 768px) {
-        padding-top: 100px;
+        padding-top: 50px;
         max-width: 80%;
-      }
-
-      @keyframes fadeInUp {
-        0% {
-          transform: translateY(5rem);
-          opacity: 0;
-        }
-
-        100% {
-          transform: translateY(0);
-          opacity: 1;
-        }
       }
 
       h1.title {
@@ -114,76 +97,9 @@
       }
     }
 
-    .email-form {
-      animation: fadeIn 0.6s ease both;
-      animation-delay: 0.8s;
-      opacity: 0;
-
-      .form {
-        max-width: 30rem;
-        border: 2px solid $primary;
-        padding: 0.3rem;
-        display: flex;
-        border-radius: 0.5rem;
-        transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
-        background-color: $white-offset;
-        background-image: $wave-pattern;
-        background-repeat: repeat;
-
-        &.is-prefilled {
-          display: block;
-          background: none;
-          border: transparent;
-          padding: 0;
-          max-width: none;
-
-          input.input {
-            display: none;
-          }
-
-          button.button {
-            margin-top: 1rem;
-          }
-        }
-
-        input.input {
-          box-shadow: none;
-          flex-grow: 1;
-          overflow: visible;
-          border: none;
-          outline: none;
-          background: none;
-          padding: calc(0.3em - 1px) calc(0.75em - 1px);
-          font-size: 1rem;
-        }
-
-        .button {
-          border-radius: 0.5rem;
-          white-space: nowrap;
-          padding-left: 1rem;
-          padding-right: 1rem;
-          font-weight: bold;
-
-          &:hover {
-            transform: none;
-          }
-        }
-      }
-
-      p.hint {
-        color: $hint;
-        font-size: 0.8rem !important;
-        margin-top: 0.3rem;
-        padding-left: calc(0.75em - 1px);
-      }
-    }
-
     .fineprint {
       margin-top: 2rem;
       max-width: 40rem;
-      animation: fadeIn 0.6s ease both;
-      animation-delay: 0.8s;
-      opacity: 0;
 
       p {
         color: $hint;
@@ -192,13 +108,136 @@
     }
   }
 
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
+  .section.projects {
+    h2.title {
+      em {
+        color: $primary;
+        font-style: normal;
+      }
     }
 
-    100% {
-      opacity: 1;
+    p {
+      font-size: 1.2rem;
+      line-height: 2;
+      margin-bottom: 0.6rem;
+
+      &.tagline {
+        @media screen and (min-width: 768px) {
+          max-width: 80%;
+        }
+      }
+
+      em {
+        color: $primary;
+        font-weight: bold;
+        font-style: normal;
+      }
+    }
+  }
+
+  .section.schedule {
+    h2.title {
+      margin-bottom: 2rem;
+    }
+
+    em {
+      color: $primary;
+      font-weight: bold;
+      font-style: normal;
+    }
+
+    .card.week {
+      transition: all 150ms ease;
+      margin-bottom: 2rem;
+
+      &:hover {
+        border-color: $secondary;
+
+        .card-content .column h3.title {
+          color: $secondary;
+        }
+      }
+
+      .card-content {
+        .column {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 5rem;
+
+          h3.title {
+            width: 100%;
+            font-size: 1.5rem;
+            color: $primary;
+            transition: all 150ms ease;
+          }
+
+          p {
+            width: 100%;
+            line-height: 1.75;
+          }
+        }
+      }
+    }
+  }
+
+  .email-form {
+    .form {
+      max-width: 30rem;
+      border: 2px solid $primary;
+      padding: 0.3rem;
+      display: flex;
+      border-radius: 0.5rem;
+      transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+      background-color: $white-offset;
+      background-image: $wave-pattern;
+      background-repeat: repeat;
+
+      &.is-prefilled {
+        display: block;
+        background: none;
+        border: transparent;
+        padding: 0;
+        max-width: none;
+
+        input.input {
+          display: none;
+        }
+
+        button.button {
+          margin-top: 1rem;
+        }
+      }
+
+      input.input {
+        box-shadow: none;
+        flex-grow: 1;
+        overflow: visible;
+        border: none;
+        outline: none;
+        background: none;
+        padding: calc(0.3em - 1px) calc(0.75em - 1px);
+        font-size: 1rem;
+      }
+
+      .button {
+        border-radius: 0.5rem;
+        white-space: nowrap;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        font-weight: bold;
+
+        &:hover {
+          transform: none;
+        }
+      }
+    }
+
+    p.hint {
+      color: $hint;
+      font-size: 0.8rem !important;
+      margin-top: 0.3rem;
+      padding-left: calc(0.75em - 1px);
     }
   }
 }
