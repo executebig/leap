@@ -9,6 +9,12 @@
     z-index: -1;
   }
 
+  img.scribble {
+    max-width: none;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
   .section.landing {
     position: relative;
 
@@ -23,6 +29,21 @@
       h1.title {
         color: $primary;
         font-size: 3.5rem;
+        padding-bottom: 1.5rem;
+
+        .exclaim {
+          position: relative;
+          display: inline-block;
+          margin-left: -0.3ch;
+
+          .scribble {
+            position: absolute;
+            height: 80px;
+            bottom: -60px;
+            left: -20px;
+            max-width: none;
+          }
+        }
       }
 
       p {
@@ -113,6 +134,21 @@
       em {
         color: $primary;
         font-style: normal;
+        position: relative;
+
+        .scribble {
+          position: absolute;
+          height: 90px;
+          right: -180px;
+          top: -80px;
+          max-width: none;
+          transform: rotate(5deg);
+          z-index: -1;
+
+          @media screen and (max-width: 768px) {
+            display: none;
+          }
+        }
       }
     }
 
