@@ -19,7 +19,7 @@ router.get('/', authMiddlewares.optionalAuth, (req, res) => {
   })
 })
 
-router.get('/chill', (req, res) => {
+router.get('/chill', authMiddlewares.checkAuth, (req, res) => {
   res.render('pages/chill')
 })
 

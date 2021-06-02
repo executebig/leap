@@ -8,6 +8,10 @@ exports.eq = (a, b, options) => {
   return a === b ? options.fn(this) : options.inverse(this)
 }
 
+exports.notEq = (a, b, options) => {
+  return a === b ? options.inverse(this) : options.fn(this)
+}
+
 exports.capitalize = (a) => {
   return a.split(' ').map(e => e.charAt(0).toUpperCase() + e.substr(1)).join(' ')
 }
