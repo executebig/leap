@@ -29,7 +29,7 @@
       h1.title {
         color: $primary;
         font-size: 3.5rem;
-        padding-bottom: 1.5rem;
+        padding-bottom: 1rem;
 
         .exclaim {
           position: relative;
@@ -39,9 +39,13 @@
           .scribble {
             position: absolute;
             height: 80px;
-            bottom: -60px;
-            left: -20px;
-            max-width: none;
+            top: 30px;
+            left: -24px;
+
+            @media screen and (max-width: 768px) {
+              height: 65px;
+              top: 30px;
+            }
           }
         }
       }
@@ -131,17 +135,18 @@
 
   .section.projects {
     h2.title {
+      line-height: 1.5;
+
       em {
         color: $primary;
         font-style: normal;
         position: relative;
-
+        
         .scribble {
           position: absolute;
           height: 90px;
           right: -180px;
           top: -80px;
-          max-width: none;
           transform: rotate(5deg);
           z-index: -1;
 
@@ -156,6 +161,10 @@
       font-size: 1.2rem;
       line-height: 2;
       margin-bottom: 0.6rem;
+
+      @media screen and (max-width: 1024px) {
+        font-size: 1rem;
+      }
 
       &.tagline {
         @media screen and (min-width: 768px) {
@@ -174,6 +183,7 @@
   .section.schedule {
     h2.title {
       margin-bottom: 2rem;
+      line-height: 1.5;
     }
 
     em {
