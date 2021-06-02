@@ -16,6 +16,11 @@ exports.updateContact = async (
 ) => {
   await limiter.removeTokens(1)
 
+  // Consume token, but don't do anything if disable_eo flag is enabled
+  if (config.flags.includes('disable_eo')) {
+    return
+  }
+
   const fields = {
     FirstName: first_name,
     LastName: last_name,
