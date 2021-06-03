@@ -1,5 +1,5 @@
 .page__landing {
-  video.waves {
+  div.waves {
     position: absolute;
     top: -10%;
     left: 0;
@@ -7,6 +7,12 @@
     height: 100vh;
     object-fit: cover;
     z-index: -1;
+    animation: fadeIn 2s ease both;
+    animation-delay: 1s;
+
+    & > canvas {
+      opacity: 0.5;
+    }
   }
 
   img.scribble {
