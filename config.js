@@ -19,9 +19,9 @@ module.exports = {
   },
   database: process.env.DATABASE_URL,
   redis: process.env.REDIS_URL,
-  email: {
-    url: process.env.EMAIL_URL,
-    from: process.env.EMAIL_FROM
+  postmark: {
+    apiKey: process.env.POSTMARK_API,
+    from: process.env.POSTMARK_FROM
   },
   emailOctopus: {
     key: process.env.EO_API_KEY,
