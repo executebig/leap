@@ -45,9 +45,7 @@
                     <p class="cta">Register for FREE &mdash; ZERO experience needed!</p>
                 {{/unless}}
             </div>
-            
             {{>landing/signup button="Register Now!"}}
-
             <div class="fineprint">
                 <p>
                     Students under 13 must register with parent consent.
@@ -199,6 +197,55 @@
             <p class="help">†: Resctrictions apply. U.S. residents only.</p>
         </div>
     </section>
-    {{!-- <section class="section cta">
-    </section> --}}
+    <section class="section cta">
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-wrapper has-text-centered">
+                        <h3 class="title mb-2">Register Now & Reserve Your Spot!</h3>
+                        <p>Tech Roulette starts <em>Saturday, June 26</em>. Register now to reserve your spot in the game and get notified when the game starts!</p>
+                        <div class="form-wrapper mt-5">
+                            <div class="email-form">
+                                <form class="form" method="post" action="/auth/login" id="authForm-cta">
+                                    <input id="cta-email-input" class="input" type="text" placeholder="Enter your email" name="email" required="true" />
+                                    {{#notEq env "development"}}
+                                        <!-- no hCaptcha during dev -->
+                                        <div id="hcaptcha" class="h-captcha" data-sitekey="{{../hCaptcha.siteKey}}" data-callback="onCTALogin" data-size="invisible"></div>
+                                    {{/notEq}}
+                                    <button class="button is-primary" id="cta-submit-button">Register Now!</button>
+                                </form>
+                                <div class="fineprint">
+                                    <p>
+                                        Students under 13 must register with parent consent.
+                                        We only collect information we need, and we will never share your data with anyone else &ndash; not even sponsors.
+                                        <a href="https://executebig.org/privacy/?utm_source=TR_Home_Fineprint" target="_blank">Privacy →</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        {{#extend "scripts"}}
+                            <script>
+                                function onCTALogin(token) {
+                                    document.getElementById('authForm-cta').submit()
+                                }
+
+                                function validateCTA(event) {
+                                    const input = document.querySelector('#cta-email-input')
+                                    event.preventDefault();
+
+                                    if (!input.checkValidity()) {
+                                        input.reportValidity()
+                                    } else {
+                                        hcaptcha.execute()
+                                    }
+                                }
+
+                                document.getElementById('cta-submit-button').addEventListener('click', validateCTA)
+                            </script>
+                        {{/extend}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>

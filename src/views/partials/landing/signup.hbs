@@ -32,8 +32,10 @@
 </div>
 {{#notEq env "development"}}
     <!-- no hCaptcha during dev -->
-    {{#extend "scripts"}}
+    {{#extend "header-scripts"}}
         <script src="https://hcaptcha.com/1/api.js" async defer></script>
+    {{/extend}}
+    {{#extend "scripts"}}
         <script>
             function onLogin(token) {
                 console.log(token)
