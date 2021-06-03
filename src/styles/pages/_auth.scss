@@ -1,20 +1,19 @@
-.page__verified {
+.page__pending {
   h1 {
     color: $primary;
   }
 }
 
-.page__pending {
+.page__login {
   h1 {
     color: $primary;
   }
 
-  .loading {
-    margin-bottom: 2rem;
+  .form-wrapper {
+    width: 100%;
 
-    svg path,
-    svg rect {
-      fill: $primary;
+    form.form {
+      margin: 0 auto;
     }
   }
 }

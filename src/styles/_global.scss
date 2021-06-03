@@ -6,6 +6,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  border-bottom: 8px solid $primary;
 }
 
 .layout {
