@@ -45,7 +45,9 @@
                     <p class="cta">Register for FREE &mdash; ZERO experience needed!</p>
                 {{/unless}}
             </div>
-            {{>landing/signup}}
+            
+            {{>landing/signup button="Register Now!"}}
+
             <div class="fineprint">
                 <p>
                     Students under 13 must register with parent consent.
@@ -192,28 +194,3 @@
     {{!-- <section class="section cta">
     </section> --}}
 </div>
-{{#notEq env "development"}}
-    <!-- no hCaptcha during dev -->
-    {{#extend "scripts"}}
-        <script src="https://hcaptcha.com/1/api.js" async defer></script>
-        <script>
-            function onLogin(token) {
-                console.log(token)
-                document.getElementById('authForm').submit()
-            }
-
-            function validate(event) {
-                const input = document.querySelector('#email-input')
-                event.preventDefault();
-
-                if (!input.checkValidity()) {
-                    input.reportValidity()
-                } else {
-                    hcaptcha.execute()
-                }
-            }
-
-            document.getElementById('submit-button').addEventListener('click', validate)
-        </script>
-    {{/extend}}
-{{/notEq}}

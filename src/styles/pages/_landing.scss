@@ -270,64 +270,64 @@
       }
     }
   }
+}
 
-  .email-form {
-    .form {
-      max-width: 30rem;
-      border: 2px solid $primary;
-      padding: 0.3rem;
-      display: flex;
-      border-radius: 0.5rem;
-      transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
-      background-color: $white-offset;
-      background-image: $wave-pattern;
-      background-repeat: repeat;
+.email-form {
+  .form {
+    max-width: 30rem;
+    border: 2px solid $primary;
+    padding: 0.3rem;
+    display: flex;
+    border-radius: 0.5rem;
+    transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: $white-offset;
+    background-image: $wave-pattern;
+    background-repeat: repeat;
 
-      &.is-prefilled {
-        display: block;
-        background: none;
-        border: transparent;
-        padding: 0;
-        max-width: none;
-
-        input.input {
-          display: none;
-        }
-
-        button.button {
-          margin-top: 1rem;
-        }
-      }
+    &.is-prefilled {
+      display: block;
+      background: none;
+      border: transparent;
+      padding: 0;
+      max-width: none;
 
       input.input {
-        box-shadow: none;
-        flex-grow: 1;
-        overflow: visible;
-        border: none;
-        outline: none;
-        background: none;
-        padding: calc(0.3em - 1px) calc(0.75em - 1px);
-        font-size: 1rem;
+        display: none;
       }
 
-      .button {
-        border-radius: 0.5rem;
-        white-space: nowrap;
-        padding-left: 1rem;
-        padding-right: 1rem;
-        font-weight: bold;
-
-        &:hover {
-          transform: none;
-        }
+      button.button {
+        margin-top: 1rem;
       }
     }
 
-    p.hint {
-      color: $hint;
-      font-size: 0.8rem !important;
-      margin-top: 0.3rem;
-      padding-left: calc(0.75em - 1px);
+    input.input {
+      box-shadow: none;
+      flex-grow: 1;
+      overflow: visible;
+      border: none;
+      outline: none;
+      background: none;
+      padding: calc(0.3em - 1px) calc(0.75em - 1px);
+      font-size: 1rem;
     }
+
+    .button {
+      border-radius: 0.5rem;
+      white-space: nowrap;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      font-weight: bold;
+
+      &:hover {
+        transform: none;
+      }
+    }
+  }
+
+  p.hint {
+    color: $hint;
+    font-size: 0.8rem !important;
+    margin-top: 0.3rem;
+    padding-left: calc(0.75em - 1px);
   }
 }
