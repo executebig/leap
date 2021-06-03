@@ -26,9 +26,9 @@ function init() {
   scene = new THREE.Scene()
 
   camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 750, 4000)
-  camera.position.set(-2000, 100, -2000)
+  camera.position.set(-2000, -200, -2000)
   camera.lookAt(scene.position)
-  camera.position.y += 250
+  camera.position.y += 500
 
   const numParticles = AMOUNTX * AMOUNTY
 
