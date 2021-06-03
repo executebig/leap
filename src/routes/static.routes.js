@@ -19,7 +19,17 @@ router.get('/', authMiddlewares.optionalAuth, (req, res) => {
   })
 })
 
-router.get('/chill', (req, res) => {
+router.get('/login', authMiddlewares.optionalAuth, (req, res) => {
+  res.render('pages/login', {
+    hCaptcha: config.hCaptcha
+  })
+})
+
+router.get('/logout', (req, res) => {
+  res.redirect('/auth/logout')
+})
+
+router.get('/chill', authMiddlewares.checkAuth, (req, res) => {
   res.render('pages/chill')
 })
 

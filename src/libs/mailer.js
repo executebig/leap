@@ -1,22 +1,7 @@
 const config = require('@config')
 
-const path = require('path')
-const nodemailer = require('nodemailer')
-const nodemailerHbs = require('nodemailer-express-handlebars')
-const expHbs = require('express-handlebars')
-
-const transporter = nodemailer.createTransport(config.email)
-transporter.use(
-  'compile',
-  nodemailerHbs({
-    viewEngine: expHbs.create({
-      extname: '.hbs',
-      defaultLayout: 'main'
-    }),
-    viewPath: path.join(__dirname, '../views/emails'),
-    extName: '.hbs'
-  })
-)
+const postmark = require('postmark')
+const client = new postmark.ServerClient(config.postmark.apiKey)
 
 exports.sendMagic = async (email, hash) => {
   let magicLink = `https://${config.domain}/auth/magic?hash=${hash}`
@@ -27,19 +12,17 @@ exports.sendMagic = async (email, hash) => {
     return
   }
 
-  await transporter.sendMail({
-    from: config.email.from,
-    to: email,
-    subject: 'Your Tech Roulette log in link',
-    template: 'magic',
-    context: {
-      magic: magicLink,
-      layout: false
+  client.sendEmailWithTemplate({
+    From: config.postmark.from,
+    To: email,
+    TemplateAlias: 'magic-link',
+    TemplateModel: {
+      magic: magicLink
     }
   })
 }
 
-const btoa = b => Buffer.from(b).toString('base64')
+const btoa = (b) => Buffer.from(b).toString('base64')
 
 exports.sendInvite = async (email, referrer) => {
   const data = {
@@ -54,19 +37,22 @@ exports.sendInvite = async (email, referrer) => {
   const entryUrl = `https://${config.domain}/?referral=${encodedData}`
 
   if (config.flags.includes('print_email')) {
-    console.log(`Referrer invite (${referrer.display_name} -> ${email}): ${entryUrl.replace('https://', 'http://')}`)
+    console.log(
+      `Referrer invite (${referrer.display_name} -> ${email}): ${entryUrl.replace(
+        'https://',
+        'http://'
+      )}`
+    )
     return
   }
 
-  await transporter.sendMail({
-    from: config.email.from,
-    to: email,
-    subject: `Join ${referrer.first_name} at Tech Roulette!`,
-    template: 'invite',
-    context: {
+  client.sendEmailWithTemplate({
+    From: config.postmark.from,
+    To: email,
+    TemplateAlias: 'invite-user',
+    TemplateModel: {
       referrer,
-      entryUrl,
-      layout: false
+      entryUrl
     }
   })
 }
@@ -84,19 +70,22 @@ exports.sendNudge = async (email, referrer) => {
   const entryUrl = `https://${config.domain}/?referral=${encodedData}`
 
   if (config.flags.includes('print_email')) {
-    console.log(`Referrer nudge (${referrer.display_name} -> ${email}): ${entryUrl.replace('https://', 'http://')}`)
+    console.log(
+      `Referrer nudge (${referrer.display_name} -> ${email}): ${entryUrl.replace(
+        'https://',
+        'http://'
+      )}`
+    )
     return
   }
-
-  await transporter.sendMail({
-    from: config.email.from,
-    to: email,
-    subject: `${referrer.first_name} is reminding you to complete your Tech Roulette profile!`,
-    template: 'nudge',
-    context: {
+  
+  client.sendEmailWithTemplate({
+    From: config.postmark.from,
+    To: email,
+    TemplateAlias: 'nudge-user',
+    TemplateModel: {
       referrer,
-      entryUrl,
-      layout: false
+      entryUrl
     }
   })
 }

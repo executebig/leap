@@ -7,20 +7,22 @@
                     <span>Tech Roulette</span>
                 </div>
             </a>
-            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </a>
         </div>
-        <div class="navbar-menu">
+        <div class="navbar-menu is-active">
             <div class="navbar-start">
                 <!-- navbar items -->
             </div>
             <div class="navbar-end">
                 {{#if user}}
-                    <a class="navbar-item" href="/">
-                        {{user.email}}
+                    <a class="navbar-item">
+                        @{{user.display_name}}
+                    </a>
+                    <a class="navbar-item" href="/auth/logout">
+                        Log Out
+                    </a>
+                {{else}}
+                    <a class="button" href="/login">
+                        Log In
                     </a>
                 {{/if}}
             </div>

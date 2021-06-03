@@ -10,7 +10,7 @@ exports.init = (http) => {
 
   io.on('connection', (socket) => {
     console.log(`[Socket] ${socket.id} connected`)
-    require('@socket/auth')(socket)
+    // require('@socket/auth')(socket)
   })
 
   return io

@@ -10,7 +10,8 @@ See [.env.example](.env.example). Copy the file to `.env`.
 * `NODE_ENV`: (Optional) Server environment: "development", "production", or "testing". Default development.
 * `DATABASE_URL`: PostgreSQL database connection string.
 * `REDIS_URL`: Redis server connection string.
-* `EMAIL_URL`: SMTP/SMTPS connection string, see [Nodemailer](https://nodemailer.com/smtp/).
+* `POSTMARK_API`: Postmark email sending API.
+* `POSTMARK_FROM`: Transactional email from address.
 * `AUTH_SECRET`: JWT secret. Generate with `node -e "console.log(require('crypto').randomBytes(256).toString('base64'));"`.
 * `COOKIE_SECRET`: 256-bit key for cookies.
 * `SESSION_SECRET`: 256-bit key for sessions.
