@@ -13,8 +13,8 @@ const generateLoginJWT = require('@libs/jwt').generateLoginJWT
 const mailer = require('@libs/mailer')
 const passport = require('@libs/passport')
 const hcaptcha = require('@libs/hCaptcha')
+const reflash = require('@libs/reflash')
 const redis = require('@db/redis').client
-const io = require('@socket').io()
 
 const TOKEN_EXPIRATION = 15 * 60 // 15 mins
 const HASH_LENGTH = 12
@@ -41,6 +41,7 @@ router.get(
         secure: config.env === 'production',
         maxAge: 12 * 3600 * 1000
       })
+      reflash(req, res)
       next()
     } else {
       req.flash('error', 'Invalid token. Please try logging in again.')
@@ -72,9 +73,8 @@ router.get('/magic', stopLoggedInUsers, (req, res) => {
     .then((token) => {
       if (token) {
         redis.del(`AUTH_${hash}`)
-        io.to(`AUTH_${hash}`).emit('authenticate', token)
-        // res.redirect('/auth/login?token=' + token)
-        return res.redirect('/auth/verified?token=' + token)
+        req.flash('success', 'Welcome! You are now logged in.')
+        return res.redirect('/auth/login?token=' + token)
       } else {
         req.flash('error', 'Invalid login link. Please try logging in again.')
         return res.redirect('/')
@@ -111,7 +111,7 @@ router.post('/login', stopLoggedInUsers, hcaptcha.validate, async (req, res) => 
       const hash = generateTokenHash(token)
       mailer.sendMagic(email, hash)
       redis.set(`AUTH_${hash}`, token, 'ex', TOKEN_EXPIRATION)
-      res.redirect(`/auth/pending?email=${email}&hash=${hash}`)
+      res.redirect(`/auth/sent?email=${email}&hash=${hash}`)
     })
     .catch((error) => {
       req.flash('error', 'Error generating token: ' + error.message)
@@ -126,20 +126,13 @@ router.get('/logout', (req, res) => {
   res.redirect('/')
 })
 
-router.get('/pending', stopLoggedInUsers, (req, res) => {
+router.get('/sent', stopLoggedInUsers, (req, res) => {
   const email = req.query.email
   const hash = req.query.hash
 
-  res.render('pages/auth/pending', {
+  res.render('pages/auth/sent', {
     email,
     hash
-  })
-})
-
-router.get('/verified', stopLoggedInUsers, (req, res) => {
-  const token = req.query.token
-  res.render('pages/auth/verified', {
-    token
   })
 })
 
