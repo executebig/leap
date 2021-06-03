@@ -1,5 +1,5 @@
 .page__landing {
-  video.waves {
+  div.waves {
     position: fixed;
     top: 0;
     left: 0;
@@ -9,6 +9,10 @@
     z-index: -1;
     animation: fadeIn 2s ease both;
     animation-delay: 1s;
+
+    & > canvas {
+      opacity: 0.5;
+    }
   }
 
   .section.landing {
