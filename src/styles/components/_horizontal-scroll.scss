@@ -1,0 +1,22 @@
+.has-horizontal-scroll {
+  padding-bottom: 1rem;
+
+  &::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+    background-color: $white-offset;
+  }
+
+  &::-webkit-scrollbar-thumb:horizontal {
+    background-color: lighten($primary, 30%);
+    border-radius: 10px;
+
+    &:hover {
+      background-color: lighten($primary, 20%);
+    }
+
+    &:active {
+        background-color: lighten($primary, 10%);
+    }
+  }
+}
