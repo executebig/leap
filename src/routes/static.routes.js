@@ -15,7 +15,8 @@ router.get('/', authMiddlewares.optionalAuth, (req, res) => {
   res.render('pages/landing', {
     titleOverride: true,
     hCaptcha: config.hCaptcha,
-    referral: referralData ? JSON.parse(atob(referralData)) : null
+    referral: referralData ? JSON.parse(atob(referralData)) : null,
+    utm_source: req.query.utm_source
   })
 })
 

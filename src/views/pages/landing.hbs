@@ -2,26 +2,30 @@
     Tech Roulette: Explore technology & earn rewards this summer!
 {{/extend}}
 {{#extend "header-inject"}}
-<!-- Facebook Open Graph tags -->
-<meta property="og:url" content="https://techroulette.xyz" />
-<meta property="og:title" content="Tech Roulette: Explore technology & earn rewards this summer!" />
-<meta property="og:description" content="Tech Roulette is a free game for the summer where you (and 500 students) get the chance to take a leap into fields of technology through a variety of random intro projects while earning rewards and prizes — all in your free time." />
-<meta property="og:image" content="https://techroulette.xyz/static/card.png" />
-
-<!-- Twitter Card (large image card) tags -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:creator" content="@executebig">
-<meta name="twitter:title" content="Tech Roulette: Explore technology & earn rewards this summer!">
-<meta name="twitter:description" content="Tech Roulette is a free game for the summer where you (and 500 students) get the chance to take a leap into fields of technology through a variety of random intro projects while earning rewards and prizes — all in your free time." />
-<meta name="twitter:image" content="https://techroulette.xyz/static/card.png" />
+    <!-- Facebook Open Graph tags -->
+    <meta property="og:url" content="https://techroulette.xyz" />
+    <meta property="og:title" content="Tech Roulette: Explore technology & earn rewards this summer!" />
+    <meta property="og:description" content="Tech Roulette is a free game for the summer where you (and 500 students) get the chance to take a leap into fields of technology through a variety of random intro projects while earning rewards and prizes — all in your free time." />
+    <meta property="og:image" content="https://techroulette.xyz/static/card.png" />
+    <!-- Twitter Card (large image card) tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@executebig">
+    <meta name="twitter:title" content="Tech Roulette: Explore technology & earn rewards this summer!">
+    <meta name="twitter:description" content="Tech Roulette is a free game for the summer where you (and 500 students) get the chance to take a leap into fields of technology through a variety of random intro projects while earning rewards and prizes — all in your free time." />
+    <meta name="twitter:image" content="https://techroulette.xyz/static/card.png" />
 {{/extend}}
-
 <div class="page__landing">
     <div class="waves"></div>
-
     <section class="section landing">
         <div class="container">
             <div class="intro">
+                {{#eq utm_source "HN"}}
+                    <a href="https://blog.replit.com/executebig" target="_blank">
+                        <div class="pill">
+                            <span class="pill-text">Hey HN readers! Read more about Tech Roulette here »</span>
+                        </div>
+                    </a>
+                {{/eq}}
                 <h1 class="title is-1">Explore your future in a bold world of technology &ndash; all in your free time
                     <span class="exclaim">!<img class="scribble" src="/static/scribbles/rewards.png" /></span>
                 </h1>
@@ -261,7 +265,6 @@
             </div>
         </div>
     </section>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" integrity="sha512-dLxUelApnYxpLt6K2iomGngnHO83iUvZytA3YjDUCjT0HDOHKXnVYdf3hU4JjM8uEhxf9nD1/ey98U3t2vZ0qQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="/static/scripts/waves.js"></script>
 </div>
