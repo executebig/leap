@@ -5,7 +5,6 @@
 const config = require('@config')
 
 const router = require('express').Router()
-const passport = require('@libs/passport')
 const authMiddlewares = require('@middlewares/auth.middlewares')
 const reflash = require('@libs/reflash')
 
@@ -40,8 +39,9 @@ router.use('/admin', authMiddlewares.checkAuth, require('@routes/admin.routes'))
 router.use('/modules', authMiddlewares.checkAuth, require('@routes/modules.routes'))
 
 /** Catch 404s */
-router.use((req, res, next) => {
+router.use((req, res) => {
   reflash(req, res)
+  res.status(404)
   res.redirect('/404')
 })
 
