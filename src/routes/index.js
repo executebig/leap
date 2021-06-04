@@ -41,7 +41,6 @@ router.use('/modules', authMiddlewares.checkAuth, require('@routes/modules.route
 /** Catch 404s */
 router.use((req, res) => {
   reflash(req, res)
-  res.status(404)
   res.redirect('/404')
 })
 
