@@ -18,6 +18,7 @@ const exphbs = require('express-handlebars')
 const reqId = require('express-request-id')()
 const morgan = require('morgan')
 const chalk = require('chalk')
+const helmet = require('helmet')
 const compression = require('compression')
 const minifyHTML = require('express-minify-html-2')
 const Bugsnag = require('@bugsnag/js')
@@ -95,6 +96,39 @@ if (process.env.NODE_ENV === 'production') {
 
   app.use(bugsnagMiddleware.requestHandler)
 }
+
+/** Helmet Setup */
+app.use(helmet())
+app.use(helmet.contentSecurityPolicy({
+  useDefaults: true,
+  directives: {
+    'script-src': [
+      "'self'",
+      "'unsafe-inline'",
+      'blob:',
+      'cdnjs.cloudflare.com',
+      'cdn.heapanalytics.com',
+      'plausible.io',
+      'heapanalytics.com',
+    ],
+    "script-src-attr": [
+      "'self'",
+      "'unsafe-inline'"
+    ],
+    'connect-src': [
+      "'self'",
+      'cdnjs.cloudflare.com',
+    ],
+    'img-src': [
+      "'self'",
+      "data:",
+      'heapanalytics.com'
+    ],
+    'frame-src': [
+      'https://open.spotify.com/'
+    ]
+  }
+}))
 
 /** Logging Setup */
 morgan.token('id', (req) => req.id.split('-')[0])
