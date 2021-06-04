@@ -26,9 +26,6 @@ if (!config.env === 'production') {
   // do not enable debug routes during prod
   router.use('/debug', require('@routes/debug.routes'))
 }
-router.use((req, res) => {
-  throw new Error('asd')
-})
 
 /** Force authentication for all routers below */
 router.use(
