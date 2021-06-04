@@ -13,18 +13,20 @@
                 <!-- navbar items -->
             </div>
             <div class="navbar-end">
-                {{#if user}}
-                    <a class="navbar-item">
-                        @{{user.display_name}}
-                    </a>
-                    <a class="navbar-item" href="/auth/logout">
-                        Log Out
-                    </a>
-                {{else}}
-                    <a class="button" href="/login">
-                        Log In
-                    </a>
-                {{/if}}
+                {{#unless hide_auth}}
+                    {{#if user }}
+                        <a class="navbar-item">
+                            @{{user.display_name}}
+                        </a>
+                        <a class="navbar-item" href="/auth/logout">
+                            Log Out
+                        </a>
+                    {{else}}
+                        <a class="button" href="/login">
+                            Log In
+                        </a>
+                    {{/if}}
+                {{/unless}}
             </div>
         </div>
     </div>

@@ -7,6 +7,7 @@
 require('module-alias/register')
 
 const path = require('path')
+const crypto = require('crypto')
 const express = require('express')
 const sass = require('node-sass-middleware')
 const minifier = require('html-minifier')
@@ -142,8 +143,24 @@ app.use(passport.session())
 app.use('/static', express.static(path.join(__dirname, './static')))
 app.use(require('@routes'))
 
-/** End Bugsnag integration */
+/** End Bugsnag integration (includes 500 rendering) */
+app.use((err, req, res, next) => {
+  err.id = crypto.randomBytes(16).toString('hex')
+
+  if (req.user) {
+    req.bugsnag.addMetadata('user', req.user)
+  }
+
+  req.bugsnag.addMetadata('context', { id: err.id })
+  next(err)
+})
+
 app.use(bugsnagMiddleware.errorHandler)
+
+app.use((err, req, res, next) => {
+  res.status(500)
+  res.render('pages/500', { id: err.id, hide_auth: true })
+})
 
 /** Instantiate server */
 http.listen(config.port, () => {
