@@ -20,8 +20,6 @@ router.use((req, res, next) => {
 /** Directly rendered pages */
 router.use('/', require('@routes/static.routes'))
 
-// TODO: Error pages should go here.
-
 /** Separate routers */
 router.use('/auth', require('@routes/auth.routes'))
 
@@ -31,18 +29,17 @@ if (!config.env === 'production') {
 }
 
 /** Force authentication for all routers below */
-router.use(authMiddlewares.checkAuth)
-
 router.use(
   '/dash',
+  authMiddlewares.checkAuth,
   require('@middlewares/state.middlewares').routeState,
   require('@routes/dash.routes')
 )
-router.use('/account', require('@routes/account.routes'))
-router.use('/admin', require('@routes/admin.routes'))
-router.use('/modules', require('@routes/modules.routes'))
+router.use('/account', authMiddlewares.checkAuth, require('@routes/account.routes'))
+router.use('/admin', authMiddlewares.checkAuth, require('@routes/admin.routes'))
+router.use('/modules', authMiddlewares.checkAuth, require('@routes/modules.routes'))
 
-// Catch 404s
+/** Catch 404s */
 router.use((req, res, next) => {
   reflash(req, res)
   res.redirect('/404')
