@@ -1,4 +1,4 @@
-/** 
+/**
   Express syntax router that handles authentication through OpenID
 */
 
@@ -131,6 +131,7 @@ router.get('/sent', stopLoggedInUsers, (req, res) => {
   const hash = req.query.hash
 
   res.render('pages/auth/sent', {
+    hide_auth: true,
     email,
     hash
   })
