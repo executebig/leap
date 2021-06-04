@@ -13,7 +13,7 @@ router.get('/onboard', (req, res) => {
     return res.redirect('/dash')
   }
 
-  res.render('pages/account/onboard')
+  res.render('pages/account/onboard', { hide_auth: true })
 })
 
 router.post('/onboard', async (req, res) => {

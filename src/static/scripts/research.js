@@ -18,14 +18,14 @@ const adblockerModal = `
                     <section class="modal-card-body">
                         <p>
                             We know this might seem like an awkward request, but please consider disabling your adblocker.
-                            In short, we want to be able to build more exciting online programs in the future, 
-                            but it'll be hard for us to do that without learning more about how you participate in Tech Roulette. 
+                            In short, we want to be able to build more exciting online programs in the future,
+                            but it'll be hard for us to do that without learning more about how you participate in Tech Roulette.
                         </p>
                         <p>
-                            <strong>Execute Big is a 501(c)(3) nonprofit organization. We do not run third-party ads, and we do 
+                            <strong>Execute Big is a 501(c)(3) nonprofit organization. We do not run third-party ads, and we do
                             not profit from your data.</strong>
                         </p>
-                        <p class="mb-0">You can read more about how we store and process research data on our 
+                        <p class="mb-0">You can read more about how we store and process research data on our
                         <a href="https://executebig.org/research/privacy?utm_source=TR_AdbModal" target="_blank" rel="noopener">Research Privacy</a> page.
                     </section>
                     <footer class="modal-card-foot">
@@ -38,7 +38,7 @@ const adblockerModal = `
             </div>
             `
 
-document.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('load', () => {
   if (localStorage.getItem('adbOptOut') !== 'true' && researchScriptsBlocked()) {
     document.body.innerHTML += adblockerModal
     document.querySelector('.adb_modal').classList.add('is-active')
