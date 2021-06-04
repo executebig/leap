@@ -11,12 +11,9 @@ const ModuleController = require('@controllers/module.controllers')
 const reflash = require('@libs/reflash')
 
 router.use('/', (req, res, next) => {
-  if (req.user.state === 'pending') {
+  if (req.user.state !== 'inprogress') {
     reflash(req, res)
     return res.redirect('/dash')
-  } else if (req.user.state !== 'inprogress') {
-    reflash(req, res)
-    return res.redirect('/')
   }
 
   next()
