@@ -15,9 +15,12 @@
             <div class="navbar-end">
                 {{#unless hide_auth}}
                     {{#if user }}
-                        <p class="navbar-item">
-                            @{{user.display_name}}
-                        </p>
+                        {{#notEq user.state "onboarding"}}
+                            <p class="navbar-item">
+                                @{{../user.display_name}}
+                            </p>
+                        {{/notEq}}
+
                         <a class="navbar-item" href="/auth/logout">
                             Log Out
                         </a>
