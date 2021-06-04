@@ -7,7 +7,6 @@
 require('module-alias/register')
 
 const path = require('path')
-const crypto = require('crypto')
 const express = require('express')
 const sass = require('node-sass-middleware')
 const minifier = require('html-minifier')
@@ -151,13 +150,11 @@ app.use(require('@routes'))
 /** End Bugsnag integration (includes 500 rendering) */
 if (process.env.NODE_ENV === 'production') {
   app.use((err, req, res, next) => {
-    err.id = crypto.randomBytes(16).toString('hex')
-
     if (req.user) {
       req.bugsnag.addMetadata('user', req.user)
     }
 
-    req.bugsnag.addMetadata('context', { id: err.id })
+    req.bugsnag.addMetadata('context', { req_id: req.id.split('-')[0] })
     next(err)
   })
 
@@ -165,7 +162,7 @@ if (process.env.NODE_ENV === 'production') {
 
   app.use((err, req, res, next) => {
     res.status(500)
-    res.render('pages/500', { id: err.id, hide_auth: true })
+    res.render('pages/500', { req_id: req.id.split('-')[0], hide_auth: true })
   })
 }
 
