@@ -1,4 +1,4 @@
-/** 
+/**
   @author Mingjie Jiang & Brian Xiang
   Setup server entry point and index
  */
@@ -20,6 +20,8 @@ const morgan = require('morgan')
 const chalk = require('chalk')
 const compression = require('compression')
 const minifyHTML = require('express-minify-html-2')
+const Bugsnag = require('@bugsnag/js')
+const BugsnagPluginExpress = require('@bugsnag/plugin-express')
 
 // local imports
 const config = require('@config')
@@ -80,6 +82,15 @@ const sassConfig = {
   includePaths: [path.join(__dirname, '../node_modules'), path.join(__dirname, 'styles'), '.']
 }
 
+/** Begin Bugsnag integration */
+Bugsnag.start({
+  apiKey: config.bugsnag.apiKey,
+  plugins: [BugsnagPluginExpress]
+})
+
+const bugsnagMiddleware = Bugsnag.getPlugin('express')
+app.use(bugsnagMiddleware.requestHandler)
+
 /** Logging Setup */
 morgan.token('id', (req) => req.id.split('-')[0])
 /** Express Server Setup */
@@ -130,6 +141,9 @@ app.use(passport.session())
 /** Create basic routes */
 app.use('/static', express.static(path.join(__dirname, './static')))
 app.use(require('@routes'))
+
+/** End Bugsnag integration */
+app.use(bugsnagMiddleware.errorHandler)
 
 /** Instantiate server */
 http.listen(config.port, () => {

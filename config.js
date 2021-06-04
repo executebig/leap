@@ -27,5 +27,8 @@ module.exports = {
     key: process.env.EO_API_KEY,
     listId: process.env.EO_LIST_ID
   },
+  bugsnag: {
+    apiKey: process.env.BUGSNAG_API
+  },
   flags: process.env.FLAGS ? process.env.FLAGS.split(',') : []
 }
