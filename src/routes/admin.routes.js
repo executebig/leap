@@ -10,13 +10,7 @@ const db = require('@db')
 /** allow admins only */
 router.use((req, res, next) => {
   if (!res.locals.user.admin) {
-    req.flash('error', 'You do not have permission to access this page.')
-
-    if (req.user) {
-      return res.redirect('/dash')
-    } else {
-      return res.redirect('/')
-    }
+    res.redirect('/404')
   } else {
     res.locals.layout = 'admin'
     next()
