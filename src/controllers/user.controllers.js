@@ -3,6 +3,7 @@
  */
 
 const db = require('@db')
+const redis = require('@db/redis').client
 const mailer = require('@libs/mailer')
 const validateEmail = require('@libs/validateEmail')
 const EOController = require('@controllers/eo.controllers')
@@ -100,4 +101,13 @@ exports.inviteUser = async (email, referrer) => {
       [email, referrer.user_id]
     )
   }
+}
+
+// Flags user for session refresh
+exports.flagUser = async (user_id) => {
+  redis.set(`refresh:${user_id}`, 1)
+}
+
+exports.checkUserFlag = async (user_id) => {
+  return !!(await redis.getdel(`refresh:${user_id}`))
 }
