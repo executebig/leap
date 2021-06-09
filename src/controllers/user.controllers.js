@@ -10,13 +10,21 @@ const EOController = require('@controllers/eo.controllers')
 
 const fields = [
   'user_id',
+
   'display_name',
   'first_name',
   'last_name',
+  // - age, address, phone
   'email',
+  // - parent_email
   'no_shipping',
+  // - referrer
+
+  // - created_at, updated_at
   'state',
   'admin',
+  'banned',
+
   'points',
   'current_week',
   'current_project',
