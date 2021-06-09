@@ -9,7 +9,7 @@ const db = require('@db')
 
 /** allow admins only */
 router.use((req, res, next) => {
-  if (!res.locals.user.admin) {
+  if (!req.user || !req.user.admin) {
     res.redirect('/404')
   } else {
     res.locals.layout = 'admin'

@@ -4,8 +4,6 @@ const UserController = require('@controllers/user.controllers')
 const EOController = require('@controllers/eo.controllers')
 const addrSanitizer = require('@libs/addressSanitizer')
 
-router.get('/', (req, res) => {})
-
 router.get('/onboard', (req, res) => {
   // verify user tag correct
   if (req.user.state !== 'onboarding') {

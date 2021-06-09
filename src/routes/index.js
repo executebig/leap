@@ -31,10 +31,6 @@ router.use(require('@routes/protected.routes'))
 
 /** Catch 404s */
 router.use((req, res) => {
-  if (req.method !== 'GET') {
-    next()
-  }
-
   reflash(req, res)
   res.redirect('/404')
 })
