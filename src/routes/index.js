@@ -30,11 +30,7 @@ if (config.env !== 'production') {
 router.use(require('@routes/protected.routes'))
 
 /** Catch 404s */
-router.use((req, res) => {
-  if (req.method !== 'GET') {
-    next()
-  }
-
+router.get('*', (req, res) => {
   reflash(req, res)
   res.redirect('/404')
 })
