@@ -6,7 +6,6 @@ const config = require('@config')
 
 const router = require('express').Router()
 const reflash = require('@libs/reflash')
-const authMiddlewares = require('@middlewares/auth.middlewares')
 
 /** Set up additional context */
 router.use((req, res, next) => {
