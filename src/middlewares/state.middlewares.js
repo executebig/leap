@@ -28,6 +28,8 @@ exports.stateMiddleware = async (req, res, next) => {
         res.locals.user = req.user
         next()
       })
+    } else {
+      next()
     }
   } else {
     next()
@@ -44,7 +46,6 @@ exports.flagMiddleware = async (req, res, next) => {
   // Refresh user session if flagged in redis
   if (flagged) {
     req.login(await UserController.getUserById(req.user.user_id), (err) => {
-      console.log('asdas')
       if (err) {
         req.flash('error', err.message)
       }
