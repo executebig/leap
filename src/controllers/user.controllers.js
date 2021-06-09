@@ -28,7 +28,6 @@ const fields = [
 
 exports.getUserById = async (user_id) => {
   const q = await db.query(`SELECT ${fields} FROM users WHERE user_id = $1`, [user_id])
-  console.log(q?.rows[0])
 
   if (q.rows.length > 0) {
     return q.rows[0]
