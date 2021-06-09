@@ -128,5 +128,5 @@ exports.flagUser = async (user_id) => {
 
 exports.checkUserFlag = async (user_id) => {
   const key = `refresh:${user_id}`
-  return !!(await redis.pipeline().get(key).del(key))
+  return !!(await redis.getdel(key))
 }
