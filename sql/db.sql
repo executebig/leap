@@ -19,6 +19,7 @@ create table if not exists users (
     updated_at timestamp not null,
     state user_state default 'onboarding' :: user_state not null,
     admin boolean default false,
+    banned boolean default false,
 
     points int default 0 not null,
     current_week int default -1 not null,
