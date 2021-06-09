@@ -11,15 +11,19 @@ const UserController = require('@controllers/user.controllers')
 const reflash = require('@libs/reflash')
 
 router.use('/', (req, res, next) => {
-  if (req.user.state === 'inprogress') {
-    reflash(req, res)
-    return res.redirect('/modules')
-  } else if (req.user.state !== 'pending') {
-    reflash(req, res)
-    return res.redirect('/')
+  switch (req.user.state) {
+    case 'onboarding':
+      reflash(req, res)
+      return res.redirect('/account/onboard')
+    case 'ready':
+      reflash(req, res)
+      return res.redirect('/chill')
+    case 'inprogress':
+      reflash(req, res)
+      return res.redirect('/modules')
+    default:
+      next()
   }
-
-  next()
 })
 
 router.get('/', async (req, res) => {

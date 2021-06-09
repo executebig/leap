@@ -5,8 +5,8 @@
 const config = require('@config')
 
 const router = require('express').Router()
-const authMiddlewares = require('@middlewares/auth.middlewares')
 const reflash = require('@libs/reflash')
+const authMiddlewares = require('@middlewares/auth.middlewares')
 
 /** Set up additional context */
 router.use((req, res, next) => {
@@ -22,24 +22,20 @@ router.use('/', require('@routes/static.routes'))
 /** Separate routers */
 router.use('/auth', require('@routes/auth.routes'))
 
-if (!config.env === 'production') {
+if (config.env !== 'production') {
   // do not enable debug routes during prod
   router.use('/debug', require('@routes/debug.routes'))
 }
 
-/** Force authentication for all routers below */
-router.use(
-  '/dash',
-  authMiddlewares.checkAuth,
-  require('@middlewares/state.middlewares').routeState,
-  require('@routes/dash.routes')
-)
-router.use('/account', authMiddlewares.checkAuth, require('@routes/account.routes'))
-router.use('/admin', authMiddlewares.checkAuth, require('@routes/admin.routes'))
-router.use('/modules', authMiddlewares.checkAuth, require('@routes/modules.routes'))
+/** Protected routes */
+router.use(require('@routes/protected.routes'))
 
 /** Catch 404s */
 router.use((req, res) => {
+  if (req.method !== 'GET') {
+    next()
+  }
+
   reflash(req, res)
   res.redirect('/404')
 })
