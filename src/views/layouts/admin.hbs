@@ -8,6 +8,7 @@
     <link rel="icon" href="/static/brand/icon-blue.png" />
     <title>{{block "title"}} – Admin Panel</title>
     {{#extend "title"}}{{../title}}{{/extend}}
+    {{{block "header-inject"}}}
     {{{block "header-scripts"}}}
 </head>
 
@@ -23,6 +24,10 @@
         </main>
     </div>
     {{> flash}}
+
+    {{#eq env "development"}}
+        {{> debug/devbar}}
+    {{/eq}}
 
     <script type="module" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule="" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.js"></script>

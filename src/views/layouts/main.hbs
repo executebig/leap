@@ -21,6 +21,10 @@
     {{> footer }}
     {{> tracking }}
 
+    {{#eq env "development"}}
+        {{> debug/devbar}}
+    {{/eq}}
+
     {{#if user}}
     <script async defer src="/static/scripts/research.js"></script>
     {{/if}}
