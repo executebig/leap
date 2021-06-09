@@ -8,7 +8,6 @@ exports.stateMiddleware = async (req, res, next) => {
     res.redirect('/')
   } else if (req.user.state !== 'onboarding') {
     const week = parseInt(await ConfigController.get('week'), 10)
-    const flagged = await UserController.checkUserFlag(req.user.user_id)
 
     // If user week is behind, (re)generate projects
     if (req.user.current_week < week) {
@@ -25,18 +24,35 @@ exports.stateMiddleware = async (req, res, next) => {
         if (err) {
           req.flash('error', err.message)
         }
-      })
-    }
 
-    // Refresh user session if flagged in redis
-    if (flagged) {
-      req.login(await UserController.getUserById(req.user.user_id), (err) => {
-        if (err) {
-          req.flash('error', err.message)
-        }
+        res.locals.user = req.user
+        next()
       })
     }
+  } else {
+    next()
+  }
+}
+
+exports.flagMiddleware = async (req, res, next) => {
+  if (!req.user) {
+    next()
   }
 
-  next()
+  const flagged = await UserController.checkUserFlag(req.user.user_id)
+
+  // Refresh user session if flagged in redis
+  if (flagged) {
+    req.login(await UserController.getUserById(req.user.user_id), (err) => {
+      console.log('asdas')
+      if (err) {
+        req.flash('error', err.message)
+      }
+
+      res.locals.user = req.user
+      next()
+    })
+  } else {
+    next()
+  }
 }
