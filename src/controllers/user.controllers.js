@@ -10,13 +10,21 @@ const EOController = require('@controllers/eo.controllers')
 
 const fields = [
   'user_id',
+
   'display_name',
   'first_name',
   'last_name',
+  // - age, address, phone
   'email',
+  // - parent_email
   'no_shipping',
+  // - referrer
+
+  // - created_at, updated_at
   'state',
   'admin',
+  'banned',
+
   'points',
   'current_week',
   'current_project',
@@ -129,4 +137,16 @@ exports.flagUser = async (user_id) => {
 exports.checkUserFlag = async (user_id) => {
   const key = `refresh:${user_id}`
   return !!(await redis.getdel(key))
+}
+
+exports.banUser = async (user_id) => {
+  this.updateUser(user_id, {
+    banned: true
+  })
+}
+
+exports.unbanUser = async (user_id) => {
+  this.updateUser(user_id, {
+    banned: false
+  })
 }

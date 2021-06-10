@@ -39,6 +39,7 @@ exports.stateMiddleware = async (req, res, next) => {
 exports.flagMiddleware = async (req, res, next) => {
   if (!req.user) {
     next()
+    return
   }
 
   const flagged = await UserController.checkUserFlag(req.user.user_id)
@@ -53,6 +54,17 @@ exports.flagMiddleware = async (req, res, next) => {
       res.locals.user = req.user
       next()
     })
+  } else {
+    next()
+  }
+}
+
+exports.banMiddleware = async (req, res, next) => {
+  if (!req.user) {
+    req.flash('error', 'Please log in first!')
+    res.redirect('/')
+  } else if (req.user.banned) {
+    res.render('pages/banned')
   } else {
     next()
   }
