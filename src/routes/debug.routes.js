@@ -22,13 +22,13 @@ router.get('/flag', authMiddlewares.checkAuth, (req, res) => {
 
 router.get('/ban', authMiddlewares.checkAuth, (req, res) => {
   UserController.banUser(req.user.user_id)
-  UserController.flagUser(req.user.user_id)
+  UserController.flagRefresh(req.user.user_id)
   res.end('banned')
 })
 
 router.get('/unban', authMiddlewares.checkAuth, (req, res) => {
   UserController.unbanUser(req.user.user_id)
-  UserController.flagUser(req.user.user_id)
+  UserController.flagRefresh(req.user.user_id)
   res.end('unbanned')
 })
 
