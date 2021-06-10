@@ -28,7 +28,6 @@ router.use('/', (req, res, next) => {
 router.get('/', async (req, res) => {
   return res.render('pages/modules', {
     title: 'Modules',
-    week: req.user.current_week,
     data: await ProjectController.getProjectAndModulesById(req.user.current_project)
   })
 })
