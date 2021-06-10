@@ -58,3 +58,14 @@ exports.flagMiddleware = async (req, res, next) => {
     next()
   }
 }
+
+exports.banMiddleware = async (req, res, next) => {
+  if (!req.user) {
+    req.flash('error', 'Please log in first!')
+    res.redirect('/')
+  } else if (req.user.banned) {
+    res.render('pages/banned')
+  } else {
+    next()
+  }
+}

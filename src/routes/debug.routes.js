@@ -20,4 +20,16 @@ router.get('/flag', authMiddlewares.checkAuth, (req, res) => {
   res.end('flagged')
 })
 
+router.get('/ban', authMiddlewares.checkAuth, (req, res) => {
+  UserController.banUser(req.user.user_id)
+  UserController.flagUser(req.user.user_id)
+  res.end('banned')
+})
+
+router.get('/unban', authMiddlewares.checkAuth, (req, res) => {
+  UserController.unbanUser(req.user.user_id)
+  UserController.flagUser(req.user.user_id)
+  res.end('unbanned')
+})
+
 module.exports = router

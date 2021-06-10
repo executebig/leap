@@ -138,3 +138,15 @@ exports.checkUserFlag = async (user_id) => {
   const key = `refresh:${user_id}`
   return !!(await redis.pipeline().get(key).del(key))
 }
+
+exports.banUser = async (user_id) => {
+  this.updateUser(user_id, {
+    banned: true
+  })
+}
+
+exports.unbanUser = async (user_id) => {
+  this.updateUser(user_id, {
+    banned: false
+  })
+}
