@@ -16,4 +16,12 @@ body {
   > .column {
     padding: 0;
   }
+
+  &.admin {
+
+    .section.header {
+      padding-bottom: 0;
+    }
+
+  }
 }

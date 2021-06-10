@@ -122,11 +122,11 @@ exports.inviteUser = async (email, referrer) => {
 }
 
 // Flags user for session refresh
-exports.flagUser = async (user_id) => {
+exports.flagRefresh = (user_id) => {
   redis.set(`refresh:${user_id}`, 1)
 }
 
-exports.checkUserFlag = async (user_id) => {
+exports.checkRefreshFlag = async (user_id) => {
   const key = `refresh:${user_id}`
   return !!(await redis.getdel(key))
 }
