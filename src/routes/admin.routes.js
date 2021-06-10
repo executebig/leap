@@ -20,8 +20,14 @@ router.use((req, res, next) => {
 // Check for flag sessions + disallow if banned
 router.use(flagMiddleware, banMiddleware)
 
+// set admin layout
+router.use((req, res, next) => {
+  res.locals.layout = 'admin'
+  next()
+})
+
 router.get('/', (req, res) => {
-  res.render('pages/admin/dashboard', { layout: 'admin' })
+  res.render('pages/admin/dashboard')
 })
 
 router.get('/users/:page?', async (req, res) => {
