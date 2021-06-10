@@ -4,6 +4,12 @@ const UserController = require('@controllers/user.controllers')
 const EOController = require('@controllers/eo.controllers')
 const addrSanitizer = require('@libs/addressSanitizer')
 
+const { flagMiddleware, stateMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
+const { checkAuth } = require('@middlewares/auth.middlewares')
+
+// Check for session flag, user banned, & state updates
+router.use(checkAuth, flagMiddleware, banMiddleware, stateMiddleware)
+
 router.get('/onboard', (req, res) => {
   // verify user tag correct
   if (req.user.state !== 'onboarding') {

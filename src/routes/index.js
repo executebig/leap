@@ -21,13 +21,16 @@ router.use('/', require('@routes/static.routes'))
 /** Separate routers */
 router.use('/auth', require('@routes/auth.routes'))
 
-if (config.env !== 'production') {
+if (config.env !== 'production' && config.domain.includes('localhost')) {
   // do not enable debug routes during prod
   router.use('/debug', require('@routes/debug.routes'))
 }
 
 /** Protected routes */
-router.use(require('@routes/protected.routes'))
+router.use('/admin', require('@routes/admin.routes'))
+router.use('/account', require('@routes/account.routes'))
+router.use('/dash', require('@routes/dash.routes'))
+router.use('/modules', require('@routes/modules.routes'))
 
 /** Catch 404s */
 router.use((req, res) => {

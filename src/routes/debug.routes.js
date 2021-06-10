@@ -32,4 +32,15 @@ router.get('/unban', authMiddlewares.checkAuth, (req, res) => {
   res.end('unbanned')
 })
 
+router.get('/chai/login', async (req, res) => {
+  const newUser = await UserController.createUserByEmail('chai@express.test')
+  req.login(newUser, (err) => {
+    if (err) {
+      throw new Error(err)
+    } else {
+      res.end('success')
+    }
+  })
+})
+
 module.exports = router
