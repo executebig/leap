@@ -28,6 +28,8 @@ exports.stateMiddleware = async (req, res, next) => {
     } else {
       next()
     }
+  } else {
+    next()
   }
 }
 
