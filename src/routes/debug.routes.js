@@ -16,7 +16,7 @@ router.get('/emails/magic', (req, res) => {
 })
 
 router.get('/flag', authMiddlewares.checkAuth, (req, res) => {
-  UserController.flagUser(req.user.user_id)
+  UserController.flagRefresh(req.user.user_id)
   res.end('flagged')
 })
 
