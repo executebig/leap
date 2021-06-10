@@ -3,10 +3,7 @@ const UserController = require('@controllers/user.controllers')
 const ConfigController = require('@controllers/config.controllers')
 
 exports.stateMiddleware = async (req, res, next) => {
-  if (!req.user) {
-    req.flash('error', 'Please log in first!')
-    res.redirect('/')
-  } else if (req.user.state !== 'onboarding') {
+  if (req.user.state !== 'onboarding') {
     const week = parseInt(await ConfigController.get('week'), 10)
 
     // If user week is behind, (re)generate projects
@@ -31,17 +28,10 @@ exports.stateMiddleware = async (req, res, next) => {
     } else {
       next()
     }
-  } else {
-    next()
   }
 }
 
 exports.flagMiddleware = async (req, res, next) => {
-  if (!req.user) {
-    next()
-    return
-  }
-
   const flagged = await UserController.checkUserFlag(req.user.user_id)
 
   // Refresh user session if flagged in redis
@@ -60,10 +50,7 @@ exports.flagMiddleware = async (req, res, next) => {
 }
 
 exports.banMiddleware = async (req, res, next) => {
-  if (!req.user) {
-    req.flash('error', 'Please log in first!')
-    res.redirect('/')
-  } else if (req.user.banned) {
+  if (req.user.banned) {
     res.render('pages/banned')
   } else {
     next()

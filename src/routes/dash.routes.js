@@ -9,11 +9,12 @@ const ProjectController = require('@controllers/project.controllers')
 const UserController = require('@controllers/user.controllers')
 
 const { flagMiddleware, stateMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
+const { checkAuth } = require('@middlewares/auth.middlewares')
 
 const reflash = require('@libs/reflash')
 
 // Check for session flag, user banned, & state updates
-router.use(flagMiddleware, banMiddleware, stateMiddleware)
+router.use(checkAuth, flagMiddleware, banMiddleware, stateMiddleware)
 
 router.use('/', (req, res, next) => {
   switch (req.user.state) {
