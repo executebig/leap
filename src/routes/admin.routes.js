@@ -5,7 +5,12 @@
 
 const router = require('express').Router()
 
+const { flagMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
+
 const db = require('@db')
+
+// Check for flag sessions + disallow if banned
+router.use(flagMiddleware, banMiddleware)
 
 /** allow admins only */
 router.use((req, res, next) => {
