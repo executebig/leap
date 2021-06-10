@@ -33,11 +33,9 @@ router.use('/', (req, res, next) => {
 })
 
 router.get('/', async (req, res) => {
-  const projects = await ProjectController.getProjectsByIds(req.user.project_pool)
-
   return res.render('pages/dash', {
     title: 'Dashboard',
-    projects
+    projects: await ProjectController.getProjectsByIds(req.user.project_pool)
   })
 })
 
