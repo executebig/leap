@@ -1,0 +1,27 @@
+.tag {
+    &.state {
+        &.ready {
+            background-color: lightsalmon;
+        }
+
+        &.onboarding {
+            background-color: gold;
+        }
+
+        &.inprogress {
+            background-color: lightskyblue;
+        }
+
+        &.pending {
+            background-color: lightpink;
+        }
+
+        &.completed {
+            background-color: lightgreen;
+        }
+
+        &.invited {
+            background-color: palegoldenrod;
+        }
+    }
+}

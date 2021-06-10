@@ -1,0 +1,67 @@
+{{#extend "title"}}
+    User Controls
+{{/extend}}
+<section class="section header">
+    <div class="container">
+        <h1 class="title">User Controls</h1>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <div class="sorts">
+            <p>Sort By:</p>
+            <p>User ID: <a href="?by=user_id&order=ASC">ASC</a> / <a href="?by=user_id&order=DESC">DESC</a></p>
+            <p>Email: <a href="?by=email&order=ASC">ASC</a> / <a href="?by=email&order=DESC">DESC</a></p>
+            <p>Display Name: <a href="?by=display_name&order=ASC">ASC</a> / <a href="?by=display_name&order=DESC">DESC</a></p>
+            <p>Created Time: <a href="?by=created_at&order=ASC">ASC</a> / <a href="?by=created_at&order=DESC">DESC</a></p>
+        </div>
+        <hr />
+
+        {{#if user_list}}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th><abbr title="user_id">ID</abbr></th>
+                        <th>Email</th>
+                        <th><abbr title="First Last (@Display)">Name</abbr></th>
+                        <th><abbr title="State">S</abbr></th>
+                        <th><abbr title="Project">P</abbr></th>
+                        <th><abbr title="Age">A</abbr></th>
+                        <th><abbr title="No Shipping?">NS?</abbr></th>
+                        <th><abbr title="Banned?">BN?</abbr></th>
+                        <th><abbr title="Current Week">W</abbr></th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each user_list}}
+                        <tr>
+                            <th>{{user_id}}</th>
+                            <td><a href="mailto:{{email}}">{{truncateEmail email}}</a></td>
+                            <td>{{first_name}} {{last_name}} (@{{display_name}})</td>
+                            <td><span class="tag state {{state}}">{{state}}</span></td>
+                            <td>{{current_project}}</td>
+                            <td>{{age}}</td>
+                            <td>{{{showBool no_shipping}}}</td>
+                            <td>{{{showBool banned}}}</td>
+                            <td>{{current_week}}</td>
+                            <td>
+                                <a href="/admin/ban/{{user_id}}" title="Toggle Ban/Unban">BN</a> / 
+                                <a href="/admin/refresh/{{user_id}}" title="Set refresh flag">RS</a> / 
+                                <a href="/admin/user/{{user_id}}" title="Edit">EDIT</a>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        {{else}}
+            <p>No users found!</p>
+        {{/if}}
+        {{#notEq prevPage -1}}
+            <a class="button" href="/admin/users/{{../prevPage}}?by={{../orderBy}}&order={{../order}}">Previous</a>
+        {{/notEq}}
+        {{#notEq nextPage -1}}
+            <a class="button" href="/admin/users/{{../nextPage}}?by={{../orderBy}}&order={{../order}}">Next</a>
+        {{/notEq}}
+    </div>
+</section>

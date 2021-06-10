@@ -1,0 +1,11 @@
+.bool {
+    font-weight: bold;
+
+    &.true {
+        color: purple;
+    }
+
+    &.false {
+        color: orange;
+    }
+}

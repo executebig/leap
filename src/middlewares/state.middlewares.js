@@ -34,7 +34,7 @@ exports.stateMiddleware = async (req, res, next) => {
 }
 
 exports.flagMiddleware = async (req, res, next) => {
-  const flagged = await UserController.checkUserFlag(req.user.user_id)
+  const flagged = await UserController.checkRefreshFlag(req.user.user_id)
 
   // Refresh user session if flagged in redis
   if (flagged) {
