@@ -17,14 +17,18 @@ exports.checkAuth = (req, res, next) => {
 }
 
 exports.optionalAuth = (req, res, next) => {
-  const auth = req.cookies['_jwt']
-
-  if (auth) {
+  if (req.user) {
+    // If session cookie exists
+    res.locals.user = req.user
+    next()
+  } else if (req.cookies['_jwt']) {
+    // If jwt cookie exists
     passport.authenticate('_jwt')(req, res, () => {
       res.locals.user = req.user
       next()
     })
   } else {
+    // Otherwise, not authed
     next()
   }
 }
