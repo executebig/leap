@@ -35,7 +35,13 @@ router.use('/modules', require('@routes/modules.routes'))
 /** Catch 404s */
 router.use((req, res) => {
   reflash(req, res)
-  res.render('pages/status/404')
+  res.status(404)
+
+  if (req.method === 'GET') {
+    res.render('pages/status/404')
+  } else {
+    res.end('404 Not Found')
+  }
 })
 
 module.exports = router
