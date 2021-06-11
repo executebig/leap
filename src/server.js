@@ -162,7 +162,7 @@ if (config.env === 'production') {
 
   app.use((err, req, res, next) => {
     res.status(500)
-    res.render('pages/500', { req_id: req.id.split('-')[0], hide_auth: true })
+    res.render('pages/status/500', { req_id: req.id.split('-')[0], hide_auth: true })
   })
 }
 
