@@ -14,6 +14,7 @@ router.use((req, res, next) => {
   if (!req.user) {
     res.redirect('/404')
   } else {
+    res.locals.user = req.user
     next()
   }
 })
