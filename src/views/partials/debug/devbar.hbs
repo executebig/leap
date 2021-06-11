@@ -13,9 +13,8 @@
     <span>/</span>
     <span>Session:</span>
     <a class="dev__refreshSession" href="/account/refresh"><button>Refresh</button></a>
-    <a class="dev__refreshSession" href="/debug/flag"><button>Flag</button></a>
-    <a class="dev__refreshSession" href="/debug/ban"><button>Ban</button></a>
-    <a class="dev__refreshSession" href="/debug/unban"><button>Unban</button></a>
+    <a class="dev__flagSession" href="/admin/refresh/"><button>Flag</button></a>
+    <a class="dev__banUser" href="/admin/ban/"><button>Ban Self</button></a>
     <button id="dev__copyJSON">Inspect JSON</button>
     <span>/</span>
     <span>Utils:</span>
@@ -90,6 +89,10 @@
         document.querySelector('#dev__showBar').addEventListener('click', () => {
             document.querySelector('#dev__toolbar').style.display = 'flex'
             document.querySelector('#dev__showBar').style.visibility = 'hidden'
+        })
+
+        document.querySelectorAll('.dev__banUser, .dev__flagSession').forEach(node => {
+            node.href += dev__user.user_id
         })
     </script>
 {{/extend}}
