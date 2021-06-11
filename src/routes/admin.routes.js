@@ -46,6 +46,20 @@ router.get('/users/:page?', async (req, res) => {
   })
 })
 
+router.get('/ban/:id', (req, res) => {
+  UserController.banUser(req.params.id)
+  UserController.flagRefresh(req.params.id)
+  req.flash('success', `Successfully banned user ${req.params.id}.`)
+  res.redirect('/admin/users')
+})
+
+router.get('/unban/:id', (req, res) => {
+  UserController.unbanUser(req.params.id)
+  UserController.flagRefresh(req.params.id)
+  req.flash('success', `Successfully unbanned user ${req.params.id}.`)
+  res.redirect('/admin/users')
+})
+
 router.get('/refresh/:id', async (req, res) => {
   UserController.flagRefresh(req.params.id)
   req.flash('success', `Successfully flagged user ${req.params.id} for refresh.`)

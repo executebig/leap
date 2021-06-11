@@ -15,23 +15,6 @@ router.get('/emails/magic', (req, res) => {
   res.render('emails/magic', { layout: false })
 })
 
-router.get('/flag', authMiddlewares.checkAuth, (req, res) => {
-  UserController.flagRefresh(req.user.user_id)
-  res.end('flagged')
-})
-
-router.get('/ban', authMiddlewares.checkAuth, (req, res) => {
-  UserController.banUser(req.user.user_id)
-  UserController.flagRefresh(req.user.user_id)
-  res.end('banned')
-})
-
-router.get('/unban', authMiddlewares.checkAuth, (req, res) => {
-  UserController.unbanUser(req.user.user_id)
-  UserController.flagRefresh(req.user.user_id)
-  res.end('unbanned')
-})
-
 router.get('/chai/login', async (req, res) => {
   const newUser = await UserController.createUserByEmail('chai@express.test')
   req.login(newUser, (err) => {
