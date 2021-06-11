@@ -1,7 +1,7 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="container">
         <div class="navbar-brand">
-            <a class="navbar-item tr-branding" {{#if user}}href="/dash"{{else}}href="/"{{/if}}>
+            <a class="navbar-item tr-branding" {{#if user}}href="/dash" {{else}}href="/" {{/if}}>
                 <div class="tr-branding">
                     <ion-icon name="dice-outline" size="large"></ion-icon>
                     <span>Tech Roulette</span>
@@ -16,14 +16,27 @@
                 {{#unless hide_auth}}
                     {{#if user }}
                         {{#notEq user.state "onboarding"}}
-                            <p class="navbar-item">
-                                @{{../user.display_name}}
-                            </p>
+                            <div class="navbar-item has-dropdown is-hoverable">
+                                <a class="navbar-link" href="/account">
+                                    @{{../user.display_name}}
+                                </a>
+                                <div class="navbar-dropdown">
+                                    <a class="navbar-item" href="/account/invite">
+                                        Invite Friends
+                                    </a>
+                                    <a class="navbar-item" href="/account/redeem">
+                                        Redeem Code
+                                    </a>
+                                    <a class="navbar-item" href="/auth/logout">
+                                        Log Out
+                                    </a>
+                                </div>
+                            </div>
+                        {{else}}
+                            <a class="navbar-item" href="/auth/logout">
+                                Log Out
+                            </a>
                         {{/notEq}}
-
-                        <a class="navbar-item" href="/auth/logout">
-                            Log Out
-                        </a>
                     {{else}}
                         <a class="button" href="/login">
                             Log In

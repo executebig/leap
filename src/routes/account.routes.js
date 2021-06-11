@@ -47,11 +47,13 @@ router.post('/onboard', async (req, res) => {
   // Update contact data on EO
   await EOController.updateContact(user)
 
-  refreshUser(req, res, user, '/account/invite')
+  refreshUser(req, res, user, '/account/invite?onboard=1')
 })
 
 router.get('/invite', (req, res) => {
-  res.render('pages/account/invite')
+  res.render('pages/account/invite', {
+    isOnboard: req.query.onboard
+  })
 })
 
 router.post('/invite', async (req, res) => {
