@@ -6,6 +6,7 @@
 const router = require('express').Router()
 const AdminController = require('@controllers/admin.controllers')
 const UserController = require('@controllers/user.controllers')
+const ConfigController = require('@controllers/config.controllers')
 const { flagMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
 
 /** allow admins only */
@@ -41,7 +42,7 @@ router.get('/users/:page?', async (req, res) => {
     order,
     user_list: data.users,
     prevPage: data.prevPage,
-    nextPage: data.nextPage,
+    nextPage: data.nextPage
   })
 })
 
@@ -49,6 +50,18 @@ router.get('/refresh/:id', async (req, res) => {
   UserController.flagRefresh(req.params.id)
   req.flash('success', `Successfully flagged user ${req.params.id} for refresh.`)
   res.redirect('/admin/users')
+})
+
+router.get('/config', async (req, res) => {
+  res.render('pages/admin/config', { config: await ConfigController.getKeysValues() })
+})
+
+router.post('/config', async (req, res) => {
+  await ConfigController.setMultiple(req.body)
+  await UserController.flagRefreshAll()
+
+  req.flash('success', `Successfully updated config`)
+  res.redirect('/admin/config')
 })
 
 module.exports = router

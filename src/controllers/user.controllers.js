@@ -134,6 +134,12 @@ exports.flagRefresh = (user_id) => {
   redis.set(`refresh:${user_id}`, 1)
 }
 
+exports.flagRefreshAll = async () => {
+  const q = await db.query(`SELECT user_id FROM users`)
+  const ids = q?.rows.map(e => [`refresh:${e.user_id}`, 1])
+  await redis.mset(...ids)
+}
+
 exports.checkRefreshFlag = async (user_id) => {
   const key = `refresh:${user_id}`
   return !!(await redis.getdel(key))
