@@ -1,0 +1,33 @@
+{{#extend 'title'}}Config{{/extend}}
+
+<section class='section header'>
+  <h1 class='title'>Config</h1>
+</section>
+
+<section class='section'>
+  <form action='' method='POST'>
+    <div class='field'>
+      <label class='label'>Week</label>
+      <div class='control'>
+        <input
+          class='input'
+          name='week'
+          type='number'
+          placeholder='{{config.week}}'
+          value='{{config.week}}'
+          min='-1'
+          max='100'
+        />
+      </div>
+    </div>
+
+    <div class='field is-grouped'>
+      <div class='control'>
+        <button type='submit' class='button is-link'>Submit</button>
+      </div>
+      <div class='control'>
+        <button type='submit' class='button is-danger is-light'>Reset</button>
+      </div>
+    </div>
+  </form>
+</section>
