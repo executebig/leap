@@ -57,6 +57,15 @@ router.get('/config', async (req, res) => {
 })
 
 router.post('/config', async (req, res) => {
+  const curWeek = ConfigController.get('week')
+
+  console.log(curWeek, req.body.week)
+  if (!req.body.week || Math.abs(curWeek - req.body.week) > 1) {
+    req.flash('error', `Week should increment / decrement by 1`)
+    res.redirect('/admin/config')
+    return
+  }
+
   await ConfigController.setMultiple(req.body)
   await UserController.flagRefreshAll()
 
