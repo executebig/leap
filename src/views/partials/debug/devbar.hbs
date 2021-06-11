@@ -11,12 +11,17 @@
     <a class="dev__toHome" href="/"><button>Home</button></a>
     <a class="dev__toAdmin" href="/admin"><button>Admin</button></a>
     <span>/</span>
-    <span>Session:</span>
-    <a class="dev__refreshSession" href="/account/refresh"><button>Refresh</button></a>
-    <a class="dev__flagSession" href="/admin/refresh/"><button>Flag</button></a>
-    <a class="dev__banUser" href="/admin/ban/"><button>Ban Self</button></a>
-    <button id="dev__copyJSON">Inspect JSON</button>
-    <span>/</span>
+
+    {{#if @root/user}}
+        <span>Session:</span>
+        <a class="dev__refreshSession" href="/account/refresh"><button>Refresh</button></a>
+        <a class="dev__flagSession" href="/admin/refresh/"><button>Flag</button></a>
+        <a class="dev__banUser" href="/admin/ban/"><button>Ban Self</button></a>
+        <a class="dev__unbanUser" href="/admin/unban/"><button>Unban Self</button></a>
+        <button id="dev__copyJSON">Inspect JSON</button>
+        <span>/</span>
+    {{/if}}
+
     <span>Utils:</span>
     <button id="dev__hideBar">Hide</button>
 </div>
@@ -91,7 +96,7 @@
             document.querySelector('#dev__showBar').style.visibility = 'hidden'
         })
 
-        document.querySelectorAll('.dev__banUser, .dev__flagSession').forEach(node => {
+        document.querySelectorAll('.dev__banUser, .dev__unbanUser, .dev__flagSession').forEach(node => {
             node.href += dev__user.user_id
         })
     </script>

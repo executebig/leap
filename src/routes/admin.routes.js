@@ -9,17 +9,27 @@ const UserController = require('@controllers/user.controllers')
 const ConfigController = require('@controllers/config.controllers')
 const { flagMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
 
-/** allow admins only */
+// Deny unauthorized users
 router.use((req, res, next) => {
-  if (!req.user || !req.user.admin) {
+  if (!req.user) {
     res.redirect('/404')
   } else {
     next()
   }
 })
 
-// Check for flag sessions + disallow if banned
-router.use(flagMiddleware, banMiddleware)
+// Check for session refresh flag
+router.use(flagMiddleware)
+
+// Allow admins only
+router.use((req, res, next) => {
+  if (!req.user.admin) {
+    res.redirect('/404')
+  } else {
+    next()
+  }
+})
+
 
 // set admin layout
 router.use((req, res, next) => {
