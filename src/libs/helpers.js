@@ -19,6 +19,10 @@ exports.capitalize = (a) => {
     .join(' ')
 }
 
+exports.inc = (value, step) => {
+  return parseInt(value, '10') + step
+}
+
 /** Blocks helper controllers */
 
 let blocks = Object.create(null)
