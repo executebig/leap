@@ -46,8 +46,13 @@
                             <td>{{{showBool banned}}}</td>
                             <td>{{current_week}}</td>
                             <td>
-                                <a href="/admin/ban/{{user_id}}" title="Toggle Ban/Unban">BN</a> / 
-                                <a href="/admin/refresh/{{user_id}}" title="Set refresh flag">RS</a> / 
+                                {{#if banned}}
+                                    <a href="/admin/unban/{{user_id}}" title="Unban User">UB</a>
+                                {{else}}
+                                    <a href="/admin/ban/{{user_id}}" title="Ban User">BN</a>
+                                {{/if}} /
+
+                                <a href="/admin/refresh/{{user_id}}" title="Set refresh flag">RS</a> /
                                 <a href="/admin/user/{{user_id}}" title="Edit">EDIT</a>
                             </td>
                         </tr>

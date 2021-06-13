@@ -11,13 +11,17 @@
     <a class="dev__toHome" href="/"><button>Home</button></a>
     <a class="dev__toAdmin" href="/admin"><button>Admin</button></a>
     <span>/</span>
-    <span>Session:</span>
-    <a class="dev__refreshSession" href="/account/refresh"><button>Refresh</button></a>
-    <a class="dev__refreshSession" href="/debug/flag"><button>Flag</button></a>
-    <a class="dev__refreshSession" href="/debug/ban"><button>Ban</button></a>
-    <a class="dev__refreshSession" href="/debug/unban"><button>Unban</button></a>
-    <button id="dev__copyJSON">Inspect JSON</button>
-    <span>/</span>
+
+    {{#if @root/user}}
+        <span>Session:</span>
+        <a class="dev__refreshSession" href="/account/refresh"><button>Refresh</button></a>
+        <a class="dev__flagSession" href="/admin/refresh/"><button>Flag</button></a>
+        <a class="dev__banUser" href="/admin/ban/"><button>Ban Self</button></a>
+        <a class="dev__unbanUser" href="/admin/unban/"><button>Unban Self</button></a>
+        <button id="dev__copyJSON">Inspect JSON</button>
+        <span>/</span>
+    {{/if}}
+
     <span>Utils:</span>
     <button id="dev__hideBar">Hide</button>
 </div>
@@ -76,12 +80,6 @@
             })
         }
 
-        document.querySelector('#dev__copyJSON').addEventListener('click', () => {
-            w = window.open('about:blank', '_blank')
-            w.document.write(`<pre>${JSON.stringify(dev__user, null, " ")}</pre>`)
-            w.document.close()
-        })
-
         document.querySelector('#dev__hideBar').addEventListener('click', () => {
             document.querySelector('#dev__toolbar').style.display = 'none'
             document.querySelector('#dev__showBar').style.visibility = 'visible'
@@ -91,5 +89,17 @@
             document.querySelector('#dev__toolbar').style.display = 'flex'
             document.querySelector('#dev__showBar').style.visibility = 'hidden'
         })
+
+        if (dev__user) {
+            document.querySelectorAll('.dev__banUser, .dev__unbanUser, .dev__flagSession').forEach(node => {
+                node.href += dev__user.user_id
+            })
+
+            document.querySelector('#dev__copyJSON').addEventListener('click', () => {
+                w = window.open('about:blank', '_blank')
+                w.document.write(`<pre>${JSON.stringify(dev__user, null, " ")}</pre>`)
+                w.document.close()
+            })
+        }
     </script>
 {{/extend}}
