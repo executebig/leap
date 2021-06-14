@@ -8,12 +8,15 @@ const AdminController = require('@controllers/admin.controllers')
 const UserController = require('@controllers/user.controllers')
 const BadgeController = require('@controllers/badge.controllers')
 const ConfigController = require('@controllers/config.controllers')
+
 const { flagMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
+const notFoundMiddleware = require('@middlewares/404.middlewares')
 
 // Deny unauthorized users
 router.use((req, res, next) => {
   if (!req.user) {
-    res.redirect('/404')
+    notFoundMiddleware(req, res)
+    return
   } else {
     res.locals.user = req.user
     next()
@@ -26,7 +29,8 @@ router.use(flagMiddleware)
 // Allow admins only
 router.use((req, res, next) => {
   if (!req.user.admin) {
-    res.redirect('/404')
+    notFoundMiddleware(req, res)
+    return
   } else {
     next()
   }
