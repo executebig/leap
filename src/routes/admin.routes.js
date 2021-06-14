@@ -6,6 +6,7 @@
 const router = require('express').Router()
 const AdminController = require('@controllers/admin.controllers')
 const UserController = require('@controllers/user.controllers')
+const BadgeController = require('@controllers/badge.controllers')
 const ConfigController = require('@controllers/config.controllers')
 const { flagMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
 
@@ -30,7 +31,6 @@ router.use((req, res, next) => {
     next()
   }
 })
-
 
 // set admin layout
 router.use((req, res, next) => {
@@ -96,6 +96,14 @@ router.post('/config', async (req, res) => {
 
   req.flash('success', `Successfully updated config`)
   res.redirect('/admin/config')
+})
+
+router.get('/badges', async (req, res) => {
+  const data = await BadgeController.listBadges(true)
+
+  res.render('pages/admin/badges', {
+    badge_list: data
+  })
 })
 
 module.exports = router

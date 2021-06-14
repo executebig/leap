@@ -1,0 +1,33 @@
+.page__redeem {
+  h1 {
+    color: $primary;
+  }
+
+  .form-wrapper {
+    width: 100%;
+
+    form.form {
+      margin: 0 auto;
+      transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+
+      input.input {
+          box-shadow: none;
+          font-size: 1.2rem;
+          max-width: 30rem;
+          border: 2px solid $primary;
+          border-radius: 0.5rem;
+          overflow: visible;
+          outline: none;
+          background: none;
+          text-align: center;
+          text-transform: uppercase;
+          font-weight: bold;
+          letter-spacing: 3px;
+          color: $primary;
+          background: linear-gradient(45deg, $primary, $secondary);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+      }
+    }
+  }
+}

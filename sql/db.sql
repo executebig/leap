@@ -58,11 +58,14 @@ create table if not exists modules (
 );
 
 create table if not exists badges (
-   badge_id serial not null constraint badges_pk primary key,
+    badge_id serial not null constraint badges_pk primary key,
 
-   title text not null,
-   description text not null,
-   enabled bool not null default false
+    name text not null,
+    description text not null,
+    icon text not null,
+    hidden bool not null default false,
+
+    code text not null
 );
 
 create table config (

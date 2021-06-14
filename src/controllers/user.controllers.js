@@ -136,7 +136,7 @@ exports.flagRefresh = (user_id) => {
 
 exports.flagRefreshAll = async () => {
   const q = await db.query(`SELECT user_id FROM users`)
-  const ids = q?.rows.map(e => [`refresh:${e.user_id}`, 1])
+  const ids = q?.rows.map((e) => [`refresh:${e.user_id}`, 1])
   await redis.mset(...ids)
 }
 
@@ -155,4 +155,23 @@ exports.unbanUser = async (user_id) => {
   this.updateUser(user_id, {
     banned: false
   })
+}
+
+exports.grantBadge = async (user_id, badge_id) => {
+  const user = await db.query(
+    `UPDATE users SET badges = array (SELECT distinct e FROM unnest(array_append(badges, $1)) AS e ORDER BY e) WHERE user_id = $2 RETURNING *`,
+    [badge_id, user_id]
+  )
+
+  return user.rows[0]
+}
+
+// this should be used by admins only
+exports.removeBadge = async (user_id, badge_id) => {
+  const user = await db.query(
+    `UPDATE users SET badges = array (SELECT distinct e FROM unnest(array_remove(badges, $1)) AS e ORDER BY e) WHERE user_id = $2 RETURNING *`,
+    [badge_id, user_id]
+  )
+
+  return user.rows[0]
 }

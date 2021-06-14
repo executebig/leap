@@ -1,0 +1,8 @@
+img.badge {
+    width: 25px;
+    border: solid 3px transparent;
+    border-radius: 100%;
+    background-image: linear-gradient(white, white), radial-gradient(circle at top left, $primary, $secondary);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+}
