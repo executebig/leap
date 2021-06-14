@@ -160,7 +160,7 @@ describe('Test pending user functions', () => {
       .redirects(0)
       .then((res) => {
         res.should.have.status(302)
-        res.should.redirectTo('/account/invite')
+        res.should.redirectTo(/^\/account\/invite/g)
       })
       .catch((err) => {
         throw err
