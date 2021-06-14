@@ -73,7 +73,7 @@ router.post('/redeem', async (req, res) => {
   } else {
     const user = await UserController.grantBadge(req.user.user_id, badge_id)
     req.flash('success', 'New badge received!')
-    refreshUser(req, res, user, '/account')
+    refreshUser(req, res, user, '/account/redeem')
   }
 })
 
