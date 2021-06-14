@@ -2,6 +2,7 @@ const router = require('express').Router()
 
 const UserController = require('@controllers/user.controllers')
 const EOController = require('@controllers/eo.controllers')
+const BadgeController = require('@controllers/badge.controllers')
 const addrSanitizer = require('@libs/addressSanitizer')
 
 const { flagMiddleware, stateMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
@@ -54,6 +55,26 @@ router.get('/invite', (req, res) => {
   res.render('pages/account/invite', {
     isOnboard: req.query.onboard
   })
+})
+
+router.get('/redeem', (req, res) => {
+  res.render('pages/account/redeem')
+})
+
+router.post('/redeem', async (req, res) => {
+  const code = req.body.code
+  const badge_id = await BadgeController.getBadgeByCode(code)
+
+  console.log("badge id: " + badge_id)
+
+  if (badge_id === -1) {
+    req.flash('error', 'Invalid secret code!')
+    res.redirect('/account/redeem')
+  } else {
+    const user = await UserController.grantBadge(req.user.user_id, badge_id)
+    req.flash('success', 'New badge received!')
+    refreshUser(req, res, user, '/account')
+  }
 })
 
 router.post('/invite', async (req, res) => {

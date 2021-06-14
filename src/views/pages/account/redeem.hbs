@@ -1,0 +1,28 @@
+{{#extend "title"}}
+    Redeem Secret Code
+{{/extend}}
+<div class="page__redeem">
+    <section class="section">
+        <div class="container has-text-centered">
+            <h1 class="title mb-2">
+                <ion-icon name="ticket"></ion-icon>
+                <span class="header-text">Redeem Secret Code</span>
+            </h1>
+            <p>
+                We give out special, secret codes in the most random places that you can use to redeem exclusive badges. <em>Shhh!</em> Some badges are best
+                when they are rare, so we ask that you do not share your secret codes with others. They'll have to go look
+                for these codes by themselves!
+            </p>
+            <div class="form-wrapper mt-5">
+                <form class="form" method="POST">
+                    <input class="input code_input" type="text" name="code" spellcheck="false" autocomplete="off" />
+                    <div class="mt-4">
+                        <button class="button is-primary" type="submit">Redeem</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <br />
+        <p style="text-align: center;">Wanna try it out? Here's one for ya: <span class="badge_code">COOKIES</span>.</p>
+    </section>
+</div>
