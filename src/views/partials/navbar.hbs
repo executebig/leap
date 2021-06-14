@@ -17,7 +17,8 @@
                     {{#if user }}
                         {{#notEq user.state "onboarding"}}
                             <div class="navbar-item has-dropdown is-hoverable">
-                                <a class="navbar-link" href="/account">
+                                {{!-- <a class="navbar-link" href="/account"> --}}
+                                <a class="navbar-link" href="#!">
                                     @{{../user.display_name}}
                                 </a>
                                 <div class="navbar-dropdown">
