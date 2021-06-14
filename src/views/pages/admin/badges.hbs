@@ -1,0 +1,42 @@
+{{#extend "title"}}
+    Badge Controls
+{{/extend}}
+<section class="section header">
+    <div class="container">
+        <h1 class="title">Badge Controls</h1>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <a href="/admin/badges/new" class="button">New Badge</a>
+        {{#if badge_list}}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th><abbr title="badge_id">ID</abbr></th>
+                        <th><abbr title="name">Name</abbr></th>
+                        <th><abbr title="description">DESC</abbr></th>
+                        <th><abbr title="icon">icon</abbr></th>
+                        <th><abbr title="hidden">H?</abbr></th>
+                        <th><abbr title="code">Code</abbr></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each badge_list}}
+                        <tr>
+                            <th>{{badge_id}}</th>
+                            <td>{{name}}</td>
+                            <td>{{description}}</td>
+                            <td>{{>badge icon=icon}}</td>
+                            <td>{{hidden}}</td>
+                            <td><code>{{code}}</code></td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        {{else}}
+            <p>No badges found!</p>
+        {{/if}}
+    </div>
+</section>

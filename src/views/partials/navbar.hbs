@@ -27,6 +27,11 @@
                                     <a class="navbar-item" href="/account/redeem">
                                         Redeem Code
                                     </a>
+                                    {{#if ../user.admin}}
+                                    <a class="navbar-item admin" href="/admin">
+                                        Admin Panel
+                                    </a>
+                                    {{/if}}
                                     <a class="navbar-item" href="/auth/logout">
                                         Log Out
                                     </a>
