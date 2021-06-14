@@ -70,6 +70,9 @@ router.post('/redeem', async (req, res) => {
   if (badge_id === -1) {
     req.flash('error', 'Invalid secret code!')
     res.redirect('/account/redeem')
+  } else if (req.user.badges?.includes(badge_id)) {
+    req.flash('error', 'You already have this badge!')
+    res.redirect('/account/redeem')
   } else {
     const user = await UserController.grantBadge(req.user.user_id, badge_id)
     req.flash('success', 'New badge received!')
