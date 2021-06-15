@@ -1,5 +1,7 @@
 'use strict'
 
+const crypto = require('crypto')
+
 exports.stringify = (obj) => {
   return JSON.stringify(obj)
 }
@@ -50,4 +52,9 @@ exports.showBool = (bool) => {
 
 exports.truncateEmail = (str) => {
   return str.length > 12 ? str.substr(0, 8) + '...' + str.substr(str.length - 5) : str
+}
+
+exports.hashEmail = (email) => {
+  console.log(email.trim().toLowerCase())
+  return crypto.createHash('md5').update(email.trim().toLowerCase()).digest('hex')
 }

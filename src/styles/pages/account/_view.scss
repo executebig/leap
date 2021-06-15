@@ -1,0 +1,13 @@
+.page__account_view {
+  .hero {
+    .hero-body {
+      .container {
+        .image {
+          border: 5px solid $white;
+          border-radius: 50%;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+}
