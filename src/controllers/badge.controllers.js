@@ -15,22 +15,33 @@ exports.createBadge = async (name, desc, icon, hidden, code) => {
 
 exports.updateBadge = async (badge_id, name, desc, icon, hidden, code) => {
   const badge = await db.query(
-    `UPDATE badges SET name = $1, description = $2, icon = $3, hidden = $4, code = $5 WHERE badge_id = $6`,
+    `UPDATE badges SET name = $1, description = $2, icon = $3, hidden = $4, code = $5 WHERE badge_id = $6 RETURNING badge_id`,
     [name, desc, icon, hidden, code, badge_id]
   )
+  
+  return badge.rows[0]
 }
 
 exports.listBadges = async (withHidden) => {
   if (withHidden) {
-    const badges = await db.query('SELECT * FROM badges')
+    const badges = await db.query('SELECT * FROM badges ORDER BY badge_id ASC')
     return badges.rows
   } else {
-    const badges = await db.query('SELECT * FROM badges WHERE hidden <> true')
+    const badges = await db.query('SELECT * FROM badges WHERE hidden <> true ORDER BY badge_id ASC')
     return badges.rows
   }
 }
 
-exports.getBadgeByCode = async (code) => {
+exports.getBadgeById = async (id) => {
+  const q = await db.query('SELECT * FROM badges WHERE badge_id = $1', [id])
+  if (q.rows.length > 0) {
+    return q.rows[0]
+  } else {
+    return null
+  }
+}
+
+exports.getBadgeIdByCode = async (code) => {
   code = code.toUpperCase()
   const data = await db.query('SELECT badge_id FROM badges WHERE code = $1', [code])
 
