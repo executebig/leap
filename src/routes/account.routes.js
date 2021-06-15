@@ -42,15 +42,22 @@ router.get('/edit/:id', (req, res) => {
 })
 
 router.post('/edit/:id', async (req, res) => {
+  req.params.id = parseInt(req.params.id, 10)
+
   const data = Object.fromEntries(
     ['first_name', 'last_name', 'display_name']
     .map(key => [key, req.body[key]])
   )
 
   await UserController.updateUser(req.params.id, data)
+  await UserController.flagRefresh(req.params.id)
 
   req.flash('success', 'Successfully updated account.')
-  res.redirect(`/account/edit/${req.params.id}`)
+  if (req.user.user_id === req.params.id) {
+    res.redirect(`/account`)
+  } else {
+    res.redirect(`/account/edit/${req.params.id}`)
+  }
 })
 
 router.get('/onboard', (req, res) => {
