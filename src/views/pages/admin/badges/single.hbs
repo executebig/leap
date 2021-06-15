@@ -1,0 +1,70 @@
+{{#extend "title"}}
+    {{#if ../edit}}Edit Badge #{{../badge.badge_id}}{{else}}New Badge{{/if}}
+{{/extend}}
+<section class="section header">
+    <div class="container">
+        <h1 class="title">{{#if edit}}Edit Badge #{{badge.badge_id}}{{else}}New Badge{{/if}}</h1>
+    </div>
+</section>
+<section class="section information">
+    <div class="container">
+        <form method="post">
+            <div class="columns mb-0">
+                <div class="column">
+                    <div class="field f_name">
+                        <label class="label">Badge Name</label>
+                        <p class="control">
+                            <input name="name" class="input" type="text" placeholder="Interesting Reward" value="{{badge.name}}" required />
+                        </p>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field f_code">
+                        <label class="label">Redemption Code</label>
+                        <p class="control">
+                            <input name="code" class="input" type="text" placeholder="COOLCODE" value="{{badge.code}}" required />
+                        </p>
+                        <p class="help">If this badge should not be redeemed with a code, put in a lowercase letter. Otherwise, codes should be all uppercase.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <div class="field f_age">
+                        <label class="label">Description</label>
+                        <p class="control">
+                            <input name="description" class="input" type="text" placeholder="A brief description of how/why they earned the badge." value="{{badge.description}}" required />
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <div class="field f_icon">
+                        <label class="label">Icon URL</label>
+                        <p class="control">
+                            <input name="icon" class="input" type="text" value="{{#if badge.icon}}{{badge.icon}}{{else}}https://cdn.techroulette.xyz/badges/{{/if}}" required />
+                        </p>
+                        <p class="help">
+                            Upload to <a href="https://github.com/executebig/tr-cdn" target="_blank">https://github.com/executebig/tr-cdn</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <div class="field f_hidden">
+                        <label class="checkbox mt-3">
+                            <input type="checkbox" name="hidden" value="true" {{#if badge.hidden}}checked{{/if}}>
+                            Make this a hidden/secret badge (don't tell players how they earned it).
+                        </label>
+                        <p class="help">
+                            Hidden badges will still be visible on profile pages. Players just won't be able to see a description.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="button is-primary">{{#if edit}}Update Badge{{else}}Create Badge{{/if}}</button>
+        </form>
+    </div>
+</section>
