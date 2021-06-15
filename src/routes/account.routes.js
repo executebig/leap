@@ -7,9 +7,51 @@ const addrSanitizer = require('@libs/addressSanitizer')
 
 const { flagMiddleware, stateMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
 const { checkAuth } = require('@middlewares/auth.middlewares')
+const notFoundMiddleware = require('@middlewares/404.middlewares')
 
 // Check for session flag, user banned, & state updates
 router.use(checkAuth, flagMiddleware, banMiddleware, stateMiddleware)
+
+router.get('/', (req, res) => {
+  res.render('pages/account/view')
+})
+
+router.get('/edit', (req, res) => {
+  res.redirect(`/account/edit/${req.user.user_id}`)
+})
+
+router.use('/edit/:id', async (req, res, next) => {
+  req.params.id = parseInt(req.params.id, 10)
+
+  if (!req.user.admin && req.user.user_id !== req.params.id) {
+    notFoundMiddleware(req, res)
+  } else {
+    const user = await UserController.getUserById(req.params.id)
+
+    if (!user) {
+      notFoundMiddleware(req, res)
+    } else {
+      res.locals.edit_user = user
+      next()
+    }
+  }
+})
+
+router.get('/edit/:id', (req, res) => {
+  res.render('pages/account/edit')
+})
+
+router.post('/edit/:id', async (req, res) => {
+  const data = Object.fromEntries(
+    ['first_name', 'last_name', 'display_name']
+    .map(key => [key, req.body[key]])
+  )
+
+  await UserController.updateUser(req.params.id, data)
+
+  req.flash('success', 'Successfully updated account.')
+  res.redirect(`/account/edit/${req.params.id}`)
+})
 
 router.get('/onboard', (req, res) => {
   // verify user tag correct

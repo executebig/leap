@@ -1,0 +1,89 @@
+{{#extend 'title'}}My Account{{/extend}}
+
+{{#with edit_user}}
+    <div class='page__account_view'>
+    <section class='section header'>
+        <div class='container'>
+        <h1 class='title'>My Account</h1>
+        <h6 class='subtitle is-6'>@{{display_name}}</h6>
+        </div>
+    </section>
+    <section class='section pt-0 information'>
+        <div class='container'>
+        <form method='post'>
+            <div class='field f_display_name'>
+            <label class='label'>Email</label>
+            <p class='control has-icons-left'>
+                <span class='icon is-small is-left'>
+                    <ion-icon name="mail-outline"></ion-icon>
+                </span>
+                <input
+                name='email'
+                class='input'
+                type='text'
+                value='{{email}}'
+                disabled
+                />
+            </p>
+            </div>
+
+            <div class='columns mb-0'>
+            <div class='column'>
+                <div class='field'>
+                <label class='label'>First Name</label>
+                <p class='control'>
+                    <input
+                    name='first_name'
+                    class='input'
+                    type='text'
+                    value='{{first_name}}'
+                    required
+                    />
+                </p>
+                </div>
+            </div>
+            <div class='column'>
+                <div class='field'>
+                <label class='label'>Last Name</label>
+                <p class='control'>
+                    <input
+                    name='last_name'
+                    class='input'
+                    type='text'
+                    value='{{last_name}}'
+                    required
+                    />
+                </p>
+                </div>
+            </div>
+            </div>
+
+            <div class='field f_display_name'>
+            <label class='label'>Display Name</label>
+            <p class='control has-icons-left'>
+                <input
+                name='display_name'
+                class='input'
+                type='text'
+                onkeyup='v_display_name(this)'
+                value='{{display_name}}'
+                required
+                />
+                <span class='icon is-small is-left'>
+                <ion-icon name='at-outline'></ion-icon>
+                </span>
+            </p>
+            <p class='help'>This is what other players of Tech Roulette will know you as! Letters &
+                numbers only.</p>
+            </div>
+
+            <button class='button is-primary mt-2' type='submit'>Save</button>
+        </form>
+        </div>
+    </section>
+    <script>
+        /** Form validators */ function v_display_name(el) { if (/[^|A-Za-z0-9]+/g.test(el.value))
+        el.value = el.value.replace(/[^|A-Za-z0-9]+/g, '') }
+    </script>
+    </div>
+{{/with}}
