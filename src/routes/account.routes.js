@@ -12,8 +12,9 @@ const notFoundMiddleware = require('@middlewares/404.middlewares')
 // Check for session flag, user banned, & state updates
 router.use(checkAuth, flagMiddleware, banMiddleware, stateMiddleware)
 
-router.get('/', (req, res) => {
-  res.render('pages/account/view')
+router.get('/', async (req, res) => {
+  const badges = await BadgeController.getBadgesByIds(req.user.badges)
+  res.render('pages/account/view', { badges })
 })
 
 router.get('/edit', (req, res) => {

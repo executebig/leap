@@ -29,9 +29,24 @@
       </div>
     </section>
 
-    <section class='section pt-0'>
+    <section class='section badges'>
       <div class='container'>
+        <h1 class='title has-text-primary'>Badges</h1>
 
+        <div class='columns'>
+          {{#each @root/badges}}
+            <div class='column is-narrow badge'>
+              <figure
+                class='image is-128x128'
+                aria-label='{{description}}'
+                data-balloon-pos='up'
+                data-balloon-length='fit'
+              >
+                <img src='{{icon}}' />
+              </figure>
+            </div>
+          {{/each}}
+        </div>
       </div>
     </section>
   </div>

@@ -1,4 +1,4 @@
-/** 
+/**
     @author Mingjie Jiang
     aggregated badge controllers
 */
@@ -18,7 +18,7 @@ exports.updateBadge = async (badge_id, name, desc, icon, hidden, code) => {
     `UPDATE badges SET name = $1, description = $2, icon = $3, hidden = $4, code = $5 WHERE badge_id = $6 RETURNING badge_id`,
     [name, desc, icon, hidden, code, badge_id]
   )
-  
+
   return badge.rows[0]
 }
 
@@ -50,4 +50,10 @@ exports.getBadgeIdByCode = async (code) => {
   } else {
     return data.rows[0].badge_id
   }
+}
+
+exports.getBadgesByIds = async (ids) => {
+  const q = await db.query('SELECT name, description, icon FROM badges WHERE badge_id = ANY ($1)', [ids])
+
+  return q.rows || []
 }
