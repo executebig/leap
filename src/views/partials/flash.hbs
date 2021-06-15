@@ -1,25 +1,13 @@
 <div class="flash-notification">
     <!-- Flashed notifications -->
-    {{#if flash.error}}
-        <div class="notification is-danger flash-message mb-0">
-            <button class="delete" id="close-flash"></button>
-            {{flash.error}}
-        </div>
-        <script>
-            document.getElementById('close-flash').addEventListener('click', function (e) {
-                this.parentNode.style.display = 'none'
-            })
-        </script>
-    {{/if}}
-    {{#if flash.success}}
-        <div class="notification is-success flash-message mb-0">
-            <button class="delete" id="close-flash"></button>
-            {{flash.success}}
-        </div>
-        <script>
-            document.getElementById('close-flash').addEventListener('click', function (e) {
-                this.parentNode.style.display = 'none'
-            })
-        </script>
-    {{/if}}
+    {{#each flash.error}}
+        {{#extend "scripts"}}
+            <script>notyf.error({message: '{{../this}}', duration: 0, dismissible: true}); // errors persist</script>
+        {{/extend}}
+    {{/each}}
+    {{#each flash.success}}
+        {{#extend "scripts"}}
+            <script>notyf.success({message: '{{../this}}', dismissible: true});</script>
+        {{/extend}}
+    {{/each}}
 </div>
