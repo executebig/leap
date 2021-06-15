@@ -1,21 +1,11 @@
 .navbar {
   padding: 8px 0;
+
   .container {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
     .navbar-brand {
       .navbar-item {
-        color: $primary;
-
-        &:hover {
-          text-decoration: none;
-        }
+        text-decoration: none;
       }
-    }
-
-    .navbar-menu {
-      box-shadow: none;
     }
   }
 }

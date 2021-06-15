@@ -4,12 +4,12 @@
 <section class="section header">
     <div class="container">
         <h1 class="title">Badge Controls</h1>
+
+        <a href="/admin/badges/new" class="button">New Badge</a>
     </div>
 </section>
-
 <section class="section">
     <div class="container">
-        <a href="/admin/badges/new" class="button">New Badge</a>
         {{#if badge_list}}
             <table class="table">
                 <thead>
@@ -20,6 +20,7 @@
                         <th><abbr title="icon">icon</abbr></th>
                         <th><abbr title="hidden">H?</abbr></th>
                         <th><abbr title="code">Code</abbr></th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,6 +32,7 @@
                             <td>{{>badge icon=icon}}</td>
                             <td>{{hidden}}</td>
                             <td><code>{{code}}</code></td>
+                            <td><a href="/admin/badges/edit/{{badge_id}}">Edit</a></td>
                         </tr>
                     {{/each}}
                 </tbody>

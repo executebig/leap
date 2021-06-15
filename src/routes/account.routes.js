@@ -72,7 +72,7 @@ router.post('/onboard', async (req, res) => {
     parent_email: req.body.parent_email.toLowerCase(),
     no_shipping: req.body.no_shipping === 'true',
     address:
-      req.body.no_shipping === 'on'
+      req.body.no_shipping === 'true'
         ? null
         : addrSanitizer({
             s1: req.body.addr_street_1,
@@ -105,7 +105,7 @@ router.get('/redeem', (req, res) => {
 
 router.post('/redeem', async (req, res) => {
   const code = req.body.code
-  const badge_id = await BadgeController.getBadgeByCode(code)
+  const badge_id = await BadgeController.getBadgeIdByCode(code)
 
   console.log("badge id: " + badge_id)
 
