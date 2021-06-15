@@ -55,6 +55,5 @@ exports.truncateEmail = (str) => {
 }
 
 exports.hashEmail = (email) => {
-  console.log(email.trim().toLowerCase())
   return crypto.createHash('md5').update(email.trim().toLowerCase()).digest('hex')
 }
