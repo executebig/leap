@@ -20,8 +20,8 @@ router.get('/', async (req, res) => {
 router.use('/edit/:id?', async (req, res, next) => {
   const id = req.params.id || req.user.user_id
 
-  // If id is invalid / non-admin trying to access other users
-  if (isNaN(id || (!req.user.admin && id !== parseInt(id, 10)))) {
+  // if non-admin trying to access other users
+  if (!req.user.admin && req.user.user_id !== parseInt(id, 10)) {
     notFoundMiddleware(req, res)
   } else {
     const user = await UserController.getUserById(id)
