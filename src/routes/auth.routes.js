@@ -39,7 +39,7 @@ router.get(
       res.cookie('_jwt', token, {
         httpOnly: true,
         secure: config.env === 'production',
-        maxAge: 12 * 3600 * 1000
+        maxAge: 168 * 3600 * 1000 // a week
       })
       reflash(req, res)
       next()
