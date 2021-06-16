@@ -4,6 +4,7 @@ specifiers:
   '@bugsnag/js': ^7.10.1
   '@bugsnag/plugin-express': ^7.10.0
   axios: ^0.21.1
+  balloon-css: ^1.2.0
   bulma: ^0.9.2
   chai: ^4.3.4
   chai-http: ^4.3.0
@@ -40,6 +41,7 @@ dependencies:
   '@bugsnag/js': 7.10.1
   '@bugsnag/plugin-express': 7.10.0
   axios: 0.21.1
+  balloon-css: 1.2.0
   bulma: 0.9.2
   chalk: 4.1.1
   compression: 1.7.4
@@ -305,6 +307,10 @@ packages:
 
   /balanced-match/1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
+
+  /balloon-css/1.2.0:
+    resolution: {integrity: sha512-urXwkHgwp6GsXVF+it01485Z2Cj4pnW02ICnM0TemOlkKmCNnDLmyy+ZZiRXBpwldUXO+aRNr7Hdia4CBvXJ5A==}
+    dev: false
 
   /base64-arraybuffer/0.1.4:
     resolution: {integrity: sha1-mBjHngWbE1X5fgQooBfIOOkLqBI=}

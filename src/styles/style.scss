@@ -13,6 +13,9 @@
 @import 'brand'; // extends Bulma with Brand configs
 @import 'bulma/bulma.sass';
 
+/** Balloon.css setup */
+@import 'balloon-css/src/balloon';
+
 /** Global modules */
 @import 'global';
 
@@ -43,3 +46,5 @@
 @import 'pages/chill';
 @import 'pages/auth';
 @import 'pages/redeem';
+
+@import 'pages/account/view';
