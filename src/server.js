@@ -7,6 +7,7 @@
 require('module-alias/register')
 
 const path = require('path')
+const crypto = require('crypto')
 const express = require('express')
 const sass = require('node-sass-middleware')
 const minifier = require('html-minifier')
@@ -97,6 +98,12 @@ if (config.env === 'production') {
   app.use(bugsnagMiddleware.requestHandler)
 }
 
+/** Generate nonce */
+app.use((req, res, next) => {
+  res.locals.nonce = crypto.randomBytes(16).toString('hex')
+  next()
+})
+
 /** Helmet Setup */
 app.use(helmet())
 app.use(helmet.contentSecurityPolicy({
@@ -104,12 +111,13 @@ app.use(helmet.contentSecurityPolicy({
   directives: {
     'script-src': [
       "'self'",
-      "'unsafe-inline'",
+      // "'unsafe-inline'",
       'blob:',
-      'cdnjs.cloudflare.com',
+      'unpkg.com',
       'cdn.heapanalytics.com',
-      'plausible.io',
       'heapanalytics.com',
+      'plausible.io',
+      (req, res) => `'nonce-${res.locals.nonce}'`
     ],
     "script-src-attr": [
       "'self'",
@@ -117,7 +125,7 @@ app.use(helmet.contentSecurityPolicy({
     ],
     'connect-src': [
       "'self'",
-      'cdnjs.cloudflare.com',
+      'unpkg.com',
     ],
     'img-src': [
       "'self'",

@@ -242,7 +242,7 @@
                             </div>
                         </div>
                         {{#extend "scripts"}}
-                            <script>
+                            <script nonce="{{@root/nonce}}">
                                 function onCTALogin(token) {
                                     document.getElementById('authForm-cta').submit()
                                 }
