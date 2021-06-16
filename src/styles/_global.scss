@@ -27,5 +27,6 @@ body {
 }
 
 :root {
-  --balloon-color: #{$primary};
+  --balloon-color: #{$white-offset};
+  --balloon-font-size: 15px;
 }

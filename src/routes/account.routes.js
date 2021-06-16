@@ -17,16 +17,14 @@ router.get('/', async (req, res) => {
   res.render('pages/account/view', { badges })
 })
 
-router.get('/edit', (req, res) => {
-  res.redirect(`/account/edit/${req.user.user_id}`)
-})
+router.use('/edit/:id?', async (req, res, next) => {
+  const id = req.params.id || req.user.user_id
 
-router.use('/edit/:id', async (req, res, next) => {
   // If id is invalid / non-admin trying to access other users
-  if (isNaN(req.params.id || (!req.user.admin && req.user.user_id !== parseInt(req.params.id, 10)))) {
+  if (isNaN(id || (!req.user.admin && id !== parseInt(id, 10)))) {
     notFoundMiddleware(req, res)
   } else {
-    const user = await UserController.getUserById(req.params.id)
+    const user = await UserController.getUserById(id)
 
     if (!user) {
       notFoundMiddleware(req, res)
@@ -37,16 +35,17 @@ router.use('/edit/:id', async (req, res, next) => {
   }
 })
 
-router.get('/edit/:id', (req, res) => {
-  res.render('pages/account/edit')
+router.get('/edit/:id?', async (req, res) => {
+  const address = await UserController.getAddressById(req.user.user_id)
+
+  res.render('pages/account/edit', { address })
 })
 
-router.post('/edit/:id', async (req, res) => {
-  req.params.id = parseInt(req.params.id, 10)
+router.post('/edit/:id?', async (req, res) => {
+  req.params.id = req.params.id ? parseInt(req.params.id, 10) : req.user.user_id
 
   const data = Object.fromEntries(
-    ['first_name', 'last_name', 'display_name']
-    .map(key => [key, req.body[key]])
+    ['first_name', 'last_name', 'display_name'].map((key) => [key, req.body[key]])
   )
 
   await UserController.updateUser(req.params.id, data)
@@ -114,18 +113,18 @@ router.post('/redeem', async (req, res) => {
   const code = req.body.code
   const badge_id = await BadgeController.getBadgeIdByCode(code)
 
-  console.log("badge id: " + badge_id)
+  console.log('badge id: ' + badge_id)
 
   if (badge_id === -1) {
     req.flash('error', 'Invalid secret code!')
     res.redirect('/account/redeem')
   } else if (req.user.badges?.includes(badge_id)) {
     req.flash('error', 'You already have this badge!')
-    res.redirect('/account/redeem')
+    res.redirect('/account')
   } else {
     const user = await UserController.grantBadge(req.user.user_id, badge_id)
     req.flash('success', 'New badge received!')
-    refreshUser(req, res, user, '/account/redeem')
+    refreshUser(req, res, user, '/account')
   }
 })
 
