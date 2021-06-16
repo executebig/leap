@@ -3,12 +3,39 @@
  */
 
 const db = require('@db')
+const redis = require('@db/redis').client
 const mailer = require('@libs/mailer')
 const validateEmail = require('@libs/validateEmail')
 const EOController = require('@controllers/eo.controllers')
 
+const fields = [
+  'user_id',
+
+  'display_name',
+  'first_name',
+  'last_name',
+  // - age, address, phone
+  'email',
+  // - parent_email
+  'no_shipping',
+  // - referrer
+
+  // - created_at, updated_at
+  'state',
+  'admin',
+  'banned',
+
+  'points',
+  'current_week',
+  'current_project',
+  'project_pool',
+  'prev_projects',
+  'prev_modules',
+  'badges'
+].join(', ')
+
 exports.getUserById = async (user_id) => {
-  const q = await db.query('SELECT * FROM users WHERE user_id = $1', [user_id])
+  const q = await db.query(`SELECT ${fields} FROM users WHERE user_id = $1`, [user_id])
 
   if (q.rows.length > 0) {
     return q.rows[0]
@@ -18,7 +45,7 @@ exports.getUserById = async (user_id) => {
 }
 
 exports.getUserByEmail = async (email) => {
-  const q = await db.query('SELECT * FROM users WHERE email = $1', [email])
+  const q = await db.query(`SELECT ${fields} FROM users WHERE email = $1`, [email])
 
   if (q.rows.length > 0) {
     return q.rows[0]
@@ -30,7 +57,7 @@ exports.getUserByEmail = async (email) => {
 /** creates the user with the email address, returns the UUID */
 exports.createUserByEmail = async (email) => {
   const q = await db.query(
-    'INSERT INTO users (email, created_at, updated_at) VALUES ($1, NOW(), NOW()) RETURNING *',
+    `INSERT INTO users (email, created_at, updated_at) VALUES ($1, NOW(), NOW()) RETURNING ${fields}`,
     [email]
   )
 
@@ -60,7 +87,7 @@ exports.updateUser = async (user_id, data) => {
   })
   set.push('updated_at = NOW()')
   query.push(set.join(', '))
-  query.push(`WHERE user_id = ${user_id} RETURNING *`)
+  query.push(`WHERE user_id = ${user_id} RETURNING ${fields}`)
 
   let vals = Object.keys(data).map((key) => {
     return data[key]
@@ -96,8 +123,55 @@ exports.inviteUser = async (email, referrer) => {
     await mailer.sendInvite(email, referrer)
     EOController.updateContact({ email, state: 'invited' }, true)
     await db.query(
-      `INSERT INTO users (email, created_at, updated_at, referrer, state) VALUES ($1, NOW(), NOW(), $2, 'invited') RETURNING *`,
+      `INSERT INTO users (email, created_at, updated_at, referrer, state) VALUES ($1, NOW(), NOW(), $2, 'invited') RETURNING ${fields}`,
       [email, referrer.user_id]
     )
   }
+}
+
+// Flags user for session refresh
+exports.flagRefresh = (user_id) => {
+  redis.set(`refresh:${user_id}`, 1)
+}
+
+exports.flagRefreshAll = async () => {
+  const q = await db.query(`SELECT user_id FROM users`)
+  const ids = q?.rows.map((e) => [`refresh:${e.user_id}`, 1])
+  await redis.mset(...ids)
+}
+
+exports.checkRefreshFlag = async (user_id) => {
+  const key = `refresh:${user_id}`
+  return !!(await redis.getdel(key))
+}
+
+exports.banUser = async (user_id) => {
+  this.updateUser(user_id, {
+    banned: true
+  })
+}
+
+exports.unbanUser = async (user_id) => {
+  this.updateUser(user_id, {
+    banned: false
+  })
+}
+
+exports.grantBadge = async (user_id, badge_id) => {
+  const user = await db.query(
+    `UPDATE users SET badges = array (SELECT distinct e FROM unnest(array_append(badges, $1)) AS e ORDER BY e) WHERE user_id = $2 RETURNING *`,
+    [badge_id, user_id]
+  )
+
+  return user.rows[0]
+}
+
+// this should be used by admins only
+exports.removeBadge = async (user_id, badge_id) => {
+  const user = await db.query(
+    `UPDATE users SET badges = array (SELECT distinct e FROM unnest(array_remove(badges, $1)) AS e ORDER BY e) WHERE user_id = $2 RETURNING *`,
+    [badge_id, user_id]
+  )
+
+  return user.rows[0]
 }

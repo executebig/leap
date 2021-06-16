@@ -1,14 +1,21 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="container">
         <div class="navbar-brand">
-            <a class="navbar-item tr-branding" {{#if user}}href="/dash"{{else}}href="/"{{/if}}>
+            <a class="navbar-item tr-branding" {{#if user}}href="/dash" {{else}}href="/" {{/if}}>
                 <div class="tr-branding">
                     <ion-icon name="dice-outline" size="large"></ion-icon>
                     <span>Tech Roulette</span>
                 </div>
             </a>
+
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
         </div>
-        <div class="navbar-menu is-active">
+
+        <div class="navbar-menu">
             <div class="navbar-start">
                 <!-- navbar items -->
             </div>
@@ -16,14 +23,36 @@
                 {{#unless hide_auth}}
                     {{#if user }}
                         {{#notEq user.state "onboarding"}}
-                            <p class="navbar-item">
-                                @{{../user.display_name}}
-                            </p>
+                            <div class="navbar-item has-dropdown is-hoverable">
+                                {{!-- <a class="navbar-link" href="/account"> --}}
+                                <a class="navbar-link" href="/account">
+                                    @{{../user.display_name}}
+                                </a>
+                                <div class="navbar-dropdown">
+                                    <a class="navbar-item" href="/account">
+                                        My Account
+                                    </a>
+                                    <a class="navbar-item" href="/account/invite">
+                                        Invite Friends
+                                    </a>
+                                    <a class="navbar-item" href="/account/redeem">
+                                        Redeem Code
+                                    </a>
+                                    {{#if ../user.admin}}
+                                    <a class="navbar-item admin" href="/admin">
+                                        Admin Panel
+                                    </a>
+                                    {{/if}}
+                                    <a class="navbar-item" href="/auth/logout">
+                                        Log Out
+                                    </a>
+                                </div>
+                            </div>
+                        {{else}}
+                            <a class="navbar-item" href="/auth/logout">
+                                Log Out
+                            </a>
                         {{/notEq}}
-
-                        <a class="navbar-item" href="/auth/logout">
-                            Log Out
-                        </a>
                     {{else}}
                         <a class="button" href="/login">
                             Log In
@@ -34,3 +63,13 @@
         </div>
     </div>
 </nav>
+
+<script>
+    const burger = document.querySelector('.navbar-burger')
+    const menu = document.querySelector('.navbar-menu')
+
+    burger.addEventListener('click', () => {
+        burger.classList.toggle('is-active')
+        menu.classList.toggle('is-active')
+    })
+</script>

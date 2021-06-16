@@ -8,7 +8,13 @@ const router = require('express').Router()
 const ProjectController = require('@controllers/project.controllers')
 const ModuleController = require('@controllers/module.controllers')
 
+const { flagMiddleware, stateMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
+const { checkAuth } = require('@middlewares/auth.middlewares')
+
 const reflash = require('@libs/reflash')
+
+// Check for session flag, user banned, & state updates
+router.use(checkAuth, flagMiddleware, banMiddleware, stateMiddleware)
 
 router.use('/', (req, res, next) => {
   if (req.user.state !== 'inprogress') {
@@ -22,7 +28,6 @@ router.use('/', (req, res, next) => {
 router.get('/', async (req, res) => {
   return res.render('pages/modules', {
     title: 'Modules',
-    week: req.user.current_week,
     data: await ProjectController.getProjectAndModulesById(req.user.current_project)
   })
 })

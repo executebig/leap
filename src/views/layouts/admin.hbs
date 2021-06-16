@@ -8,11 +8,12 @@
     <link rel="icon" href="/static/brand/icon-blue.png" />
     <title>{{block "title"}} – Admin Panel</title>
     {{#extend "title"}}{{../title}}{{/extend}}
+    {{{block "header-inject"}}}
     {{{block "header-scripts"}}}
 </head>
 
 <body>
-    <div class="columns layout">
+    <div class="columns layout admin">
         <div class="column is-2 menu-column">
             {{> admin/menu }}
         </div>
@@ -24,8 +25,15 @@
     </div>
     {{> flash}}
 
+    {{#eq env "development"}}
+        {{> debug/devbar}}
+    {{/eq}}
+
     <script type="module" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule="" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.js"></script>
+    <script src="https://unpkg.com/notyf@3.10.0/notyf.min.js"></script>
+    
+    <script src="/static/scripts/global.js"></script>
     {{{block "scripts"}}}
 </body>
 

@@ -2,9 +2,63 @@ const router = require('express').Router()
 
 const UserController = require('@controllers/user.controllers')
 const EOController = require('@controllers/eo.controllers')
+const BadgeController = require('@controllers/badge.controllers')
 const addrSanitizer = require('@libs/addressSanitizer')
 
-router.get('/', (req, res) => {})
+const { flagMiddleware, stateMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
+const { checkAuth } = require('@middlewares/auth.middlewares')
+const notFoundMiddleware = require('@middlewares/404.middlewares')
+
+// Check for session flag, user banned, & state updates
+router.use(checkAuth, flagMiddleware, banMiddleware, stateMiddleware)
+
+router.get('/', async (req, res) => {
+  const badges = await BadgeController.getBadgesByIds(req.user.badges)
+  res.render('pages/account/view', { badges })
+})
+
+router.get('/edit', (req, res) => {
+  res.redirect(`/account/edit/${req.user.user_id}`)
+})
+
+router.use('/edit/:id', async (req, res, next) => {
+  // If id is invalid / non-admin trying to access other users
+  if (isNaN(req.params.id || (!req.user.admin && req.user.user_id !== parseInt(req.params.id, 10)))) {
+    notFoundMiddleware(req, res)
+  } else {
+    const user = await UserController.getUserById(req.params.id)
+
+    if (!user) {
+      notFoundMiddleware(req, res)
+    } else {
+      res.locals.edit_user = user
+      next()
+    }
+  }
+})
+
+router.get('/edit/:id', (req, res) => {
+  res.render('pages/account/edit')
+})
+
+router.post('/edit/:id', async (req, res) => {
+  req.params.id = parseInt(req.params.id, 10)
+
+  const data = Object.fromEntries(
+    ['first_name', 'last_name', 'display_name']
+    .map(key => [key, req.body[key]])
+  )
+
+  await UserController.updateUser(req.params.id, data)
+  await UserController.flagRefresh(req.params.id)
+
+  req.flash('success', 'Successfully updated account.')
+  if (req.user.user_id === req.params.id) {
+    res.redirect(`/account`)
+  } else {
+    res.redirect(`/account/edit/${req.params.id}`)
+  }
+})
 
 router.get('/onboard', (req, res) => {
   // verify user tag correct
@@ -25,7 +79,7 @@ router.post('/onboard', async (req, res) => {
     parent_email: req.body.parent_email.toLowerCase(),
     no_shipping: req.body.no_shipping === 'true',
     address:
-      req.body.no_shipping === 'on'
+      req.body.no_shipping === 'true'
         ? null
         : addrSanitizer({
             s1: req.body.addr_street_1,
@@ -43,11 +97,36 @@ router.post('/onboard', async (req, res) => {
   // Update contact data on EO
   await EOController.updateContact(user)
 
-  refreshUser(req, res, user, '/account/invite')
+  refreshUser(req, res, user, '/account/invite?onboard=1')
 })
 
 router.get('/invite', (req, res) => {
-  res.render('pages/account/invite')
+  res.render('pages/account/invite', {
+    isOnboard: req.query.onboard
+  })
+})
+
+router.get('/redeem', (req, res) => {
+  res.render('pages/account/redeem')
+})
+
+router.post('/redeem', async (req, res) => {
+  const code = req.body.code
+  const badge_id = await BadgeController.getBadgeIdByCode(code)
+
+  console.log("badge id: " + badge_id)
+
+  if (badge_id === -1) {
+    req.flash('error', 'Invalid secret code!')
+    res.redirect('/account/redeem')
+  } else if (req.user.badges?.includes(badge_id)) {
+    req.flash('error', 'You already have this badge!')
+    res.redirect('/account/redeem')
+  } else {
+    const user = await UserController.grantBadge(req.user.user_id, badge_id)
+    req.flash('success', 'New badge received!')
+    refreshUser(req, res, user, '/account/redeem')
+  }
 })
 
 router.post('/invite', async (req, res) => {

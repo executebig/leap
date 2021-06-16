@@ -1,29 +1,14 @@
-/**
-    @author Mingjie Jiang
-    Middlewares that interacts with the "state" property of the JWT token
- */
-
-const ConfigController = require('@controllers/config.controllers')
-const UserController = require('@controllers/user.controllers')
 const ProjectController = require('@controllers/project.controllers')
+const UserController = require('@controllers/user.controllers')
+const ConfigController = require('@controllers/config.controllers')
 
-const reflash = require('@libs/reflash')
-
-// this middleware must execute after authentication
-exports.routeState = async (req, res, next) => {
-  if (!req.user) {
-    throw new Error(`Fatal: Please do not use "routeState" without authenticating the user.`)
-    System.exit(-1)
-  }
-
-  let userObj = req.user
-
+exports.stateMiddleware = async (req, res, next) => {
   if (req.user.state !== 'onboarding') {
     const week = parseInt(await ConfigController.get('week'), 10)
 
+    // If user week is behind, (re)generate projects
     if (req.user.current_week < week) {
       const project_pool = await ProjectController.getRandomProjectIds(3, req.user.prev_projects)
-
       const newUser = await UserController.updateUser(req.user.user_id, {
         state: 'pending',
         current_week: week,
@@ -35,23 +20,41 @@ exports.routeState = async (req, res, next) => {
       req.login(newUser, (err) => {
         if (err) {
           req.flash('error', err.message)
-        } else {
-          userObj = newUser
         }
-      })
-    }
-  }
 
-  switch (userObj.state) {
-    case 'onboarding':
-      reflash(req, res)
-      return res.redirect('/account/onboard')
-      break
-    case 'ready':
-      reflash(req, res)
-      return res.redirect('/chill')
-      break
-    default:
+        res.locals.user = req.user
+        next()
+      })
+    } else {
       next()
+    }
+  } else {
+    next()
+  }
+}
+
+exports.flagMiddleware = async (req, res, next) => {
+  const flagged = await UserController.checkRefreshFlag(req.user.user_id)
+
+  // Refresh user session if flagged in redis
+  if (flagged) {
+    req.login(await UserController.getUserById(req.user.user_id), (err) => {
+      if (err) {
+        req.flash('error', err.message)
+      }
+
+      res.locals.user = req.user
+      next()
+    })
+  } else {
+    next()
+  }
+}
+
+exports.banMiddleware = async (req, res, next) => {
+  if (req.user.banned) {
+    res.render('pages/banned')
+  } else {
+    next()
   }
 }

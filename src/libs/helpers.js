@@ -1,5 +1,7 @@
 'use strict'
 
+const crypto = require('crypto')
+
 exports.stringify = (obj) => {
   return JSON.stringify(obj)
 }
@@ -13,7 +15,14 @@ exports.notEq = (a, b, options) => {
 }
 
 exports.capitalize = (a) => {
-  return a.split(' ').map(e => e.charAt(0).toUpperCase() + e.substr(1)).join(' ')
+  return a
+    .split(' ')
+    .map((e) => e.charAt(0).toUpperCase() + e.substr(1))
+    .join(' ')
+}
+
+exports.inc = (value, step) => {
+  return parseInt(value, '10') + step
 }
 
 /** Blocks helper controllers */
@@ -35,4 +44,16 @@ exports.block = (name) => {
   // clear the block
   blocks[name] = []
   return val
+}
+
+exports.showBool = (bool) => {
+  return bool ? '<span class="bool true">O</span>' : '<span class="bool false">X</span>'
+}
+
+exports.truncateEmail = (str) => {
+  return str.length > 12 ? str.substr(0, 8) + '...' + str.substr(str.length - 5) : str
+}
+
+exports.hashEmail = (email) => {
+  return crypto.createHash('md5').update(email.trim().toLowerCase()).digest('hex')
 }

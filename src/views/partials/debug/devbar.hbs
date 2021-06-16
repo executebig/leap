@@ -1,0 +1,105 @@
+<div id="dev__toolbar">
+    <p>DevBar</p>
+    <input id="dev__email" placeholder="Email" />
+    {{#if @root/user}}
+        <a class="dev__button" href="/logout"><button>Logout</button></a>
+    {{else}}
+        <button id="dev__login">Login</button>
+    {{/if}}
+    <span>/</span>
+    <span>Navigation:</span>
+    <a class="dev__toHome" href="/"><button>Home</button></a>
+    <a class="dev__toAdmin" href="/admin"><button>Admin</button></a>
+    <span>/</span>
+
+    {{#if @root/user}}
+        <span>Session:</span>
+        <a class="dev__refreshSession" href="/account/refresh"><button>Refresh</button></a>
+        <a class="dev__flagSession" href="/admin/refresh/"><button>Flag</button></a>
+        <a class="dev__banUser" href="/admin/ban/"><button>Ban Self</button></a>
+        <a class="dev__unbanUser" href="/admin/unban/"><button>Unban Self</button></a>
+        <button id="dev__copyJSON">Inspect JSON</button>
+        <span>/</span>
+    {{/if}}
+
+    <span>Utils:</span>
+    <button id="dev__hideBar">Hide</button>
+</div>
+<button id="dev__showBar">Show</button>
+{{#extend "header-inject"}}
+    <style>
+        #dev__toolbar {
+            height: 40px;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            background-color: #333333;
+            border: 3px solid yellow;
+            padding: 5px;
+            color: #fff;
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 6px;
+        }
+
+        #dev__showBar {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            visibility: hidden;
+        }
+    </style>
+{{/extend}}
+{{#extend "scripts"}}
+    <script>
+        const dev__user = {{{stringify @root/user}}}
+
+        // DevBar Scripts
+        window.onload = () => {
+            const devEmail = localStorage.getItem('dev__email')
+
+            if (devEmail) {
+                document.querySelector('#dev__email').value = devEmail
+            }
+        }
+
+        document.querySelector('#dev__email').addEventListener('change', (event) => {
+            console.log(event)
+            localStorage.setItem('dev__email', event.target.value)
+        })
+
+        if (document.querySelector('#dev__login')) {
+            document.querySelector('#dev__login').addEventListener('click', () => {
+                fetch('/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: "email=" + document.querySelector('#dev__email').value
+                })
+            })
+        }
+
+        document.querySelector('#dev__hideBar').addEventListener('click', () => {
+            document.querySelector('#dev__toolbar').style.display = 'none'
+            document.querySelector('#dev__showBar').style.visibility = 'visible'
+        })
+
+        document.querySelector('#dev__showBar').addEventListener('click', () => {
+            document.querySelector('#dev__toolbar').style.display = 'flex'
+            document.querySelector('#dev__showBar').style.visibility = 'hidden'
+        })
+
+        if (dev__user) {
+            document.querySelectorAll('.dev__banUser, .dev__unbanUser, .dev__flagSession').forEach(node => {
+                node.href += dev__user.user_id
+            })
+
+            document.querySelector('#dev__copyJSON').addEventListener('click', () => {
+                w = window.open('about:blank', '_blank')
+                w.document.write(`<pre>${JSON.stringify(dev__user, null, " ")}</pre>`)
+                w.document.close()
+            })
+        }
+    </script>
+{{/extend}}

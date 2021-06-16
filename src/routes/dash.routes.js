@@ -8,26 +8,34 @@ const router = require('express').Router()
 const ProjectController = require('@controllers/project.controllers')
 const UserController = require('@controllers/user.controllers')
 
+const { flagMiddleware, stateMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
+const { checkAuth } = require('@middlewares/auth.middlewares')
+
 const reflash = require('@libs/reflash')
 
-router.use('/', (req, res, next) => {
-  if (req.user.state === 'inprogress') {
-    reflash(req, res)
-    return res.redirect('/modules')
-  } else if (req.user.state !== 'pending') {
-    reflash(req, res)
-    return res.redirect('/')
-  }
+// Check for session flag, user banned, & state updates
+router.use(checkAuth, flagMiddleware, banMiddleware, stateMiddleware)
 
-  next()
+router.use('/', (req, res, next) => {
+  switch (req.user.state) {
+    case 'onboarding':
+      reflash(req, res)
+      return res.redirect('/account/onboard')
+    case 'ready':
+      reflash(req, res)
+      return res.redirect('/chill')
+    case 'inprogress':
+      reflash(req, res)
+      return res.redirect('/modules')
+    default:
+      next()
+  }
 })
 
 router.get('/', async (req, res) => {
-  const projects = await ProjectController.getProjectsByIds(req.user.project_pool)
-
   return res.render('pages/dash', {
     title: 'Dashboard',
-    projects
+    projects: await ProjectController.getProjectsByIds(req.user.project_pool)
   })
 })
 

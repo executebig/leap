@@ -33,9 +33,4 @@ router.get('/chill', authMiddlewares.checkAuth, (req, res) => {
   res.render('pages/chill')
 })
 
-router.get('/404', authMiddlewares.optionalAuth, (req, res) => {
-  res.status(404)
-  res.render('pages/404')
-})
-
 module.exports = router

@@ -1,0 +1,53 @@
+{{#extend 'title'}}My Account{{/extend}}
+
+{{#with user}}
+  <div class='page__account_view'>
+    <section class='hero is-primary'>
+      <div class='hero-body'>
+        <div class='container'>
+          <div class='columns is-vcentered'>
+            <div class='column is-narrow'>
+              <figure class='image is-128x128'>
+                <img src='https://www.gravatar.com/avatar/{{hashEmail email}}?d=retro&s=128' />
+              </figure>
+            </div>
+
+            <div class='column'>
+              <h1 class='title is-3'>{{first_name}} {{last_name}}</h1>
+              <h6 class='subtitle is-6 mb-4'>@{{display_name}} • {{email}}</h6>
+              <a href='/account/edit' class='button'>
+                <span>
+                  Edit Account
+                </span>
+                <span class='icon is-small'>
+                  <ion-icon name='arrow-forward-outline'></ion-icon>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class='section badges'>
+      <div class='container'>
+        <h1 class='title has-text-primary'>Badges</h1>
+
+        <div class='columns'>
+          {{#each @root/badges}}
+            <div class='column is-narrow badge'>
+              <figure
+                class='image is-128x128'
+                aria-label='{{description}}'
+                data-balloon-pos='up'
+                data-balloon-length='fit'
+              >
+                <img src='{{icon}}' />
+              </figure>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    </section>
+  </div>
+{{/with}}

@@ -86,7 +86,7 @@ const sassConfig = {
 /** Begin Bugsnag integration */
 let bugsnagMiddleware = null
 
-if (process.env.NODE_ENV === 'production') {
+if (config.env === 'production') {
   Bugsnag.start({
     apiKey: config.bugsnag.apiKey,
     plugins: [BugsnagPluginExpress]
@@ -182,7 +182,7 @@ app.use('/static', express.static(path.join(__dirname, './static')))
 app.use(require('@routes'))
 
 /** End Bugsnag integration (includes 500 rendering) */
-if (process.env.NODE_ENV === 'production') {
+if (config.env === 'production') {
   app.use((err, req, res, next) => {
     if (req.user) {
       req.bugsnag.addMetadata('user', req.user)
@@ -196,7 +196,7 @@ if (process.env.NODE_ENV === 'production') {
 
   app.use((err, req, res, next) => {
     res.status(500)
-    res.render('pages/500', { req_id: req.id.split('-')[0], hide_auth: true })
+    res.render('pages/status/500', { req_id: req.id.split('-')[0], hide_auth: true })
   })
 }
 
