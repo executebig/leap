@@ -2,4 +2,9 @@ img.badge {
     width: 28px;
     border-radius: 100%;
     -webkit-user-drag: none;
+
+    &.large {
+        width: 64px;
+        height: 64px;
+    }
 }

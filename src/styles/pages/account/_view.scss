@@ -2,12 +2,34 @@
   .hero {
     .hero-body {
       .container {
+        .subtitle {
+          font-family: $family-sans-serif;
+          font-weight: bold;
+        }
+
         .image {
-          border: 5px solid $white;
+          border: 3px solid $white;
           border-radius: 50%;
           overflow: hidden;
         }
       }
     }
+  }
+}
+
+[aria-label][data-balloon-pos] {
+  cursor: default;
+
+  &:before {
+    display: none;
+  }
+
+  &:after {
+    text-align: center;
+    font-family: $family-sans-serif;
+    font-weight: bold;
+    color: $primary;
+    border-radius: 5px;
+    border: 2px solid $primary;
   }
 }
