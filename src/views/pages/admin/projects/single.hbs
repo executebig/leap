@@ -1,0 +1,73 @@
+{{#extend "title"}}
+    {{#if ../edit}}Edit Project #{{../project.project_id}}{{else}}New Project{{/if}}
+{{/extend}}
+<section class="section header">
+    <div class="container">
+        <h1 class="title">{{#if edit}}Edit Project #{{project.project_id}}{{else}}New Project{{/if}}</h1>
+    </div>
+</section>
+<section class="section information">
+    <div class="container">
+        <form method="post">
+            <div class="columns mb-0">
+                <div class="column">
+                    <div class="field">
+                        <label class="label">Project Title</label>
+                        <p class="control">
+                            <input name="title" class="input" type="text" placeholder="Shipwreck" value="{{project.title}}" required />
+                        </p>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label class="label">Project Type</label>
+                        <p class="control">
+                            <input name="type" class="input" type="text" placeholder="Data Science" value="{{project.type}}" required />
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label class="label">Description</label>
+                        <p class="control">
+                            <textarea
+                                name="description"
+                                class="textarea"
+                                type="text"
+                                placeholder="A brief description / summary of what the project entails."
+                                required
+                            >{{project.description}}</textarea>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label class="label">Thumbnail URL</label>
+                        <p class="control">
+                            <input name="thumbnail_url" class="input" type="text" value="{{#if project.thumbnail_url}}{{project.thumbnail_url}}{{else}}https://cdn.techroulette.xyz/projects/{{/if}}" required />
+                        </p>
+                        <p class="help">
+                            Upload to <a href="https://github.com/executebig/tr-cdn" target="_blank">https://github.com/executebig/tr-cdn</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <div class="field f_hidden">
+                        <label class="checkbox mt-3">
+                            <input type="checkbox" name="enabled" {{#unless edit}}checked{{else}}{{#if project.enabled}}checked{{/if}}{{/unless}}>
+                            Project enabled?
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="button is-primary">{{#if edit}}Update Project{{else}}Create Project{{/if}}</button>
+        </form>
+    </div>
+</section>

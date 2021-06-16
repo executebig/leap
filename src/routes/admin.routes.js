@@ -8,6 +8,7 @@ const AdminController = require('@controllers/admin.controllers')
 const UserController = require('@controllers/user.controllers')
 const BadgeController = require('@controllers/badge.controllers')
 const ConfigController = require('@controllers/config.controllers')
+const ProjectController = require('@controllers/project.controllers')
 
 const { flagMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
 const notFoundMiddleware = require('@middlewares/404.middlewares')
@@ -102,6 +103,8 @@ router.post('/config', async (req, res) => {
   res.redirect('/admin/config')
 })
 
+/** Badges */
+
 router.get('/badges', async (req, res) => {
   const data = await BadgeController.listBadges(true)
 
@@ -143,6 +146,59 @@ router.post('/badges/edit/:id', async (req, res) => {
 
   req.flash('success', `Badge #${id} updated successfully!`)
   res.redirect(`/admin/badges/edit/${badge.badge_id}`)
+})
+
+/** Projects */
+
+router.get('/projects', async (req, res) => {
+  res.render('pages/admin/projects/list', {
+    projects: await ProjectController.getProjects()
+  })
+})
+
+router.get('/projects/new', async (req, res) => {
+  res.render('pages/admin/projects/single')
+})
+
+router.post('/projects/new', async (req, res) => {
+  let { title, description, type, thumbnail_url, enabled } = req.body
+  enabled = !!enabled
+
+  const project = await ProjectController.createProject({
+    title,
+    description,
+    type,
+    thumbnail_url,
+    enabled
+  })
+
+  req.flash('success', `Project #${project.project_id} created successfully!`)
+  res.redirect(`/admin/projects/edit/${project.project_id}`)
+})
+
+router.get('/projects/edit/:id', async (req, res) => {
+  const project = await ProjectController.getProjectById(req.params.id)
+
+  res.render('pages/admin/projects/single', {
+    edit: true,
+    project
+  })
+})
+
+router.post('/projects/edit/:id', async (req, res) => {
+  let { title, description, type, thumbnail_url, enabled } = req.body
+  enabled = !!enabled
+
+  const project = await ProjectController.updateProject(req.params.id, {
+    title,
+    description,
+    type,
+    thumbnail_url,
+    enabled
+  })
+
+  req.flash('success', `Project #${project.project_id} updated successfully!`)
+  res.redirect(`/admin/projects/edit/${project.project_id}`)
 })
 
 module.exports = router
