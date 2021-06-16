@@ -2,12 +2,12 @@
     <!-- Flashed notifications -->
     {{#each flash.error}}
         {{#extend "scripts"}}
-            <script nonce="{{nonce}}">notyf.error({message: '{{../this}}', duration: 0, dismissible: true}); // errors persist</script>
+            <script nonce="{{@root/nonce}}">notyf.error({message: '{{../this}}', duration: 0, dismissible: true}); // errors persist</script>
         {{/extend}}
     {{/each}}
     {{#each flash.success}}
         {{#extend "scripts"}}
-            <script nonce="{{nonce}}">notyf.success({message: '{{../this}}', dismissible: true});</script>
+            <script nonce="{{@root/nonce}}">notyf.success({message: '{{../this}}', dismissible: true});</script>
         {{/extend}}
     {{/each}}
 </div>

@@ -106,37 +106,26 @@ app.use((req, res, next) => {
 
 /** Helmet Setup */
 app.use(helmet())
-app.use(helmet.contentSecurityPolicy({
-  useDefaults: true,
-  directives: {
-    'script-src': [
-      "'self'",
-      // "'unsafe-inline'",
-      'blob:',
-      'unpkg.com',
-      'cdn.heapanalytics.com',
-      'heapanalytics.com',
-      'plausible.io',
-      (req, res) => `'nonce-${res.locals.nonce}'`
-    ],
-    "script-src-attr": [
-      "'self'",
-      "'unsafe-inline'"
-    ],
-    'connect-src': [
-      "'self'",
-      'unpkg.com',
-    ],
-    'img-src': [
-      "'self'",
-      "data:",
-      'heapanalytics.com'
-    ],
-    'frame-src': [
-      'https://open.spotify.com/'
-    ]
-  }
-}))
+app.use(
+  helmet.contentSecurityPolicy({
+    useDefaults: true,
+    directives: {
+      'script-src': [
+        "'self'",
+        'blob:',
+        'unpkg.com',
+        'cdn.heapanalytics.com',
+        'heapanalytics.com',
+        'plausible.io',
+        (req, res) => `'nonce-${res.locals.nonce}'`
+      ],
+      'script-src-attr': ["'self'", "'unsafe-inline'"],
+      'connect-src': ["'self'", 'unpkg.com'],
+      'img-src': ["'self'", 'data:', 'heapanalytics.com', 'gravatar.com', 'cdn.techroulette.xyz'],
+      'frame-src': ['https://open.spotify.com/']
+    }
+  })
+)
 
 /** Logging Setup */
 morgan.token('id', (req) => req.id.split('-')[0])
