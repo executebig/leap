@@ -14,7 +14,8 @@
 
 <body>
     <div class="columns layout admin">
-        <div class="column is-2 menu-column">
+        <div class="column is-2 menu-column"></div>
+        <div class="column is-2 menu-column" style="position: fixed;">
             {{> admin/menu }}
         </div>
         <main class="main column main-column">
@@ -32,7 +33,7 @@
     <script type="module" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule="" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.js"></script>
     <script src="https://unpkg.com/notyf@3.10.0/notyf.min.js"></script>
-    
+
     <script src="/static/scripts/global.js"></script>
     {{{block "scripts"}}}
 </body>
