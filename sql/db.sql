@@ -1,5 +1,4 @@
 create type user_state as enum ('onboarding', 'inprogress', 'completed', 'pending', 'ready', 'invited');
-create type project_type as enum ('learning', 'competitive', 'collaborative');
 
 create table if not exists users (
     user_id serial not null constraint users_pk primary key,
@@ -35,7 +34,7 @@ create table if not exists projects (
 
 	title text not null,
 	description text not null,
-    type project_type default 'learning' :: project_type not null,
+    type text not null,
     enabled bool not null default false,
 	thumbnail_url text not null
 );
