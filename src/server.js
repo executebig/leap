@@ -117,6 +117,8 @@ app.use(
         'cdn.heapanalytics.com',
         'heapanalytics.com',
         'plausible.io',
+        'ajax.cloudflare.com',
+        'static.cloudflareinsights.com',
         (req, res) => `'nonce-${res.locals.nonce}'`
       ],
       'script-src-attr': ["'self'", "'unsafe-inline'"],
