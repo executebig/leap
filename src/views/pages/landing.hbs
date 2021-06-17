@@ -215,6 +215,8 @@
             <p class="help">†: Resctrictions apply. U.S. residents only.</p>
         </div>
     </section>
+
+    {{#unless user}}
     <section class="section cta">
         <div class="container">
             <div class="card">
@@ -266,6 +268,8 @@
             </div>
         </div>
     </section>
+    {{/unless}}
+
     <script src="https://unpkg.com/three@0.129.0/build/three.min.js"></script>
     <script src="/static/scripts/waves.js"></script>
 </div>
