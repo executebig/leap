@@ -122,9 +122,9 @@ app.use(
         (req, res) => `'nonce-${res.locals.nonce}'`
       ],
       'script-src-attr': ["'self'", "'unsafe-inline'"],
-      'connect-src': ["'self'", 'unpkg.com'],
+      'connect-src': ["'self'", 'unpkg.com', 'plausible.io'],
       'img-src': ["'self'", 'data:', 'heapanalytics.com', 'gravatar.com', 'cdn.techroulette.xyz'],
-      'frame-src': ['https://open.spotify.com/']
+      'frame-src': ['open.spotify.com', 'www.youtube.com']
     }
   })
 )
