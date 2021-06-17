@@ -113,20 +113,41 @@ app.use(
       'script-src': [
         "'self'",
         'blob:',
-        'unpkg.com',
-        'cdn.heapanalytics.com',
-        'heapanalytics.com',
-        'plausible.io',
-        'ajax.cloudflare.com',
-        'static.cloudflareinsights.com',
-        'hcaptcha.com',
+        'https://unpkg.com',
+        'https://cdn.heapanalytics.com',
+        'https://heapanalytics.com',
+        'https://plausible.io',
+        'https://ajax.cloudflare.com',
+        'https://static.cloudflareinsights.com',
+        'https://hcaptcha.com',
+        'https://*.hcaptcha.com',
         (req, res) => `'nonce-${res.locals.nonce}'`
       ],
       'script-src-attr': ["'self'", "'unsafe-inline'"],
-      'connect-src': ["'self'", 'unpkg.com', 'plausible.io'],
+      'connect-src': [
+        "'self'",
+        'https://unpkg.com',
+        'https://plausible.io',
+        'https://hcaptcha.com',
+        'https://*.hcaptcha.com'
+      ],
       'img-src': ["'self'", 'data:', 'heapanalytics.com', 'gravatar.com', 'cdn.techroulette.xyz'],
-      'frame-src': ['open.spotify.com', 'www.youtube.com']
-    }
+      'frame-src': [
+        'https://open.spotify.com',
+        'https://www.youtube.com',
+        'https://hcaptcha.com',
+        'https://*.hcaptcha.com'
+      ],
+      'style-src': [
+        "'self'",
+        "'unsafe-inline'",
+        'https://hcaptcha.com',
+        'https://*.hcaptcha.com',
+        'https://fonts.googleapis.com',
+        'https://unpkg.com'
+      ]
+    },
+    // reportOnly: true
   })
 )
 

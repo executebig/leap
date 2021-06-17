@@ -36,7 +36,7 @@
         <script src="https://hcaptcha.com/1/api.js" async defer></script>
     {{/extend}}
     {{#extend "scripts"}}
-        <script>
+        <script nonce='{{@root/nonce}}'>
             function onLogin(token) {
                 console.log(token)
                 document.getElementById('authForm').submit()
