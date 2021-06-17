@@ -119,6 +119,7 @@ app.use(
         'plausible.io',
         'ajax.cloudflare.com',
         'static.cloudflareinsights.com',
+        'hcaptcha.com',
         (req, res) => `'nonce-${res.locals.nonce}'`
       ],
       'script-src-attr': ["'self'", "'unsafe-inline'"],
