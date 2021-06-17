@@ -242,7 +242,7 @@
                             </div>
                         </div>
                         {{#extend "scripts"}}
-                            <script>
+                            <script nonce="{{@root/nonce}}">
                                 function onCTALogin(token) {
                                     document.getElementById('authForm-cta').submit()
                                 }
@@ -266,6 +266,6 @@
             </div>
         </div>
     </section>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" integrity="sha512-dLxUelApnYxpLt6K2iomGngnHO83iUvZytA3YjDUCjT0HDOHKXnVYdf3hU4JjM8uEhxf9nD1/ey98U3t2vZ0qQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://unpkg.com/three@0.129.0/build/three.min.js"></script>
     <script src="/static/scripts/waves.js"></script>
 </div>

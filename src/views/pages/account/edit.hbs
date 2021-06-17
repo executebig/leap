@@ -97,7 +97,7 @@
         <p class="mt-4">If you believe that there is an error with your shipping status/information, please reach out to us at <a href="mailto:hi@techroulette.xyz">hi@techroulette.xyz</a>.</p>
       </div>
     </section>
-    <script>
+    <script nonce='{{@root/nonce}}'>
       /** Form validators */ function v_display_name(el) {
         if (/[^|A-Za-z0-9]+/g.test(el.value))
           el.value = el.value.replace(/[^|A-Za-z0-9]+/g, '')

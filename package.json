@@ -39,6 +39,7 @@
     "express-request-id": "^1.4.1",
     "express-session": "^1.17.2",
     "hcaptcha": "^0.0.2",
+    "helmet": "^4.6.0",
     "html-minifier": "^4.0.0",
     "ioredis": "^4.27.2",
     "jsonwebtoken": "^8.5.1",

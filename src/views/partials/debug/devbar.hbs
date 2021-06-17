@@ -51,7 +51,7 @@
     </style>
 {{/extend}}
 {{#extend "scripts"}}
-    <script>
+    <script nonce="{{@root/nonce}}">
         const dev__user = {{{stringify @root/user}}}
 
         // DevBar Scripts
