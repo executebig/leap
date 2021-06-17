@@ -54,6 +54,16 @@ exports.getUserByEmail = async (email) => {
   }
 }
 
+exports.getAddressById = async (user_id) => {
+  const q = await db.query(`SELECT address FROM users WHERE user_id = $1`, [user_id])
+
+  if (q.rows.length > 0) {
+    return q.rows[0].address
+  } else {
+    return null
+  }
+}
+
 /** creates the user with the email address, returns the UUID */
 exports.createUserByEmail = async (email) => {
   const q = await db.query(

@@ -1,45 +1,32 @@
-{{#extend 'title'}}My Account{{/extend}}
-
+{{#extend 'title'}}
+  Edit Account
+{{/extend}}
 {{#with edit_user}}
   <div class='page__account_edit'>
     <section class='section header'>
       <div class='container'>
-        <h1 class='title'>Edit Account</h1>
-        <p>Need help with account details? Reach out to us at <a href="mailto:hi@techroulette.xyz">hi@techroulette.xyz.</a></p>
+        <h1 class='title'>Update Your Account</h1>
       </div>
     </section>
-
-    <section class='section pt-0 information'>
+    <section class='section pt-0 pb-0 information'>
       <div class='container'>
         <form method='post'>
           <div class='field f_display_name'>
             <label class='label'>Email</label>
             <p class='control has-icons-left'>
               <span class='icon is-small is-left'>
-                  <ion-icon name="mail-outline"></ion-icon>
+                <ion-icon name="mail-outline"></ion-icon>
               </span>
-              <input
-                name='email'
-                class='input'
-                type='text'
-                value='{{email}}'
-                disabled
-              />
+              <input name='email' class='input' type='text' value='{{email}}' disabled />
             </p>
+            <p class='help'>We do not recommend changing this. If you have to change this, please reach out to us via the email address on the bottom of the page. </p>
           </div>
-
           <div class='columns mb-0'>
             <div class='column'>
               <div class='field'>
                 <label class='label'>First Name</label>
                 <p class='control'>
-                  <input
-                    name='first_name'
-                    class='input'
-                    type='text'
-                    value='{{first_name}}'
-                    required
-                  />
+                  <input name='first_name' class='input' type='text' value='{{first_name}}' required />
                 </p>
               </div>
             </div>
@@ -47,29 +34,15 @@
               <div class='field'>
                 <label class='label'>Last Name</label>
                 <p class='control'>
-                  <input
-                    name='last_name'
-                    class='input'
-                    type='text'
-                    value='{{last_name}}'
-                    required
-                  />
+                  <input name='last_name' class='input' type='text' value='{{last_name}}' required />
                 </p>
               </div>
             </div>
           </div>
-
           <div class='field f_display_name'>
             <label class='label'>Display Name</label>
             <p class='control has-icons-left'>
-              <input
-                name='display_name'
-                class='input'
-                type='text'
-                onkeyup='v_display_name(this)'
-                value='{{display_name}}'
-                required
-              />
+              <input name='display_name' class='input' type='text' onkeyup='v_display_name(this)' value='{{display_name}}' required />
               <span class='icon is-small is-left'>
                 <ion-icon name='at-outline'></ion-icon>
               </span>
@@ -77,15 +50,58 @@
             <p class='help'>This is what other players of Tech Roulette will know you as! Letters &
               numbers only.</p>
           </div>
-
-          <button class='button is-primary mt-2' type='submit'>Save</button>
+          <button class='button is-primary mt-2' type='submit'>Save Changes</button>
         </form>
       </div>
     </section>
-
+    <section class="section shipping">
+      <div class='container'>
+        <div class="card">
+          <div class="card-content">
+            {{#if no_shipping}}
+              <p class="mb-4">
+                <strong>
+                  <span class="tag is-medium is-danger">
+                    <ion-icon name="close-circle-outline"></ion-icon> <span>Shipping Disabled</span>
+                  </span>
+                </strong>
+              </p>
+              <p class="mb-4">
+                <strong>You are currently not eligible for shipping.</strong>
+              </p>
+              <p>
+                Due to shipping restrictions, we can only provide shipping for students inside the United States.
+                You will still be eligible for any non-physical rewards (e.g. software licenses), but you will not
+                be able to participate in hardware projects or receive physical rewards.
+              </p>
+            {{else}}
+              <p class="mb-4">
+                <strong>
+                  <span class="tag is-medium is-success">
+                    <ion-icon name="checkmark-circle-outline"></ion-icon> <span>Shipping Enabled</span>
+                  </span>
+                </strong>
+              </p>
+              <div class='field f_shipping'>
+                <label class='label'>You are eligible for shipping &mdash; we will send any hardware or physical rewards to the following address on file: </label>
+                <p class='control'>
+                  <input class='input' type='text' value='{{@root/address}}' readonly />
+                </p>
+                <p class="help">
+                  This is a read-only field.
+                </p>
+              </div>
+            {{/if}}
+          </div>
+        </div>
+        <p class="mt-4">If you believe that there is an error with your shipping status/information, please reach out to us at <a href="mailto:hi@techroulette.xyz">hi@techroulette.xyz</a>.</p>
+      </div>
+    </section>
     <script nonce='{{@root/nonce}}'>
-      /** Form validators */ function v_display_name(el) { if (/[^|A-Za-z0-9]+/g.test(el.value))
-      el.value = el.value.replace(/[^|A-Za-z0-9]+/g, '') }
+      /** Form validators */ function v_display_name(el) {
+        if (/[^|A-Za-z0-9]+/g.test(el.value))
+          el.value = el.value.replace(/[^|A-Za-z0-9]+/g, '')
+      }
     </script>
   </div>
 {{/with}}
