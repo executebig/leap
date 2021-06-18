@@ -9,6 +9,7 @@ const UserController = require('@controllers/user.controllers')
 const BadgeController = require('@controllers/badge.controllers')
 const ConfigController = require('@controllers/config.controllers')
 const ProjectController = require('@controllers/project.controllers')
+const ModuleController = require('@controllers/module.controllers')
 
 const { flagMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
 const notFoundMiddleware = require('@middlewares/404.middlewares')
@@ -149,7 +150,6 @@ router.post('/badges/edit/:id', async (req, res) => {
 })
 
 /** Projects */
-
 router.get('/projects', async (req, res) => {
   res.render('pages/admin/projects/list', {
     projects: await ProjectController.getProjects()
@@ -164,7 +164,7 @@ router.post('/projects/new', async (req, res) => {
   let { title, description, type, thumbnail_url, enabled } = req.body
   enabled = !!enabled
 
-  const project = await ProjectController.createProject({
+  const { project_id } = await ProjectController.createProject({
     title,
     description,
     type,
@@ -172,16 +172,18 @@ router.post('/projects/new', async (req, res) => {
     enabled
   })
 
-  req.flash('success', `Project #${project.project_id} created successfully!`)
-  res.redirect(`/admin/projects/edit/${project.project_id}`)
+  req.flash('success', `Project #${project_id} created successfully!`)
+  res.redirect(`/admin/projects/edit/${project_id}`)
 })
 
 router.get('/projects/edit/:id', async (req, res) => {
   const project = await ProjectController.getProjectById(req.params.id)
+  const modules = await ModuleController.getModulesByProjectId(req.params.id)
 
   res.render('pages/admin/projects/single', {
     edit: true,
-    project
+    project,
+    modules
   })
 })
 
@@ -189,7 +191,7 @@ router.post('/projects/edit/:id', async (req, res) => {
   let { title, description, type, thumbnail_url, enabled } = req.body
   enabled = !!enabled
 
-  const project = await ProjectController.updateProject(req.params.id, {
+  const { project_id } = await ProjectController.updateProject(req.params.id, {
     title,
     description,
     type,
@@ -197,8 +199,88 @@ router.post('/projects/edit/:id', async (req, res) => {
     enabled
   })
 
-  req.flash('success', `Project #${project.project_id} updated successfully!`)
-  res.redirect(`/admin/projects/edit/${project.project_id}`)
+  req.flash('success', `Project #${project_id} updated successfully!`)
+  res.redirect(`/admin/projects/edit/${project_id}`)
+})
+
+/** Modules */
+router.get('/modules', async (req, res) => {
+  res.render('pages/admin/modules/list', {
+    modules: await ModuleController.getModules()
+  })
+})
+
+router.get('/modules/new', async (req, res) => {
+  const project_id = req.query.project_id
+
+  if (!project_id) {
+    req.flash('error', `Missing project_id`)
+    res.redirect(`/admin/modules/edit/${module_id}`)
+    return
+  }
+
+  const project = await ProjectController.getProjectById(project_id)
+
+  res.render('pages/admin/modules/single', {
+    project
+  })
+})
+
+router.post('/modules/new', async (req, res) => {
+  let { title, description, content, points, required, enabled, project_id } = req.body
+
+  if (!project_id) {
+    req.flash('error', `Missing project_id`)
+    res.redirect(`/admin/modules/edit/${module_id}`)
+    return
+  }
+
+  required = !!required
+  enabled = !!enabled
+
+  const { module_id } = await ModuleController.createModule(
+    {
+      title,
+      description,
+      content,
+      points,
+      required,
+      enabled
+    },
+    project_id
+  )
+
+  req.flash('success', `Module #${module_id} created successfully!`)
+  res.redirect(`/admin/modules/edit/${module_id}`)
+})
+
+router.get('/modules/edit/:id', async (req, res) => {
+  const module = await ModuleController.getModuleById(req.params.id)
+  const project = await ProjectController.getProjectById(module.project_id)
+
+  res.render('pages/admin/modules/single', {
+    edit: true,
+    module, project
+  })
+})
+
+router.post('/modules/edit/:id', async (req, res) => {
+  let { title, description, content, points, required, enabled } = req.body
+
+  required = !!required
+  enabled = !!enabled
+
+  const { module_id } = await ModuleController.updateModule(req.params.id, {
+    title,
+    description,
+    content,
+    points,
+    required,
+    enabled
+  })
+
+  req.flash('success', `Module #${module_id} updated successfully!`)
+  res.redirect(`/admin/modules/edit/${module_id}`)
 })
 
 module.exports = router

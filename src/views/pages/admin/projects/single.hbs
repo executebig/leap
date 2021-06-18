@@ -1,13 +1,24 @@
 {{#extend "title"}}
     {{#if ../edit}}Edit Project #{{../project.project_id}}{{else}}New Project{{/if}}
 {{/extend}}
+
 <section class="section header">
     <div class="container">
         <h1 class="title">{{#if edit}}Edit Project #{{project.project_id}}{{else}}New Project{{/if}}</h1>
+
+        {{#unless @root/edit}}
+            <article class="message">
+                <div class="message-body">
+                    Modules can be added once a project is created.
+                </div>
+            </article>
+        {{/unless}}
     </div>
 </section>
-<section class="section information">
+
+<section class="section details">
     <div class="container">
+        <h1 class="subtitle">Project Details</h1>
         <form method="post">
             <div class="columns mb-0">
                 <div class="column">
@@ -58,7 +69,7 @@
             </div>
             <div class="columns">
                 <div class="column">
-                    <div class="field f_hidden">
+                    <div class="field">
                         <label class="checkbox mt-3">
                             <input type="checkbox" name="enabled" {{#unless edit}}checked{{else}}{{#if project.enabled}}checked{{/if}}{{/unless}}>
                             Project enabled?
@@ -69,5 +80,42 @@
 
             <button type="submit" class="button is-primary">{{#if edit}}Update Project{{else}}Create Project{{/if}}</button>
         </form>
+    </div>
+</section>
+
+<section class="section modules">
+    <div class="container">
+        <h1 class="subtitle">Modules</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th><abbr title="module_id">ID</abbr></th>
+                    <th><abbr title="title">Title</abbr></th>
+                    <th><abbr title="description">DESC</abbr></th>
+                    {{!-- <th><abbr title="content">Content</abbr></th> --}}
+                    <th><abbr title="points">Points</abbr></th>
+                    <th><abbr title="required">R?</abbr></th>
+                    <th><abbr title="enabled">E?</abbr></th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each modules}}
+                    <tr>
+                        <th>{{module_id}}</th>
+                        <td>{{title}}</td>
+                        <td>{{description}}</td>
+                        {{!-- <td>{{content}}</td> --}}
+                        <td>{{points}}</td>
+                        <td>{{{showBool required}}}</td>
+                        <td>{{{showBool enabled}}}</td>
+                        <td><a href="/admin/modules/edit/{{module_id}}">Edit</a></td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+        <a href="/admin/modules/new?project_id={{project.project_id}}" class="button is-light is-primary">New Module</a>
     </div>
 </section>

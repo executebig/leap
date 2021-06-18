@@ -1,0 +1,107 @@
+{{#extend "title"}}
+    {{#if ../edit}}Edit Module #{{../module.module_id}}{{else}}New Module{{/if}}
+{{/extend}}
+
+<section class="section header">
+    <div class="container">
+        <h1 class="title">{{#if edit}}Edit Module #{{module.module_id}}{{else}}New Module{{/if}}</h1>
+
+        <article class="message is-primary">
+            <div class="message-body">
+                This module belongs to <strong><a href="/admin/projects/edit/{{project.project_id}}">{{project.title}} (#{{project.project_id}})</a></strong>
+            </div>
+        </article>
+    </div>
+</section>
+
+<section class="section details">
+    <div class="container">
+        <form method="post">
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label class="label">Module Title</label>
+                        <p class="control">
+                            <input name="title" class="input" type="text" placeholder="Shipwreck" value="{{module.title}}" required />
+                        </p>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div class="field">
+                        <label class="label">Points</label>
+                        <p class="control">
+                            <input
+                                name="points"
+                                class="input"
+                                type="number"
+                                min="1"
+                                placeholder="3"
+                                value="{{module.points}}"
+                                required
+                            />
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label class="label">Description</label>
+                        <p class="control">
+                            <textarea
+                                name="description"
+                                class="textarea"
+                                type="text"
+                                placeholder="A brief description / summary of what the module entails."
+                                rows="3"
+                                required
+                            >{{module.description}}</textarea>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label class="label">Content</label>
+                        <p class="control">
+                            <textarea
+                                name="content"
+                                class="textarea"
+                                type="text"
+                                placeholder="Module content"
+                                rows="10"
+                                required
+                            >{{module.content}}</textarea>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label class="checkbox mt-3">
+                            <input type="checkbox" name="required" {{#unless edit}}checked{{else}}{{#if module.required}}checked{{/if}}{{/unless}}>
+                            Module required?
+                        </label>
+                    </div>
+
+                    <div class="field">
+                        <label class="checkbox">
+                            <input type="checkbox" name="enabled" {{#unless edit}}checked{{else}}{{#if module.enabled}}checked{{/if}}{{/unless}}>
+                            Module enabled?
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <input type="hidden" name="project_id" value="{{project_id}}">
+
+            <button type="submit" class="button is-primary">{{#if edit}}Update Module{{else}}Create Module{{/if}}</button>
+        </form>
+    </div>
+</section>
