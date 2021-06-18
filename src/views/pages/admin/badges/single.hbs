@@ -4,6 +4,13 @@
 <section class="section header">
     <div class="container">
         <h1 class="title">{{#if edit}}Edit Badge #{{badge.badge_id}}{{else}}New Badge{{/if}}</h1>
+
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+            <ul>
+                <li><a href="/admin/badges">Badges</a></li>
+                <li class="is-active"><a href="#" aria-current="page">{{#if edit}}{{badge.name}}{{else}}New Badge{{/if}}</a></li>
+            </ul>
+        </nav>
     </div>
 </section>
 <section class="section information">

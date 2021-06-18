@@ -6,6 +6,13 @@
     <div class="container">
         <h1 class="title">{{#if edit}}Edit Project #{{project.project_id}}{{else}}New Project{{/if}}</h1>
 
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+            <ul>
+                <li><a href="/admin/projects">Projects</a></li>
+                <li class="is-active"><a href="#" aria-current="page">{{#if edit}}{{project.title}}{{else}}New Project{{/if}}</a></li>
+            </ul>
+        </nav>
+
         {{#unless @root/edit}}
             <article class="message">
                 <div class="message-body">
