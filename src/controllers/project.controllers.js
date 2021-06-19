@@ -27,7 +27,12 @@ exports.getProjectsByIds = async (project_ids) => {
 // Query doesn't scale well w/ larger datasets, but should be fine for our purposes
 exports.getRandomProjectIds = async (num, exclude) => {
   const q = await db.query(
-    'SELECT project_id FROM projects WHERE NOT project_id = ANY ($2) ORDER BY random() LIMIT $1',
+    `SELECT project_id FROM projects
+    WHERE
+      NOT project_id = ANY ($2) AND
+      enabled = true
+    ORDER BY random()
+    LIMIT $1`,
     [num, exclude]
   )
 
@@ -36,10 +41,14 @@ exports.getRandomProjectIds = async (num, exclude) => {
 
 // Returns modules associated w/ project, filtered by required flag
 exports.getModulesById = async (project_id, required) => {
-  const q = await db.query('SELECT * FROM modules WHERE project_id = $1 AND required = $2', [
-    project_id,
-    required
-  ])
+  const q = await db.query(
+    `SELECT * FROM modules
+    WHERE
+      project_id = $1 AND
+      required = $2 AND
+      enabled = true`,
+    [project_id, required]
+  )
 
   return q?.rows
 }
@@ -71,7 +80,8 @@ exports.createProject = async (data) => {
 exports.updateProject = async (project_id, data) => {
   const { title, description, type, thumbnail_url, enabled } = data
 
-  const q = await db.query(`
+  const q = await db.query(
+    `
     UPDATE projects
     SET title = $1, description = $2, type = $3, thumbnail_url = $4, enabled = $5
     WHERE project_id = $6

@@ -35,13 +35,14 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res, next) => {
   const module = await ModuleController.getModule(req.params.id, req.user.current_project)
 
-  if (!module) return next()
+  if (!module || !module.enabled) {
+    return next()
+  }
 
   res.render('pages/module', {
     title: module.title,
     data: module
   })
 })
-
 
 module.exports = router
