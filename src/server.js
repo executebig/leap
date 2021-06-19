@@ -7,6 +7,7 @@
 require('module-alias/register')
 
 const path = require('path')
+const crypto = require('crypto')
 const express = require('express')
 const sass = require('node-sass-middleware')
 const minifier = require('html-minifier')
@@ -18,6 +19,7 @@ const exphbs = require('express-handlebars')
 const reqId = require('express-request-id')()
 const morgan = require('morgan')
 const chalk = require('chalk')
+const helmet = require('helmet')
 const compression = require('compression')
 const minifyHTML = require('express-minify-html-2')
 const Bugsnag = require('@bugsnag/js')
@@ -95,6 +97,59 @@ if (config.env === 'production') {
 
   app.use(bugsnagMiddleware.requestHandler)
 }
+
+/** Generate nonce */
+app.use((req, res, next) => {
+  res.locals.nonce = crypto.randomBytes(16).toString('hex')
+  next()
+})
+
+/** Helmet Setup */
+app.use(helmet())
+app.use(
+  helmet.contentSecurityPolicy({
+    useDefaults: true,
+    directives: {
+      'script-src': [
+        "'self'",
+        'blob:',
+        'https://unpkg.com',
+        'https://cdn.heapanalytics.com',
+        'https://heapanalytics.com',
+        'https://plausible.io',
+        'https://ajax.cloudflare.com',
+        'https://static.cloudflareinsights.com',
+        'https://hcaptcha.com',
+        'https://*.hcaptcha.com',
+        (req, res) => `'nonce-${res.locals.nonce}'`
+      ],
+      'script-src-attr': ["'self'", "'unsafe-inline'"],
+      'connect-src': [
+        "'self'",
+        'https://unpkg.com',
+        'https://plausible.io',
+        'https://hcaptcha.com',
+        'https://*.hcaptcha.com'
+      ],
+      'img-src': ["'self'", 'data:', 'heapanalytics.com', 'gravatar.com', 'cdn.techroulette.xyz'],
+      'frame-src': [
+        'https://open.spotify.com',
+        'https://www.youtube.com',
+        'https://hcaptcha.com',
+        'https://*.hcaptcha.com'
+      ],
+      'style-src': [
+        "'self'",
+        "'unsafe-inline'",
+        'https://hcaptcha.com',
+        'https://*.hcaptcha.com',
+        'https://fonts.googleapis.com',
+        'https://unpkg.com'
+      ]
+    },
+    // reportOnly: true
+  })
+)
 
 /** Logging Setup */
 morgan.token('id', (req) => req.id.split('-')[0])
