@@ -8,7 +8,7 @@ exports.stateMiddleware = async (req, res, next) => {
 
     // If user week is behind, (re)generate projects
     if (req.user.current_week < week) {
-      const project_pool = await ProjectController.getRandomProjectIds(3, req.user.prev_projects)
+      const project_pool = await ProjectController.getRandomProjectIds(3, req.user.prev_projects, req.user.no_shipping)
       const newUser = await UserController.updateUser(req.user.user_id, {
         state: 'pending',
         current_week: week,
