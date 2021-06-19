@@ -46,6 +46,7 @@ create table if not exists modules (
     enabled bool not null default false,
     description text not null,
     content text not null,
+    rendered_content text not null,
     points int not null,
     required bool not null default false,
 

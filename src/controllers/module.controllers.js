@@ -3,6 +3,7 @@
  */
 
 const db = require('@db')
+const markdown = require('@libs/markdown')
 
 exports.getModule = async (module_id, project_id) => {
   const q = await db.query('SELECT * FROM modules WHERE module_id = $1 AND project_id = $2', [
@@ -33,13 +34,14 @@ exports.getModulesByProjectId = async (project_id) => {
 
 exports.createModule = async (data, project_id) => {
   const { title, description, content, points, required, enabled } = data
+  const renderedContent = markdown(content)
 
   const q = await db.query(
     `
-    INSERT INTO modules (title, description, content, points, required, enabled, project_id)
-    VALUES ($1, $2, $3, $4, $5, $6, $7)
+    INSERT INTO modules (title, description, content, rendered_content, points, required, enabled, project_id)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
     RETURNING *`,
-    [title, description, content, points, required, enabled, project_id]
+    [title, description, content, renderedContent, points, required, enabled, project_id]
   )
 
   return q?.rows[0]
@@ -47,14 +49,15 @@ exports.createModule = async (data, project_id) => {
 
 exports.updateModule = async (module_id, data) => {
   const { title, description, content, points, required, enabled } = data
+  const renderedContent = markdown(content)
 
   const q = await db.query(
     `
     UPDATE modules
-    SET title = $1, description = $2, content = $3, points = $4, required = $5, enabled = $6
-    WHERE module_id = $7
+    SET title = $1, description = $2, content = $3, rendered_content = $4, points = $5, required = $6, enabled = $7
+    WHERE module_id = $8
     RETURNING *`,
-    [title, description, content, points, required, enabled, module_id]
+    [title, description, content, renderedContent, points, required, enabled, module_id]
   )
 
   return q?.rows[0]
