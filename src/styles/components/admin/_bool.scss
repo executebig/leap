@@ -1,6 +1,27 @@
 .tag.indicator {
-    font-weight: bold;
-    width: 24px;
-    height: 24px;
-    border-radius: 100%;
+  font-weight: bold;
+  width: 24px;
+  height: 24px;
+  border-radius: 100%;
+}
+
+a.admin_toggle {
+  &:hover {
+    text-decoration: none;
+  }
+
+  span.tag.indicator {
+    transition: all 0.1s ease;
+    &.is-warning {
+      // action is "unban", etc
+      &:hover {
+        background-color: $success;
+      }
+    }
+
+    &:hover {
+        background-color: $danger;
+
+    }
+  }
 }
