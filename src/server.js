@@ -112,6 +112,7 @@ app.use(
     directives: {
       'script-src': [
         "'self'",
+        "'unsafe-inline'",
         'blob:',
         'https://unpkg.com',
         'https://cdn.heapanalytics.com',
@@ -123,7 +124,6 @@ app.use(
         'https://*.hcaptcha.com',
         (req, res) => `'nonce-${res.locals.nonce}'`
       ],
-      'script-src-attr': ["'self'", "'unsafe-inline'"],
       'connect-src': [
         "'self'",
         'https://unpkg.com',
