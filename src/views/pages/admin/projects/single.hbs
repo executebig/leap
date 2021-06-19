@@ -97,11 +97,12 @@
     </div>
 </section>
 
+{{#if edit}}
 <section class="section modules">
     <div class="container">
         <h1 class="subtitle">Modules</h1>
 
-        <table class="table">
+        <table class="table is-fullwidth is-hoverable is-striped">
             <thead>
                 <tr>
                     <th><abbr title="module_id">ID</abbr></th>
@@ -133,3 +134,4 @@
         <a href="/admin/modules/new?project_id={{project.project_id}}" class="button is-light is-primary">New Module</a>
     </div>
 </section>
+{{/if}}

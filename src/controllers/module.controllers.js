@@ -20,8 +20,8 @@ exports.getModuleById = async (module_id) => {
   return q?.rows[0]
 }
 
-exports.getModules = async () => {
-  const q = await db.query('SELECT * FROM modules')
+exports.listModules = async () => {
+  const q = await db.query('SELECT * FROM modules ORDER BY module_id ASC')
 
   return q?.rows
 }

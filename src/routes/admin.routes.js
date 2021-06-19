@@ -152,7 +152,7 @@ router.post('/badges/edit/:id', async (req, res) => {
 /** Projects */
 router.get('/projects', async (req, res) => {
   res.render('pages/admin/projects/list', {
-    projects: await ProjectController.getProjects()
+    projects: await ProjectController.listProjects()
   })
 })
 
@@ -206,7 +206,7 @@ router.post('/projects/edit/:id', async (req, res) => {
 /** Modules */
 router.get('/modules', async (req, res) => {
   res.render('pages/admin/modules/list', {
-    modules: await ModuleController.getModules()
+    modules: await ModuleController.listModules()
   })
 })
 

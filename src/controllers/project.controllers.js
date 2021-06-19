@@ -52,8 +52,8 @@ exports.getProjectAndModulesById = async (project_id) => {
   }
 }
 
-exports.getProjects = async () => {
-  const q = await db.query('SELECT * FROM projects')
+exports.listProjects = async () => {
+  const q = await db.query('SELECT * FROM projects ORDER BY project_id ASC')
   return q?.rows
 }
 

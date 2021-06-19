@@ -1,11 +1,6 @@
-.bool {
+.tag.indicator {
     font-weight: bold;
-
-    &.true {
-        color: purple;
-    }
-
-    &.false {
-        color: orange;
-    }
+    width: 24px;
+    height: 24px;
+    border-radius: 100%;
 }

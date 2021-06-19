@@ -47,7 +47,15 @@ exports.block = (name) => {
 }
 
 exports.showBool = (bool) => {
-  return bool ? '<span class="bool true">O</span>' : '<span class="bool false">X</span>'
+  return bool
+    ? '<span class="tag indicator is-success">✓</span>'
+    : '<span class="tag indicator is-danger">✕</span>'
+}
+
+exports.showBoolWarn = (bool) => {
+  return bool
+    ? '<span class="tag indicator is-warning">#</span>'
+    : '<span class="tag indicator">-</span>'
 }
 
 exports.truncateEmail = (str) => {

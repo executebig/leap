@@ -4,15 +4,13 @@
 <section class="section header">
     <div class="container">
         <h1 class="title">Projects</h1>
-
         <a href="/admin/projects/new" class="button">New Project</a>
     </div>
 </section>
-
 <section class="section">
     <div class="container">
         {{#if projects}}
-            <table class="table">
+            <table class='table is-fullwidth is-hoverable is-striped'>
                 <thead>
                     <tr>
                         <th><abbr title="project_id">ID</abbr></th>
@@ -20,20 +18,20 @@
                         <th><abbr title="description">DESC</abbr></th>
                         <th><abbr title="type">Type</abbr></th>
                         <th><abbr title="thumbnail_url">Thumbnail</abbr></th>
-                        <th><abbr title="hidden">E?</abbr></th>
+                        <th><abbr title="hidden">EN?</abbr></th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {{#each projects}}
                         <tr>
-                            <th>{{project_id}}</th>
+                            <th>P{{project_id}}</th>
                             <td>{{title}}</td>
                             <td>{{description}}</td>
                             <td>{{type}}</td>
                             <td><img src="{{thumbnail_url}}" alt="" width=100></td>
                             <td>{{{showBool enabled}}}</td>
-                            <td><a href="/admin/projects/edit/{{project_id}}">Edit</a></td>
+                            <td><a href="/admin/projects/edit/{{project_id}}">Edit P{{project_id}}</a></td>
                         </tr>
                     {{/each}}
                 </tbody>
