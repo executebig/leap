@@ -146,7 +146,7 @@ router.post('/badges/edit/:id', async (req, res) => {
   const badge = await BadgeController.updateBadge(id, name, description, icon, hidden, code)
 
   req.flash('success', `Badge #${id} updated successfully!`)
-  res.redirect(`/admin/badges/edit/${badge.badge_id}`)
+  res.redirect(`/admin/badges`)
 })
 
 /** Projects */
@@ -200,7 +200,7 @@ router.post('/projects/edit/:id', async (req, res) => {
   })
 
   req.flash('success', `Project #${project_id} updated successfully!`)
-  res.redirect(`/admin/projects/edit/${project_id}`)
+  res.redirect(`/admin/projects`)
 })
 
 /** Modules */
@@ -280,7 +280,7 @@ router.post('/modules/edit/:id', async (req, res) => {
   })
 
   req.flash('success', `Module #${module_id} updated successfully!`)
-  res.redirect(`/admin/modules/edit/${module_id}`)
+  res.redirect(`/admin/modules`)
 })
 
 module.exports = router
