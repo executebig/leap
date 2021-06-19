@@ -14,6 +14,8 @@ const ModuleController = require('@controllers/module.controllers')
 const { flagMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
 const notFoundMiddleware = require('@middlewares/404.middlewares')
 
+const mailer = require('@libs/mailer')
+
 // Deny unauthorized users
 router.use((req, res, next) => {
   if (!req.user) {
@@ -54,13 +56,68 @@ router.get('/users/:page?', async (req, res) => {
 
   const data = await AdminController.listUsers(orderBy, order, req.params.page)
 
-  res.render('pages/admin/users', {
+  res.render('pages/admin/users/list', {
     orderBy,
     order,
     user_list: data.users,
     prevPage: data.prevPage,
     nextPage: data.nextPage
   })
+})
+
+router.get('/users/control/:id', async (req, res) => {
+  const [target, all_badges] = await Promise.all([
+    UserController.getUserById(req.user.user_id),
+    BadgeController.listBadges(true)
+  ])
+  const badges = await BadgeController.getBadgesByIds(target.badges)
+
+  if (!target) {
+    notFoundMiddleware(req, res)
+  } else {
+    res.render('pages/admin/users/control', {
+      target,
+      badges,
+      all_badges
+    })
+  }
+})
+
+router.post('/users/control/badge/:id', async (req, res) => {
+
+  if (req.query.remove) {
+    await UserController.removeBadge(req.params.id, req.body.badge)
+  } else {
+    await UserController.grantBadge(req.params.id, req.body.badge)
+  }
+
+  req.flash('success', `Badge ${req.query.remove ? "removal" : "grant"} completed!`)
+  res.redirect('/admin/users')
+})
+
+router.get('/users/disqualify/:id', async (req, res) => {
+  const target = await UserController.getUserById(req.params.id)
+
+  res.render('pages/admin/users/dq', {
+    target
+  })
+})
+
+router.post('/users/disqualify/:id', async (req, res) => {
+  const user = await UserController.getUserById(req.params.id)
+  if (user.no_shipping) {
+    // already not eligible
+    req.flash('error', `User #${user.user_id} is already ineligible for shipping!`)
+  } else {
+    mailer.sendShippingDQ(user.email, user.display_name, req.body.reason)
+    UserController.updateUser(req.params.id, { no_shipping: true })
+
+    req.flash(
+      'success',
+      `Successfully disqualified ${user.user_id} for shipping & sent notification.`
+    )
+    res.redirect('/admin/users')
+  }
 })
 
 router.get('/ban/:id', (req, res) => {

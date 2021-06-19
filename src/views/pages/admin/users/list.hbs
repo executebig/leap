@@ -16,7 +16,6 @@
             <p>Created Time: <a href="?by=created_at&order=ASC">ASC</a> / <a href="?by=created_at&order=DESC">DESC</a></p>
         </div>
         <hr />
-
         {{#if user_list}}
             <table class="table is-fullwidth is-hoverable is-striped">
                 <thead>
@@ -42,17 +41,20 @@
                             <td><span class="tag state {{state}}">{{state}}</span></td>
                             <td>{{current_project}}</td>
                             <td>{{age}}</td>
-                            <td>{{{showBoolWarn no_shipping}}}</td>
-                            <td>{{{showBoolWarn banned}}}</td>
+                            <td>
+                                {{#unless no_shipping}}<a href="/admin/users/disqualify/{{user_id}}">{{/unless}}
+                                {{{showBoolWarn no_shipping}}}
+                                {{#unless no_shipping}}</a>{{/unless}}
+                            </td>
+                            <td>
+                                <a href="{{#if banned}}/admin/unban/{{user_id}}{{else}}/admin/ban/{{user_id}}{{/if}}">
+                                {{{showBoolWarn banned}}}
+                                </a>
+                                </td>
                             <td>{{current_week}}</td>
                             <td>
-                                {{#if banned}}
-                                    <a href="/admin/unban/{{user_id}}" title="Unban User">UB</a>
-                                {{else}}
-                                    <a href="/admin/ban/{{user_id}}" title="Ban User">BN</a>
-                                {{/if}} /
-
                                 <a href="/admin/refresh/{{user_id}}" title="Set refresh flag">RS</a> /
+                                <a href="/admin/users/control/{{user_id}}" title="Control">CTL</a> /
                                 <a href="/account/edit/{{user_id}}" title="Edit">EDIT</a>
                             </td>
                         </tr>

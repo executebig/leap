@@ -30,6 +30,8 @@ router.use('/edit/:id?', async (req, res, next) => {
       notFoundMiddleware(req, res)
     } else {
       res.locals.edit_user = user
+      res.locals.admin_controls = req.user.admin
+
       next()
     }
   }

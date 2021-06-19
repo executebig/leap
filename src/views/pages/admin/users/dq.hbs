@@ -1,0 +1,35 @@
+{{#extend "title"}}
+    DQ User #{{@root/target.user_id}}
+{{/extend}}
+<section class="section header">
+    <div class="container">
+        <h1 class="title">DQ User #{{target.user_id}} (@{{target.display_name}})</h1>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <form method="POST">
+            <p class="mb-4">
+                Disqualifying @{{target.display_name}} will send an email to the user's email address on file:
+                <code>{{target.email}}</code>.
+            </p>
+            <div class="field mb-5">
+                <label class="label">Reason</label>
+                <p class="control">
+                <div class="select">
+                    <select name="reason" required>
+                        <option disabled selected value>Select reason</option>
+                        <option value="you did not provide a valid U.S. shipping address">you did not provide a valid U.S. shipping address</option>
+                        <option value="we are currently only providing rewards for students under 21">we are currently only providing rewards for students under 21</option>
+                        <option value="you have violated a program rule">you have violated a program rule</option>
+                        <option value="you have requested to be opted-out">you have requested to be opted-out</option>
+                    </select>
+                </div>
+                </p>
+                <p class="help">The template: <code>The reason for our decision is: \{{reason}}.</code></p>
+            </div>
+            
+            <button class="button is-danger" type="submit">Confirm & Send</button>
+        </form>
+    </div>
+</section>

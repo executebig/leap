@@ -65,3 +65,11 @@ exports.truncateEmail = (str) => {
 exports.hashEmail = (email) => {
   return crypto.createHash('md5').update(email.trim().toLowerCase()).digest('hex')
 }
+
+exports.notContains = (array, item, options) => {
+  return !array.includes(item) ? options.fn(this) : options.inverse(this)
+}
+
+exports.contains = (array, item, options) => {
+  return array.includes(item) ? options.fn(this) : options.inverse(this)
+}
