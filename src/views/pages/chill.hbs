@@ -56,7 +56,7 @@
         </section>
     </div>
     {{#extend "scripts"}}
-        <script nonce="{{nonce}}">
+        <script nonce="{{@root/nonce}}">
             const programStarts = new Date("Sat, 26 Jun 2021 20:00:00 -0400")
 
             const getTimeRemaining = (endtime) => {
