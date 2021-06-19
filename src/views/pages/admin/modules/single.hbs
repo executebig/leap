@@ -61,9 +61,12 @@
             <div class="columns">
                 <div class="column">
                     <div class="field">
-                        <label class="label">Content</label>
+                        <label class="label mb-0">Content</label>
+                        <p class="help mb-2">
+                            Text highlighted in red may be spelled wrong. It is safe to ignore. 
+                        </p>
                         <p class="control">
-                            <textarea name="content" id="module-content-editor" class="textarea" type="text" rows="10"></textarea>
+                            <textarea name="content" id="module-content-editor" class="textarea" type="text">{{module.content}}</textarea>
                         </p>
                     </div>
                 </div>
@@ -91,10 +94,11 @@
 </section>
 {{#extend "scripts"}}
     <script src="https://unpkg.com/simplemde@1.11.2/dist/simplemde.min.js"></script>
-    <script>
+    <script nonce="{{@root/nonce}}">
         const editor = new SimpleMDE({
-            element: document.getElementById("module-content-editor")
+            element: document.getElementById("module-content-editor"),
+            spellChecker: true,
+            forceSync: true
         });
-        editor.value(`{{../module.content}}`)
     </script>
 {{/extend}}

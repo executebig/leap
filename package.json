@@ -53,6 +53,7 @@
     "passport-jwt": "^4.0.0",
     "pg": "^8.6.0",
     "postmark": "^2.7.4",
+    "simplemde": "^1.11.2",
     "socket.io": "^4.1.2",
     "us-state-codes": "^1.1.2"
   },

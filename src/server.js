@@ -129,7 +129,8 @@ app.use(
         'https://unpkg.com',
         'https://plausible.io',
         'https://hcaptcha.com',
-        'https://*.hcaptcha.com'
+        'https://*.hcaptcha.com',
+        'https://cdn.jsdelivr.net/'
       ],
       'img-src': ["'self'", 'data:', 'heapanalytics.com', 'gravatar.com', 'cdn.techroulette.xyz'],
       'frame-src': [
@@ -144,7 +145,8 @@ app.use(
         'https://hcaptcha.com',
         'https://*.hcaptcha.com',
         'https://fonts.googleapis.com',
-        'https://unpkg.com'
+        'https://unpkg.com',
+        'https://maxcdn.bootstrapcdn.com/'
       ]
     },
     // reportOnly: true
