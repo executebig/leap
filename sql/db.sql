@@ -35,8 +35,10 @@ create table if not exists projects (
 	title text not null,
 	description text not null,
     type text not null,
+	thumbnail_url text not null,
+
     enabled bool not null default false,
-	thumbnail_url text not null
+    hardware bool not null default false
 );
 
 create table if not exists modules (

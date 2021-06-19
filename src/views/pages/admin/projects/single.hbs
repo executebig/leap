@@ -76,13 +76,25 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="columns">
                     <div class="column">
                         <div class="field">
                             <label class="checkbox mt-3">
                                 <input type="checkbox" name="enabled" {{#unless edit}}checked{{else}}{{#if project.enabled}}checked{{/if}}{{/unless}}>
-                                Project enabled?
+                                Enable project?
                             </label>
+
+                            <p class="help">Disabled projects will not show up for any user.</p>
+                        </div>
+
+                        <div class="field">
+                            <label class="checkbox mt-3">
+                                <input type="checkbox" name="hardware" {{#unless edit}}{{else}}{{#if project.hardware}}checked{{/if}}{{/unless}}>
+                                Hardware project?
+                            </label>
+
+                            <p class="help">Hardware projects will not show up for users who are ineligible for shipping.</p>
                         </div>
                     </div>
                 </div>

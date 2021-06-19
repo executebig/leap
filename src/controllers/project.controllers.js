@@ -24,16 +24,18 @@ exports.getProjectsByIds = async (project_ids) => {
 }
 
 // Returns num amount of random project ids
+// Excludes hardware projects if no_shipping is true
 // Query doesn't scale well w/ larger datasets, but should be fine for our purposes
-exports.getRandomProjectIds = async (num, exclude) => {
+exports.getRandomProjectIds = async (num, exclude, no_shipping) => {
   const q = await db.query(
     `SELECT project_id FROM projects
     WHERE
       NOT project_id = ANY ($2) AND
-      enabled = true
+      enabled = true AND
+      hardware = false OR NOT $3
     ORDER BY random()
     LIMIT $1`,
-    [num, exclude]
+    [num, exclude, no_shipping]
   )
 
   return q?.rows.map((e) => e.project_id)
@@ -67,26 +69,26 @@ exports.listProjects = async () => {
 }
 
 exports.createProject = async (data) => {
-  const { title, description, type, thumbnail_url, enabled } = data
+  const { title, description, type, thumbnail_url, enabled, hardware } = data
 
   const q = await db.query(
-    'INSERT INTO projects (title, description, type, thumbnail_url, enabled) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-    [title, description, type, thumbnail_url, enabled]
+    'INSERT INTO projects (title, description, type, thumbnail_url, enabled, hardware) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+    [title, description, type, thumbnail_url, enabled, hardware]
   )
 
   return q?.rows[0]
 }
 
 exports.updateProject = async (project_id, data) => {
-  const { title, description, type, thumbnail_url, enabled } = data
+  const { title, description, type, thumbnail_url, enabled, hardware } = data
 
   const q = await db.query(
     `
     UPDATE projects
-    SET title = $1, description = $2, type = $3, thumbnail_url = $4, enabled = $5
-    WHERE project_id = $6
+    SET title = $1, description = $2, type = $3, thumbnail_url = $4, enabled = $5, hardware = $6
+    WHERE project_id = $7
     RETURNING *`,
-    [title, description, type, thumbnail_url, enabled, project_id]
+    [title, description, type, thumbnail_url, enabled, hardware, project_id]
   )
 
   return q?.rows[0]
