@@ -42,12 +42,12 @@
                             <td>{{current_project}}</td>
                             <td>{{age}}</td>
                             <td>
-                                {{#unless no_shipping}}<a href="/admin/users/disqualify/{{user_id}}">{{/unless}}
+                                {{#unless no_shipping}}<a href="/admin/users/disqualify/{{user_id}}" class="admin_toggle">{{/unless}}
                                 {{{showBoolWarn no_shipping}}}
                                 {{#unless no_shipping}}</a>{{/unless}}
                             </td>
                             <td>
-                                <a href="{{#if banned}}/admin/unban/{{user_id}}{{else}}/admin/ban/{{user_id}}{{/if}}">
+                                <a href="{{#if banned}}/admin/unban/{{user_id}}{{else}}/admin/ban/{{user_id}}{{/if}}" class="admin_toggle">
                                 {{{showBoolWarn banned}}}
                                 </a>
                                 </td>
