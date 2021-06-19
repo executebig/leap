@@ -5,7 +5,12 @@
   <div class='page__account_edit'>
     <section class='section header'>
       <div class='container'>
-        <h1 class='title'>Update Your Account</h1>
+          <h1 class='title'>Update Your Profile</h1>
+        {{#if @root/admin_controls}}
+          <div class="notification is-danger">
+            <strong>Warning! You're in admin control mode & have access to student PII. Be very careful! And do not take screenshots.</strong>
+          </div>
+        {{/if}}
       </div>
     </section>
     <section class='section pt-0 pb-0 information'>

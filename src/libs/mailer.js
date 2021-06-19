@@ -78,7 +78,7 @@ exports.sendNudge = async (email, referrer) => {
     )
     return
   }
-  
+
   client.sendEmailWithTemplate({
     From: config.postmark.from,
     To: email,
@@ -86,6 +86,25 @@ exports.sendNudge = async (email, referrer) => {
     TemplateModel: {
       referrer,
       entryUrl
+    }
+  })
+}
+
+exports.sendShippingDQ = async (email, display_name, reason) => {
+  if (config.flags.includes('print_email')) {
+    console.log(
+      `DQ email sent to ${email} with display name @${display_name} for "${reason}".`
+    )
+    return
+  }
+
+  client.sendEmailWithTemplate({
+    From: config.postmark.from,
+    To: email,
+    TemplateAlias: 'shipping-dq',
+    TemplateModel: {
+      display_name,
+      reason
     }
   })
 }

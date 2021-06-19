@@ -1,0 +1,70 @@
+{{#extend "title"}}
+    User Controls #{{@root/target.user_id}}
+{{/extend}}
+<section class="section header">
+    <div class="container">
+        <h1 class="title">User Controls for #{{target.user_id}} (@{{target.display_name}})</h1>
+    </div>
+</section>
+<section class="section badge">
+    <div class="container">
+        <h1 class="title is-4 has-text-primary">Badges</h1>
+        <p class="mb-3"><strong>Badges Already Collected: {{stringify target.badges}}</strong></p>
+        <div class='columns'>
+            {{#each badges}}
+                <div class='column is-narrow'>
+                    <figure class='image is-64x64' aria-label='#{{badge_id}} {{name}}: {{description}}' data-balloon-pos='down' data-balloon-length='large'>
+                        <img class="badge large" src='{{icon}}' />
+                    </figure>
+                </div>
+            {{/each}}
+        </div>
+        {{#unless badges}}
+            <p class="mb-4"><strong>You have not collected a badge yet.</strong></p>
+        {{/unless}}
+        <form method="POST" action="/admin/users/control/badge/{{target.user_id}}">
+            <div class="field mb-3  has-addons">
+                <div class="control">
+                    <div class="select">
+                        <select name="badge" required>
+                            <option disabled selected value>Select a badge</option>
+                            {{#each all_badges}}
+                                {{stringify @root/target.badges}}
+                                {{stringify badge_id}}
+                                {{#notContains @root/target.badges badge_id }}
+                                    <option value={{../badge_id}}>#{{../badge_id}} - {{#if ../hidden}}*{{/if}} {{../name}}: {{../description}}</option>
+                                {{/notContains}}
+                            {{/each}}
+                        </select>
+                    </div>
+                    <p class="help">Badges with "*" are hidden.</p>
+                </div>
+                <div class="control">
+                    <button class="button is-primary">Grant</button>
+                </div>
+            </div>
+        </form>
+        <form method="POST" action="/admin/users/control/badge/{{target.user_id}}?remove=true">
+            <div class="field mb-3  has-addons">
+                <div class="control">
+                    <div class="select">
+                        <select name="badge" required>
+                            <option disabled selected value>Select a badge</option>
+                            {{#each all_badges}}
+                                {{stringify @root/target.badges}}
+                                {{stringify badge_id}}
+                                {{#contains @root/target.badges badge_id }}
+                                    <option value={{../badge_id}}>#{{../badge_id}} - {{#if ../hidden}}*{{/if}} {{../name}}: {{../description}}</option>
+                                {{/contains}}
+                            {{/each}}
+                        </select>
+                    </div>
+                    <p class="help">Badges with "*" are hidden.</p>
+                </div>
+                <div class="control">
+                    <button class="button is-primary">Remove</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>

@@ -53,7 +53,7 @@ exports.getBadgeIdByCode = async (code) => {
 }
 
 exports.getBadgesByIds = async (ids) => {
-  const q = await db.query('SELECT name, description, icon FROM badges WHERE badge_id = ANY ($1)', [ids])
+  const q = await db.query('SELECT badge_id, name, description, icon FROM badges WHERE badge_id = ANY ($1)', [ids])
 
   return q.rows || []
 }
