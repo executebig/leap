@@ -222,7 +222,8 @@ router.get('/modules/new', async (req, res) => {
   const project = await ProjectController.getProjectById(project_id)
 
   res.render('pages/admin/modules/single', {
-    project
+    project,
+    project_id
   })
 })
 
@@ -231,24 +232,21 @@ router.post('/modules/new', async (req, res) => {
 
   if (!project_id) {
     req.flash('error', `Missing project_id`)
-    res.redirect(`/admin/modules/edit/${module_id}`)
+    res.redirect(req.originalUrl)
     return
   }
 
   required = !!required
   enabled = !!enabled
 
-  const { module_id } = await ModuleController.createModule(
-    {
-      title,
-      description,
-      content,
-      points,
-      required,
-      enabled
-    },
-    project_id
-  )
+  const { module_id } = await ModuleController.createModule(project_id, {
+    title,
+    description,
+    content,
+    points,
+    required,
+    enabled
+  })
 
   req.flash('success', `Module #${module_id} created successfully!`)
   res.redirect(`/admin/modules/edit/${module_id}`)
@@ -260,7 +258,8 @@ router.get('/modules/edit/:id', async (req, res) => {
 
   res.render('pages/admin/modules/single', {
     edit: true,
-    module, project
+    module,
+    project
   })
 })
 

@@ -32,7 +32,7 @@ exports.getModulesByProjectId = async (project_id) => {
   return q?.rows
 }
 
-exports.createModule = async (data, project_id) => {
+exports.createModule = async (project_id, data) => {
   const { title, description, content, points, required, enabled } = data
   const renderedContent = markdown(content)
 
