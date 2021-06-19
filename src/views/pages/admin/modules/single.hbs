@@ -22,11 +22,6 @@
         </article>
     </div>
 </section>
-<section class="section preview">
-    {{#with module}}
-        {{>module}}
-    {{/with}}
-</section>
 <section class="section details">
     <div class="container">
         <form method="post">
@@ -63,7 +58,7 @@
                     <div class="field">
                         <label class="label mb-0">Content</label>
                         <p class="help mb-2">
-                            Text highlighted in red may be spelled wrong. It is safe to ignore. 
+                            Text highlighted in red may be spelled wrong. It is safe to ignore.
                         </p>
                         <p class="control">
                             <textarea name="content" id="module-content-editor" class="textarea" type="text">{{module.content}}</textarea>
