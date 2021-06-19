@@ -67,7 +67,7 @@ router.get('/users/:page?', async (req, res) => {
 
 router.get('/users/control/:id', async (req, res) => {
   const [target, all_badges] = await Promise.all([
-    UserController.getUserById(req.user.user_id),
+    UserController.getUserById(req.params.id),
     BadgeController.listBadges(true)
   ])
   const badges = await BadgeController.getBadgesByIds(target.badges)
@@ -84,7 +84,6 @@ router.get('/users/control/:id', async (req, res) => {
 })
 
 router.post('/users/control/badge/:id', async (req, res) => {
-
   if (req.query.remove) {
     await UserController.removeBadge(req.params.id, req.body.badge)
   } else {
