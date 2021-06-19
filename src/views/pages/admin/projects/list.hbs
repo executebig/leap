@@ -18,7 +18,8 @@
                         <th><abbr title="description">DESC</abbr></th>
                         <th><abbr title="type">Type</abbr></th>
                         <th><abbr title="thumbnail_url">Thumbnail</abbr></th>
-                        <th><abbr title="hidden">EN?</abbr></th>
+                        <th><abbr title="enabled">EN?</abbr></th>
+                        <th><abbr title="hardware">HW?</abbr></th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -31,6 +32,7 @@
                             <td>{{type}}</td>
                             <td><img src="{{thumbnail_url}}" alt="" width=100></td>
                             <td>{{{showBool enabled}}}</td>
+                            <td>{{{showBool hardware}}}</td>
                             <td><a href="/admin/projects/edit/{{project_id}}">Edit P{{project_id}}</a></td>
                         </tr>
                     {{/each}}

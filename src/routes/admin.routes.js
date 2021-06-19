@@ -161,15 +161,17 @@ router.get('/projects/new', async (req, res) => {
 })
 
 router.post('/projects/new', async (req, res) => {
-  let { title, description, type, thumbnail_url, enabled } = req.body
+  let { title, description, type, thumbnail_url, enabled, hardware } = req.body
   enabled = !!enabled
+  hardware = !!hardware
 
   const { project_id } = await ProjectController.createProject({
     title,
     description,
     type,
     thumbnail_url,
-    enabled
+    enabled,
+    hardware
   })
 
   req.flash('success', `Project #${project_id} created successfully!`)
@@ -188,15 +190,17 @@ router.get('/projects/edit/:id', async (req, res) => {
 })
 
 router.post('/projects/edit/:id', async (req, res) => {
-  let { title, description, type, thumbnail_url, enabled } = req.body
+  let { title, description, type, thumbnail_url, enabled, hardware } = req.body
   enabled = !!enabled
+  hardware = !!hardware
 
   const { project_id } = await ProjectController.updateProject(req.params.id, {
     title,
     description,
     type,
     thumbnail_url,
-    enabled
+    enabled,
+    hardware
   })
 
   req.flash('success', `Project #${project_id} updated successfully!`)
