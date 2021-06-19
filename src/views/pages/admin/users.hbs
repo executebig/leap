@@ -18,7 +18,7 @@
         <hr />
 
         {{#if user_list}}
-            <table class="table">
+            <table class="table is-fullwidth is-hoverable is-striped">
                 <thead>
                     <tr>
                         <th><abbr title="user_id">ID</abbr></th>
@@ -42,8 +42,8 @@
                             <td><span class="tag state {{state}}">{{state}}</span></td>
                             <td>{{current_project}}</td>
                             <td>{{age}}</td>
-                            <td>{{{showBool no_shipping}}}</td>
-                            <td>{{{showBool banned}}}</td>
+                            <td>{{{showBoolWarn no_shipping}}}</td>
+                            <td>{{{showBoolWarn banned}}}</td>
                             <td>{{current_week}}</td>
                             <td>
                                 {{#if banned}}

@@ -1,0 +1,99 @@
+{{#extend "title"}}
+    {{#if ../edit}}Edit Module #{{../module.module_id}}{{else}}New Module{{/if}}
+{{/extend}}
+<!-- Markdown editor styling so it's not enabled everywhere -->
+{{#extend "header-inject"}}
+    <link rel="stylesheet" href="https://unpkg.com/simplemde@1.11.2/dist/simplemde.min.css">
+{{/extend}}
+<section class="section header">
+    <div class="container">
+        <h1 class="title">{{#if edit}}Edit Module #{{module.module_id}}{{else}}New Module{{/if}}</h1>
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+            <ul>
+                <li><a href="/admin/projects">Projects</a></li>
+                <li><a href="/admin/projects/edit/{{project.project_id}}">{{project.title}}</a></li>
+                <li class="is-active"><a href="#" aria-current="page">{{#if edit}}{{module.title}}{{else}}New Module{{/if}}</a></li>
+            </ul>
+        </nav>
+        <article class="message is-primary">
+            <div class="message-body">
+                This module belongs to <strong><a href="/admin/projects/edit/{{project.project_id}}">{{project.title}} (#{{project.project_id}})</a></strong>
+            </div>
+        </article>
+    </div>
+</section>
+<section class="section details">
+    <div class="container">
+        <form method="post">
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label class="label">Module Title</label>
+                        <p class="control">
+                            <input name="title" class="input" type="text" placeholder="Shipwreck" value="{{module.title}}" required />
+                        </p>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label class="label">Points</label>
+                        <p class="control">
+                            <input name="points" class="input" type="number" min="1" placeholder="3" value="{{module.points}}" required />
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label class="label">Description</label>
+                        <p class="control">
+                            <textarea name="description" class="textarea" type="text" placeholder="A brief description / summary of what the module entails." rows="3" required>{{module.description}}</textarea>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label class="label mb-0">Content</label>
+                        <p class="help mb-2">
+                            Text highlighted in red may be spelled wrong. It is safe to ignore.
+                        </p>
+                        <p class="control">
+                            <textarea name="content" id="module-content-editor" class="textarea" type="text">{{module.content}}</textarea>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label class="checkbox mt-3">
+                            <input type="checkbox" name="required" {{#unless edit}}checked{{else}}{{#if module.required}}checked{{/if}}{{/unless}}>
+                            Module required?
+                        </label>
+                    </div>
+                    <div class="field">
+                        <label class="checkbox">
+                            <input type="checkbox" name="enabled" {{#unless edit}}checked{{else}}{{#if module.enabled}}checked{{/if}}{{/unless}}>
+                            Module enabled?
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="project_id" value="{{project_id}}">
+            <button type="submit" class="button is-primary">{{#if edit}}Update Module{{else}}Create Module{{/if}}</button>
+        </form>
+    </div>
+</section>
+{{#extend "scripts"}}
+    <script src="https://unpkg.com/simplemde@1.11.2/dist/simplemde.min.js"></script>
+    <script nonce="{{@root/nonce}}">
+        const editor = new SimpleMDE({
+            element: document.getElementById("module-content-editor"),
+            spellChecker: true,
+            forceSync: true
+        });
+    </script>
+{{/extend}}

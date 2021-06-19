@@ -42,8 +42,10 @@
     "helmet": "^4.6.0",
     "html-minifier": "^4.0.0",
     "ioredis": "^4.27.2",
+    "isomorphic-dompurify": "^0.14.0",
     "jsonwebtoken": "^8.5.1",
     "limiter": "^2.1.0",
+    "marked": "^2.1.1",
     "module-alias": "^2.2.2",
     "morgan": "^1.10.0",
     "node-sass-middleware": "^0.11.0",
@@ -51,6 +53,7 @@
     "passport-jwt": "^4.0.0",
     "pg": "^8.6.0",
     "postmark": "^2.7.4",
+    "simplemde": "^1.11.2",
     "socket.io": "^4.1.2",
     "us-state-codes": "^1.1.2"
   },

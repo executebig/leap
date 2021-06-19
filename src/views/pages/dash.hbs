@@ -15,23 +15,7 @@
     <div class='container'>
       <div class='columns projects'>
         {{#each projects}}
-          <div
-            class='column is-clickable project'
-            tabindex='0'
-            project-id="{{project_id}}"
-            project-title="{{title}}"
-          >
-            <h2>{{title}}</h2>
-            <p>{{description}}</p>
-
-            <span>
-              <p>Independent · {{capitalize type}}</p>
-              <p>+{{pts_total}} 💎 Available</p>
-            </span>
-
-            <img src={{thumbnail_url}} alt='' class='project__bg' />
-            <div class='project__overlay--1'></div>
-          </div>
+          {{>project}}
         {{/each}}
       </div>
     </div>

@@ -8,6 +8,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap');
 @import url('https://unpkg.com/notyf@3.10.0/notyf.min.css');
 
+
 /** Bulma setup */
 // TODO: If possible, modulize this import to mininize CSS size
 @import 'brand'; // extends Bulma with Brand configs
@@ -34,6 +35,8 @@
 @import 'components/pill';
 @import 'components/horizontal-scroll';
 @import 'components/badge';
+@import 'components/project';
+@import 'components/module';
 
 @import 'components/admin/tag';
 @import 'components/admin/bool';

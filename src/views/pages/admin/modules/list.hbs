@@ -1,0 +1,46 @@
+{{#extend 'title'}}
+  Modules
+{{/extend}}
+
+<section class='section header'>
+  <div class='container'>
+    <h1 class='title'>Modules</h1>
+  </div>
+</section>
+
+<section class='section'>
+  <div class='container'>
+    {{#if modules}}
+      <table class='table is-fullwidth is-hoverable is-striped'>
+        <thead>
+          <tr>
+            <th><abbr title='module_id'>ID</abbr></th>
+            <th><abbr title='project_id'>Project ID</abbr></th>
+            <th><abbr title='title'>Title</abbr></th>
+            <th><abbr title='description'>DESC</abbr></th>
+            <th><abbr title='points'>Points</abbr></th>
+            <th><abbr title='required'>REQ?</abbr></th>
+            <th><abbr title='enabled'>EN?</abbr></th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each modules}}
+            <tr>
+              <th>M{{module_id}}</th>
+              <th><a href="/admin/projects/edit/{{project_id}}">P{{project_id}}</a></th>
+              <td>{{title}}</td>
+              <td>{{description}}</td>
+              <td>{{points}}</td>
+              <td>{{{showBool required}}}</td>
+              <td>{{{showBool enabled}}}</td>
+              <td><a href='/admin/modules/edit/{{module_id}}'>Edit M{{module_id}}</a></td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    {{else}}
+      <p>No modules found!</p>
+    {{/if}}
+  </div>
+</section>
