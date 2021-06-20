@@ -371,4 +371,9 @@ router.post('/modules/edit/:id', async (req, res) => {
   res.redirect(`/admin/modules`)
 })
 
+/** Submissions */
+router.get('/submissions', (req, res) => {
+  res.render('pages/admin/submissions/list')
+})
+
 module.exports = router

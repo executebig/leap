@@ -1,0 +1,42 @@
+{{#extend "title"}}
+    Submissions
+{{/extend}}
+<section class="section header">
+    <div class="container">
+        <h1 class="title">Submissions</h1>
+        {{!-- <a href="/admin/submissions/new" class="button">New Submission</a> --}}
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        {{#if submissions}}
+            <table class='table is-fullwidth is-hoverable is-striped'>
+                <thead>
+                    <tr>
+                        <th><abbr title="submission_id">SID</abbr></th>
+                        <th><abbr title="user_id">UID</abbr></th>
+                        <th><abbr title="project_id">PID</abbr></th>
+                        <th><abbr title="content">Content</abbr></th>
+                        <th><abbr title="graded">G?</abbr></th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each submissions}}
+                        <tr>
+                            <th>S{{submission_id}}</th>
+                            <th>U{{user_id}}</th>
+                            <th>P{{project_id}}</th>
+                            <th>P{{content}}</th>
+                            <td>{{type}}</td>
+                            <td>{{{showBool graded}}}</td>
+                            <td><a href="/admin/submissions/edit/{{submission_id}}">Grade</a></td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        {{else}}
+            <p>No submissions found!</p>
+        {{/if}}
+    </div>
+</section>
