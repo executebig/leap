@@ -5,6 +5,22 @@
     .navbar-brand {
       .navbar-item {
         text-decoration: none;
+
+        &.live-banner {
+          font-weight: bold;
+          color: $danger;
+
+          span.blinker {
+            margin-right: 5px;
+            animation: blinker 1s ease infinite;
+
+            @keyframes blinker {
+              50% {
+                opacity: 0;
+              }
+            }
+          }
+        }
       }
     }
   }

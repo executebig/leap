@@ -7,11 +7,20 @@ const config = require('@config')
 const router = require('express').Router()
 const reflash = require('@libs/reflash')
 const notFoundMiddleware = require('@middlewares/404.middlewares')
+const ConfigController = require('@controllers/config.controllers')
 
 /** Set up additional context */
 router.use((req, res, next) => {
   res.locals.flash = req.flash()
   res.locals.env = config.env
+
+  next()
+})
+
+/** Live in navbar */
+router.use(async (req, res, next) => {
+  const liveEvent = await ConfigController.get('stageEventName')
+  res.locals.liveEvent = liveEvent === '' ? null : liveEvent
 
   next()
 })

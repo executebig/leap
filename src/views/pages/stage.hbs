@@ -1,0 +1,26 @@
+{{#extend 'title'}}
+    Stage
+{{/extend}}
+{{#if liveUrl}}
+    <div class="page__stage">
+        <section class="section header pb-0">
+            <div class="container">
+                <h1 class="title is-5">Now Live: {{eventName}}</h1>
+            </div>
+        </section>
+        <section class="section pt-4">
+            <div class="container">
+                <iframe class="stage_embed" src="https://www.youtube.com/embed/19GI41fHD3c" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                    Your browser does not support iFrames.
+                </iframe>
+            </div>
+        </section>
+    </div>
+{{else}}
+    <section class="section header pb-0">
+        <div class="container has-text-centered">
+            <h1 class="title">There is nothing live right now.</h1>
+            <p><a href="/dash" class="button is-primary">« Back to Dashboard</a></p>
+        </div>
+    </section>
+{{/if}}
