@@ -1,103 +1,105 @@
-{{#extend "title"}}Chill Zone{{/extend}}
-    <div class="page__chill">
-        <section class="section header">
-            <div class="container">
-                <h1 class="title is-1">Chill Zone 🏖</h1>
-                <p>
-                    Sup, welcome to Chill Zone. There are no apocalyptic events that require your immediate attention right now, so we brought you here.
-                    You should relax and enjoy the summer with us.
-                </p>
-            </div>
-        </section>
-        <section class="section activities pt-0">
-            <div class="container">
-                <div class="columns">
-                    <div class="column spotify is-one-third">
-                        <iframe class="card" src="https://open.spotify.com/embed/album/1KlU96Hw9nlvqpBPlSqcTV" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-                    </div>
-                    {{!-- enable this chunk after program starts
+{{#extend "title"}}
+    Chill Zone
+{{/extend}}
+<div class="page__chill">
+    <section class="section header">
+        <div class="container">
+            <h1 class="title is-1">Chill Zone 🏖</h1>
+            <p>
+                Sup, welcome to Chill Zone. There are no apocalyptic events that require your immediate attention right now, so we brought you here.
+                You should relax and enjoy the summer with us.
+            </p>
+        </div>
+    </section>
+    <section class="section activities pt-0">
+        <div class="container">
+            <div class="columns">
+                <div class="column spotify is-one-third">
+                    <iframe class="card" src="https://open.spotify.com/embed/album/1KlU96Hw9nlvqpBPlSqcTV" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                </div>
+                {{!-- enable this chunk after program starts
                 <div class="column is-two-third">
                     <h1 class="title is-5"><ion-icon name="trophy-outline"></ion-icon><span>Get Some Extra Rewards</span></h1>
                 </div>
                 --}}
-                    {{!-- This block is for pre-program --}}
-                    <div class="column is-two-third">
-                        <div class="card">
-                            <div class="card-header">
-                                <h1 class="card-header-title">
-                                    <ion-icon name="hourglass-outline"></ion-icon><span>Opening Night</span>
-                                </h1>
-                            </div>
-                            <div class="card-content">
-                                <p class="title is-2 countdown">
-                                    <span class="days"></span> Days,
-                                    <span class="hours"></span> Hours,<br />
-                                    <span class="minutes"></span> Minutes,
-                                    <span class="seconds"></span> Seconds<br />
-                                </p>
-                                <p style="font-weight: bold">Saturday, June 26, 2021 - 8:00 PM Eastern Time (GMT-4)</p>
-                                <p class="mt-2">
-                                    Welcome to Tech Roulette! At opening night, you'll get to meet the team behind Tech Roulette,
-                                    and receive some tips and insights on how to get started. See you soon!
-                                </p>
-                                <div class="mt-5">
-                                    <a class="button is-primary" href="https://exbg.us/tr-opening-calendar" target="_blank" rel="noopener">
-                                        <ion-icon name="calendar-outline"></ion-icon><span>Add to Google Calendar</span>
-                                    </a>
-                                    <a class="button" href="data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ADTSTART:20210627T000000Z%0ADTEND:20210627T010000Z%0ASUMMARY:Tech%20Roulette%20Opening%20Night%0ADESCRIPTION:Welcome%20to%20Tech%20Roulette!%20At%20Opening%20Night%2C%20you'll%20get%20to%20meet%20the%20team%20behind%20Tech%20Roulette%2C%20and%20receive%20some%20tips%20and%20insights%20on%20how%20to%20get%20started.%20See%20you%20soon!%0ALOCATION:https%3A%2F%2Ftechroulette.xyz%2Fstage%0AEND:VEVENT%0AEND:VCALENDAR%0A">
-                                        <ion-icon name="download-outline"></ion-icon><span>Download ICS File</span>
-                                    </a>
-                                </div>
+                {{!-- This block is for pre-program --}}
+                <div class="column is-two-third">
+                    <div class="card">
+                        <div class="card-header">
+                            <h1 class="card-header-title">
+                                <ion-icon name="hourglass-outline"></ion-icon><span>Opening Night</span>
+                            </h1>
+                        </div>
+                        <div class="card-content">
+                            <p class="title is-2 countdown">
+                                <span class="days"></span> Days,
+                                <span class="hours"></span> Hours,<br />
+                                <span class="minutes"></span> Minutes,
+                                <span class="seconds"></span> Seconds<br />
+                            </p>
+                            <p style="font-weight: bold">Saturday, June 26, 2021 - 8:00 PM Eastern Time (GMT-4)</p>
+                            <p class="mt-2">
+                                Welcome to Tech Roulette! At opening night, you'll get to meet the team behind Tech Roulette,
+                                and receive some tips and insights on how to get started. See you soon!
+                            </p>
+                            <div class="mt-5">
+                                <a class="button is-primary" href="https://exbg.us/tr-opening-calendar" target="_blank" rel="noopener">
+                                    <ion-icon name="calendar-outline"></ion-icon><span>Add to Google Calendar</span>
+                                </a>
+                                <a class="button" href="data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ADTSTART:20210627T000000Z%0ADTEND:20210627T010000Z%0ASUMMARY:Tech%20Roulette%20Opening%20Night%0ADESCRIPTION:Welcome%20to%20Tech%20Roulette!%20At%20Opening%20Night%2C%20you'll%20get%20to%20meet%20the%20team%20behind%20Tech%20Roulette%2C%20and%20receive%20some%20tips%20and%20insights%20on%20how%20to%20get%20started.%20See%20you%20soon!%0ALOCATION:https%3A%2F%2Ftechroulette.xyz%2Fstage%0AEND:VEVENT%0AEND:VCALENDAR%0A">
+                                    <ion-icon name="download-outline"></ion-icon><span>Download ICS File</span>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </div>
-    {{#extend "scripts"}}
-        <script nonce="{{@root/nonce}}">
-            const programStarts = new Date("Sat, 26 Jun 2021 20:00:00 -0400")
+        </div>
+    </section>
+</div>
+{{#extend "scripts"}}
+    <script nonce="{{@root/nonce}}">
+        const programStarts = new Date("Sat, 26 Jun 2021 20:00:00 -0400")
 
-            const getTimeRemaining = (endtime) => {
-                const total = Date.parse(endtime) - Date.parse(new Date());
-                const seconds = Math.floor((total / 1000) % 60);
-                const minutes = Math.floor((total / 1000 / 60) % 60);
-                const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
-                const days = Math.floor(total / (1000 * 60 * 60 * 24));
+        const getTimeRemaining = (endtime) => {
+            const total = Date.parse(endtime) - Date.parse(new Date());
+            const seconds = Math.floor((total / 1000) % 60);
+            const minutes = Math.floor((total / 1000 / 60) % 60);
+            const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
+            const days = Math.floor(total / (1000 * 60 * 60 * 24));
 
-                return {
-                    total,
-                    days,
-                    hours,
-                    minutes,
-                    seconds
-                };
-            }
+            return {
+                total,
+                days,
+                hours,
+                minutes,
+                seconds
+            };
+        }
 
-            function initializeClock(endtime) {
-                let clock = document.querySelector('.countdown');
-                let daysSpan = clock.querySelector('.days');
-                let hoursSpan = clock.querySelector('.hours');
-                let minutesSpan = clock.querySelector('.minutes');
-                let secondsSpan = clock.querySelector('.seconds');
+        function initializeClock(endtime) {
+            let clock = document.querySelector('.countdown');
+            let daysSpan = clock.querySelector('.days');
+            let hoursSpan = clock.querySelector('.hours');
+            let minutesSpan = clock.querySelector('.minutes');
+            let secondsSpan = clock.querySelector('.seconds');
 
-                function updateClock() {
-                    let t = getTimeRemaining(endtime);
+            function updateClock() {
+                let t = getTimeRemaining(endtime);
 
-                    daysSpan.innerHTML = t.days;
-                    hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
-                    minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
-                    secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+                daysSpan.innerHTML = t.days;
+                hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+                minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+                secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
 
-                    if (t.total <= 0) {
-                        clearInterval(timeinterval);
-                    }
+                if (t.total <= 0) {
+                    clearInterval(timeinterval);
                 }
-
-                updateClock();
-                let timeinterval = setInterval(updateClock, 1000);
             }
-            initializeClock(programStarts);
-        </script>
-    {{/extend}}
+
+            updateClock();
+            let timeinterval = setInterval(updateClock, 1000);
+        }
+        initializeClock(programStarts);
+    </script>
+{{/extend}}

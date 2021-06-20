@@ -7,14 +7,17 @@
                     <span>Tech Roulette</span>
                 </div>
             </a>
-
+            <a class="navbar-item live-banner" href="/stage">
+                {{#if liveEvent}}
+                    <span class="blinker">●</span> Now Live: {{liveEvent}}
+                {{/if}}
+            </a>
             <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
-            </a>
+                </span>
         </div>
-
         <div class="navbar-menu">
             <div class="navbar-start">
                 <!-- navbar items -->
@@ -36,19 +39,19 @@
                                         Redeem Code
                                     </a>
                                     {{#if ../user.admin}}
-                                    <a class="navbar-item admin" href="/admin">
-                                        Admin Panel
-                                    </a>
+                                        <a class="navbar-item admin" href="/admin">
+                                            Admin Panel
+                                        </a>
                                     {{/if}}
                                     <a class="navbar-item" href="/auth/logout">
                                         Log Out
                                     </a>
                                 </div>
                             </div>
-                        {{else}}
-                            <a class="navbar-item" href="/auth/logout">
-                                Log Out
-                            </a>
+                    {{else}}
+                        <a class="navbar-item" href="/auth/logout">
+                            Log Out
+                        </a>
                         {{/notEq}}
                     {{else}}
                         <a class="button" href="/login">
@@ -60,7 +63,6 @@
         </div>
     </div>
 </nav>
-
 <script nonce="{{@root/nonce}}">
     const burger = document.querySelector('.navbar-burger')
     const menu = document.querySelector('.navbar-menu')

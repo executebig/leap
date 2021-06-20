@@ -90,7 +90,7 @@ router.post('/users/control/badge/:id', async (req, res) => {
     await UserController.grantBadge(req.params.id, req.body.badge)
   }
 
-  req.flash('success', `Badge ${req.query.remove ? "removal" : "grant"} completed!`)
+  req.flash('success', `Badge ${req.query.remove ? 'removal' : 'grant'} completed!`)
   res.redirect('/admin/users')
 })
 
@@ -158,6 +158,35 @@ router.post('/config', async (req, res) => {
 
   req.flash('success', `Successfully updated config`)
   res.redirect('/admin/config')
+})
+
+router.get('/stage', async (req, res) => {
+  const [liveUrl, eventName] = await Promise.all([
+    ConfigController.get('stageUrl'),
+    ConfigController.get('stageEventName')
+  ])
+
+  res.render('pages/admin/stage', {
+    liveUrl,
+    eventName
+  })
+})
+
+router.post('/stage', async (req, res) => {
+  if (req.query.reset === 'true') {
+    await ConfigController.setMultiple({
+      stageUrl: '',
+      stageEventName: ''
+    })
+  } else {
+    await ConfigController.setMultiple({
+      stageUrl: req.body.liveUrl,
+      stageEventName: req.body.eventName
+    })
+  }
+
+  req.flash('success', `Successfully updated stage`)
+  res.redirect('/admin/stage')
 })
 
 /** Badges */

@@ -6,7 +6,9 @@
 const config = require('@config')
 
 const router = require('express').Router()
+
 const authMiddlewares = require('@middlewares/auth.middlewares')
+const ConfigController = require('@controllers/config.controllers')
 
 router.get('/', authMiddlewares.optionalAuth, (req, res) => {
   const atob = (a) => Buffer.from(a, 'base64').toString('binary')
@@ -31,6 +33,18 @@ router.get('/logout', (req, res) => {
 
 router.get('/chill', authMiddlewares.checkAuth, (req, res) => {
   res.render('pages/chill')
+})
+
+router.get('/stage', authMiddlewares.optionalAuth, async (req, res) => {
+  const [liveUrl, eventName] = await Promise.all([
+    ConfigController.get('stageUrl'),
+    ConfigController.get('stageEventName')
+  ])
+
+  res.render('pages/stage', {
+    liveUrl,
+    eventName
+  })
 })
 
 module.exports = router
