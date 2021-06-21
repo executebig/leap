@@ -26,6 +26,7 @@
                         <th><abbr title="State">S</abbr></th>
                         <th><abbr title="Project">P</abbr></th>
                         <th><abbr title="Age">A</abbr></th>
+                        <th><abbr title="Address">ADDR</abbr></th>
                         <th><abbr title="No Shipping?">NS?</abbr></th>
                         <th><abbr title="Banned?">BN?</abbr></th>
                         <th><abbr title="Current Week">W</abbr></th>
@@ -41,6 +42,7 @@
                             <td><span class="tag state {{state}}">{{state}}</span></td>
                             <td>{{current_project}}</td>
                             <td>{{age}}</td>
+                            <td>{{#unless no_shipping}}{{trimAddress address}}{{/unless}}</td>
                             <td>
                                 {{#unless no_shipping}}<a href="/admin/users/disqualify/{{user_id}}" class="admin_toggle">{{/unless}}
                                 {{{showBoolWarn no_shipping}}}
