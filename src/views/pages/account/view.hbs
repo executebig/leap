@@ -14,7 +14,12 @@
             </div>
             <div class='column'>
               <h1 class='title is-3'>{{first_name}} {{last_name}}</h1>
-              <h6 class='subtitle is-6 mb-4'>@{{display_name}} • {{email}} • {{#if no_shipping}}Not{{/if}} Eligible for Shipping</h6>
+              <h6 class='subtitle is-6 mb-4'>@{{display_name}}
+                •
+                {{email}}
+                •
+                {{#if no_shipping}}Not{{/if}}
+                Eligible for Shipping</h6>
               <a href='/account/edit' class='button'>
                 <span>
                   Edit Account
@@ -44,30 +49,36 @@
         <div class='columns'>
           {{#each @root/badges}}
             <div class='column is-narrow'>
-              <figure class='image is-64x64' aria-label='{{name}}: {{description}}' data-balloon-pos='down' data-balloon-length='large'>
-                <img class="badge large" src='{{icon}}' />
+              <figure
+                class='image is-64x64'
+                aria-label='{{name}}: {{description}}'
+                data-balloon-pos='down-left'
+                data-balloon-length='large'
+              >
+                <img class='badge large' src='{{icon}}' />
               </figure>
             </div>
           {{/each}}
         </div>
         {{#unless @root/badges}}
-          <p class="mb-4"><strong>You have not collected a badge yet.</strong></p>
+          <p class='mb-4'><strong>You have not collected a badge yet.</strong></p>
         {{/unless}}
         <p>
-          You'll be able to see a list of available badges here after Tech Roulette starts. There will also be a lot of secret hidden badges
-          that you'll be able to collect in a variety of ways. Keep an eye out for the codes!
+          You'll be able to see a list of available badges here after Tech Roulette starts. There
+          will also be a lot of secret hidden badges that you'll be able to collect in a variety of
+          ways. Keep an eye out for the codes!
         </p>
       </div>
     </section>
-    <section class="section projects">
+    <section class='section projects'>
       <div class='container'>
         <h1 class='title has-text-primary'>
           Past Projects
         </h1>
-        <p class="mb-4"><strong>You have not completed a project yet.</strong></p>
+        <p class='mb-4'><strong>You have not completed a project yet.</strong></p>
         <p>
-          Your previously submitted/expired projects will appear here. You cannot go back to complete them as they expire after the week, but
-          you will be able to see your submissions.
+          Your previously submitted/expired projects will appear here. You cannot go back to
+          complete them as they expire after the week, but you will be able to see your submissions.
         </p>
       </div>
     </section>
