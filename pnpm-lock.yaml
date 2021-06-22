@@ -31,6 +31,7 @@ specifiers:
   mocha: ^8.4.0
   mocha-suppress-logs: ^0.2.0
   module-alias: ^2.2.2
+  moment: ^2.29.1
   morgan: ^1.10.0
   node-sass-middleware: ^0.11.0
   passport: ^0.4.1
@@ -68,6 +69,7 @@ dependencies:
   limiter: 2.1.0
   marked: 2.1.1
   module-alias: 2.2.2
+  moment: 2.29.1
   morgan: 1.10.0
   node-sass-middleware: 0.11.0
   passport: 0.4.1
@@ -2004,6 +2006,10 @@ packages:
 
   /module-alias/2.2.2:
     resolution: {integrity: sha512-A/78XjoX2EmNvppVWEhM2oGk3x4lLxnkEA4jTbaK97QKSDjkIoOsKQlfylt/d3kKKi596Qy3NP5XrXJ6fZIC9Q==}
+    dev: false
+
+  /moment/2.29.1:
+    resolution: {integrity: sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==}
     dev: false
 
   /morgan/1.10.0:

@@ -209,7 +209,6 @@ router.post('/badges/new', async (req, res) => {
   const hidden = req.body.hidden === 'true'
 
   const badge = await BadgeController.createBadge(name, description, icon, hidden, code)
-  console.log(badge)
 
   req.flash('success', `Badge #${badge.badge_id} created successfully!`)
   res.redirect(`/admin/badges/edit/${badge.badge_id}`)
@@ -373,10 +372,26 @@ router.post('/modules/edit/:id', async (req, res) => {
 })
 
 /** Submissions */
-router.get('/submissions', async (req, res) => {
-  const submissions = await SubmissionController.listSubmissions()
+router.get('/submissions/:page?', async (req, res) => {
+  const filter = req.query.filter || 'pending'
+  const orderBy = req.query.by || 'created_at'
+  const order = req.query.order || 'DESC'
 
-  res.render('pages/admin/submissions/list', { submissions })
+  const { submissions, prevPage, nextPage } = await AdminController.listSubmissions(
+    filter,
+    orderBy,
+    order,
+    req.params.page
+  )
+
+  res.render('pages/admin/submissions/list', {
+    filter,
+    orderBy,
+    order,
+    submissions,
+    prevPage,
+    nextPage
+  })
 })
 
 router.get('/submissions/edit/:id', async (req, res) => {

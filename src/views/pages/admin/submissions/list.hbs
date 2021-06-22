@@ -9,6 +9,20 @@
 </section>
 <section class="section">
     <div class="container">
+        <div class="sorts">
+            <p>Sort Created At:
+                <a href="?by=created_at&order=ASC&filter={{filter}}">ASC</a> /
+                <a href="?by=created_at&order=DESC&filter={{filter}}">DESC</a>
+            </p>
+            <p>Filter:
+                <a href="?filter=pending&by={{orderBy}}&order={{order}}">Pending</a> /
+                <a href="?filter=rejected&by={{orderBy}}&order={{order}}">Rejected</a> /
+                <a href="?filter=accepted&by={{orderBy}}&order={{order}}">Accepted</a>
+            </p>
+        </div>
+
+        <hr />
+
         {{#if submissions}}
             <table class='table is-fullwidth is-hoverable is-striped'>
                 <thead>
@@ -16,6 +30,7 @@
                         <th><abbr title="submission_id">SID</abbr></th>
                         <th><abbr title="user_id">UID</abbr></th>
                         <th><abbr title="project_id">PID</abbr></th>
+                        <th><abbr title="created_at">Created At</abbr></th>
                         <th><abbr title="state">State</abbr></th>
                         <th>Actions</th>
                     </tr>
@@ -26,14 +41,25 @@
                             <th>S{{submission_id}}</th>
                             <th>U{{user_id}}</th>
                             <th>P{{project_id}}</th>
+                            <th>{{prettyTime created_at}}</th>
                             <td><span class="tag state {{state}}">{{state}}</span></td>
-                            <td><a href="/admin/submissions/edit/{{submission_id}}">Grade</a></td>
+
+                            <td><a href="/admin/submissions/edit/{{submission_id}}">
+                                {{#eq ../filter "pending"}}Grade{{else}}Edit{{/eq}}
+                            </a></td>
                         </tr>
                     {{/each}}
                 </tbody>
             </table>
         {{else}}
-            <p>No submissions found!</p>
+            <p>No <strong>{{filter}}</strong> submissions found!</p>
         {{/if}}
+
+        {{#notEq prevPage -1}}
+            <a class="button" href="/admin/submissions/{{../prevPage}}?filter={{filter}}&by={{orderBy}}&order={{order}}">Previous</a>
+        {{/notEq}}
+        {{#notEq nextPage -1}}
+            <a class="button" href="/admin/submissions/{{../nextPage}}?filter={{filter}}&by={{orderBy}}&order={{order}}">Next</a>
+        {{/notEq}}
     </div>
 </section>
