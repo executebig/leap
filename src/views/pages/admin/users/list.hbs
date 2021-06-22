@@ -42,17 +42,17 @@
                             <td><span class="tag state {{state}}">{{state}}</span></td>
                             <td>{{current_project}}</td>
                             <td>{{age}}</td>
-                            <td>{{#unless no_shipping}}{{trimAddress address}}{{/unless}}</td>
+                            <td>{{#unless no_shipping}}{{address}}{{/unless}}</td>
                             <td>
-                                {{#unless no_shipping}}<a href="/admin/users/disqualify/{{user_id}}" class="admin_toggle">{{/unless}}
-                                {{{showBoolWarn no_shipping}}}
-                                {{#unless no_shipping}}</a>{{/unless}}
+                                <a href="/admin/users/{{#unless no_shipping}}disqualify{{else}}requalify{{/unless}}/{{user_id}}" class="admin_toggle">
+                                    {{{showBoolWarn no_shipping}}}
+                                </a>
                             </td>
                             <td>
                                 <a href="{{#if banned}}/admin/unban/{{user_id}}{{else}}/admin/ban/{{user_id}}{{/if}}" class="admin_toggle">
-                                {{{showBoolWarn banned}}}
+                                    {{{showBoolWarn banned}}}
                                 </a>
-                                </td>
+                            </td>
                             <td>{{current_week}}</td>
                             <td>
                                 <a href="/admin/refresh/{{user_id}}" title="Set refresh flag">RS</a> /

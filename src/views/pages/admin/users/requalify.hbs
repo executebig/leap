@@ -1,0 +1,20 @@
+{{#extend "title"}}
+    Requalify User #{{@root/target.user_id}}
+{{/extend}}
+<section class="section header">
+    <div class="container">
+        <h1 class="title">Requalify User #{{target.user_id}} (@{{target.display_name}}) From Shipping</h1>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <p class="mb-5">You are making this user qualify for shipping. Please double check to make sure the address below is correct.</p>
+        <form method="POST">
+            <div class="field mb-5">
+                <label class="label">New Address</label>
+                <input name="address" class="input" type="text" value="{{target.address}}" required />
+            </div>
+            <button class="button is-success" type="submit"><span>Confirm & Requalify</span></button>
+        </form>
+    </div>
+</section>

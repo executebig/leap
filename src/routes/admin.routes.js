@@ -119,6 +119,31 @@ router.post('/users/disqualify/:id', async (req, res) => {
   }
 })
 
+router.get('/users/requalify/:id', async (req, res) => {
+  const target = await UserController.getUserById(req.params.id)
+
+  res.render('pages/admin/users/requalify', {
+    target
+  })
+})
+
+router.post('/users/requalify/:id', async (req, res) => {
+  const user = await UserController.getUserById(req.params.id)
+
+  if (!user.no_shipping) {
+    // already not eligible
+    req.flash('error', `User #${user.user_id} is already eligible for shipping!`)
+  } else {
+    UserController.updateUser(req.params.id, { no_shipping: false, address: req.body.address })
+
+    req.flash(
+      'success',
+      `Successfully requalified ${user.user_id} for shipping.`
+    )
+    res.redirect('/admin/users')
+  }
+})
+
 router.get('/ban/:id', (req, res) => {
   UserController.banUser(req.params.id)
   UserController.flagRefresh(req.params.id)
