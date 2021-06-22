@@ -373,6 +373,8 @@ router.post('/modules/edit/:id', async (req, res) => {
 
 /** Submissions */
 router.get('/submissions/:page?', async (req, res) => {
+  req.session.prevUrl = req.originalUrl
+
   const filter = req.query.filter || 'pending'
   const orderBy = req.query.by || 'created_at'
   const order = req.query.order || 'DESC'
@@ -405,7 +407,7 @@ router.post('/submissions/edit/:id', async (req, res) => {
   await SubmissionController.updateSubmission(req.params.id, { state, comments })
 
   req.flash('success', 'Submission graded!')
-  res.redirect('/admin/submissions')
+  res.redirect(req.session.prevUrl || '/admin/submissions')
 })
 
 module.exports = router
