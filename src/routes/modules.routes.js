@@ -8,6 +8,7 @@ const router = require('express').Router()
 const ProjectController = require('@controllers/project.controllers')
 const ModuleController = require('@controllers/module.controllers')
 const SubmissionController = require('@controllers/submission.controllers')
+const SlackController = require('@controllers/slack.controllers')
 
 const { flagMiddleware, stateMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
 const { checkAuth } = require('@middlewares/auth.middlewares')
@@ -56,14 +57,22 @@ router.post('/:id', async (req, res, next) => {
     return
   }
 
-  await SubmissionController.createSubmission(
-    req.body.content,
-    req.user.user_id,
-    module.project_id,
-    module.module_id
-  )
+  try {
+    const submission = await SubmissionController.createSubmission(
+      req.body.content,
+      req.user.user_id,
+      module.project_id,
+      module.module_id
+    )
 
-  req.flash('success', 'Submission successful!')
+    await SlackController.sendSubmission(submission)
+
+    req.flash('success', 'Submission successful!')
+  } catch (err) {
+    console.error(err)
+    req.flash('error', 'Submission failed — if this issue persists, please reach out to us at hi@techroulette.xyz')
+  }
+
   res.redirect('/modules')
 })
 
