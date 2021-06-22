@@ -22,6 +22,7 @@ See [.env.example](.env.example). Copy the file to `.env`.
 * `SLACK_SUBMISSIONS_CHANNEL`: Name of Slack channel to post submission notifications
 * `FLAGS`: Debugging/Developing flags for special features, separated by commas. Available flags:
     * `print_email`: Will print important email contents to log instead of actually sending the email.
+    * `print_submission`: Will print submissions instead of sending to Slack
     * `disable_eo`: Will disable all outgoing EmailOctopus actions
 
 ### Setup PostgreSQL Schema

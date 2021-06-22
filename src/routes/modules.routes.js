@@ -14,6 +14,7 @@ const { flagMiddleware, stateMiddleware, banMiddleware } = require('@middlewares
 const { checkAuth } = require('@middlewares/auth.middlewares')
 
 const reflash = require('@libs/reflash')
+const config = require('@config')
 
 // Check for session flag, user banned, & state updates
 router.use(checkAuth, flagMiddleware, banMiddleware, stateMiddleware)
@@ -65,7 +66,13 @@ router.post('/:id', async (req, res, next) => {
       module.module_id
     )
 
-    await SlackController.sendSubmission(submission)
+    if (config.flags.includes('print_submission')) {
+      console.log(`[Submission] New Submission:`)
+      console.log(submission)
+    } else {
+      await SlackController.sendSubmission(submission)
+    }
+
 
     req.flash('success', 'Submission successful!')
   } catch (err) {

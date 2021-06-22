@@ -1,7 +1,7 @@
 const config = require('@config')
 const { prettyTime } = require('@libs/helpers')
 
-const { WebClient, LogLevel } = require('@slack/web-api')
+const { WebClient } = require('@slack/web-api')
 
 const client = new WebClient(config.slack.botToken)
 
