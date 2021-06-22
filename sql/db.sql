@@ -1,4 +1,5 @@
 create type user_state as enum ('onboarding', 'inprogress', 'completed', 'pending', 'ready', 'invited');
+create type submission_state as enum ('pending', 'accepted', 'rejected');
 
 create table if not exists users (
     user_id serial not null constraint users_pk primary key,
@@ -76,9 +77,11 @@ create table if not exists submissions (
 
     user_id serial not null,
     project_id serial not null,
+    module_id serial not null,
 
     content text not null,
-    graded bool not null default false,
+    state submission_state default 'pending' :: submission_state not null,
+    comments text,
 
     constraint user_fk
         foreign key (user_id) references users(user_id)
@@ -87,6 +90,11 @@ create table if not exists submissions (
 
     constraint project_fk
         foreign key (project_id) references projects(project_id)
+            on update set null
+            on delete set null,
+
+    constraint module_fk
+        foreign key (module_id) references modules(module_id)
             on update set null
             on delete set null
 );

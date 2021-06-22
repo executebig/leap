@@ -16,8 +16,7 @@
                         <th><abbr title="submission_id">SID</abbr></th>
                         <th><abbr title="user_id">UID</abbr></th>
                         <th><abbr title="project_id">PID</abbr></th>
-                        <th><abbr title="content">Content</abbr></th>
-                        <th><abbr title="graded">G?</abbr></th>
+                        <th><abbr title="state">State</abbr></th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -27,9 +26,7 @@
                             <th>S{{submission_id}}</th>
                             <th>U{{user_id}}</th>
                             <th>P{{project_id}}</th>
-                            <th>P{{content}}</th>
-                            <td>{{type}}</td>
-                            <td>{{{showBool graded}}}</td>
+                            <td><span class="tag state {{state}}">{{state}}</span></td>
                             <td><a href="/admin/submissions/edit/{{submission_id}}">Grade</a></td>
                         </tr>
                     {{/each}}

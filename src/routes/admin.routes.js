@@ -10,6 +10,7 @@ const BadgeController = require('@controllers/badge.controllers')
 const ConfigController = require('@controllers/config.controllers')
 const ProjectController = require('@controllers/project.controllers')
 const ModuleController = require('@controllers/module.controllers')
+const SubmissionController = require('@controllers/submission.controllers')
 
 const { flagMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
 const notFoundMiddleware = require('@middlewares/404.middlewares')
@@ -372,8 +373,24 @@ router.post('/modules/edit/:id', async (req, res) => {
 })
 
 /** Submissions */
-router.get('/submissions', (req, res) => {
-  res.render('pages/admin/submissions/list')
+router.get('/submissions', async (req, res) => {
+  const submissions = await SubmissionController.listSubmissions()
+
+  res.render('pages/admin/submissions/list', { submissions })
+})
+
+router.get('/submissions/edit/:id', async (req, res) => {
+  const submission = await SubmissionController.getSubmissionById(req.params.id)
+  res.render('pages/admin/submissions/single', { submission })
+})
+
+router.post('/submissions/edit/:id', async (req, res) => {
+  let { state, comments } = req.body
+
+  await SubmissionController.updateSubmission(req.params.id, { state, comments })
+
+  req.flash('success', 'Submission graded!')
+  res.redirect('/admin/submissions')
 })
 
 module.exports = router
