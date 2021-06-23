@@ -73,7 +73,6 @@ router.post('/:id', async (req, res, next) => {
       await SlackController.sendSubmission(submission)
     }
 
-
     req.flash('success', 'Submission successful!')
   } catch (err) {
     console.error(err)

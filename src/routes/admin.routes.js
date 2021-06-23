@@ -404,7 +404,13 @@ router.get('/submissions/edit/:id', async (req, res) => {
 router.post('/submissions/edit/:id', async (req, res) => {
   let { state, comments } = req.body
 
-  await SubmissionController.updateSubmission(req.params.id, { state, comments })
+  const submission = await SubmissionController.updateSubmission(req.params.id, { state, comments })
+
+  if (state === 'rejected') {
+    mailer.sendSubmissionRejection(submission, comments)
+  }
+
+  // TODO: Implement submission accepted notification
 
   req.flash('success', 'Submission graded!')
   res.redirect(req.session.prevUrl || '/admin/submissions')
