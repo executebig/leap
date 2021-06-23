@@ -130,7 +130,9 @@ app.use(
         'https://plausible.io',
         'https://hcaptcha.com',
         'https://*.hcaptcha.com',
-        'https://cdn.jsdelivr.net/'
+        'https://cdn.jsdelivr.net',
+        'https://*.mingjie.repl.co',
+        'wss://*.mingjie.repl.co'
       ],
       'img-src': ["'self'", 'data:', 'heapanalytics.com', 'gravatar.com', 'cdn.techroulette.xyz'],
       'frame-src': [
