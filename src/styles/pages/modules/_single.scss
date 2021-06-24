@@ -21,33 +21,4 @@
       justify-content: flex-start;
     }
   }
-
-  .module {
-    display: flex;
-    flex-direction: column;
-
-    overflow: hidden;
-
-    min-height: 400px;
-
-    &__inner {
-      height: 100%;
-      position: relative;
-
-      box-sizing: border-box;
-      padding-bottom: 48px;
-
-      &__bottom {
-        display: flex;
-        position: absolute;
-
-        bottom: 0;
-        width: 100%;
-
-        *:first-child {
-          margin-right: auto;
-        }
-      }
-    }
-  }
 }

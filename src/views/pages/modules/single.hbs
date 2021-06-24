@@ -14,7 +14,7 @@
 
       <div class='columns'>
         <div class='column is-one-third'>
-          <img src='/static/tmp.png' alt='' class='card hero-image' />
+          <img src='{{project.thumbnail_url}}' alt='' class='card hero-image' />
         </div>
 
         <div class='column'>
@@ -82,30 +82,4 @@
       {{{module.rendered_content}}}
     </div>
   </section>
-
-  {{!-- <section class="section">
-      <div class='module container box p-0'>
-        <img src='/static/tmp.png' alt='' class='module__img image' />
-        <div class='p-5'>
-          <div class='module__inner'>
-            <div class='content'>
-              {{{rendered_content}}}
-            </div>
-
-            <div class='module__inner__bottom'>
-              <form action="" method="POST">
-                <textarea name="content" cols="30" rows="10"></textarea>
-                <button class='button'>Task Resources</button>
-                <button class='button is-primary' type="submit">
-                  <b>Submit task</b>
-                  <span class='icon'>
-                    <ion-icon name='arrow-forward-outline'></ion-icon>
-                  </span>
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section> --}}
 </div>
