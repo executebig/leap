@@ -29,7 +29,7 @@ router.use('/', (req, res, next) => {
 })
 
 router.get('/', async (req, res) => {
-  return res.render('pages/modules', {
+  return res.render('pages/modules/list', {
     title: 'Modules',
     data: await ProjectController.getProjectAndModulesById(req.user.current_project)
   })
@@ -42,7 +42,7 @@ router.get('/:id', async (req, res, next) => {
     return next()
   }
 
-  res.render('pages/module', {
+  res.render('pages/modules/single', {
     title: module.title,
     data: module
   })
