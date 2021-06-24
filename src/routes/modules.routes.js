@@ -29,9 +29,12 @@ router.use('/', (req, res, next) => {
 })
 
 router.get('/', async (req, res) => {
+  const { project, modules_required, modules_optional } = await ProjectController.getProjectAndModulesById(req.user.current_project)
+
   return res.render('pages/modules/list', {
-    title: 'Modules',
-    data: await ProjectController.getProjectAndModulesById(req.user.current_project)
+    project,
+    modules_required,
+    modules_optional
   })
 })
 

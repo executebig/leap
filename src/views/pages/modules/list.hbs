@@ -21,10 +21,10 @@
 <div class='page__modules__list'>
   <section class='section header'>
     <div class='container'>
-      <h1 class='title is-1 has-text-primary'>Week {{user.current_week}} — {{data.project.title}}</h1>
+      <h1 class='title is-1 has-text-primary'>Week {{user.current_week}} — {{project.title}}</h1>
 
       <div>
-        <span class="tag is-primary is-medium"><b>{{data.project.pts_total}} 💎 Available</b></span>
+        <span class="tag is-primary is-medium"><b>{{project.pts_total}} 💎 Available</b></span>
       </div>
     </div>
   </section>
@@ -33,7 +33,7 @@
     <div class="container">
       <h2 class="title">Required Modules</h2>
       <div class='modules modules--required has-horizontal-scroll'>
-        {{#each data.modules_required}}
+        {{#each modules_required}}
           {{>module}}
         {{/each}}
       </div>
@@ -44,7 +44,7 @@
     <div class="container">
       <h2 class="title">Optional Modules: Complete to Earn Additional Gems!</h2>
       <div class='modules modules--optional has-horizontal-scroll'>
-        {{#each data.modules_optional}}
+        {{#each modules_optional}}
           {{>module}}
         {{/each}}
       </div>
