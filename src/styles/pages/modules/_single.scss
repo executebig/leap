@@ -1,18 +1,34 @@
 .page__modules__single {
+  .hero-image {
+    width: 100%;
+    height: 350px;
+
+    object-fit: cover;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+    min-height: 400px;
+
+    .card-content {
+      flex: auto;
+    }
+
+    .card-footer-item {
+      justify-content: flex-start;
+    }
+  }
+
   .module {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 
     overflow: hidden;
 
     min-height: 400px;
-
-    &__img {
-      width: 320px;
-      height: inherit;
-
-      object-fit: cover;
-    }
 
     &__inner {
       height: 100%;
@@ -31,34 +47,6 @@
         *:first-child {
           margin-right: auto;
         }
-      }
-    }
-
-    .content {
-      * {
-        color: $primary;
-        font-weight: 500;
-      }
-
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
-        font-weight: bold;
-      }
-    }
-
-    @media screen and (max-width: $desktop) {
-      display: flex;
-      flex-direction: column;
-
-      margin: 0 5%;
-
-      &__img {
-        width: 100%;
-        height: 320px;
       }
     }
   }

@@ -1,14 +1,89 @@
-{{#with data}}
-  <div class='page__modules__single'>
-    <section class='hero container'>
-      <div class='hero-body'>
-        <h1 class='title is-1 pb-3 has-text-primary has-text-weight-bold'>{{title}}</h1>
-        <h2 class='subtitle has-text-primary has-text-weight-semibold'>Week {{../user.current_week}} — “Simon Says” ·
-          Required Module</h2>
-      </div>
-    </section>
+<div class='page__modules__single'>
+  <section class='section'>
+    <div class='container'>
+      <h1 class='title is-1 has-text-primary'>Week {{user.current_week}} — {{project.title}}</h1>
 
-    <section class="section">
+      <nav class='breadcrumb' aria-label='breadcrumbs'>
+        <strong>
+          <ul>
+            <li><a href='/modules'>Modules</a></li>
+            <li class='is-active'><a href='#' aria-current='page'>{{module.title}}</a></li>
+          </ul>
+        </strong>
+      </nav>
+
+      <div class='columns'>
+        <div class='column is-one-third'>
+          <img src='/static/tmp.png' alt='' class='card hero-image' />
+        </div>
+
+        <div class='column'>
+          <div class='card'>
+            <div class='card-header'>
+              <h1 class='card-header-title'>
+                <ion-icon name='information-circle-outline'></ion-icon>
+                <span>
+                  Module Details
+                </span>
+              </h1>
+            </div>
+
+            <div class='card-content'>
+              <h1 class='title has-text-primary mb-2'>{{module.title}}</h1>
+
+              <div class='mb-5'>
+                <span class='tag is-primary'>+3 💎</span>
+
+                {{#if module.required}}
+                  <span class='tag is-primary is-success'>Required</span>
+                {{else}}
+                  <span class='tag is-primary is-warning'>Optional</span>
+                {{/if}}
+              </div>
+
+              <p>{{module.description}}</p>
+            </div>
+
+            <div class="card-footer">
+              <div class="card-content py-4">
+                <button class='button is-primary is-pulled-left' type='submit'>
+                  <b>Submit task</b>
+                  <span class='icon'>
+                    <ion-icon name='arrow-forward-outline'></ion-icon>
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            {{!
+
+  <section class='section'>
+    <div class='container'>
+      <form action='' method='POST'>
+        <textarea name='content' cols='30' rows='10'></textarea>
+        <button class='button'>Task Resources</button>
+        <button class='button is-primary' type='submit'>
+          <b>Submit task</b>
+          <span class='icon'>
+            <ion-icon name='arrow-forward-outline'></ion-icon>
+          </span>
+        </button>
+      </form>
+    </div>
+  </section> }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class='section'>
+    <div class='container content'>
+      {{{module.rendered_content}}}
+    </div>
+  </section>
+
+  {{!-- <section class="section">
       <div class='module container box p-0'>
         <img src='/static/tmp.png' alt='' class='module__img image' />
         <div class='p-5'>
@@ -32,6 +107,5 @@
           </div>
         </div>
       </div>
-    </section>
-  </div>
-{{/with}}
+    </section> --}}
+</div>

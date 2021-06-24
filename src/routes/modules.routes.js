@@ -42,9 +42,11 @@ router.get('/:id', async (req, res, next) => {
     return next()
   }
 
+  const project = await ProjectController.getProjectById(module.project_id)
+
   res.render('pages/modules/single', {
-    title: module.title,
-    data: module
+    module,
+    project
   })
 })
 
