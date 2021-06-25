@@ -75,7 +75,7 @@ router.post('/users/search', async (req, res) => {
 
     if (isNaN(query)) {
       req.flash('error', 'Invalid query.')
-      res.redirect('/admin/users')
+      return res.redirect('/admin/users')
     }
   } else {
     query = query.toLowerCase()
