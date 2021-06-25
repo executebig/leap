@@ -19,17 +19,39 @@
 {{/inline}}
 
 <div class='page__modules__list'>
-  <section class='section header'>
-    <div class='container'>
-      <h1 class='title is-1 has-text-primary'>Week {{user.current_week}} — {{project.title}}</h1>
+  <section class='hero is-primary'>
+    <div class="hero-body">
+      <div class='container'>
+        <div class="columns">
+          <div class="column">
+            <h1 class='title is-1 mb-2'>Week {{user.current_week}} — {{project.title}}</h1>
 
-      <div>
-        <span class="tag is-primary is-medium"><b>{{project.pts_total}} 💎 Available</b></span>
+            <div class='block'>
+              <span class="tag is-medium"><strong>{{project.type}}</strong></span>
+              <span class="tag is-medium"><strong>{{project.pts_total}} 💎 Available</strong></span>
+
+              {{#if project.hardware}}
+                <span class="tag is-medium"><strong>🛠️ Hardware</strong></span>
+              {{/if}}
+
+            </div>
+
+            <div class="block">
+              <strong>
+                {{project.description}}
+              </strong>
+            </div>
+          </div>
+
+          <div class="column is-4">
+            <img src="{{project.thumbnail_url}}" alt="" class="card" >
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class='section py-2'>
+  <section class='section pb-0'>
     <div class="container">
       <h2 class="title">Required Modules</h2>
       <div class='modules modules--required has-horizontal-scroll'>
