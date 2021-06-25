@@ -1,0 +1,24 @@
+.page__modules__single {
+  .hero-image {
+    width: 100%;
+    height: 350px;
+
+    object-fit: cover;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+    min-height: 400px;
+
+    .card-content {
+      flex: auto;
+    }
+
+    .card-footer-item {
+      justify-content: flex-start;
+    }
+  }
+}

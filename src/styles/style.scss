@@ -36,20 +36,19 @@
 @import 'components/horizontal-scroll';
 @import 'components/badge';
 @import 'components/project';
-@import 'components/module';
 
 @import 'components/admin/tag';
 @import 'components/admin/bool';
 @import 'components/admin/section';
 
 @import 'pages/landing';
-@import 'pages/modules';
-@import 'pages/module';
 @import 'pages/dash';
 @import 'pages/onboard';
 @import 'pages/chill';
 @import 'pages/auth';
 @import 'pages/redeem';
 @import 'pages/stage';
+@import 'pages/modules/list';
+@import 'pages/modules/single';
 
 @import 'pages/account/view';

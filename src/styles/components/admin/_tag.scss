@@ -1,6 +1,6 @@
 .tag {
     &.state {
-        &.ready {
+        &.ready, &.rejected {
             background-color: lightsalmon;
         }
 
@@ -16,7 +16,7 @@
             background-color: lightpink;
         }
 
-        &.completed {
+        &.completed, &.accepted {
             background-color: lightgreen;
         }
 

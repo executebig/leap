@@ -185,3 +185,9 @@ exports.removeBadge = async (user_id, badge_id) => {
 
   return user.rows[0]
 }
+
+exports.getSubmissions = async (user_id) => {
+  const q = await db.query('SELECT * FROM submissions WHERE user_id = $1', [user_id])
+
+  return q.rows
+}
