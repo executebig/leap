@@ -78,3 +78,7 @@ exports.trimAddress = (addr) => {
   if (!addr) return ''
   return addr.split(',').slice(1)
 }
+
+exports.select = (value, options) => {
+  return options.fn(this).replace(new RegExp(' value="' + value + '"'), '$& selected="selected"')
+}
