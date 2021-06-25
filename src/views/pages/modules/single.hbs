@@ -1,0 +1,186 @@
+{{#extend 'header-inject'}}
+  <link rel='stylesheet' href='https://unpkg.com/simplemde@1.11.2/dist/simplemde.min.css' />
+{{/extend}}
+
+<div class='page__modules__single'>
+  <section class='section'>
+    <div class='container'>
+      <h1 class='title is-1 has-text-primary'>Week {{user.current_week}} — {{project.title}}</h1>
+
+      <nav class='breadcrumb' aria-label='breadcrumbs'>
+        <strong>
+          <ul>
+            <li><a href='/modules'>Modules</a></li>
+            <li class='is-active'><a href='#' aria-current='page'>{{module.title}}</a></li>
+          </ul>
+        </strong>
+      </nav>
+
+      <div class='columns'>
+        <div class='column is-one-third'>
+          <img src='{{project.thumbnail_url}}' alt='' class='card hero-image' />
+        </div>
+
+        <div class='column'>
+          <div class='card'>
+            <div class='card-header'>
+              <h1 class='card-header-title'>
+                <ion-icon name='information-circle-outline'></ion-icon>
+                <span>
+                  Module Details
+                </span>
+              </h1>
+            </div>
+
+            <div class='card-content'>
+              <h1 class='title has-text-primary mb-2'>{{module.title}}</h1>
+
+              <div class='mb-5'>
+                <span class='tag is-primary'>+3 💎</span>
+
+                {{#if module.required}}
+                  <span class='tag is-primary is-success'>Required</span>
+                {{else}}
+                  <span class='tag is-primary is-warning'>Optional</span>
+                {{/if}}
+              </div>
+
+              <p>{{module.description}}</p>
+            </div>
+
+            <div class='card-footer'>
+              <div class='card-content py-4'>
+                <button class='button is-primary is-pulled-left modal-open' type='submit'>
+                  <strong>Submit Module</strong>
+                  <span class='icon'>
+                    <ion-icon name='arrow-forward-outline'></ion-icon>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class='section'>
+    <div class='container content'>
+      {{{module.rendered_content}}}
+    </div>
+  </section>
+
+  <form class='modal' action='' method='POST'>
+    <div class='modal-background'></div>
+    <div class='modal-card'>
+      <header class='modal-card-head'>
+        <h1 class='modal-card-title'>Module Submission</h1>
+      </header>
+
+      <section class='modal-card-body'>
+        <p class='modal-message'>
+          You're about to create a submission for
+          <strong class='has-text-primary'>{{module.title}}.</strong>
+          Select which type of content you would like to submit:
+        </p>
+
+        <div class='control mb-5'>
+          <label class='radio'>
+            <input type='radio' name='content_type' value='link' checked />
+            I'm submitting
+            <strong>a link</strong>
+            (repl.it / codesandbox / any other online resource)
+          </label>
+
+          <br />
+
+          <label class='radio mt-2'>
+            <input type='radio' name='content_type' value='content' />
+            I'm submitting
+            <strong>written content</strong>
+            (writeup / blog post / etc.)
+          </label>
+        </div>
+
+        <div class='control' id='submission-link'>
+          <input class='input' type='text' placeholder='https://your.submission.here/' />
+        </div>
+
+        <div class="control" id='submission-content'>
+          <textarea name='content' class='textarea' type='text'></textarea>
+        </div>
+      </section>
+
+      <footer class='modal-card-foot'>
+        <div style='width: 100%;'>
+          <button class='button is-danger modal-cancel' type='button'>
+            <span>Close</span>
+          </button>
+
+          <button class='button is-primary is-pulled-right' type='submit'>
+            <span>Send Submission</span>
+            <span class='icon'>
+              <ion-icon name='arrow-forward-outline'></ion-icon>
+            </span>
+          </button>
+        </div>
+      </footer>
+    </div>
+
+    <button class='modal-close modal-cancel is-large' aria-label='close'></button>
+  </form>
+</div>
+
+{{! prettier-ignore }}
+{{#extend 'scripts'}}
+  <script src="https://unpkg.com/simplemde@1.11.2/dist/simplemde.min.js"></script>
+  <script nonce='{{@root/nonce}}'>
+    const modal = document.querySelector(".modal")
+    const submissionLink = document.querySelector('#submission-link')
+    const submissionContent = document.querySelector('#submission-content')
+
+    const editor = new SimpleMDE({
+      element: submissionContent.querySelector('textarea'),
+      spellChecker: true,
+      forceSync: true,
+      autosave: {
+        enabled: true,
+        uniqueId: `module-{{{ @root/module.module_id }}}-content`,
+        delay: 1000,
+      },
+      autoFocus: true
+    })
+
+    submissionLink.style.display = 'block'
+    submissionContent.style.display = 'none'
+
+    document.querySelectorAll('input[type=radio]').forEach(node => {
+      node.addEventListener('change', () => {
+        if (node.value == 'link') {
+          submissionLink.style.display = 'block'
+          submissionContent.style.display = 'none'
+        } else {
+          submissionLink.style.display = 'none'
+          submissionContent.style.display = 'block'
+          editor.codemirror.refresh()
+        }
+      })
+    })
+
+    // Bind modal open buttons
+    document.querySelectorAll(".modal-open").forEach((node) => {
+      node.addEventListener("click", () => {
+        modal.classList.add("is-active")
+      })
+    })
+
+    // Close modal on background & cancel button click
+    document
+      .querySelectorAll(".modal-cancel, .modal-background")
+      .forEach((node) => {
+        node.addEventListener("click", () => {
+          modal.classList.remove("is-active")
+        })
+      })
+  </script>
+{{/extend}}

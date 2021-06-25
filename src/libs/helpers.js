@@ -78,3 +78,8 @@ exports.notContains = (array, item, options) => {
 exports.contains = (array, item, options) => {
   return array.includes(item) ? options.fn(this) : options.inverse(this)
 }
+
+exports.trimAddress = (addr) => {
+  if (!addr) return ''
+  return addr.split(',').slice(1)
+}
