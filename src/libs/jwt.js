@@ -6,7 +6,7 @@ const jwtConfig = {
   issuer: config.domain,
   audience: config.domain,
   algorithm: 'HS256',
-  expiresIn: '12h'
+  expiresIn: '7d'
 }
 
 const generateLoginJWT = (user) => {
