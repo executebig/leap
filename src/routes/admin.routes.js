@@ -10,6 +10,7 @@ const BadgeController = require('@controllers/badge.controllers')
 const ConfigController = require('@controllers/config.controllers')
 const ProjectController = require('@controllers/project.controllers')
 const ModuleController = require('@controllers/module.controllers')
+const SubmissionController = require('@controllers/submission.controllers')
 
 const { flagMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
 const notFoundMiddleware = require('@middlewares/404.middlewares')
@@ -263,7 +264,6 @@ router.post('/badges/new', async (req, res) => {
   const hidden = req.body.hidden === 'true'
 
   const badge = await BadgeController.createBadge(name, description, icon, hidden, code)
-  console.log(badge)
 
   req.flash('success', `Badge #${badge.badge_id} created successfully!`)
   res.redirect(`/admin/badges/edit/${badge.badge_id}`)
@@ -322,6 +322,8 @@ router.get('/projects/edit/:id', async (req, res) => {
   const project = await ProjectController.getProjectById(req.params.id)
   const modules = await ModuleController.getModulesByProjectId(req.params.id)
 
+  req.session.prevUrl = req.originalUrl
+
   res.render('pages/admin/projects/single', {
     edit: true,
     project,
@@ -349,6 +351,8 @@ router.post('/projects/edit/:id', async (req, res) => {
 
 /** Modules */
 router.get('/modules', async (req, res) => {
+  req.session.prevUrl = undefined
+
   res.render('pages/admin/modules/list', {
     modules: await ModuleController.listModules()
   })
@@ -393,7 +397,8 @@ router.post('/modules/new', async (req, res) => {
   })
 
   req.flash('success', `Module #${module_id} created successfully!`)
-  res.redirect(`/admin/modules/edit/${module_id}`)
+  res.redirect(req.session.prevUrl || '/admin/modules')
+  req.session.prevUrl = undefined
 })
 
 router.get('/modules/edit/:id', async (req, res) => {
@@ -423,7 +428,54 @@ router.post('/modules/edit/:id', async (req, res) => {
   })
 
   req.flash('success', `Module #${module_id} updated successfully!`)
-  res.redirect(`/admin/modules`)
+  res.redirect(req.session.prevUrl || '/admin/modules')
+  req.session.prevUrl = undefined
+})
+
+/** Submissions */
+router.get('/submissions/:page?', async (req, res) => {
+  req.session.prevUrl = req.originalUrl
+
+  const filter = req.query.filter || 'pending'
+  const orderBy = req.query.by || 'created_at'
+  const order = req.query.order || 'DESC'
+
+  const { submissions, prevPage, nextPage } = await AdminController.listSubmissions(
+    filter,
+    orderBy,
+    order,
+    req.params.page
+  )
+
+  res.render('pages/admin/submissions/list', {
+    filter,
+    orderBy,
+    order,
+    submissions,
+    prevPage,
+    nextPage
+  })
+})
+
+router.get('/submissions/edit/:id', async (req, res) => {
+  const submission = await SubmissionController.getSubmissionById(req.params.id)
+  res.render('pages/admin/submissions/single', { submission })
+})
+
+router.post('/submissions/edit/:id', async (req, res) => {
+  let { state, comments } = req.body
+
+  const submission = await SubmissionController.updateSubmission(req.params.id, { state, comments })
+
+  if (state === 'rejected') {
+    mailer.sendSubmissionRejection(submission, comments)
+  }
+
+  // TODO: Implement submission accepted notification
+
+  req.flash('success', 'Submission graded!')
+  res.redirect(req.session.prevUrl || '/admin/submissions')
+  req.session.prevUrl = undefined
 })
 
 module.exports = router

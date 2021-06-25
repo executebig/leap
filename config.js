@@ -30,5 +30,9 @@ module.exports = {
   bugsnag: {
     apiKey: process.env.BUGSNAG_API
   },
+  slack: {
+    botToken: process.env.SLACK_BOT_TOKEN,
+    submissionsChannel: process.env.SLACK_SUBMISSIONS_CHANNEL
+  },
   flags: process.env.FLAGS ? process.env.FLAGS.split(',') : []
 }

@@ -1,6 +1,7 @@
 'use strict'
 
 const crypto = require('crypto')
+const moment = require('moment')
 
 exports.stringify = (obj) => {
   return JSON.stringify(obj)
@@ -23,6 +24,10 @@ exports.capitalize = (a) => {
 
 exports.inc = (value, step) => {
   return parseInt(value, '10') + step
+}
+
+exports.prettyTime = (time) => {
+  return moment(time).format('MM/DD/YY, h:mm A')
 }
 
 /** Blocks helper controllers */

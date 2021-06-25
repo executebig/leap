@@ -51,14 +51,15 @@
   }
 
   & > p {
-    height: 100px;
-    margin-bottom: 12px;
+    min-height: 100px;
+    margin-bottom: 24px;
   }
 
   span {
     display: flex;
 
     font-size: 0.9rem;
+    font-weight: bold;
 
     *:first-child {
       margin-right: auto;
