@@ -66,6 +66,38 @@ router.get('/users/:page?', async (req, res) => {
   })
 })
 
+router.post('/users/search', async (req, res) => {
+  const scope = req.body.scope
+  let query = req.body.query
+
+  if (scope === 'user_id') {
+    query = parseInt(query)
+
+    if (isNaN(query)) {
+      req.flash('error', 'Invalid query.')
+      res.redirect('/admin/users')
+    }
+  } else {
+    query = query.toLowerCase()
+  }
+
+  let data
+
+  if (scope === 'names') {
+    data = await AdminController.searchUsersByName(query, req.params.page)
+  } else {
+    data = await AdminController.searchUsers(scope, query, req.params.page)
+  }
+
+  res.render('pages/admin/users/list', {
+    query,
+    scope,
+    user_list: data.users,
+    prevPage: data.prevPage,
+    nextPage: data.nextPage
+  })
+})
+
 router.get('/users/control/:id', async (req, res) => {
   const [target, all_badges] = await Promise.all([
     UserController.getUserById(req.params.id),
@@ -121,10 +153,11 @@ router.post('/users/disqualify/:id', async (req, res) => {
 })
 
 router.get('/users/requalify/:id', async (req, res) => {
-  const target = await UserController.getUserById(req.params.id)
+  const [target, original_address] = await Promise.all([UserController.getUserById(req.params.id), UserController.getAddressById(req.params.id)])
 
   res.render('pages/admin/users/requalify', {
-    target
+    target, 
+    original_address
   })
 })
 
@@ -137,10 +170,7 @@ router.post('/users/requalify/:id', async (req, res) => {
   } else {
     UserController.updateUser(req.params.id, { no_shipping: false, address: req.body.address })
 
-    req.flash(
-      'success',
-      `Successfully requalified ${user.user_id} for shipping.`
-    )
+    req.flash('success', `Successfully requalified ${user.user_id} for shipping.`)
     res.redirect('/admin/users')
   }
 })
