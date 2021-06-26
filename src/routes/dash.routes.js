@@ -34,7 +34,6 @@ router.use('/', (req, res, next) => {
 
 router.get('/', async (req, res) => {
   return res.render('pages/dash', {
-    title: 'Dashboard',
     projects: await ProjectController.getProjectsByIds(req.user.project_pool)
   })
 })
