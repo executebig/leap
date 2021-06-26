@@ -48,14 +48,15 @@ router.get(
       res.redirect('/')
     }
   },
+
   passport.authenticate('jwt', {
-    successReturnToOrRedirect: '/dash',
     failureRedirect: '/',
     failureFlash: 'Invalid token. Please try logging in again.'
   }),
 
   (req, res) => {
-    console.log(token)
+    res.redirect(req.session.prevUrl || '/dash')
+    delete req.session.prevUrl
   }
 )
 
