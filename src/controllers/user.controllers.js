@@ -31,7 +31,8 @@ const fields = [
   'project_pool',
   'prev_projects',
   'prev_modules',
-  'badges'
+  'badges',
+  'discord_id'
 ].join(', ')
 
 exports.getUserById = async (user_id) => {
@@ -104,10 +105,10 @@ exports.updateUser = async (user_id, data) => {
   })
 
   const newUser = (await db.query(query.join(' '), vals))?.rows[0]
+  this.flagRefresh(user_id)
 
   // Add user to EO contacts
   EOController.updateContact(newUser)
-
   return newUser
 }
 

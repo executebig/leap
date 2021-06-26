@@ -33,21 +33,30 @@
                                 </a>
                                 <div class="navbar-dropdown">
                                     <a class="navbar-item" href="/account/edit">
-                                        Edit Profile
-                                    </a>
-                                    <a class="navbar-item" href="/account/invite">
-                                        Invite Friends
+                                        <ion-icon name="create-outline"></ion-icon>
+                                        <span>Edit Profile</span>
                                     </a>
                                     <a class="navbar-item" href="/account/redeem">
-                                        Redeem Code
+                                        <ion-icon name="barcode-outline"></ion-icon>
+                                        <span>Redeem Badge</span>
+                                    </a>
+                                    <a class="navbar-item" href="/account/edit">
+                                        <ion-icon name="logo-discord"></ion-icon>
+                                        <span>Discord Integration</span>
+                                    </a>
+                                    <a class="navbar-item" href="/account/invite">
+                                    <ion-icon name="people-outline"></ion-icon>
+                                        <span>Invite Friends</span>
                                     </a>
                                     {{#if ../user.admin}}
                                         <a class="navbar-item admin" href="/admin">
-                                            Admin Panel
+                                            <ion-icon name="hardware-chip-outline"></ion-icon>
+                                            <span>Admin Panel</span>
                                         </a>
                                     {{/if}}
                                     <a class="navbar-item" href="/auth/logout">
-                                        Log Out
+                                        <ion-icon name="log-out-outline"></ion-icon>
+                                        <span>Log Out</span>
                                     </a>
                                 </div>
                             </div>

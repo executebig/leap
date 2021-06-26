@@ -1,8 +1,10 @@
+const config = require('@config')
 const router = require('express').Router()
 
 const UserController = require('@controllers/user.controllers')
 const EOController = require('@controllers/eo.controllers')
 const BadgeController = require('@controllers/badge.controllers')
+const DiscordController = require('@controllers/discord.controllers')
 const addrSanitizer = require('@libs/addressSanitizer')
 
 const { flagMiddleware, stateMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
@@ -143,6 +145,58 @@ router.post('/invite', async (req, res) => {
 
   req.flash('success', 'Invites sent! Welcome to Tech Roulette <3')
   res.redirect('/dash')
+})
+
+router.get('/discord', (req, res) => {
+  res.render('pages/account/discord')
+})
+
+/* Redirect to Discord OAuth */
+router.get('/discord/connect', (req, res) => {
+  if (req.user.discord_id) {
+    req.flash('error', 'You have already linked your Discord account!')
+    return res.redirect('/account/discord')
+  }
+
+  const redirect =
+    (config.env === 'development' ? 'http://' : 'https://') +
+    config.domain +
+    '/account/discord/callback'
+  res.redirect(
+    `https://discord.com/api/oauth2/authorize?client_id=${config.discord.client}&redirect_uri=${redirect}&response_type=code&scope=identify%20guilds.join`
+  )
+})
+
+router.get('/discord/callback', async (req, res) => {
+  if (!req.query.code) {
+    req.flash('error', 'No authorization code provided.')
+    return res.redirect('/account/discord')
+  }
+
+  const token = await DiscordController.getTokenFromCode(req.query.code).catch((error) => {
+    req.flash('error', 'Invalid authorization code. Please try again.')
+    return res.redirect('/account/discord')
+  })
+
+  if (!token) {
+    req.flash('error', 'Token grant failed. Please try again.')
+    return res.redirect('/account/discord')
+  }
+
+  try {
+    const discord_user = await DiscordController.getUserFromToken(token)
+    await Promise.all([
+      DiscordController.joinUserToGuild(token, discord_user),
+      UserController.updateUser(req.user.user_id, { discord_id: discord_user.id })
+    ])
+
+    // grant player role
+    await DiscordController.grantRole(discord_user.id, 'Player')
+    return res.redirect(`https://discord.com/channels/${config.discord.guild}/`)
+  } catch (err) {
+    req.flash('error', 'Account linking failed. Please try again.')
+    return res.redirect('/account/discord')
+  }
 })
 
 /* updates the req.user object */

@@ -15,6 +15,8 @@ create table if not exists users (
     no_shipping boolean default false not null,
     referrer integer,
 
+    discord_id text,
+
     created_at timestamp not null,
     updated_at timestamp not null,
     state user_state default 'onboarding' :: user_state not null,

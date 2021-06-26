@@ -1,0 +1,35 @@
+{{#extend 'title'}}
+    Link Discord
+{{/extend}}
+<div class="page__discord">
+    <section class="section">
+        <div class="container has-text-centered">
+            <h1 class="title mb-2">
+                <ion-icon name="logo-discord"></ion-icon>
+                <span class="header-text">Link Your Discord Account</span>
+            </h1>
+            <p class="mt-3">
+                By linking your Discord account, you will get access to a community of Tech Roulette Players, mentorship, member-only rewards,
+                special badges, and a ton of other perks for you to explore! <strong>By joining the Discord server, you agree to abide to our
+                    <a href="https://executebig.org/conduct?utm_source=TR_Discord_Link">Code of Conduct</a>.
+                </strong>
+            </p>
+            {{#if user.discord_id}}
+                <span class="tag is-success is-medium has-text-weight-bold">
+                    <ion-icon name="checkmark-done-circle-outline"></ion-icon><span>Account Linked</span>
+                </span>
+                <p class="help mt-3"><code>{{user.discord_id}}</code><br /> If you need to unlink your account, please contact staff at <a href="mailto:hi@techroulette.xyz" target="_blank">hi@techroulette.xyz</a>.</p>
+            {{else}}
+                <p class="mt-3">
+                    We will add you to our Discord server once you link your account.
+                </p>
+                <div class="mt-5">
+                    <a href="/account/discord/connect" class="button is-primary">
+                        <ion-icon name="link"></ion-icon><span>Link Now »</span>
+                    </a>
+                </div>
+            {{/if}}
+        </div>
+        <br />
+    </section>
+</div>

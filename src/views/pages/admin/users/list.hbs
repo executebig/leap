@@ -55,6 +55,7 @@
                         <th><abbr title="State">S</abbr></th>
                         <th><abbr title="Project">P</abbr></th>
                         <th><abbr title="Age">A</abbr></th>
+                        <th><abbr title="Discord Linked">D</abbr></th>
                         <th><abbr title="Address">ADDR</abbr></th>
                         <th><abbr title="No Shipping?">NS?</abbr></th>
                         <th><abbr title="Banned?">BN?</abbr></th>
@@ -71,6 +72,7 @@
                             <td><span class="tag state {{state}}">{{state}}</span></td>
                             <td>{{current_project}}</td>
                             <td>{{age}}</td>
+                            <td>{{{showBool discord_id}}}</td>
                             <td>{{#unless no_shipping}}{{address}}{{/unless}}</td>
                             <td>
                                 <a href="/admin/users/{{#unless no_shipping}}disqualify{{else}}requalify{{/unless}}/{{user_id}}" class="admin_toggle">
