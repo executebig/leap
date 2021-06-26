@@ -6,6 +6,15 @@ const client = new Discord.Client()
 
 client.on('ready', () => {
   console.log('[Discord] Discord bot ready!')
+
+  client.user.setPresence({
+    activity: {
+      type: 'PLAYING',
+      name: 'techroulette.xyz',
+      url: 'techroulette.xyz',
+    },
+    status: 'online'
+  })
 })
 
 exports.getTokenFromCode = async (code) => {
@@ -55,4 +64,6 @@ exports.grantRole = async (discord_id, role_name) => {
   member.roles.add(role)
 }
 
-client.login(config.discord.bot_token)
+if (config.env === 'production') {
+  client.login(config.discord.bot_token)
+}
