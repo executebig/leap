@@ -156,7 +156,7 @@ router.get('/users/requalify/:id', async (req, res) => {
   const [target, original_address] = await Promise.all([UserController.getUserById(req.params.id), UserController.getAddressById(req.params.id)])
 
   res.render('pages/admin/users/requalify', {
-    target, 
+    target,
     original_address
   })
 })
@@ -351,7 +351,7 @@ router.post('/projects/edit/:id', async (req, res) => {
 
 /** Modules */
 router.get('/modules', async (req, res) => {
-  req.session.prevUrl = undefined
+  delete req.session.prevUrl
 
   res.render('pages/admin/modules/list', {
     modules: await ModuleController.listModules()
@@ -398,7 +398,7 @@ router.post('/modules/new', async (req, res) => {
 
   req.flash('success', `Module #${module_id} created successfully!`)
   res.redirect(req.session.prevUrl || '/admin/modules')
-  req.session.prevUrl = undefined
+  delete req.session.prevUrl
 })
 
 router.get('/modules/edit/:id', async (req, res) => {
@@ -429,7 +429,7 @@ router.post('/modules/edit/:id', async (req, res) => {
 
   req.flash('success', `Module #${module_id} updated successfully!`)
   res.redirect(req.session.prevUrl || '/admin/modules')
-  req.session.prevUrl = undefined
+  delete req.session.prevUrl
 })
 
 /** Submissions */
@@ -475,7 +475,7 @@ router.post('/submissions/edit/:id', async (req, res) => {
 
   req.flash('success', 'Submission graded!')
   res.redirect(req.session.prevUrl || '/admin/submissions')
-  req.session.prevUrl = undefined
+  delete req.session.prevUrl
 })
 
 module.exports = router
