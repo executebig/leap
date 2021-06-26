@@ -50,7 +50,7 @@ router.get('/:id', async (req, res, next) => {
   }
 
   const project = await ProjectController.getProjectById(module.project_id)
-  const submissions = await SubmissionController.getSubmissionsByUserAndModuleId(
+  const latestSubmission = await SubmissionController.getLatestSubmission(
     req.user.user_id,
     module.module_id
   )
@@ -58,7 +58,7 @@ router.get('/:id', async (req, res, next) => {
   res.render('pages/modules/single', {
     module,
     project,
-    submissions
+    submissions: latestSubmission ? [latestSubmission] : []
   })
 })
 
@@ -67,9 +67,31 @@ router.post('/:id', async (req, res, next) => {
 
   // Verify that the user is allowed to submit
   if (!module || !module.enabled) {
+    req.flash(
+      'error',
+      'Invalid submission — if this issue persists, please reach out to us at hi@techroulette.xyz.'
+    )
     res.status(400)
-    res.end('Bad Request')
+    res.redirect(`/modules/${req.params.id}`)
     return
+  } else {
+    const latestSubmission = await SubmissionController.getLatestSubmission(
+      req.user.user_id,
+      req.params.id
+    )
+
+    if (
+      latestSubmission?.state === 'pending' ||
+      latestSubmission?.state === 'accepted'
+    ) {
+      req.flash(
+        'error',
+        'Invalid submission — if this issue persists, please reach out to us at hi@techroulette.xyz.'
+      )
+      res.status(400)
+      res.redirect(`/modules/${req.params.id}`)
+      return
+    }
   }
 
   try {
