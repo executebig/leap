@@ -12,7 +12,7 @@
           </span>
         </a>
 
-        <p>+{{points}} 💎</p>
+        <p>+{{points}} {{>chip}}</p>
       </span>
     </div>
   </div>
@@ -27,8 +27,9 @@
             <h1 class='title is-1 mb-2'>Week {{user.current_week}} — {{project.title}}</h1>
 
             <div class='block'>
-              <span class="tag is-medium"><strong>{{project.type}}</strong></span>
-              <span class="tag is-medium"><strong>{{project.pts_total}} 💎 Available</strong></span>
+              <strong>{{project.type}}</strong>
+              &nbsp;&middot;&nbsp;
+              <strong>{{project.pts_total}} {{>chip}} Available</strong>
 
               {{#if project.hardware}}
                 <span class="tag is-medium"><strong>🛠️ Hardware</strong></span>
