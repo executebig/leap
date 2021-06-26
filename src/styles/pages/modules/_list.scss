@@ -26,8 +26,6 @@
         width: 400px;
         height: 280px;
 
-        background-color: $primary;
-
         h2 {
           font-size: 1.8rem;
           font-weight: bold;
@@ -43,8 +41,6 @@
       .module {
         width: 350px;
         height: 240px;
-
-        background-color: rgba($primary, 0.75);
 
         h2 {
           font-size: 1.4rem;
@@ -63,6 +59,20 @@
     padding: 24px 32px;
 
     border-radius: 20px;
+
+    background-color: $primary;
+
+    &.pending {
+      background-color: $grey-dark;
+    }
+
+    &.rejected {
+      background-color: $red;
+    }
+
+    &.accepted {
+      background-color: $green;
+    }
 
     &__container {
       position: relative;

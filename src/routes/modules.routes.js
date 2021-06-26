@@ -30,11 +30,13 @@ router.use('/', (req, res, next) => {
 
 router.get('/', async (req, res) => {
   const { project, modules_required, modules_optional } = await ProjectController.getProjectAndModulesById(req.user.current_project)
+  const submissions = await SubmissionController.getLatestSubmissionsByUserId(req.user.user_id)
 
   return res.render('pages/modules/list', {
     project,
     modules_required,
-    modules_optional
+    modules_optional,
+    submissions
   })
 })
 

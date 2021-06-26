@@ -83,3 +83,8 @@ exports.trimAddress = (addr) => {
   if (!addr) return ''
   return addr.split(',').slice(1)
 }
+
+exports.getSubmissionState = (submissions, module_id) => {
+  const submission = submissions.find(e => e.module_id === module_id)
+  return submission?.state || ''
+}
