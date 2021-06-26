@@ -62,7 +62,8 @@ const sessionConfig = {
     client: require('@db/redis').client
   }),
   cookie: {
-    secure: config.env === 'production'
+    secure: config.env === 'production',
+    maxAge: 7 * 24 * 3600 * 1000 // a week
   },
   resave: false,
   saveUninitialized: true

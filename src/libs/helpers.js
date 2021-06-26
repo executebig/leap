@@ -89,6 +89,10 @@ exports.getSubmissionState = (submissions, module_id) => {
   return submission?.state || ''
 }
 
+exports.select = (value, options) => {
+  return options.fn(this).replace(new RegExp(' value="' + value + '"'), '$& selected="selected"')
+}
+
 // Switch / case / default statement
 exports.switch = (value, options) => {
   this.switch_value = value

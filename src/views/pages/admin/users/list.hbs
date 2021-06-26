@@ -3,19 +3,48 @@
 {{/extend}}
 <section class="section header">
     <div class="container">
-        <h1 class="title">User Controls</h1>
+        <a href="/admin/users">
+            <h1 class="title">User Controls</h1>
+        </a>
     </div>
 </section>
 <section class="section">
     <div class="container">
-        <div class="sorts">
-            <p>Sort By:</p>
-            <p>User ID: <a href="?by=user_id&order=ASC">ASC</a> / <a href="?by=user_id&order=DESC">DESC</a></p>
-            <p>Email: <a href="?by=email&order=ASC">ASC</a> / <a href="?by=email&order=DESC">DESC</a></p>
-            <p>Display Name: <a href="?by=display_name&order=ASC">ASC</a> / <a href="?by=display_name&order=DESC">DESC</a></p>
-            <p>Created Time: <a href="?by=created_at&order=ASC">ASC</a> / <a href="?by=created_at&order=DESC">DESC</a></p>
+        <div class="search mb-5">
+            <form action="/admin/users/search" method="POST">
+                <div class="field has-addons">
+                    <p class="control">
+                        <span class="select">
+                            <select name="scope">
+                                {{#select scope}}
+                                    <option value="user_id">User ID</option>
+                                    <option value="email">Email</option>
+                                    <option value="names">Name/Display</option>
+                                    <option value="address">Address</option>
+                                {{/select}}
+                            </select>
+                        </span>
+                    </p>
+                    <p class="control is-expanded has-icons-left">
+                        <input class="input" type="text" name="query" placeholder="Search query, case insensitive, regex-friendly" value="{{query}}">
+                        <span class="icon is-small is-left">
+                            <ion-icon name="search-sharp"></ion-icon>
+                        </span>
+                    </p>
+                    <p class="control">
+                        <button class="button is-primary" type="submit">
+                            Search
+                        </button>
+                    </p>
+                </div>
+            </form>
         </div>
-        <hr />
+        <div class="sorts mb-2">
+            <p>Sort By: User ID: <a href="?by=user_id&order=ASC">ASC</a> / <a href="?by=user_id&order=DESC">DESC</a> |
+                Email: <a href="?by=email&order=ASC">ASC</a> / <a href="?by=email&order=DESC">DESC</a> |
+                Display Name: <a href="?by=display_name&order=ASC">ASC</a> / <a href="?by=display_name&order=DESC">DESC</a> |
+                Created Time: <a href="?by=created_at&order=ASC">ASC</a> / <a href="?by=created_at&order=DESC">DESC</a></p>
+        </div>
         {{#if user_list}}
             <table class="table is-fullwidth is-hoverable is-striped">
                 <thead>
