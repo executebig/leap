@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="/static/styles/style.css" />
     <link rel="icon" href="/static/brand/icon-blue.png" />
     <title>{{block "title"}}{{#unless titleOverride}} – Tech Roulette{{/unless}}</title>
-    {{#extend "title"}}{{../title}}{{/extend}}
     {{{block "header-inject"}}}
     {{{block "header-scripts"}}}
 </head>
