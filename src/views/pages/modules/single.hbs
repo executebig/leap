@@ -24,7 +24,7 @@
         <div class='column'>
           <div class='card'>
             <div class='card-header'>
-              <h1 class='card-header-title'>
+              <h1 class='card-header-title icon-field'>
                 <ion-icon name='information-circle-outline'></ion-icon>
                 <span>
                   Module Details
@@ -50,12 +50,51 @@
 
             <div class='card-footer'>
               <div class='card-content py-4'>
-                <button class='button is-primary is-pulled-left modal-open' type='submit'>
-                  <strong>Submit Module</strong>
-                  <span class='icon'>
-                    <ion-icon name='arrow-forward-outline'></ion-icon>
-                  </span>
-                </button>
+                {{#switch (getSubmissionState @root/submissions module.module_id)}}
+                  {{#case 'pending'}}
+                    <strong class="has-text-warning">
+                      <span class="blinker active">●</span> Your submission is currently being graded — check back soon for results!
+                    </strong>
+                  {{/case}}
+
+                  {{#case 'rejected'}}
+                    <div class="columns is-vcentered">
+                      <div class="column is-narrow">
+                        <button class='button is-danger is-pulled-left modal-open' type='submit'>
+                          <strong>Resubmit Module</strong>
+                          <span class='icon'>
+                            <ion-icon name='arrow-forward-outline'></ion-icon>
+                          </span>
+                        </button>
+                      </div>
+
+                      <div class="column pl-0">
+                        <strong class="has-text-danger is-vcentered">
+                          <span class="blinker">●</span> Your previous submission was rejected.
+                        </strong>
+                      </div>
+                    </div>
+                  {{/case}}
+
+                  {{#case 'accepted'}}
+                    <strong class="has-text-success">
+                      <span class="blinker">●</span> Your submissoin has been accepted!
+                    </strong>
+
+                    <strong class="is-pulled-right has-text-primary">
+                      +{{@root/module.points}} 💎
+                    </strong>
+                  {{/case}}
+
+                  {{#case ''}}
+                    <button class='button is-primary is-pulled-left modal-open' type='submit'>
+                      <strong>Submit Module</strong>
+                      <span class='icon'>
+                        <ion-icon name='arrow-forward-outline'></ion-icon>
+                      </span>
+                    </button>
+                  {{/case}}
+                {{/switch}}
               </div>
             </div>
           </div>

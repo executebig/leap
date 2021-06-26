@@ -21,4 +21,27 @@
       justify-content: flex-start;
     }
   }
+
+  .icon-field {
+    ion-icon {
+      font-size: 1.5rem;
+
+      + * {
+        margin-left: 3px;
+      }
+    }
+  }
+
+  .blinker {
+    margin-right: 5px;
+
+    &.active {
+      animation: blinker 2s linear infinite;
+
+      @keyframes blinker {
+        25%, 75% { opacity: 1; }
+        50% { opacity: 0; }
+      }
+    }
+  }
 }

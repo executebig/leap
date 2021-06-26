@@ -10,8 +10,14 @@ exports.getSubmissionById = async (submission_id) => {
   return q?.rows[0]
 }
 
-exports.getSubmissionsByModuleId = async (module_id) => {
-  const q = await db.query('SELECT * FROM submissions WHERE module_id = $1', [module_id])
+exports.getSubmissionsByUserAndModuleId = async (user_id, module_id) => {
+  const q = await db.query(`
+    SELECT * FROM submissions
+    WHERE
+      user_id = $1 AND
+      module_id = $2
+    ORDER BY created_at DESC
+  `, [user_id, module_id])
 
   return q?.rows
 }
@@ -21,7 +27,7 @@ exports.getLatestSubmissionsByUserId = async (user_id) => {
     SELECT DISTINCT ON (module_id) *
     FROM submissions
     WHERE user_id = $1
-    ORDER BY module_id, created_at DESC;
+    ORDER BY module_id, created_at DESC
   `, [user_id])
 
   return q?.rows

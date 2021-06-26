@@ -14,6 +14,7 @@ const { flagMiddleware, stateMiddleware, banMiddleware } = require('@middlewares
 const { checkAuth } = require('@middlewares/auth.middlewares')
 
 const reflash = require('@libs/reflash')
+const { getSubmissionState } = require('@libs/helpers')
 const config = require('@config')
 
 // Check for session flag, user banned, & state updates
@@ -29,7 +30,8 @@ router.use('/', (req, res, next) => {
 })
 
 router.get('/', async (req, res) => {
-  const { project, modules_required, modules_optional } = await ProjectController.getProjectAndModulesById(req.user.current_project)
+  const { project, modules_required, modules_optional } =
+    await ProjectController.getProjectAndModulesById(req.user.current_project)
   const submissions = await SubmissionController.getLatestSubmissionsByUserId(req.user.user_id)
 
   return res.render('pages/modules/list', {
@@ -48,10 +50,15 @@ router.get('/:id', async (req, res, next) => {
   }
 
   const project = await ProjectController.getProjectById(module.project_id)
+  const submissions = await SubmissionController.getSubmissionsByUserAndModuleId(
+    req.user.user_id,
+    module.module_id
+  )
 
   res.render('pages/modules/single', {
     module,
-    project
+    project,
+    submissions
   })
 })
 
@@ -83,7 +90,10 @@ router.post('/:id', async (req, res, next) => {
     req.flash('success', 'Submission successful!')
   } catch (err) {
     console.error(err)
-    req.flash('error', 'Submission failed — if this issue persists, please reach out to us at hi@techroulette.xyz')
+    req.flash(
+      'error',
+      'Submission failed — if this issue persists, please reach out to us at hi@techroulette.xyz'
+    )
   }
 
   res.redirect('/modules')

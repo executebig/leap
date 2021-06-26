@@ -85,6 +85,18 @@ exports.trimAddress = (addr) => {
 }
 
 exports.getSubmissionState = (submissions, module_id) => {
-  const submission = submissions.find(e => e.module_id === module_id)
+  const submission = submissions.find((e) => e.module_id === module_id)
   return submission?.state || ''
+}
+
+// Switch / case / default statement
+exports.switch = (value, options) => {
+  this.switch_value = value
+  return options.fn(this)
+}
+
+exports.case = (value, options) => {
+  if (value == this.switch_value) {
+    return options.fn(this)
+  }
 }
