@@ -34,5 +34,11 @@ module.exports = {
     botToken: process.env.SLACK_BOT_TOKEN,
     submissionsChannel: process.env.SLACK_SUBMISSIONS_CHANNEL
   },
+  discord: {
+    client: process.env.DISCORD_CLIENT,
+    secret: process.env.DISCORD_SECRET,
+    bot_token: process.env.DISCORD_BOT_TOKEN,
+    guild: process.env.DISCORD_GUILD
+  },
   flags: process.env.FLAGS ? process.env.FLAGS.split(',') : []
 }

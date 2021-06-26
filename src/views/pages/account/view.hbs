@@ -19,7 +19,8 @@
                 {{email}}
                 •
                 {{#if no_shipping}}Not{{/if}}
-                Eligible for Shipping</h6>
+                  Eligible for Shipping
+              </h6>
               <a href='/account/edit' class='button'>
                 <span>
                   Edit Account
@@ -28,6 +29,28 @@
                   <ion-icon name='arrow-forward-outline'></ion-icon>
                 </span>
               </a>
+              {{#if discord_id}}
+                <a href='https://discord.com/channels/856266812605988915/' class='button ml-2'>
+                  <span class='icon is-small'>
+                    <ion-icon name='logo-discord'></ion-icon>
+                  </span>
+                  <span>
+                    Discord Server
+                  </span>
+                </a>
+              {{else}}
+                <a href='/account/discord' class='button ml-2'>
+                  <span class='icon is-small'>
+                    <ion-icon name='logo-discord'></ion-icon>
+                  </span>
+                  <span>
+                    Link Discord
+                  </span>
+                  <span class='icon is-small'>
+                    <ion-icon name='arrow-forward-outline'></ion-icon>
+                  </span>
+                </a>
+              {{/if}}
             </div>
           </div>
         </div>
@@ -49,12 +72,7 @@
         <div class='columns'>
           {{#each @root/badges}}
             <div class='column is-narrow'>
-              <figure
-                class='image is-64x64'
-                aria-label='{{name}}: {{description}}'
-                data-balloon-pos='down-left'
-                data-balloon-length='large'
-              >
+              <figure class='image is-64x64' aria-label='{{name}}: {{description}}' data-balloon-pos='down-left' data-balloon-length='large'>
                 <img class='badge large' src='{{icon}}' />
               </figure>
             </div>
