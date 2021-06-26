@@ -478,4 +478,49 @@ router.post('/submissions/edit/:id', async (req, res) => {
   req.session.prevUrl = undefined
 })
 
+/** Submissions */
+router.get('/submissions/:page?', async (req, res) => {
+  req.session.prevUrl = req.originalUrl
+
+  const filter = req.query.filter || 'pending'
+  const orderBy = req.query.by || 'created_at'
+  const order = req.query.order || 'DESC'
+
+  const { submissions, prevPage, nextPage } = await AdminController.listSubmissions(
+    filter,
+    orderBy,
+    order,
+    req.params.page
+  )
+
+  res.render('pages/admin/submissions/list', {
+    filter,
+    orderBy,
+    order,
+    submissions,
+    prevPage,
+    nextPage
+  })
+})
+
+router.get('/submissions/edit/:id', async (req, res) => {
+  const submission = await SubmissionController.getSubmissionById(req.params.id)
+  res.render('pages/admin/submissions/single', { submission })
+})
+
+router.post('/submissions/edit/:id', async (req, res) => {
+  let { state, comments } = req.body
+
+  const submission = await SubmissionController.updateSubmission(req.params.id, { state, comments })
+
+  if (state === 'rejected') {
+    mailer.sendSubmissionRejection(submission, comments)
+  }
+
+  // TODO: Implement submission accepted notification
+
+  req.flash('success', 'Submission graded!')
+  res.redirect(req.session.prevUrl || '/admin/submissions')
+})
+
 module.exports = router

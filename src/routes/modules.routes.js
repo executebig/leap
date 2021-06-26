@@ -14,6 +14,7 @@ const { flagMiddleware, stateMiddleware, banMiddleware } = require('@middlewares
 const { checkAuth } = require('@middlewares/auth.middlewares')
 
 const reflash = require('@libs/reflash')
+const { getSubmissionState } = require('@libs/helpers')
 const config = require('@config')
 
 // Check for session flag, user banned, & state updates
@@ -29,12 +30,15 @@ router.use('/', (req, res, next) => {
 })
 
 router.get('/', async (req, res) => {
-  const { project, modules_required, modules_optional } = await ProjectController.getProjectAndModulesById(req.user.current_project)
+  const { project, modules_required, modules_optional } =
+    await ProjectController.getProjectAndModulesById(req.user.current_project)
+  const submissions = await SubmissionController.getLatestSubmissionsByUserId(req.user.user_id)
 
   return res.render('pages/modules/list', {
     project,
     modules_required,
-    modules_optional
+    modules_optional,
+    submissions
   })
 })
 
@@ -46,10 +50,15 @@ router.get('/:id', async (req, res, next) => {
   }
 
   const project = await ProjectController.getProjectById(module.project_id)
+  const latestSubmission = await SubmissionController.getLatestSubmission(
+    req.user.user_id,
+    module.module_id
+  )
 
   res.render('pages/modules/single', {
     module,
-    project
+    project,
+    submissions: latestSubmission ? [latestSubmission] : []
   })
 })
 
@@ -58,9 +67,31 @@ router.post('/:id', async (req, res, next) => {
 
   // Verify that the user is allowed to submit
   if (!module || !module.enabled) {
+    req.flash(
+      'error',
+      'Invalid submission — if this issue persists, please reach out to us at hi@techroulette.xyz.'
+    )
     res.status(400)
-    res.end('Bad Request')
+    res.redirect(`/modules/${req.params.id}`)
     return
+  } else {
+    const latestSubmission = await SubmissionController.getLatestSubmission(
+      req.user.user_id,
+      req.params.id
+    )
+
+    if (
+      latestSubmission?.state === 'pending' ||
+      latestSubmission?.state === 'accepted'
+    ) {
+      req.flash(
+        'error',
+        'Invalid submission — if this issue persists, please reach out to us at hi@techroulette.xyz.'
+      )
+      res.status(400)
+      res.redirect(`/modules/${req.params.id}`)
+      return
+    }
   }
 
   try {
@@ -81,7 +112,10 @@ router.post('/:id', async (req, res, next) => {
     req.flash('success', 'Submission successful!')
   } catch (err) {
     console.error(err)
-    req.flash('error', 'Submission failed — if this issue persists, please reach out to us at hi@techroulette.xyz')
+    req.flash(
+      'error',
+      'Submission failed — if this issue persists, please reach out to us at hi@techroulette.xyz'
+    )
   }
 
   res.redirect('/modules')
