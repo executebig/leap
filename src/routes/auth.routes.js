@@ -55,8 +55,8 @@ router.get(
   }),
 
   (req, res) => {
-    res.redirect(req.session.prevUrl || '/dash')
-    delete req.session.prevUrl
+    res.redirect(req.session.redirectTo || '/dash')
+    delete req.session.redirectTo
   }
 )
 

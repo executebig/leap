@@ -322,7 +322,7 @@ router.get('/projects/edit/:id', async (req, res) => {
   const project = await ProjectController.getProjectById(req.params.id)
   const modules = await ModuleController.getModulesByProjectId(req.params.id)
 
-  req.session.prevUrl = req.originalUrl
+  req.session.redirectTo = req.originalUrl
 
   res.render('pages/admin/projects/single', {
     edit: true,
@@ -351,7 +351,7 @@ router.post('/projects/edit/:id', async (req, res) => {
 
 /** Modules */
 router.get('/modules', async (req, res) => {
-  delete req.session.prevUrl
+  delete req.session.redirectTo
 
   res.render('pages/admin/modules/list', {
     modules: await ModuleController.listModules()
@@ -397,8 +397,8 @@ router.post('/modules/new', async (req, res) => {
   })
 
   req.flash('success', `Module #${module_id} created successfully!`)
-  res.redirect(req.session.prevUrl || '/admin/modules')
-  delete req.session.prevUrl
+  res.redirect(req.session.redirectTo || '/admin/modules')
+  delete req.session.redirectTo
 })
 
 router.get('/modules/edit/:id', async (req, res) => {
@@ -428,13 +428,13 @@ router.post('/modules/edit/:id', async (req, res) => {
   })
 
   req.flash('success', `Module #${module_id} updated successfully!`)
-  res.redirect(req.session.prevUrl || '/admin/modules')
-  delete req.session.prevUrl
+  res.redirect(req.session.redirectTo || '/admin/modules')
+  delete req.session.redirectTo
 })
 
 /** Submissions */
 router.get('/submissions/:page?', async (req, res) => {
-  req.session.prevUrl = req.originalUrl
+  req.session.redirectTo = req.originalUrl
 
   const filter = req.query.filter || 'pending'
   const orderBy = req.query.by || 'created_at'
@@ -474,8 +474,8 @@ router.post('/submissions/edit/:id', async (req, res) => {
   // TODO: Implement submission accepted notification
 
   req.flash('success', 'Submission graded!')
-  res.redirect(req.session.prevUrl || '/admin/submissions')
-  delete req.session.prevUrl
+  res.redirect(req.session.redirectTo || '/admin/submissions')
+  delete req.session.redirectTo
 })
 
 module.exports = router

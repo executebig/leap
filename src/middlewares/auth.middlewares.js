@@ -3,7 +3,7 @@ const passport = require('@libs/passport')
 exports.checkAuth = (req, res, next) => {
   passport.authenticate('_jwt')(req, res, () => {
     if (!req.user) {
-      req.session.prevUrl = req.originalUrl
+      req.session.redirectTo = req.originalUrl
       req.flash('error', 'Please log in first!')
       res.redirect('/')
     } else {
