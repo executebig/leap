@@ -10,8 +10,7 @@ client.on('ready', () => {
   client.user.setPresence({
     activity: {
       type: 'PLAYING',
-      name: 'techroulette.xyz',
-      url: 'techroulette.xyz',
+      name: 'Tech Roulette'
     },
     status: 'online'
   })
