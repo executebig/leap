@@ -112,7 +112,7 @@ router.post('/login', stopLoggedInUsers, hcaptcha.validate, async (req, res) => 
       const hash = generateTokenHash(token)
       mailer.sendMagic(email, hash)
       redis.set(`AUTH_${hash}`, token, 'ex', TOKEN_EXPIRATION)
-      res.redirect(`/auth/sent?email=${email}&hash=${hash}`)
+      res.redirect(`/auth/sent?email=${email}`)
     })
     .catch((error) => {
       req.flash('error', 'Error generating token: ' + error.message)
@@ -129,12 +129,10 @@ router.get('/logout', (req, res) => {
 
 router.get('/sent', stopLoggedInUsers, (req, res) => {
   const email = req.query.email
-  const hash = req.query.hash
 
   res.render('pages/auth/sent', {
     hide_auth: true,
-    email,
-    hash
+    email
   })
 })
 
