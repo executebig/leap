@@ -109,11 +109,13 @@ exports.case = (value, options) => {
 // Markdown helpers
 exports.MdToTableOfContents = (value, options) => {
   let res = `
-    <p class="menu-label">
-      TABLE OF CONTENTS
-    </p>
+    <div class="column is-3-desktop">
+      <aside class="menu py-0 pl-0">
+        <p class="menu-label">
+          TABLE OF CONTENTS
+        </p>
 
-    <ul class="menu-list">
+        <ul class="menu-list">
   `
   let prevIndent = 0
 
@@ -121,6 +123,10 @@ exports.MdToTableOfContents = (value, options) => {
   const lines = value
     .split(/\r?\n/)
     .filter((e) => e.startsWith('#'))
+
+  if (!lines.length) {
+    return ''
+  }
 
   lines.forEach(line => {
     const numIndent = line.split('#').length - 2
@@ -140,6 +146,8 @@ exports.MdToTableOfContents = (value, options) => {
   })
 
   return res + `
-    </ul>
+        </ul>
+      </aside>
+    </div>
   `
 }
