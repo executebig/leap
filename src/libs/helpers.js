@@ -127,9 +127,7 @@ exports.MdToTableOfContents = (value, options) => {
 
     if (prevIndent > numIndent) {
       res += `</ul></li>`
-    }
-
-    if (numIndent > prevIndent) {
+    } else if (numIndent > prevIndent) {
       res += `<li><ul>`
     }
 

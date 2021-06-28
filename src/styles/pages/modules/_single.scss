@@ -75,5 +75,9 @@
     position: sticky;
     top: 1.5rem;
     left: 0;
+
+    @media screen and (max-width: $desktop - 1px) {
+      min-height: 0;
+    }
   }
 }
