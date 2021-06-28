@@ -39,9 +39,41 @@
       animation: blinker 2s linear infinite;
 
       @keyframes blinker {
-        25%, 75% { opacity: 1; }
-        50% { opacity: 0; }
+        25%,
+        75% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
       }
     }
+  }
+
+  // https://css-tricks.com/hash-tag-links-padding/
+  .content {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      &::before {
+        display: block;
+        content: ' ';
+        margin-top: -1.5rem;
+        height: 1.5rem;
+        visibility: hidden;
+        pointer-events: none;
+      }
+    }
+  }
+
+  .menu {
+    min-height: 100vh;
+
+    position: sticky;
+    top: 1.5rem;
+    left: 0;
   }
 }
