@@ -2,6 +2,7 @@
 
 const crypto = require('crypto')
 const moment = require('moment')
+const { Slugger } = require('marked')
 
 exports.stringify = (obj) => {
   return JSON.stringify(obj)
@@ -103,4 +104,50 @@ exports.case = (value, options) => {
   if (value == this.switch_value) {
     return options.fn(this)
   }
+}
+
+// Markdown helpers
+exports.MdToTableOfContents = (value, options) => {
+  let res = `
+    <div class="column is-3-desktop">
+      <aside class="menu py-0 pl-0">
+        <p class="menu-label">
+          TABLE OF CONTENTS
+        </p>
+
+        <ul class="menu-list">
+  `
+  let prevIndent = 0
+
+  const slugger = new Slugger()
+  const lines = value
+    .split(/\r?\n/)
+    .filter((e) => e.startsWith('#'))
+
+  if (!lines.length) {
+    return ''
+  }
+
+  lines.forEach(line => {
+    const numIndent = line.split('#').length - 2
+
+    if (prevIndent > numIndent) {
+      res += `</ul></li>`
+    } else if (numIndent > prevIndent) {
+      res += `<li><ul>`
+    }
+
+    const title = line.split(/#+/)[1].trim()
+    const slug = slugger.slug(title)
+
+    res += `<a href="#${slug}">${title}</a>\n`
+
+    prevIndent = numIndent
+  })
+
+  return res + `
+        </ul>
+      </aside>
+    </div>
+  `
 }

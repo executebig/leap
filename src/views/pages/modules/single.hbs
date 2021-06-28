@@ -108,8 +108,14 @@
   </section>
 
   <section class='section'>
-    <div class='container content'>
-      {{{module.rendered_content}}}
+    <div class='container'>
+      <div class="columns is-desktop">
+        {{{MdToTableOfContents module.content}}}
+
+        <div class="column content">
+          {{{module.rendered_content}}}
+        </div>
+      </div>
     </div>
   </section>
 
