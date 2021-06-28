@@ -9,6 +9,7 @@ const ProjectController = require('@controllers/project.controllers')
 const ModuleController = require('@controllers/module.controllers')
 const SubmissionController = require('@controllers/submission.controllers')
 const SlackController = require('@controllers/slack.controllers')
+const UserController = require('@controllers/user.controllers')
 
 const { flagMiddleware, stateMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
 const { checkAuth } = require('@middlewares/auth.middlewares')
@@ -109,12 +110,27 @@ router.post('/:id', async (req, res, next) => {
       await SlackController.sendSubmission(submission)
     }
 
+    const modulesRequired = await ProjectController.getRequiredModuleIdsByProjectId(module.project_id)
+    const modulesSubmitted = (await SubmissionController.getLatestSubmissionsByUserId(req.user.user_id))
+      .filter(e => e.state === 'accepted' || e.state === 'pending')
+      .map(e => e.module_id)
+
+    if (modulesRequired.every(module_id => modulesSubmitted.includes(module_id))) {
+      await UserController.updateUser(req.user.user_id, {
+        state: 'completed'
+      })
+
+      req.flash('success', 'Submission successful!')
+      res.redirect('/modules?confetti=true')
+      return
+    }
+
     req.flash('success', 'Submission successful!')
   } catch (err) {
     console.error(err)
     req.flash(
       'error',
-      'Submission failed — if this issue persists, please reach out to us at hi@techroulette.xyz'
+      'Oops! Something went wrong — if this issue persists, please reach out to us at hi@techroulette.xyz'
     )
   }
 

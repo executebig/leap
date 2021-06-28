@@ -93,3 +93,14 @@ exports.updateProject = async (project_id, data) => {
 
   return q?.rows[0]
 }
+
+exports.getRequiredModuleIdsByProjectId = async (project_id) => {
+  const q = await db.query(`
+    SELECT module_id FROM modules
+    WHERE
+      project_id = $1 AND
+      required = true
+  `, [project_id])
+
+  return q?.rows?.map(row => row.module_id)
+}
