@@ -1,3 +1,5 @@
+const Bugsnag = require('@bugsnag/js')
+
 const config = require('@config')
 const router = require('express').Router()
 
@@ -194,6 +196,7 @@ router.get('/discord/callback', async (req, res) => {
     await DiscordController.grantRole(discord_user.id, 'Player')
     return res.redirect(`https://discord.com/channels/${config.discord.guild}/`)
   } catch (err) {
+    Bugsnag.notify(err)
     req.flash('error', 'Account linking failed. Please try again.')
     return res.redirect('/account/discord')
   }

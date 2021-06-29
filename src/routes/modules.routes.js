@@ -4,6 +4,7 @@
  */
 
 const router = require('express').Router()
+const Bugsnag = require('@bugsnag/js')
 
 const ProjectController = require('@controllers/project.controllers')
 const ModuleController = require('@controllers/module.controllers')
@@ -134,6 +135,7 @@ router.post('/:id', async (req, res, next) => {
 
     req.flash('success', 'Submission successful!')
   } catch (err) {
+    Bugsnag.notify(err)
     console.error(err)
     req.flash(
       'error',
