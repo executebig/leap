@@ -25,6 +25,7 @@ router.use('/', (req, res, next) => {
       reflash(req, res)
       return res.redirect('/chill')
     case 'inprogress':
+    case 'completed':
       reflash(req, res)
       return res.redirect('/modules')
     default:

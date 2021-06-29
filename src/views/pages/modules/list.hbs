@@ -23,7 +23,7 @@
 {{/inline}}
 
 <div class='page__modules__list'>
-  <section class='hero is-primary'>
+  <section class='hero {{#eq @root/user.state 'completed'}}is-success{{else}}is-primary{{/eq}}'>
     <div class="hero-body">
       <div class='container'>
         <div class="columns">
@@ -56,6 +56,24 @@
     </div>
   </section>
 
+  {{#eq @root/user.state 'completed'}}
+    <section class="section pb-0">
+      <div class="container">
+        <div class="message is-success">
+          <div class="message-header">
+            <p>🎉 Congratulations!</p>
+          </div>
+
+          <div class="message-body">
+            You've successfully submitted all the required modules for your weekly project! Once we grade &
+            accept your submissions, we'll award you with <strong>+30 bonus chips</strong> for completing your project.
+            Be sure to check out the <strong>optional modules</strong> for <strong>more chips</strong> & opportunities to <strong>learn new things!</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+  {{/eq}}
+
   <section class='section pb-0'>
     <div class="container">
       <h2 class="title">Required Modules</h2>
@@ -78,3 +96,34 @@
     </div>
   </section>
 </div>
+
+{{#if confetti}}
+  {{#extend 'scripts'}}
+    <script src="https://unpkg.com/canvas-confetti@1.4.0/dist/confetti.browser.js"></script>
+    <script nonce='{{@root/nonce}}'>
+      let times = 5
+
+      const frame = () => {
+        confetti({
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+        })
+
+        confetti({
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+        })
+
+        times--
+        if (times === 0)
+          clearInterval(id)
+      }
+
+      const id = setInterval(frame, 1000)
+
+      frame()
+    </script>
+  {{/extend}}
+{{/if}}

@@ -22,12 +22,15 @@ const config = require('@config')
 router.use(checkAuth, flagMiddleware, banMiddleware, stateMiddleware)
 
 router.use('/', (req, res, next) => {
-  if (req.user.state !== 'inprogress') {
-    reflash(req, res)
-    return res.redirect('/dash')
+  switch (req.user.state) {
+    case 'inprogress':
+    case 'completed':
+      next()
+      break
+    default:
+      reflash(req, res)
+      return res.redirect('/dash')
   }
-
-  next()
 })
 
 router.get('/', async (req, res) => {
@@ -39,7 +42,8 @@ router.get('/', async (req, res) => {
     project,
     modules_required,
     modules_optional,
-    submissions
+    submissions,
+    confetti: !!req.query.confetti
   })
 })
 
@@ -110,19 +114,21 @@ router.post('/:id', async (req, res, next) => {
       await SlackController.sendSubmission(submission)
     }
 
-    const modulesRequired = await ProjectController.getRequiredModuleIdsByProjectId(module.project_id)
-    const modulesSubmitted = (await SubmissionController.getLatestSubmissionsByUserId(req.user.user_id))
-      .filter(e => e.state === 'accepted' || e.state === 'pending')
-      .map(e => e.module_id)
+    if (req.user.state !== 'completed') {
+      const modulesRequired = await ProjectController.getRequiredModuleIdsByProjectId(module.project_id)
+      const modulesSubmitted = (await SubmissionController.getLatestSubmissionsByUserId(req.user.user_id))
+        .filter(e => e.state === 'accepted' || e.state === 'pending')
+        .map(e => e.module_id)
 
-    if (modulesRequired.every(module_id => modulesSubmitted.includes(module_id))) {
-      await UserController.updateUser(req.user.user_id, {
-        state: 'completed'
-      })
+      if (modulesRequired.every(module_id => modulesSubmitted.includes(module_id))) {
+        await UserController.updateUser(req.user.user_id, {
+          state: 'completed'
+        })
 
-      req.flash('success', 'Submission successful!')
-      res.redirect('/modules?confetti=true')
-      return
+        req.flash('success', 'Submission successful!')
+        res.redirect('/modules?confetti=true')
+        return
+      }
     }
 
     req.flash('success', 'Submission successful!')
