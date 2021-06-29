@@ -23,14 +23,16 @@
                 <!-- navbar items -->
             </div>
             <div class="navbar-end">
-                <span class="navbar-item">
-                    {{>chip}}
-                    {{@root/user.points}}
-                </span>
-
                 {{#unless hide_auth}}
                     {{#if user }}
                         {{#notEq user.state "onboarding"}}
+                            <div class="navbar-item chip">
+                                <strong class="has-text-danger">
+                                    {{@root/user.points}}
+                                </strong>
+                                {{>chip}}
+                            </div>
+
                             <div class="navbar-item has-dropdown is-hoverable">
                                 {{!-- <a class="navbar-link" href="/account"> --}}
                                 <a class="navbar-link" href="/account">
