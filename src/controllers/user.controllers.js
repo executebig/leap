@@ -121,6 +121,8 @@ exports.grantPoints = async (user_id, points) => {
     points
   ])
 
+  this.flagRefresh(user_id)
+
   return q?.rows?.[0]
 }
 

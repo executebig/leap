@@ -89,10 +89,7 @@ router.post('/:id', async (req, res, next) => {
       req.params.id
     )
 
-    if (
-      latestSubmission?.state === 'pending' ||
-      latestSubmission?.state === 'accepted'
-    ) {
+    if (latestSubmission?.state === 'pending' || latestSubmission?.state === 'accepted') {
       req.flash(
         'error',
         'Invalid submission — if this issue persists, please reach out to us at hi@techroulette.xyz.'
@@ -118,14 +115,21 @@ router.post('/:id', async (req, res, next) => {
       await SlackController.sendSubmission(submission)
     }
 
-    if (req.user.state !== 'completed' && await UserController.userHasCompletedProject(req.user.user_id, module.project_id)) {
-      await UserController.updateUser(req.user.user_id, {
-        state: 'completed'
-      })
+    if (req.user.state !== 'completed') {
+      const modulesRequired = await ProjectController.getRequiredModuleIdsByProjectId(module.project_id)
+      const modulesSubmitted = (await SubmissionController.getLatestSubmissionsByUserId(req.user.user_id))
+        .filter((e) => e.state === 'accepted' || e.state === 'pending')
+        .map((e) => e.module_id)
 
-      req.flash('success', 'Submission successful!')
-      res.redirect('/modules?confetti=true')
-      return
+      if (modulesRequired.every((module_id) => modulesSubmitted.includes(module_id))) {
+        await UserController.updateUser(req.user.user_id, {
+          state: 'completed'
+        })
+
+        req.flash('success', 'Submission successful!')
+        res.redirect('/modules?confetti=true')
+        return
+      }
     }
 
     req.flash('success', 'Submission successful!')

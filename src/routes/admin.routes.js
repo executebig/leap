@@ -449,14 +449,21 @@ router.post('/submissions/edit/:id', async (req, res) => {
   if (state === 'rejected') {
     mailer.sendSubmissionRejection(submission, comments)
   } else if (state === 'accepted') {
-    const { points } = await ModuleController.getModuleById(submission.module_id)
+    const module = await ModuleController.getModuleById(submission.module_id)
 
     // Grant module points
-    await UserController.grantPoints(submission.user_id, points)
+    await UserController.grantPoints(submission.user_id, module.points)
 
-    // Grant additional points if required modules completed
-    if (await UserController.userHasCompletedProject(submission.user_id, submission.project_id)) {
+    if (module.required) {
+      const modulesRequired = await ProjectController.getRequiredModuleIdsByProjectId(submission.project_id)
+      const modulesAccepted = (await SubmissionController.getLatestSubmissionsByUserId(submission.user_id))
+        .filter((e) => e.state === 'accepted')
+        .map((e) => e.module_id)
 
+      // Grant additional points if every required module is completed
+      if (modulesRequired.every((module_id) => modulesAccepted.includes(module_id))) {
+        await UserController.grantPoints(submission.user_id, await ConfigController.get('pointsPerProject') || 0)
+      }
     }
   }
 

@@ -23,6 +23,11 @@
                 <!-- navbar items -->
             </div>
             <div class="navbar-end">
+                <span class="navbar-item">
+                    {{>chip}}
+                    {{@root/user.points}}
+                </span>
+
                 {{#unless hide_auth}}
                     {{#if user }}
                         {{#notEq user.state "onboarding"}}
