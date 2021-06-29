@@ -200,32 +200,13 @@ router.get('/config', async (req, res) => {
 })
 
 router.post('/config', async (req, res) => {
-  const curWeek = ConfigController.get('week')
-
-  console.log(curWeek, req.body.week)
-  if (!req.body.week || Math.abs(curWeek - req.body.week) > 1) {
-    req.flash('error', `Week should increment / decrement by 1`)
-    res.redirect('/admin/config')
-    return
-  }
+  req.body.weeklyBadges = String(req.body.weeklyBadges.split(',').map(e => e.trim()))
 
   await ConfigController.setMultiple(req.body)
   await UserController.flagRefreshAll()
 
   req.flash('success', `Successfully updated config`)
   res.redirect('/admin/config')
-})
-
-router.get('/stage', async (req, res) => {
-  const [liveUrl, eventName] = await Promise.all([
-    ConfigController.get('stageUrl'),
-    ConfigController.get('stageEventName')
-  ])
-
-  res.render('pages/admin/stage', {
-    liveUrl,
-    eventName
-  })
 })
 
 router.post('/stage', async (req, res) => {
@@ -469,6 +450,23 @@ router.post('/submissions/edit/:id', async (req, res) => {
 
   if (state === 'rejected') {
     mailer.sendSubmissionRejection(submission, comments)
+  } else if (state === 'accepted') {
+    const module = await ModuleController.getModuleById(submission.module_id)
+
+    // Grant module points
+    await UserController.grantPoints(submission.user_id, module.points)
+
+    if (module.required) {
+      const modulesRequired = await ProjectController.getRequiredModuleIdsByProjectId(submission.project_id)
+      const modulesAccepted = (await SubmissionController.getLatestSubmissionsByUserId(submission.user_id))
+        .filter((e) => e.state === 'accepted')
+        .map((e) => e.module_id)
+
+      // Grant additional points if every required module is completed
+      if (modulesRequired.every((module_id) => modulesAccepted.includes(module_id))) {
+        await UserController.grantPoints(submission.user_id, await ConfigController.get('pointsPerProject') || 0)
+      }
+    }
   }
 
   // TODO: Implement submission accepted notification

@@ -4,11 +4,15 @@
  */
 
 const router = require('express').Router()
+const Bugsnag = require('@bugsnag/js')
 
 const ProjectController = require('@controllers/project.controllers')
 const ModuleController = require('@controllers/module.controllers')
 const SubmissionController = require('@controllers/submission.controllers')
 const SlackController = require('@controllers/slack.controllers')
+const UserController = require('@controllers/user.controllers')
+const ConfigController = require('@controllers/config.controllers')
+const BadgeController = require('@controllers/badge.controllers')
 
 const { flagMiddleware, stateMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
 const { checkAuth } = require('@middlewares/auth.middlewares')
@@ -21,24 +25,33 @@ const config = require('@config')
 router.use(checkAuth, flagMiddleware, banMiddleware, stateMiddleware)
 
 router.use('/', (req, res, next) => {
-  if (req.user.state !== 'inprogress') {
-    reflash(req, res)
-    return res.redirect('/dash')
+  switch (req.user.state) {
+    case 'inprogress':
+    case 'completed':
+      next()
+      break
+    default:
+      reflash(req, res)
+      return res.redirect('/dash')
   }
-
-  next()
 })
 
 router.get('/', async (req, res) => {
   const { project, modules_required, modules_optional } =
     await ProjectController.getProjectAndModulesById(req.user.current_project)
   const submissions = await SubmissionController.getLatestSubmissionsByUserId(req.user.user_id)
+  const weeklyBadge = await BadgeController.getWeeklyBadge()
 
   return res.render('pages/modules/list', {
     project,
     modules_required,
     modules_optional,
-    submissions
+    submissions,
+    confetti: !!req.query.confetti,
+    config: {
+      pointsPerProject: await ConfigController.get('pointsPerProject')
+    },
+    weeklyBadge
   })
 })
 
@@ -80,10 +93,7 @@ router.post('/:id', async (req, res, next) => {
       req.params.id
     )
 
-    if (
-      latestSubmission?.state === 'pending' ||
-      latestSubmission?.state === 'accepted'
-    ) {
+    if (latestSubmission?.state === 'pending' || latestSubmission?.state === 'accepted') {
       req.flash(
         'error',
         'Invalid submission — if this issue persists, please reach out to us at hi@techroulette.xyz.'
@@ -94,6 +104,7 @@ router.post('/:id', async (req, res, next) => {
     }
   }
 
+  // Handle submission logic only
   try {
     const submission = await SubmissionController.createSubmission(
       req.body.content,
@@ -108,16 +119,41 @@ router.post('/:id', async (req, res, next) => {
     } else {
       await SlackController.sendSubmission(submission)
     }
-
-    req.flash('success', 'Submission successful!')
   } catch (err) {
+    Bugsnag.notify(err)
     console.error(err)
     req.flash(
       'error',
-      'Submission failed — if this issue persists, please reach out to us at hi@techroulette.xyz'
+      'Oops! Something went wrong — if this issue persists, please reach out to us at hi@techroulette.xyz'
     )
   }
 
+  // Check if user has completed all required module
+  if (req.user.state !== 'completed') {
+    const modulesRequired = await ProjectController.getRequiredModuleIdsByProjectId(module.project_id)
+    const modulesSubmitted = (await SubmissionController.getLatestSubmissionsByUserId(req.user.user_id))
+      .filter((e) => e.state === 'accepted' || e.state === 'pending')
+      .map((e) => e.module_id)
+
+    if (modulesRequired.every((module_id) => modulesSubmitted.includes(module_id))) {
+      await UserController.updateUser(req.user.user_id, {
+        state: 'completed'
+      })
+
+      const weeklyBadgeId = await BadgeController.getWeeklyBadgeId()
+
+      // Grant weekly badge if exists
+      if (weeklyBadgeId) {
+        await UserController.grantBadge(req.user.user_id, weeklyBadgeId)
+      }
+
+      req.flash('success', 'Submission successful!')
+      res.redirect('/modules?confetti=true')
+      return
+    }
+  }
+
+  req.flash('success', 'Submission successful!')
   res.redirect('/modules')
 })
 

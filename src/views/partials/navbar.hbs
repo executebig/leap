@@ -26,6 +26,13 @@
                 {{#unless hide_auth}}
                     {{#if user }}
                         {{#notEq user.state "onboarding"}}
+                            <div class="navbar-item chip">
+                                <strong class="has-text-danger">
+                                    {{@root/user.points}}
+                                </strong>
+                                {{>chip}}
+                            </div>
+
                             <div class="navbar-item has-dropdown is-hoverable">
                                 {{!-- <a class="navbar-link" href="/account"> --}}
                                 <a class="navbar-link" href="/account">

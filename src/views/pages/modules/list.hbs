@@ -23,7 +23,7 @@
 {{/inline}}
 
 <div class='page__modules__list'>
-  <section class='hero is-primary'>
+  <section class='hero {{#eq @root/user.state 'completed'}}is-success{{else}}is-primary{{/eq}}'>
     <div class="hero-body">
       <div class='container'>
         <div class="columns">
@@ -31,14 +31,17 @@
             <h1 class='title is-1 mb-2'>Week {{user.current_week}} — {{project.title}}</h1>
 
             <div class='block'>
-              <strong>{{project.type}}</strong>
-              &nbsp;&middot;&nbsp;
-              <strong>{{project.pts_total}} {{>chip}} Available</strong>
+              <span class="tag is-medium">
+                <strong>{{project.type}}</strong>
+              </span>
+
+              <span class="tag is-medium">
+                <strong>{{>chip}} {{project.pts_total}} Available</strong>
+              </span>
 
               {{#if project.hardware}}
                 <span class="tag is-medium"><strong>🛠️ Hardware</strong></span>
               {{/if}}
-
             </div>
 
             <div class="block">
@@ -49,12 +52,42 @@
           </div>
 
           <div class="column is-4">
-            <img src="{{project.thumbnail_url}}" alt="" class="card" >
+            <img src="{{project.thumbnail_url}}" alt="" class="card hero-img" >
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  {{#eq @root/user.state 'completed'}}
+    <section class="section pb-0">
+      <div class="container">
+        <div class="message is-success">
+          <div class="message-header">
+            <p>🎉 Congratulations!</p>
+          </div>
+
+          <div class="message-body content">
+            <p>
+              <strong>You've successfully submitted all the required modules for your weekly project!</strong> Once we grade &
+              accept your submissions, we'll award you with <strong>+{{@root/config.pointsPerProject}} bonus chips</strong> for completing your project.
+              Be sure to look at the <strong>optional modules</strong> for <strong>more chips</strong> & opportunities to <strong>learn new things!</strong>
+            </p>
+
+            {{#with @root/weeklyBadge}}
+              <p>
+                <i><strong>Psst, by the way...</strong> check out your new weekly badge!</i>
+
+                <figure class='image is-64x64 ml-0 my-0' aria-label='{{name}}: {{description}}' data-balloon-pos='down-left' data-balloon-length='large'>
+                  <img class='badge large' src='{{icon}}' />
+                </figure>
+              </p>
+            {{/with}}
+          </div>
+        </div>
+      </div>
+    </section>
+  {{/eq}}
 
   <section class='section pb-0'>
     <div class="container">
@@ -78,3 +111,34 @@
     </div>
   </section>
 </div>
+
+{{#if confetti}}
+  {{#extend 'scripts'}}
+    <script src="https://unpkg.com/canvas-confetti@1.4.0/dist/confetti.browser.js"></script>
+    <script nonce='{{@root/nonce}}'>
+      let times = 5
+
+      const frame = () => {
+        confetti({
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+        })
+
+        confetti({
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+        })
+
+        times--
+        if (times === 0)
+          clearInterval(id)
+      }
+
+      const id = setInterval(frame, 1000)
+
+      frame()
+    </script>
+  {{/extend}}
+{{/if}}

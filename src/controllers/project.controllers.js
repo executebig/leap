@@ -27,12 +27,12 @@ exports.getProjectsByIds = async (project_ids) => {
 // Excludes hardware projects if no_shipping is true
 // Query doesn't scale well w/ larger datasets, but should be fine for our purposes
 exports.getRandomProjectIds = async (num, exclude, no_shipping) => {
-  const q = await db.query(
-    `SELECT project_id FROM projects
+  const q = await db.query(`
+    SELECT project_id FROM projects
     WHERE
-      NOT project_id = ANY ($2) AND
+      (NOT project_id = ANY ($2)) AND
       enabled = true AND
-      hardware = false OR NOT $3
+      (hardware = false OR NOT $3)
     ORDER BY random()
     LIMIT $1`,
     [num, exclude, no_shipping]
@@ -92,4 +92,15 @@ exports.updateProject = async (project_id, data) => {
   )
 
   return q?.rows[0]
+}
+
+exports.getRequiredModuleIdsByProjectId = async (project_id) => {
+  const q = await db.query(`
+    SELECT module_id FROM modules
+    WHERE
+      project_id = $1 AND
+      required = true
+  `, [project_id])
+
+  return q?.rows?.map(row => row.module_id)
 }

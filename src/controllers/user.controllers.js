@@ -6,7 +6,10 @@ const db = require('@db')
 const redis = require('@db/redis').client
 const mailer = require('@libs/mailer')
 const validateEmail = require('@libs/validateEmail')
+
 const EOController = require('@controllers/eo.controllers')
+const ProjectController = require('@controllers/project.controllers')
+const SubmissionController = require('@controllers/submission.controllers')
 
 const fields = [
   'user_id',
@@ -112,6 +115,17 @@ exports.updateUser = async (user_id, data) => {
   return newUser
 }
 
+exports.grantPoints = async (user_id, points) => {
+  const q = await db.query('UPDATE users SET points = points + $2 WHERE user_id = $1 RETURNING *', [
+    user_id,
+    points
+  ])
+
+  this.flagRefresh(user_id)
+
+  return q?.rows?.[0]
+}
+
 exports.inviteUser = async (email, referrer) => {
   // silently exit if email invalid
   if (!validateEmail(email) || email === referrer.email) {
@@ -191,4 +205,13 @@ exports.getSubmissions = async (user_id) => {
   const q = await db.query('SELECT * FROM submissions WHERE user_id = $1', [user_id])
 
   return q.rows
+}
+
+exports.userHasCompletedProject = async (user_id, project_id) => {
+  const modulesRequired = await ProjectController.getRequiredModuleIdsByProjectId(project_id)
+  const modulesSubmitted = (await SubmissionController.getLatestSubmissionsByUserId(user_id))
+    .filter((e) => e.state === 'accepted' || e.state === 'pending')
+    .map((e) => e.module_id)
+
+  return modulesRequired.every((module_id) => modulesSubmitted.includes(module_id))
 }

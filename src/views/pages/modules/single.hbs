@@ -135,16 +135,16 @@
 
         <div class='control mb-5'>
           <label class='radio'>
-            <input type='radio' name='content_type' value='link' checked />
+            <input type='radio' name='content_type' value='link' required />
             I'm submitting
             <strong>a link</strong>
-            (repl.it / codesandbox / any other online resource)
+            (repl.it / codesandbox / etc.)
           </label>
 
           <br />
 
           <label class='radio mt-2'>
-            <input type='radio' name='content_type' value='content' />
+            <input type='radio' name='content_type' value='content' required />
             I'm submitting
             <strong>written content</strong>
             (writeup / blog post / etc.)
@@ -152,11 +152,11 @@
         </div>
 
         <div class='control' id='submission-link'>
-          <input class='input' type='text' placeholder='https://your.submission.here/' />
+          <input name='content' class='input' type='url' placeholder='https://your.submission.here/' required />
         </div>
 
         <div class="control" id='submission-content'>
-          <textarea name='content' class='textarea' type='text'></textarea>
+          <textarea name='content' class='textarea' type='text' required></textarea>
         </div>
       </section>
 
@@ -186,7 +186,9 @@
   <script nonce='{{@root/nonce}}'>
     const modal = document.querySelector(".modal")
     const submissionLink = document.querySelector('#submission-link')
+    const submissionLinkInput = submissionLink.querySelector('input')
     const submissionContent = document.querySelector('#submission-content')
+    const submissionContentInput = submissionContent.querySelector('textarea')
 
     const editor = new SimpleMDE({
       element: submissionContent.querySelector('textarea'),
@@ -200,7 +202,7 @@
       autoFocus: true
     })
 
-    submissionLink.style.display = 'block'
+    submissionLink.style.display = 'none'
     submissionContent.style.display = 'none'
 
     document.querySelectorAll('input[type=radio]').forEach(node => {
@@ -208,9 +210,16 @@
         if (node.value == 'link') {
           submissionLink.style.display = 'block'
           submissionContent.style.display = 'none'
+
+          submissionLinkInput.disabled = false
+          submissionContentInput.disabled = true
         } else {
           submissionLink.style.display = 'none'
           submissionContent.style.display = 'block'
+
+          submissionLinkInput.disabled = true
+          submissionContentInput.disabled = false
+
           editor.codemirror.refresh()
         }
       })

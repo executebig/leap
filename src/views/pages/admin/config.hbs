@@ -1,23 +1,90 @@
 {{#extend 'title'}}
   Config
 {{/extend}}
+
 <section class='section header'>
-  <h1 class='title'>Config</h1>
+  <h1 class='title'>Game Config</h1>
 </section>
+
 <section class='section'>
   <form action='' method='POST'>
     <div class='field'>
       <label class='label'>Week</label>
       <div class='control'>
-        <input class='input' name='week' type='number' placeholder='{{config.week}}' value='{{config.week}}' min='{{inc config.week -1}}' max='{{inc config.week 1}}' />
+        <input
+          class='input'
+          name='week'
+          type='number'
+          placeholder='{{config.week}}'
+          value='{{config.week}}'
+          min='-1'
+          max='100'
+        />
       </div>
     </div>
-    <div class='field is-grouped'>
+
+    <div class='field'>
+      <label class='label'>Points Per Project</label>
+      <div class='control'>
+        <input
+          class='input'
+          name='pointsPerProject'
+          type='number'
+          placeholder='{{config.pointsPerProject}}'
+          value='{{config.pointsPerProject}}'
+          min='1'
+        />
+      </div>
+    </div>
+
+    <div class='columns field mb-0'>
+      <div class='column'>
+        <label class='label'>Stage Event Name</label>
+        <div class='control'>
+          <input
+            class='input'
+            name='stageEventName'
+            type='text'
+            placeholder='{{config.stageEventName}}'
+            value='{{config.stageEventName}}'
+          />
+        </div>
+      </div>
+
+      <div class='column'>
+        <label class='label'>Stage Embed URL</label>
+        <div class='control'>
+          <input
+            class='input'
+            name='stageUrl'
+            type='text'
+            placeholder='{{config.stageUrl}}'
+            value='{{config.stageUrl}}'
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class='field'>
+      <label class='label'>Weekly Badges</label>
+      <div class='control'>
+        <input
+          class='input'
+          name='weeklyBadges'
+          type='text'
+          placeholder='{{config.weeklyBadges}}'
+          value='{{config.weeklyBadges}}'
+        />
+      </div>
+      <p class="help">Input a comma separated list of badge IDs here :)</p>
+    </div>
+
+    <div class='field is-grouped mt-4'>
       <div class='control'>
         <button type='submit' class='button is-link'>Save</button>
       </div>
       <div class='control'>
-        <button type='reset' class='button is-danger is-light'>Reset</button>
+        <button type='reset' class='button is-light'>Clear</button>
       </div>
     </div>
   </form>

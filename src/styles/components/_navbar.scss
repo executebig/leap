@@ -2,22 +2,31 @@
   padding: 8px 0;
 
   .container {
-    .navbar-brand {
-      .navbar-item {
-        text-decoration: none;
+    .navbar-item {
+      text-decoration: none;
 
-        &.live-banner {
-          font-weight: bold;
-          color: $danger;
+      &.chip {
 
-          span.blinker {
-            margin-right: 5px;
-            animation: blinker 1s ease infinite;
+        & > strong {
+          margin-right: 6px;
+        }
 
-            @keyframes blinker {
-              50% {
-                opacity: 0;
-              }
+        & > span {
+          margin-bottom: -5px;
+        }
+      }
+
+      &.live-banner {
+        font-weight: bold;
+        color: $danger;
+
+        span.blinker {
+          margin-right: 5px;
+          animation: blinker 1s ease infinite;
+
+          @keyframes blinker {
+            50% {
+              opacity: 0;
             }
           }
         }
