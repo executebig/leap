@@ -192,3 +192,12 @@ exports.getSubmissions = async (user_id) => {
 
   return q.rows
 }
+
+exports.userHasCompletedProject = async (user_id, project_id) => {
+  const modulesRequired = await ProjectController.getRequiredModuleIdsByProjectId(project_id)
+  const modulesSubmitted = (await SubmissionController.getLatestSubmissionsByUserId(user_id))
+    .filter((e) => e.state === 'accepted' || e.state === 'pending')
+    .map((e) => e.module_id)
+
+  returnmodulesRequired.every((module_id) => modulesSubmitted.includes(module_id))
+}
