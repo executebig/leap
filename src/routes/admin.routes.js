@@ -200,25 +200,11 @@ router.get('/config', async (req, res) => {
 })
 
 router.post('/config', async (req, res) => {
-  const curWeek = ConfigController.get('week')
-
   await ConfigController.setMultiple(req.body)
   await UserController.flagRefreshAll()
 
   req.flash('success', `Successfully updated config`)
   res.redirect('/admin/config')
-})
-
-router.get('/stage', async (req, res) => {
-  const [liveUrl, eventName] = await Promise.all([
-    ConfigController.get('stageUrl'),
-    ConfigController.get('stageEventName')
-  ])
-
-  res.render('pages/admin/stage', {
-    liveUrl,
-    eventName
-  })
 })
 
 router.post('/stage', async (req, res) => {
