@@ -60,9 +60,17 @@ exports.getBadgesByIds = async (ids) => {
   return q.rows || []
 }
 
-exports.getWeeklyBadge = async () => {
+exports.getWeeklyBadgeId = async () => {
   const week = await ConfigController.get('week')
   const weeklyBadges = (await ConfigController.get('weeklyBadges')).split(',')
 
   return weeklyBadges?.[week - 1]
+}
+
+exports.getWeeklyBadge = async () => {
+  const weeklyBadgeId = await this.getWeeklyBadgeId()
+
+  if (weeklyBadgeId) {
+    return await this.getBadgeById(weeklyBadgeId)
+  }
 }
