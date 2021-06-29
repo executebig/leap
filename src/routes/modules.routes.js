@@ -118,7 +118,7 @@ router.post('/:id', async (req, res, next) => {
       await SlackController.sendSubmission(submission)
     }
 
-    if (req.user.state !== 'completed' && UserController.userHasCompletedProject()) {
+    if (req.user.state !== 'completed' && await UserController.userHasCompletedProject(req.user.user_id, module.project_id)) {
       await UserController.updateUser(req.user.user_id, {
         state: 'completed'
       })

@@ -6,7 +6,10 @@ const db = require('@db')
 const redis = require('@db/redis').client
 const mailer = require('@libs/mailer')
 const validateEmail = require('@libs/validateEmail')
+
 const EOController = require('@controllers/eo.controllers')
+const ProjectController = require('@controllers/project.controllers')
+const SubmissionController = require('@controllers/submission.controllers')
 
 const fields = [
   'user_id',
@@ -198,6 +201,9 @@ exports.userHasCompletedProject = async (user_id, project_id) => {
   const modulesSubmitted = (await SubmissionController.getLatestSubmissionsByUserId(user_id))
     .filter((e) => e.state === 'accepted' || e.state === 'pending')
     .map((e) => e.module_id)
+
+  console.log(modulesRequired)
+  console.log(modulesSubmitted)
 
   return modulesRequired.every((module_id) => modulesSubmitted.includes(module_id))
 }
