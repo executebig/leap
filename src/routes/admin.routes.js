@@ -200,6 +200,8 @@ router.get('/config', async (req, res) => {
 })
 
 router.post('/config', async (req, res) => {
+  req.body.weeklyBadges = String(req.body.weeklyBadges.split(',').map(e => e.trim()))
+
   await ConfigController.setMultiple(req.body)
   await UserController.flagRefreshAll()
 

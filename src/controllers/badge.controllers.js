@@ -5,6 +5,8 @@
 
 const db = require('@db')
 
+const ConfigController = require('@controllers/config.controllers')
+
 exports.createBadge = async (name, desc, icon, hidden, code) => {
   const badge = await db.query(
     'INSERT INTO badges (name, description, icon, hidden, code) VALUES ($1, $2, $3, $4, $5) RETURNING badge_id',
@@ -56,4 +58,11 @@ exports.getBadgesByIds = async (ids) => {
   const q = await db.query('SELECT badge_id, name, description, icon FROM badges WHERE badge_id = ANY ($1)', [ids])
 
   return q.rows || []
+}
+
+exports.getWeeklyBadge = async () => {
+  const week = await ConfigController.get('week')
+  const weeklyBadges = (await ConfigController.get('weeklyBadges')).split(',')
+
+  return weeklyBadges?.[week - 1]
 }

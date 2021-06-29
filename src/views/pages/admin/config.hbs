@@ -37,8 +37,8 @@
       </div>
     </div>
 
-    <div class='columns'>
-      <div class='field column'>
+    <div class='columns field mb-0'>
+      <div class='column'>
         <label class='label'>Stage Event Name</label>
         <div class='control'>
           <input
@@ -51,7 +51,7 @@
         </div>
       </div>
 
-      <div class='field column'>
+      <div class='column'>
         <label class='label'>Stage Embed URL</label>
         <div class='control'>
           <input
@@ -63,6 +63,20 @@
           />
         </div>
       </div>
+    </div>
+
+    <div class='field'>
+      <label class='label'>Weekly Badges</label>
+      <div class='control'>
+        <input
+          class='input'
+          name='weeklyBadges'
+          type='text'
+          placeholder='{{config.weeklyBadges}}'
+          value='{{config.weeklyBadges}}'
+        />
+      </div>
+      <p class="help">Input a comma separated list of badge IDs here :)</p>
     </div>
 
     <div class='field is-grouped mt-4'>

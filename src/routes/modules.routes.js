@@ -12,6 +12,7 @@ const SubmissionController = require('@controllers/submission.controllers')
 const SlackController = require('@controllers/slack.controllers')
 const UserController = require('@controllers/user.controllers')
 const ConfigController = require('@controllers/config.controllers')
+const BadgeController = require('@controllers/badge.controllers')
 
 const { flagMiddleware, stateMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
 const { checkAuth } = require('@middlewares/auth.middlewares')
@@ -101,6 +102,7 @@ router.post('/:id', async (req, res, next) => {
     }
   }
 
+  // Handle submission logic only
   try {
     const submission = await SubmissionController.createSubmission(
       req.body.content,
@@ -115,25 +117,6 @@ router.post('/:id', async (req, res, next) => {
     } else {
       await SlackController.sendSubmission(submission)
     }
-
-    if (req.user.state !== 'completed') {
-      const modulesRequired = await ProjectController.getRequiredModuleIdsByProjectId(module.project_id)
-      const modulesSubmitted = (await SubmissionController.getLatestSubmissionsByUserId(req.user.user_id))
-        .filter((e) => e.state === 'accepted' || e.state === 'pending')
-        .map((e) => e.module_id)
-
-      if (modulesRequired.every((module_id) => modulesSubmitted.includes(module_id))) {
-        await UserController.updateUser(req.user.user_id, {
-          state: 'completed'
-        })
-
-        req.flash('success', 'Submission successful!')
-        res.redirect('/modules?confetti=true')
-        return
-      }
-    }
-
-    req.flash('success', 'Submission successful!')
   } catch (err) {
     Bugsnag.notify(err)
     console.error(err)
@@ -143,6 +126,32 @@ router.post('/:id', async (req, res, next) => {
     )
   }
 
+  // Check if user has completed all required module
+  if (req.user.state !== 'completed') {
+    const modulesRequired = await ProjectController.getRequiredModuleIdsByProjectId(module.project_id)
+    const modulesSubmitted = (await SubmissionController.getLatestSubmissionsByUserId(req.user.user_id))
+      .filter((e) => e.state === 'accepted' || e.state === 'pending')
+      .map((e) => e.module_id)
+
+    if (modulesRequired.every((module_id) => modulesSubmitted.includes(module_id))) {
+      await UserController.updateUser(req.user.user_id, {
+        state: 'completed'
+      })
+
+      const weeklyBadge = await BadgeController.getWeeklyBadge()
+
+      // Grant weekly badge if exists
+      if (weeklyBadge) {
+        await UserController.grantBadge(req.user.user_id, weeklyBadge)
+      }
+
+      req.flash('success', 'Submission successful!')
+      res.redirect('/modules?confetti=true')
+      return
+    }
+  }
+
+  req.flash('success', 'Submission successful!')
   res.redirect('/modules')
 })
 
