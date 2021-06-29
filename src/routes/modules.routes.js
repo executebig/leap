@@ -10,6 +10,7 @@ const ModuleController = require('@controllers/module.controllers')
 const SubmissionController = require('@controllers/submission.controllers')
 const SlackController = require('@controllers/slack.controllers')
 const UserController = require('@controllers/user.controllers')
+const ConfigController = require('@controllers/config.controllers')
 
 const { flagMiddleware, stateMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
 const { checkAuth } = require('@middlewares/auth.middlewares')
@@ -43,7 +44,10 @@ router.get('/', async (req, res) => {
     modules_required,
     modules_optional,
     submissions,
-    confetti: !!req.query.confetti
+    confetti: !!req.query.confetti,
+    config: {
+      pointsPerProject: await ConfigController.get('pointsPerProject')
+    }
   })
 })
 

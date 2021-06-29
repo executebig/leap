@@ -1,9 +1,11 @@
 {{#extend 'title'}}
   Config
 {{/extend}}
+
 <section class='section header'>
   <h1 class='title'>Config</h1>
 </section>
+
 <section class='section'>
   <form action='' method='POST'>
     <div class='field'>
@@ -12,6 +14,14 @@
         <input class='input' name='week' type='number' placeholder='{{config.week}}' value='{{config.week}}' min='-1' max='100' />
       </div>
     </div>
+
+    <div class='field'>
+      <label class='label'>Points Per Project</label>
+      <div class='control'>
+        <input class='input' name='pointsPerProject' type='number' placeholder='{{config.pointsPerProject}}' value='{{config.pointsPerProject}}' min='1' />
+      </div>
+    </div>
+
     <div class='field is-grouped'>
       <div class='control'>
         <button type='submit' class='button is-link'>Save</button>
