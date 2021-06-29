@@ -115,6 +115,15 @@ exports.updateUser = async (user_id, data) => {
   return newUser
 }
 
+exports.grantPoints = async (user_id, points) => {
+  const q = await db.query('UPDATE users SET points = points + $2 WHERE user_id = $1 RETURNING *', [
+    user_id,
+    points
+  ])
+
+  return q?.rows?.[0]
+}
+
 exports.inviteUser = async (email, referrer) => {
   // silently exit if email invalid
   if (!validateEmail(email) || email === referrer.email) {
@@ -201,9 +210,6 @@ exports.userHasCompletedProject = async (user_id, project_id) => {
   const modulesSubmitted = (await SubmissionController.getLatestSubmissionsByUserId(user_id))
     .filter((e) => e.state === 'accepted' || e.state === 'pending')
     .map((e) => e.module_id)
-
-  console.log(modulesRequired)
-  console.log(modulesSubmitted)
 
   return modulesRequired.every((module_id) => modulesSubmitted.includes(module_id))
 }

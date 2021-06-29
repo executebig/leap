@@ -448,6 +448,16 @@ router.post('/submissions/edit/:id', async (req, res) => {
 
   if (state === 'rejected') {
     mailer.sendSubmissionRejection(submission, comments)
+  } else if (state === 'accepted') {
+    const { points } = await ModuleController.getModuleById(submission.module_id)
+
+    // Grant module points
+    await UserController.grantPoints(submission.user_id, points)
+
+    // Grant additional points if required modules completed
+    if (await UserController.userHasCompletedProject(submission.user_id, submission.project_id)) {
+
+    }
   }
 
   // TODO: Implement submission accepted notification
