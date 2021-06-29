@@ -31,14 +31,17 @@
             <h1 class='title is-1 mb-2'>Week {{user.current_week}} — {{project.title}}</h1>
 
             <div class='block'>
-              <strong>{{project.type}}</strong>
-              &nbsp;•&nbsp;
-              <strong>{{project.pts_total}} {{>chip}} Available</strong>
+              <span class="tag is-medium">
+                <strong>{{project.type}}</strong>
+              </span>
+
+              <span class="tag is-medium">
+                <strong>{{>chip}} {{project.pts_total}} Available</strong>
+              </span>
 
               {{#if project.hardware}}
                 <span class="tag is-medium"><strong>🛠️ Hardware</strong></span>
               {{/if}}
-
             </div>
 
             <div class="block">
@@ -49,7 +52,7 @@
           </div>
 
           <div class="column is-4">
-            <img src="{{project.thumbnail_url}}" alt="" class="card" >
+            <img src="{{project.thumbnail_url}}" alt="" class="card hero-img" >
           </div>
         </div>
       </div>
