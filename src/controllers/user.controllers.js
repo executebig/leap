@@ -199,5 +199,5 @@ exports.userHasCompletedProject = async (user_id, project_id) => {
     .filter((e) => e.state === 'accepted' || e.state === 'pending')
     .map((e) => e.module_id)
 
-  returnmodulesRequired.every((module_id) => modulesSubmitted.includes(module_id))
+  return modulesRequired.every((module_id) => modulesSubmitted.includes(module_id))
 }
