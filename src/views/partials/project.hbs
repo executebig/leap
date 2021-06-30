@@ -1,17 +1,19 @@
-<div
-  class='column is-clickable is-one-third project'
-  tabindex='0'
-  project-id='{{project_id}}'
-  project-title='{{title}}'
->
-  <h2>{{title}}</h2>
-  <p>{{description}}</p>
+<div class='column is-one-third'>
+  <div
+    class="project is-clickable"
+    project-id='{{project_id}}'
+    project-title='{{title}}'
+    tabindex='0'
+  >
+    <h2>{{title}}</h2>
+    <p>{{description}}</p>
 
-  <span>
-    <p>{{type}}</p>
-    <p>{{pts_total}} {{>chip}}</p>
-  </span>
+    <span>
+      <p>{{type}}</p>
+      <p>{{pts_total}} {{>chip}}</p>
+    </span>
 
-  <img src={{thumbnail_url}} alt='' class='project__bg' />
-  <div class='project__overlay--1'></div>
+    <img src={{thumbnail_url}} alt='' class='project__bg' />
+    <div class='project__overlay--1'></div>
+  </div>
 </div>
