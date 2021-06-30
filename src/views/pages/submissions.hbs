@@ -2,6 +2,10 @@
   Submissions
 {{/extend}}
 
+{{#extend 'header-inject'}}
+  <link rel='stylesheet' href='https://unpkg.com/simplemde@1.11.2/dist/simplemde.min.css' />
+{{/extend}}
+
 <div class='page__submissions'>
   <section class='hero is-danger'>
     <div class="hero-body">
@@ -42,7 +46,13 @@
           </thead>
           <tbody>
             {{#each submissions}}
-              <tr>
+              <tr
+                data-id="{{submission_id}}"
+                data-title="{{title}}"
+                data-created-at="{{created_at}}"
+                data-state="{{state}}"
+                data-content="{{content}}"
+              >
                 <th>{{submission_id}}</th>
                 <td><a>{{title}}</a></td>
                 <td>{{created_at}}</td>
@@ -64,16 +74,81 @@
       <p>Having trouble with submissions? Shoot us an email at <strong><a href="mailto:hi@techroulette.xyz">hi@techroulette.xyz</a></strong>.</p>
     </div>
   </section>
+
+  <form class='modal' action='' method='POST'>
+    <div class='modal-background'></div>
+    <div class='modal-card'>
+      <header class='modal-card-head'>
+        <h1 class='modal-card-title'>Submission Details</h1>
+      </header>
+
+      <section class='modal-card-body'>
+        <p>
+          Your submission for
+          <strong id="submission-title" class="has-text-primary"></strong>
+          was submitted on
+          <strong id="submission-created-at"></strong>, and is currently
+          <strong id="submission-state"></strong>.
+        </p>
+
+        <div class="control" id='submission-content'>
+          <textarea name='content' class='textarea' type='text' required></textarea>
+        </div>
+      </section>
+
+      <footer class='modal-card-foot'>
+        <button class='button is-danger modal-cancel' type='button'>
+          <span>Close</span>
+        </button>
+      </footer>
+    </div>
+
+    <button class='modal-close modal-cancel is-large' aria-label='close'></button>
+  </form>
 </div>
 
 {{#extend 'scripts'}}
+  <script src="https://unpkg.com/simplemde@1.11.2/dist/simplemde.min.js"></script>
   <script nonce='{{@root/nonce}}'>
     const table = document.querySelector('table')
+    const modal = document.querySelector('.modal')
 
-    table.querySelectorAll('')
-
-    document.querySelectorAll('a').forEach(node => {
-
+    const editor = new SimpleMDE({
+      element: modal.querySelector("#submission-content > textarea"),
+      toolbar: ['preview'],
+      status: null
     })
+
+    editor.codemirror.options.readOnly = true
+
+    // Bind modal open buttons
+    table.querySelectorAll("a").forEach((node) => {
+      const data = node.parentNode.parentNode.dataset
+
+      node.addEventListener("click", () => {
+        fetch(`${window.location.href}/${data.id}`)
+          .then(res => res.json())
+          .then(submission => {
+            modal.querySelector('#submission-title').textContent = data.title
+            modal.querySelector('#submission-state').textContent = data.state
+            modal.querySelector('#submission-created-at').textContent = (new Date(data.createdAt)).toLocaleString()
+
+            editor.value(data.content)
+            editor.togglePreview()
+          })
+
+        modal.classList.add("is-active")
+      })
+    })
+
+    // Close modal on background & cancel button click
+    document
+      .querySelectorAll(".modal-cancel, .modal-background")
+      .forEach((node) => {
+        node.addEventListener("click", () => {
+          modal.classList.remove("is-active")
+          editor.togglePreview()
+        })
+      })
   </script>
 {{/extend}}
