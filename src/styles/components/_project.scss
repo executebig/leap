@@ -15,8 +15,28 @@
   box-sizing: border-box;
   padding: 1.5rem;
 
+  &:hover {
+    color: white;
+    text-decoration: none;
+  }
+
   &:hover > &__overlay--1 {
     background: linear-gradient(to top, darken($primary, 40%), transparent 60%);
+  }
+
+  &.card {
+    background: none;
+  }
+
+  &--mini {
+    &:hover > .project__overlay--1 {
+      background: rgba($primary, 0.4);
+    }
+
+    .project__overlay--1 {
+      background: rgba($primary, 0.2);
+      backdrop-filter: blur(4px);
+    }
   }
 
   &__bg {

@@ -7,6 +7,7 @@ const UserController = require('@controllers/user.controllers')
 const EOController = require('@controllers/eo.controllers')
 const BadgeController = require('@controllers/badge.controllers')
 const DiscordController = require('@controllers/discord.controllers')
+const ProjectController = require('@controllers/project.controllers')
 const addrSanitizer = require('@libs/addressSanitizer')
 
 const { flagMiddleware, stateMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
@@ -18,7 +19,9 @@ router.use(checkAuth, flagMiddleware, banMiddleware, stateMiddleware)
 
 router.get('/', async (req, res) => {
   const badges = await BadgeController.getBadgesByIds(req.user.badges)
-  res.render('pages/account/view', { badges })
+  const prevProjects = await ProjectController.getProjectsByIds(req.user.prev_projects)
+
+  res.render('pages/account/view', { badges, prevProjects })
 })
 
 router.use('/edit/:id?', async (req, res, next) => {

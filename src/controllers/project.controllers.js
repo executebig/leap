@@ -17,7 +17,11 @@ exports.getProjectsByIds = async (project_ids) => {
   let projects = []
 
   for (let id of project_ids) {
-    projects.push(await this.getProjectById(id))
+    const project = await this.getProjectById(id)
+
+    if (project) {
+      projects.push(project)
+    }
   }
 
   return projects
