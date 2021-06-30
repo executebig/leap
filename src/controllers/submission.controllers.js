@@ -36,10 +36,11 @@ exports.getLatestSubmissionsByUserId = async (user_id) => {
 
 exports.getSubmissionsByUserAndProjectId = async (user_id, project_id) => {
   const q = await db.query(`
-    SELECT * FROM submissions
+    SELECT submissions.*, modules.title as title FROM submissions
+    INNER JOIN modules ON submissions.module_id = modules.module_id
     WHERE
-      user_id = $1 AND
-      project_id = $2
+      submissions.user_id = $1 AND
+      submissions.project_id = $2
     ORDER BY created_at DESC
   `, [user_id, project_id])
 

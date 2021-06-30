@@ -9,21 +9,7 @@
         <div class="columns">
           <div class="column">
             <h1 class='title is-1'>{{project.title}}</h1>
-            <p class="subtitle mb-3">Previous Submissions</p>
-
-            <div class='block'>
-              <span class="tag is-medium">
-                <strong>{{project.type}}</strong>
-              </span>
-
-              <span class="tag is-medium">
-                <strong>{{>chip}} {{project.pts_total}} Available</strong>
-              </span>
-
-              {{#if project.hardware}}
-                <span class="tag is-medium"><strong>🛠️ Hardware</strong></span>
-              {{/if}}
-            </div>
+            <p class="subtitle">Previous Submissions</p>
 
             <div class="block">
               <strong>
@@ -41,13 +27,53 @@
   </section>
 
   <section class='section'>
-    <div class="container">
-      <h2 class="title">Optional Modules: Complete to Earn Additional Gems!</h2>
-      <div class='modules modules--optional has-horizontal-scroll'>
-        {{#each modules_optional}}
-          {{>module}}
-        {{/each}}
-      </div>
+    <div class="container content">
+      {{#if submissions}}
+        <h1 class="title">Previous Submissions</h1>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Module Title</th>
+              <th>Created At</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each submissions}}
+              <tr>
+                <th>{{submission_id}}</th>
+                <td><a>{{title}}</a></td>
+                <td>{{created_at}}</td>
+                <td>
+                  <span class="tag state {{state}}">
+                    {{state}}
+                  </span>
+                </td>
+                <td><a>View</a></td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      {{else}}
+        <h1 class="title">No submissions found!</h1>
+        <p>We couldn't find any submissions for this week. If you're currently working on this project, you can still view and submit modules <strong><a href="/modules">here</a>.</strong>
+      {{/if}}
+
+      <p>Having trouble with submissions? Shoot us an email at <strong><a href="mailto:hi@techroulette.xyz">hi@techroulette.xyz</a></strong>.</p>
     </div>
   </section>
 </div>
+
+{{#extend 'scripts'}}
+  <script nonce='{{@root/nonce}}'>
+    const table = document.querySelector('table')
+
+    table.querySelectorAll('')
+
+    document.querySelectorAll('a').forEach(node => {
+
+    })
+  </script>
+{{/extend}}

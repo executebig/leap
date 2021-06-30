@@ -27,7 +27,7 @@ router.get('/:projectId', async (req, res) => {
 
   // Ensure user has permission to view project
   if (
-    !req.user.prev_projects.includes(projectId) ||
+    !req.user.prev_projects.includes(projectId) &&
     req.user.current_project !== projectId
   ) {
     notFoundMiddleware(req, res)
