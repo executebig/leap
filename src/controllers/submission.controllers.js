@@ -34,6 +34,18 @@ exports.getLatestSubmissionsByUserId = async (user_id) => {
   return q?.rows
 }
 
+exports.getSubmissionsByUserAndProjectId = async (user_id, project_id) => {
+  const q = await db.query(`
+    SELECT * FROM submissions
+    WHERE
+      user_id = $1 AND
+      project_id = $2
+    ORDER BY created_at DESC
+  `, [user_id, project_id])
+
+  return q?.rows
+}
+
 exports.listSubmissions = async () => {
   const q = await db.query('SELECT * FROM submissions ORDER BY submission_id ASC')
 
