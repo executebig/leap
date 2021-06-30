@@ -1,0 +1,102 @@
+{{#extend "title"}}
+    Exchange
+{{/extend}}
+<div class="page__exchange">
+    <section class="section header pb-3">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8">
+                    <h1 class="title is-1">Roulette Exchange</h1>
+                    <p>Welcome to the Roulette Exchange! Rewards change from week to week, so be sure to redeem them while you can!</p>
+                </div>
+                <div class="column is-4">
+                    <div class="card">
+                        <div class="card-content">
+                            <h1 class="title is-5 mb-2">Welcome to Week {{user.current_week}} Exchange!</h1>
+                            <p>
+                                {{#if user.no_shipping}}
+                                    <strong>
+                                        <span class='tag is-danger'>
+                                            <ion-icon name='close-circle-outline'></ion-icon>
+                                            <span>Shipping Disabled</span>
+                                        </span>
+                                    </strong>
+                                {{else}}
+                                    <strong>
+                                        <span class='tag is-success'>
+                                            <ion-icon name='checkmark-circle-outline'></ion-icon>
+                                            <span>Shipping Enabled</span>
+                                        </span>
+                                    </strong>
+                                {{/if}}
+                                {{#eq user.state "completed"}}
+                                    <strong>
+                                        <span class='tag is-success'>
+                                            <ion-icon name="star"></ion-icon>
+                                            <span>Week Complete</span>
+                                        </span>
+                                    </strong>
+                                    {{else}}
+                                        <strong>
+                                            <span class='tag is-warning'>
+                                                <ion-icon name="airplane"></ion-icon>
+                                                <span>Week Incomplete</span>
+                                            </span>
+                                        </strong>
+                                {{/eq}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="container">
+        <div class="notification is-primary is-light">
+            All purchases at the Roulette Exchange are <strong>final</strong>. Once you place your order, we cannot cancel your order or refund you
+            for the cost of the item. This is to ensure that people are not stocking on items that are limited in supplies. Some items may only be
+            available for students eligible for shipping, and others may only be useful in certain regions. Before you place the order, please read the
+            description clearly. If you have questions, please reach out to staff on Discord.
+        </div>
+    </div>
+    <section class="section shop">
+        <div class="container">
+            <div class="columns is-multiline is-mobile">
+                {{#each rewards}}
+                    <div class="column is-6">
+                        <div class="card reward">
+                            <div class="card-content">
+                                <article class="media">
+                                    <figure class="media-left">
+                                        <p class="image">
+                                            <img src="{{image}}">
+                                        </p>
+                                    </figure>
+                                    <div class="media-content">
+                                        <div class="content">
+                                            <h1 class="title is-5 mb-3">{{name}}</h1>
+                                            <p class="mb-1">
+                                                {{description}}
+                                            </p>
+                                            <p class="mb-1">
+                                                <strong>Delivery Method & Timeline:</strong> {{delivery}}
+                                                {{#if needs_shipping}}
+                                                    <strong>This reward requires physical shipping.</strong>
+                                                {{/if}}
+                                            </p>
+                                            <p class="mb-1">
+                                            </p>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="card-footer">
+                                <a href="/exchange/buy/{{reward_id}}" class="card-footer-item button is-primary">Buy for {{price}}&nbsp;{{>chip}}</a>
+                            </div>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    </section>
+</div>

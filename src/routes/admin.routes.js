@@ -11,6 +11,7 @@ const ConfigController = require('@controllers/config.controllers')
 const ProjectController = require('@controllers/project.controllers')
 const ModuleController = require('@controllers/module.controllers')
 const SubmissionController = require('@controllers/submission.controllers')
+const ExchangeController = require('@controllers/exchange.controllers')
 
 const { flagMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
 const notFoundMiddleware = require('@middlewares/404.middlewares')
@@ -153,7 +154,10 @@ router.post('/users/disqualify/:id', async (req, res) => {
 })
 
 router.get('/users/requalify/:id', async (req, res) => {
-  const [target, original_address] = await Promise.all([UserController.getUserById(req.params.id), UserController.getAddressById(req.params.id)])
+  const [target, original_address] = await Promise.all([
+    UserController.getUserById(req.params.id),
+    UserController.getAddressById(req.params.id)
+  ])
 
   res.render('pages/admin/users/requalify', {
     target,
@@ -200,7 +204,7 @@ router.get('/config', async (req, res) => {
 })
 
 router.post('/config', async (req, res) => {
-  req.body.weeklyBadges = String(req.body.weeklyBadges.split(',').map(e => e.trim()))
+  req.body.weeklyBadges = String(req.body.weeklyBadges.split(',').map((e) => e.trim()))
 
   await ConfigController.setMultiple(req.body)
   await UserController.flagRefreshAll()
@@ -277,7 +281,7 @@ router.get('/projects', async (req, res) => {
   })
 })
 
-router.get('/projects/new', async (req, res) => {
+router.get('/projects/new', (req, res) => {
   res.render('pages/admin/projects/single')
 })
 
@@ -457,14 +461,21 @@ router.post('/submissions/edit/:id', async (req, res) => {
     await UserController.grantPoints(submission.user_id, module.points)
 
     if (module.required) {
-      const modulesRequired = await ProjectController.getRequiredModuleIdsByProjectId(submission.project_id)
-      const modulesAccepted = (await SubmissionController.getLatestSubmissionsByUserId(submission.user_id))
+      const modulesRequired = await ProjectController.getRequiredModuleIdsByProjectId(
+        submission.project_id
+      )
+      const modulesAccepted = (
+        await SubmissionController.getLatestSubmissionsByUserId(submission.user_id)
+      )
         .filter((e) => e.state === 'accepted')
         .map((e) => e.module_id)
 
       // Grant additional points if every required module is completed
       if (modulesRequired.every((module_id) => modulesAccepted.includes(module_id))) {
-        await UserController.grantPoints(submission.user_id, await ConfigController.get('pointsPerProject') || 0)
+        await UserController.grantPoints(
+          submission.user_id,
+          (await ConfigController.get('pointsPerProject')) || 0
+        )
       }
     }
   }
@@ -519,6 +530,69 @@ router.post('/submissions/edit/:id', async (req, res) => {
 
   req.flash('success', 'Submission graded!')
   res.redirect(req.session.prevUrl || '/admin/submissions')
+})
+
+/** Exchange Controls */
+router.get('/rewards', async (req, res) => {
+  delete req.session.redirectTo
+
+  res.render('pages/admin/rewards/list', {
+    rewards: await ExchangeController.listAll()
+  })
+})
+
+router.get('/rewards/new', (req, res) => {
+  res.render('pages/admin/rewards/single')
+})
+
+router.post('/rewards/new', async (req, res) => {
+  let { name, description, image, quantity, needs_shipping, enabled, price, delivery } = req.body
+  enabled = !!enabled
+  needs_shipping = !!needs_shipping
+
+  const { reward_id } = await ExchangeController.createReward({
+    name,
+    description,
+    image,
+    quantity,
+    needs_shipping,
+    enabled,
+    price,
+    delivery
+  })
+
+  req.flash('success', `Reward #${reward_id} created successfully!`)
+  res.redirect(`/admin/rewards`)
+})
+
+router.get('/rewards/edit/:id', async (req, res) => {
+  const reward = await ExchangeController.getRewardById(req.params.id)
+  req.session.redirectTo = req.originalUrl
+
+  res.render('pages/admin/rewards/single', {
+    edit: true,
+    reward
+  })
+})
+
+router.post('/rewards/edit/:id', async (req, res) => {
+  let { name, description, image, quantity, needs_shipping, enabled, price, delivery } = req.body
+  enabled = !!enabled
+  needs_shipping = !!needs_shipping
+
+  const { reward_id } = await ExchangeController.updateReward(req.params.id, {
+    name,
+    description,
+    image,
+    quantity,
+    needs_shipping,
+    enabled,
+    price,
+    delivery
+  })
+
+  req.flash('success', `Reward #${reward_id} updated successfully!`)
+  res.redirect(`/admin/rewards`)
 })
 
 module.exports = router

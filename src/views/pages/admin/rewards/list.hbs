@@ -1,0 +1,45 @@
+{{#extend 'title'}}
+    Rewards
+{{/extend}}
+<section class='section header'>
+    <div class='container'>
+        <h1 class='title'>Rewards</h1>
+        <a href="/admin/rewards/new" class="button">New Reward</a>
+    </div>
+</section>
+<section class='section'>
+    <div class='container'>
+        {{#if rewards}}
+            <table class='table is-fullwidth is-hoverable is-striped'>
+                <thead>
+                    <tr>
+                        <th><abbr title='reward_id'>ID</abbr></th>
+                        <th><abbr title='name'>Name</abbr></th>
+                        <th><abbr title='price'>Price</abbr></th>
+                        <th><abbr title='quantity remaining'>Q/R</abbr></th>
+                            <th><abbr title="image">Image</abbr></th>
+                        <th><abbr title='needs_shipping'>Ship?</abbr></th>
+                        <th><abbr title='enabled'>EN?</abbr></th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each rewards}}
+                        <tr>
+                            <th>R{{reward_id}}</th>
+                            <td>{{name}}</td>
+                            <td>{{price}}</td>
+                            <td>{{{quantity}}}</td>
+                            <td><img src="{{image}}" alt="" style="width: 60px;"></td>
+                            <td>{{{showBool needs_shipping}}}</td>
+                            <td>{{{showBool enabled}}}</td>
+                            <td><a href='/admin/rewards/edit/{{reward_id}}'>Edit R{{reward_id}}</a></td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        {{else}}
+            <p>No rewards found!</p>
+        {{/if}}
+    </div>
+</section>

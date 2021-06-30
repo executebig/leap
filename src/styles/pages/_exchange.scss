@@ -1,0 +1,21 @@
+.page__exchange {
+  .card.reward {
+    p.price {
+      font-family: $family-header;
+      font-weight: bold;
+      color: $primary;
+    }
+
+    .card-footer {
+      .button {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        height: 3rem;
+
+        span.chip {
+            transform: translateY(3px);
+        }
+      }
+    }
+  }
+}
