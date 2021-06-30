@@ -73,26 +73,28 @@ exports.listProjects = async () => {
 }
 
 exports.createProject = async (data) => {
-  const { title, description, type, thumbnail_url, enabled, hardware } = data
+  const { title, description, type, thumbnail_url, enabled, hardware, completion_badges } = data
 
   const q = await db.query(
-    'INSERT INTO projects (title, description, type, thumbnail_url, enabled, hardware) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-    [title, description, type, thumbnail_url, enabled, hardware]
+    'INSERT INTO projects (title, description, type, thumbnail_url, enabled, hardware, completion_badges) VALUES ($1, $2, $3, $4, $5, $6, ($7)) RETURNING *',
+    [title, description, type, thumbnail_url, enabled, hardware, completion_badges]
   )
 
   return q?.rows[0]
 }
 
 exports.updateProject = async (project_id, data) => {
-  const { title, description, type, thumbnail_url, enabled, hardware } = data
+  const { title, description, type, thumbnail_url, enabled, hardware, completion_badges } = data
+
+  console.log(completion_badges)
 
   const q = await db.query(
     `
     UPDATE projects
-    SET title = $1, description = $2, type = $3, thumbnail_url = $4, enabled = $5, hardware = $6
-    WHERE project_id = $7
+    SET title = $1, description = $2, type = $3, thumbnail_url = $4, enabled = $5, hardware = $6, completion_badges = ($7)
+    WHERE project_id = $8
     RETURNING *`,
-    [title, description, type, thumbnail_url, enabled, hardware, project_id]
+    [title, description, type, thumbnail_url, enabled, hardware, completion_badges, project_id]
   )
 
   return q?.rows[0]
