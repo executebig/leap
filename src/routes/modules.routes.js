@@ -40,7 +40,6 @@ router.get('/', async (req, res) => {
   const { project, modules_required, modules_optional } =
     await ProjectController.getProjectAndModulesById(req.user.current_project)
   const submissions = await SubmissionController.getLatestSubmissionsByUserId(req.user.user_id)
-  const weeklyBadge = await BadgeController.getWeeklyBadge()
 
   return res.render('pages/modules/list', {
     project,
@@ -51,7 +50,10 @@ router.get('/', async (req, res) => {
     config: {
       pointsPerProject: await ConfigController.get('pointsPerProject')
     },
-    weeklyBadge
+    newBadges: [
+      await BadgeController.getWeeklyBadge(),
+      ...(await BadgeController.getBadgesByIds(project.completion_badges))
+    ]
   })
 })
 
@@ -140,12 +142,21 @@ router.post('/:id', async (req, res, next) => {
         state: 'completed'
       })
 
+      const project = await ProjectController.getProjectById(req.user.current_project)
       const weeklyBadgeId = await BadgeController.getWeeklyBadgeId()
 
       // Grant weekly badge if exists
       if (weeklyBadgeId) {
         await UserController.grantBadge(req.user.user_id, weeklyBadgeId)
       }
+
+      // Grant completion_badges
+      project.completion_badges.forEach(async badge_id => {
+        await UserController.grantBadge(req.user.user_id, badge_id)
+      })
+
+      // Refresh so users can see badges
+      UserController.flagRefresh(req.user.user_id)
 
       req.flash('success', 'Submission successful!')
       res.redirect('/modules?confetti=true')
