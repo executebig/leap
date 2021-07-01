@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@config": ["config.js"],
+      "@routes/*": ["src/routes/*"],
+      "@npm/*": ["node_modules/*"],
+      "@db/*": ["src/db/*"],
+      "@libs/*": ["src/libs/*"],
+      "@controllers/*": ["src/controllers/*"],
+      "@middlewares/*": ["src/middlewares/*"],
+      "@socket/*": ["src/socket/*"]
+    }
+  },
+}

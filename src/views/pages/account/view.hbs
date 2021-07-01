@@ -93,7 +93,29 @@
         <h1 class='title has-text-primary'>
           Past Projects
         </h1>
-        <p class='mb-4'><strong>You have not completed a project yet.</strong></p>
+
+        <div class='columns'>
+          {{#each @root/prevProjects}}
+            <div class='column is-one-third'>
+              <a
+                href="/submissions/{{project_id}}"
+                class="project project--mini card is-clickable"
+                tabindex='0'
+              >
+                <h2>{{title}}</h2>
+                <p>{{type}}</p>
+
+                <img src={{thumbnail_url}} alt='' class='project__bg' />
+                <div class='project__overlay--1'></div>
+              </a>
+            </div>
+          {{/each}}
+        </div>
+
+        {{#unless @root/prevProjects}}
+          <p class='mb-4'><strong>You have not completed a project yet.</strong></p>
+        {{/unless}}
+
         <p>
           Your previously submitted/expired projects will appear here. You cannot go back to
           complete them as they expire after the week, but you will be able to see your submissions.

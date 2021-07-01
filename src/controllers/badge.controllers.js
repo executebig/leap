@@ -74,3 +74,9 @@ exports.getWeeklyBadge = async () => {
     return await this.getBadgeById(weeklyBadgeId)
   }
 }
+
+exports.listBadgeIds = async () => {
+  const q = await db.query('SELECT badge_id FROM badges')
+
+  return q?.rows?.map(e => e.badge_id)
+}

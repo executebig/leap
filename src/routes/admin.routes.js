@@ -4,6 +4,8 @@
  */
 
 const router = require('express').Router()
+const Bugsnag = require('@bugsnag/js')
+
 const AdminController = require('@controllers/admin.controllers')
 const UserController = require('@controllers/user.controllers')
 const BadgeController = require('@controllers/badge.controllers')
@@ -153,7 +155,10 @@ router.post('/users/disqualify/:id', async (req, res) => {
 })
 
 router.get('/users/requalify/:id', async (req, res) => {
-  const [target, original_address] = await Promise.all([UserController.getUserById(req.params.id), UserController.getAddressById(req.params.id)])
+  const [target, original_address] = await Promise.all([
+    UserController.getUserById(req.params.id),
+    UserController.getAddressById(req.params.id)
+  ])
 
   res.render('pages/admin/users/requalify', {
     target,
@@ -199,31 +204,24 @@ router.get('/config', async (req, res) => {
   res.render('pages/admin/config', { config: await ConfigController.getKeysValues() })
 })
 
-router.post('/config', async (req, res) => {
-  req.body.weeklyBadges = String(req.body.weeklyBadges.split(',').map(e => e.trim()))
+router.post('/config', async (req, res, next) => {
+  const badges = await BadgeController.listBadgeIds()
+
+  const weeklyBadges = [...new Set(req.body.weeklyBadges.split(',').map(e => parseInt(e.trim(), 10)))]
+
+  if (weeklyBadges.some(id => isNaN(id) || !badges.includes(id))) {
+    req.flash('error', 'Invalid weekly badges')
+    res.redirect(req.originalUrl)
+    return
+  }
+
+  req.body.weeklyBadges = String(weeklyBadges)
 
   await ConfigController.setMultiple(req.body)
   await UserController.flagRefreshAll()
 
   req.flash('success', `Successfully updated config`)
   res.redirect('/admin/config')
-})
-
-router.post('/stage', async (req, res) => {
-  if (req.query.reset === 'true') {
-    await ConfigController.setMultiple({
-      stageUrl: '',
-      stageEventName: ''
-    })
-  } else {
-    await ConfigController.setMultiple({
-      stageUrl: req.body.liveUrl,
-      stageEventName: req.body.eventName
-    })
-  }
-
-  req.flash('success', `Successfully updated stage`)
-  res.redirect('/admin/stage')
 })
 
 /** Badges */
@@ -282,9 +280,19 @@ router.get('/projects/new', async (req, res) => {
 })
 
 router.post('/projects/new', async (req, res) => {
-  let { title, description, type, thumbnail_url, enabled, hardware } = req.body
+  let { title, description, type, thumbnail_url, enabled, hardware, completion_badges } = req.body
   enabled = !!enabled
   hardware = !!hardware
+
+  // Badge sanity checks
+  const badges = await BadgeController.listBadgeIds()
+
+  completion_badges = [...new Set(completion_badges.split(',').map(e => parseInt(e.trim(), 10)))]
+  if (completion_badges.some(id => isNaN(id) || !badges.includes(id))) {
+    req.flash('error', 'Invalid completion badges')
+    res.redirect(req.originalUrl)
+    return
+  }
 
   const { project_id } = await ProjectController.createProject({
     title,
@@ -292,7 +300,8 @@ router.post('/projects/new', async (req, res) => {
     type,
     thumbnail_url,
     enabled,
-    hardware
+    hardware,
+    completion_badges
   })
 
   req.flash('success', `Project #${project_id} created successfully!`)
@@ -313,9 +322,19 @@ router.get('/projects/edit/:id', async (req, res) => {
 })
 
 router.post('/projects/edit/:id', async (req, res) => {
-  let { title, description, type, thumbnail_url, enabled, hardware } = req.body
+  let { title, description, type, thumbnail_url, enabled, hardware, completion_badges } = req.body
   enabled = !!enabled
   hardware = !!hardware
+
+  // Badge sanity checks
+  const badges = await BadgeController.listBadgeIds()
+
+  completion_badges = [...new Set(completion_badges.split(',').map(e => parseInt(e.trim(), 10)))]
+  if (completion_badges.some(id => isNaN(id) || !badges.includes(id))) {
+    req.flash('error', 'Invalid completion badges')
+    res.redirect(req.originalUrl)
+    return
+  }
 
   const { project_id } = await ProjectController.updateProject(req.params.id, {
     title,
@@ -323,7 +342,8 @@ router.post('/projects/edit/:id', async (req, res) => {
     type,
     thumbnail_url,
     enabled,
-    hardware
+    hardware,
+    completion_badges
   })
 
   req.flash('success', `Project #${project_id} updated successfully!`)
@@ -457,14 +477,21 @@ router.post('/submissions/edit/:id', async (req, res) => {
     await UserController.grantPoints(submission.user_id, module.points)
 
     if (module.required) {
-      const modulesRequired = await ProjectController.getRequiredModuleIdsByProjectId(submission.project_id)
-      const modulesAccepted = (await SubmissionController.getLatestSubmissionsByUserId(submission.user_id))
+      const modulesRequired = await ProjectController.getRequiredModuleIdsByProjectId(
+        submission.project_id
+      )
+      const modulesAccepted = (
+        await SubmissionController.getLatestSubmissionsByUserId(submission.user_id)
+      )
         .filter((e) => e.state === 'accepted')
         .map((e) => e.module_id)
 
       // Grant additional points if every required module is completed
       if (modulesRequired.every((module_id) => modulesAccepted.includes(module_id))) {
-        await UserController.grantPoints(submission.user_id, await ConfigController.get('pointsPerProject') || 0)
+        await UserController.grantPoints(
+          submission.user_id,
+          (await ConfigController.get('pointsPerProject')) || 0
+        )
       }
     }
   }

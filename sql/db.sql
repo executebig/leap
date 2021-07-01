@@ -41,7 +41,9 @@ create table if not exists projects (
 	thumbnail_url text not null,
 
     enabled bool not null default false,
-    hardware bool not null default false
+    hardware bool not null default false,
+
+    completion_badges int[] default array[]::int[] not null
 );
 
 create table if not exists modules (
