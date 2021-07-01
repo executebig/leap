@@ -34,6 +34,32 @@ exports.getLatestSubmissionsByUserId = async (user_id) => {
   return q?.rows
 }
 
+exports.getSubmissionsByUserAndProjectId = async (user_id, project_id) => {
+  const q = await db.query(`
+    SELECT submissions.*, modules.title as title FROM submissions
+    INNER JOIN modules ON submissions.module_id = modules.module_id
+    WHERE
+      submissions.user_id = $1 AND
+      submissions.project_id = $2
+    ORDER BY created_at DESC
+  `, [user_id, project_id])
+
+  return q?.rows
+}
+
+exports.getSubmission = async (user_id, project_id, submission_id) => {
+  const q = await db.query(`
+    SELECT submissions.*, modules.title AS title FROM submissions
+    INNER JOIN modules ON submissions.module_id = modules.module_id
+    WHERE
+      submissions.user_id = $1 AND
+      submissions.project_id = $2 AND
+      submissions.submission_id = $3
+  `, [user_id, project_id, submission_id])
+
+  return q?.rows?.[0]
+}
+
 exports.listSubmissions = async () => {
   const q = await db.query('SELECT * FROM submissions ORDER BY submission_id ASC')
 

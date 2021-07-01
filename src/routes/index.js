@@ -42,6 +42,7 @@ router.use('/account', require('@routes/account.routes'))
 router.use('/dash', require('@routes/dash.routes'))
 router.use('/modules', require('@routes/modules.routes'))
 router.use('/exchange', require('@routes/exchange.routes'))
+router.use('/submissions', require('@routes/submissions.routes'))
 
 /** Catch 404s */
 router.use(notFoundMiddleware)

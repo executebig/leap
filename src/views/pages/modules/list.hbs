@@ -28,7 +28,20 @@
       <div class='container'>
         <div class="columns">
           <div class="column">
-            <h1 class='title is-1 mb-2'>Week {{user.current_week}} — {{project.title}}</h1>
+            <div class="level">
+              <span class="level-left">
+                <h1 class='level-item title is-1'>Week {{user.current_week}} — {{project.title}}</h1>
+              </span>
+
+              <span class="level-right">
+                <a href="/submissions/{{project.project_id}}" class="level-item button is-light">
+                  <span>Previous Submissions</span>
+                  <span class="icon">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                  </span>
+                </a>
+              </span>
+            </div>
 
             <div class='block'>
               <span class="tag is-medium">
@@ -51,7 +64,7 @@
             </div>
           </div>
 
-          <div class="column is-4">
+          <div class="column is-4 is-hidden-touch">
             <img src="{{project.thumbnail_url}}" alt="" class="card hero-img" >
           </div>
         </div>
@@ -74,15 +87,17 @@
               Be sure to look at the <strong>optional modules</strong> for <strong>more chips</strong> & opportunities to <strong>learn new things!</strong>
             </p>
 
-            {{#with @root/weeklyBadge}}
+            {{#if @root/newBadges}}
               <p>
-                <i><strong>Psst, by the way...</strong> check out your new weekly badge!</i>
+                <i><strong>Psst...</strong> check out your newly-earned badges!</i>
 
-                <figure class='image is-64x64 ml-0 my-0' aria-label='{{name}}: {{description}}' data-balloon-pos='down-left' data-balloon-length='large'>
-                  <img class='badge large' src='{{icon}}' />
-                </figure>
+                {{#each @root/newBadges}}
+                  <figure class='image is-64x64 my-0 ml-0 mr-3' aria-label='{{name}}: {{description}}' data-balloon-pos='down-left' data-balloon-length='large' style="display: inline-block;">
+                    <img class='badge large' src='{{icon}}' />
+                  </figure>
+                {{/each}}
               </p>
-            {{/with}}
+            {{/if}}
           </div>
         </div>
       </div>
