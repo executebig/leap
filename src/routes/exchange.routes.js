@@ -28,7 +28,16 @@ router.post('/purchase', async (req, res) => {
     ExchangeController.getRewardById(reward_id)
   ])
 
-  if (reward.price > req.user.points) {
+  if (!reward.enabled || reward.quantity <= 0) {
+    req.flash('error', `This reward is no longer available.`)
+    return res.redirect('/exchange')
+  } else if (req.user.no_shipping && reward.needs_shipping) {
+    req.flash(
+      'error',
+      `You are not eligible for this reward. Please check your eligibility status or try another reward.`
+    )
+    return res.redirect('/exchange')
+  } else if (reward.price > req.user.points) {
     const diff = reward.price - req.user.points
     req.flash(
       'error',
@@ -43,7 +52,7 @@ router.post('/purchase', async (req, res) => {
     reward_name: reward.name,
     email: req.user.email,
     address: address,
-    status: reward.needs_shipping ? "Awaiting physical shipping" : "Order placed"
+    status: reward.needs_shipping ? 'Awaiting physical shipping' : 'Order placed'
   })
 
   await UserController.updateUser(req.user.user_id, { points: req.user.points - reward.price })

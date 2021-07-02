@@ -56,7 +56,7 @@
             All purchases at the Roulette Exchange are <strong>final</strong>. Once you place your order, we cannot cancel your order or refund you
             for the cost of the item. This is to ensure that people are not stocking on items that are limited in supplies. Some items may only be
             available for students eligible for shipping, and others may only be useful in certain regions. <strong>We are not going to stop you from
-            placing multiple orders for the same item.</strong> Before you place the order, please read the
+                placing multiple orders for the same item.</strong> Before you place the order, please read the
             description clearly. If you have questions, please reach out to staff on Discord.
         </div>
     </div>
@@ -92,7 +92,11 @@
                                 </article>
                             </div>
                             <div class="card-footer">
-                                <a class="purchase-button card-footer-item button is-primary">Buy for {{price}}&nbsp;{{>chip}}</a>
+                                {{#if quantity}}
+                                    <a class="purchase-button card-footer-item button is-primary">Buy for {{price}}&nbsp;{{>chip}}</a>
+                                {{else}}
+                                    <a class="card-footer-item button is-light" disabled>Sold Out</a>
+                                {{/if}}
                             </div>
                         </div>
                     </div>
@@ -154,13 +158,15 @@
     document.querySelectorAll('.card.reward')
         .forEach(node => {
             const purchaseButton = node.querySelector('.purchase-button')
-            purchaseButton.addEventListener('click', () => {
-                modal.classList.add('is-active')
+            if (purchaseButton) {
+                purchaseButton.addEventListener('click', () => {
+                    modal.classList.add('is-active')
 
-                modalRewardId.value = node.getAttribute('reward-id')
-                modalRewardName.textContent = node.getAttribute('reward-name')
-                modalRewardPrice.textContent = node.getAttribute('reward-price')
-            })
+                    modalRewardId.value = node.getAttribute('reward-id')
+                    modalRewardName.textContent = node.getAttribute('reward-name')
+                    modalRewardPrice.textContent = node.getAttribute('reward-price')
+                })
+            }
         })
 
     // Close modal on background & cancel button click
