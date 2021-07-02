@@ -108,9 +108,43 @@ create table config (
     value text
 );
 
+create table rewards (
+    reward_id serial not null constraint rewards_pk primary key,
+    name text not null,
+    description text not null,
+    image text not null,
+    quantity integer not null,
+    needs_shipping boolean default false not null,
+    enabled boolean default false not null,
+    price integer not null,
+    delivery text not null
+);
+
+create table orders (
+    order_id serial not null constraint orders_pk primary key,
+    ordered_at timestamp not null,
+    user_id serial not null,
+    reward_id serial not null,
+    reward_name text not null,
+    email text,
+    address text,
+    status text not null,
+    updated_at timestamp,
+    constraint reward_fk 
+        foreign key (reward_id) references rewards(reward_id)
+            on update set null 
+            on delete set null,
+    constraint user_fk
+		foreign key (user_id) references users(user_id)
+			on update set null
+            on delete set null
+);
+
 create unique index if not exists users_user_id_uindex_2 on users (user_id);
 create unique index if not exists projects_project_id_uindex on projects (project_id);
 create unique index if not exists modules_module_id_uindex on modules (module_id);
 create unique index if not exists badges_badge_id_uindex on badges (badge_id);
 create unique index if not exists submissions_submission_id_uindex on submissions (submission_id);
 create unique index if not exists config_key_uindex on config (key);
+create unique index if not exists rewards_reward_id_uindex on rewards (reward_id);
+create unique index orders_order_id_uindex on orders (order_id);

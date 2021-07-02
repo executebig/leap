@@ -1,0 +1,41 @@
+{{#extend "title"}}
+    Orders
+{{/extend}}
+<div class="page__chill">
+    <section class="section header pb-1">
+        <div class="container">
+            <h1 class="title">All Orders</h1>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            {{#if orders}}
+                <table class='table is-fullwidth is-hoverable is-striped'>
+                    <thead>
+                        <tr>
+                            <th>Order #</th>
+                            <th>Ordered At</th>
+                            <th>Reward Name</th>
+                            <th>Status</th>
+                            <th>Updated At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each orders}}
+                            <tr>
+                                <td>{{order_id}}</td>
+                                <td>{{prettyTime ordered_at}}</td>
+                                <td>{{reward_name}}</td>
+                                <td>{{status}}</td>
+                                <td>{{prettyTime updated_at}}</td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            {{else}}
+                <p>No orders found!</p>
+            {{/if}}
+            <p>Got questions? Please email <a href="mailto:hi@techroulette.xyz">hi@techroulette.xyz</a> or message us on Discord.</p>
+        </div>
+    </section>
+</div>

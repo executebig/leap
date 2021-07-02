@@ -32,6 +32,13 @@ exports.updateReward = async (reward_id, data) => {
   return q?.rows[0]
 }
 
+// this assumes that the quantity check was performed ahead of this query
+exports.sellOne = async (reward_id) => {
+  const q = await db.query(`UPDATE rewards SET quantity = quantity - 1 WHERE reward_id = $1`, [
+    reward_id
+  ])
+}
+
 exports.listAll = async () => {
   const q = await db.query('SELECT * FROM rewards ORDER BY reward_id ASC')
   return q?.rows

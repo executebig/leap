@@ -64,7 +64,7 @@
             <div class="columns is-multiline is-mobile">
                 {{#each rewards}}
                     <div class="column is-6">
-                        <div class="card reward">
+                        <div class="card reward" reward-id="{{reward_id}}" reward-name="{{name}}" reward-price="{{price}}">
                             <div class="card-content">
                                 <article class="media">
                                     <figure class="media-left">
@@ -91,7 +91,7 @@
                                 </article>
                             </div>
                             <div class="card-footer">
-                                <a href="/exchange/buy/{{reward_id}}" class="card-footer-item button is-primary">Buy for {{price}}&nbsp;{{>chip}}</a>
+                                <a class="purchase-button card-footer-item button is-primary">Buy for {{price}}&nbsp;{{>chip}}</a>
                             </div>
                         </div>
                     </div>
@@ -100,3 +100,74 @@
         </div>
     </section>
 </div>
+<div class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <h1 class="modal-card-title">Heads up!</h1>
+        </header>
+        <section class="modal-card-body">
+            <p class="modal-message">
+                You're about to purchase <strong class="modal-reward-name has-text-primary"></strong> for
+                <strong class="modal-reward-price has-text-primary"></strong>{{>chip}} from the Roulette Exchange.
+            </p>
+            <p>All purchases at the Roulette Exchange are <strong>final</strong>.
+                Once you place your order, we cannot cancel your order or refund you for the cost of the item.
+            </p>
+            <strong class="has-text-primary">Are you sure you want to continue?</strong>
+        </section>
+        <footer class="modal-card-foot">
+            <form action="/exchange/purchase" method="POST" style="width: 100%">
+                <button class="button is-danger modal-cancel" type="reset">
+                    <span>Pick again</span>
+                    <span class="icon">
+                        <ion-icon name='refresh-outline'></ion-icon>
+                    </span>
+                </button>
+                <button class="button is-primary is-pulled-right" type="submit">
+                    <span>Purchase</span>
+                    <span class="icon">
+                        <ion-icon name='arrow-forward-outline'></ion-icon>
+                    </span>
+                </button>
+                <input type="hidden" name="reward_id" class="modal-reward-id">
+            </form>
+        </footer>
+    </div>
+    <button class="modal-close modal-cancel is-large" aria-label="close"></button>
+</div>
+<script nonce="{{@root/nonce}}">
+    const modal = document.querySelector(".modal")
+    const modalRewardName = modal.querySelector('.modal-reward-name')
+    const modalRewardPrice = modal.querySelector('.modal-reward-price')
+    const modalRewardId = modal.querySelector('.modal-reward-id')
+
+    // Close modal on ESC keypress
+    document.addEventListener('keydown', ({key}) => {
+        if (key === 'Escape') {
+            modal.classList.remove('is-active')
+        }
+    })
+
+    // Bind projects to modal + form
+    document.querySelectorAll('.card.reward')
+        .forEach(node => {
+            const purchaseButton = node.querySelector('.purchase-button')
+            purchaseButton.addEventListener('click', () => {
+                modal.classList.add('is-active')
+
+                modalRewardId.value = node.getAttribute('reward-id')
+                modalRewardName.textContent = node.getAttribute('reward-name')
+                modalRewardPrice.textContent = node.getAttribute('reward-price')
+            })
+        })
+
+    // Close modal on background & cancel button click
+    document.querySelectorAll('.modal-cancel, .modal-background')
+        .forEach(node => {
+            node.addEventListener('click', () => {
+                modal.classList.remove('is-active')
+            })
+        })
+
+</script>
