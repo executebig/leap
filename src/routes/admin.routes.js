@@ -208,15 +208,19 @@ router.get('/config', async (req, res) => {
 router.post('/config', async (req, res, next) => {
   const badges = await BadgeController.listBadgeIds()
 
-  const weeklyBadges = [...new Set(req.body.weeklyBadges.split(',').map(e => parseInt(e.trim(), 10)))]
+  if (req.body.weeklyBadges.trim() !== '') {
+    const weeklyBadges = [...new Set(req.body.weeklyBadges.split(',').map(e => parseInt(e.trim(), 10)))]
 
-  if (weeklyBadges.some(id => isNaN(id) || !badges.includes(id))) {
-    req.flash('error', 'Invalid weekly badges')
-    res.redirect(req.originalUrl)
-    return
+    if (weeklyBadges.some(id => isNaN(id) || !badges.includes(id))) {
+      req.flash('error', 'Invalid weekly badges')
+      res.redirect(req.originalUrl)
+      return
+    }
+
+    req.body.weeklyBadges = String(weeklyBadges)
+  } else {
+    req.body.weeklyBadges = ''
   }
-
-  req.body.weeklyBadges = String(weeklyBadges)
 
   await ConfigController.setMultiple(req.body)
   await UserController.flagRefreshAll()
@@ -285,15 +289,20 @@ router.post('/projects/new', async (req, res) => {
   enabled = !!enabled
   hardware = !!hardware
 
-  // Badge sanity checks
-  const badges = await BadgeController.listBadgeIds()
+  if (completion_badges.trim() !== '') {
+    // Badge sanity checks
+    const badges = await BadgeController.listBadgeIds()
 
-  completion_badges = [...new Set(completion_badges.split(',').map(e => parseInt(e.trim(), 10)))]
-  if (completion_badges.some(id => isNaN(id) || !badges.includes(id))) {
-    req.flash('error', 'Invalid completion badges')
-    res.redirect(req.originalUrl)
-    return
+    completion_badges = [...new Set(completion_badges.split(',').map(e => parseInt(e.trim(), 10)))]
+    if (completion_badges.some(id => isNaN(id) || !badges.includes(id))) {
+      req.flash('error', 'Invalid completion badges')
+      res.redirect(req.originalUrl)
+      return
+    }
+  } else {
+    completion_badges = []
   }
+
 
   const { project_id } = await ProjectController.createProject({
     title,
@@ -327,14 +336,18 @@ router.post('/projects/edit/:id', async (req, res) => {
   enabled = !!enabled
   hardware = !!hardware
 
-  // Badge sanity checks
-  const badges = await BadgeController.listBadgeIds()
+  if (completion_badges.trim() !== '') {
+    // Badge sanity checks
+    const badges = await BadgeController.listBadgeIds()
 
-  completion_badges = [...new Set(completion_badges.split(',').map(e => parseInt(e.trim(), 10)))]
-  if (completion_badges.some(id => isNaN(id) || !badges.includes(id))) {
-    req.flash('error', 'Invalid completion badges')
-    res.redirect(req.originalUrl)
-    return
+    completion_badges = [...new Set(completion_badges.split(',').map(e => parseInt(e.trim(), 10)))]
+    if (completion_badges.some(id => isNaN(id) || !badges.includes(id))) {
+      req.flash('error', 'Invalid completion badges')
+      res.redirect(req.originalUrl)
+      return
+    }
+  } else {
+    completion_badges = []
   }
 
   const { project_id } = await ProjectController.updateProject(req.params.id, {
