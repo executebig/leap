@@ -34,7 +34,7 @@ specifiers:
   mocha: ^8.4.0
   mocha-suppress-logs: ^0.2.0
   module-alias: ^2.2.2
-  moment: ^2.29.1
+  moment-timezone: ^0.5.33
   morgan: ^1.10.0
   node-sass-middleware: ^0.11.0
   passport: ^0.4.1
@@ -75,7 +75,7 @@ dependencies:
   limiter: 2.1.0
   marked: 2.1.1
   module-alias: 2.2.2
-  moment: 2.29.1
+  moment-timezone: 0.5.33
   morgan: 1.10.0
   node-sass-middleware: 0.11.0
   passport: 0.4.1
@@ -2235,6 +2235,12 @@ packages:
 
   /module-alias/2.2.2:
     resolution: {integrity: sha512-A/78XjoX2EmNvppVWEhM2oGk3x4lLxnkEA4jTbaK97QKSDjkIoOsKQlfylt/d3kKKi596Qy3NP5XrXJ6fZIC9Q==}
+    dev: false
+
+  /moment-timezone/0.5.33:
+    resolution: {integrity: sha512-PTc2vcT8K9J5/9rDEPe5czSIKgLoGsH8UNpA4qZTVw0Vd/Uz19geE9abbIOQKaAQFcnQ3v5YEXrbSc5BpshH+w==}
+    dependencies:
+      moment: 2.29.1
     dev: false
 
   /moment/2.29.1:

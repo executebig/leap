@@ -1,7 +1,7 @@
 'use strict'
 
 const crypto = require('crypto')
-const moment = require('moment')
+const moment = require('moment-timezone')
 const { Slugger } = require('marked')
 
 exports.stringify = (obj) => {
@@ -28,7 +28,7 @@ exports.inc = (value, step) => {
 }
 
 exports.prettyTime = (time) => {
-  return moment(time).format('MM/DD/YY, h:mm A')
+  return moment.tz('America/New_York').utc(time).format('MM/DD, h:mm A') + " EDT"
 }
 
 /** Blocks helper controllers */

@@ -49,13 +49,13 @@
               <tr
                 data-id="{{submission_id}}"
                 data-title="{{title}}"
-                data-created-at="{{created_at}}"
+                data-created-at="{{prettyTime created_at}}"
                 data-state="{{state}}"
                 data-content="{{content}}"
               >
                 <th>{{submission_id}}</th>
                 <td><a>{{title}}</a></td>
-                <td>{{created_at}}</td>
+                <td>{{prettyTime created_at}}</td>
                 <td>
                   <span class="tag state {{state}}">
                     {{state}}
@@ -131,7 +131,7 @@
           .then(submission => {
             modal.querySelector('#submission-title').textContent = data.title
             modal.querySelector('#submission-state').textContent = data.state
-            modal.querySelector('#submission-created-at').textContent = (new Date(data.createdAt)).toLocaleString()
+            modal.querySelector('#submission-created-at').textContent = data.createdAt
 
             editor.value(data.content)
             editor.togglePreview()
