@@ -147,4 +147,4 @@ create unique index if not exists badges_badge_id_uindex on badges (badge_id);
 create unique index if not exists submissions_submission_id_uindex on submissions (submission_id);
 create unique index if not exists config_key_uindex on config (key);
 create unique index if not exists rewards_reward_id_uindex on rewards (reward_id);
-create unique index orders_order_id_uindex on orders (order_id);
+create unique index if not exists orders_order_id_uindex on orders (order_id);
