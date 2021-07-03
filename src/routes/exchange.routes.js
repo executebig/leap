@@ -17,16 +17,21 @@ router.use(checkAuth, flagMiddleware, banMiddleware, stateMiddleware)
 
 router.get('/', async (req, res) => {
   const goodie_id = parseInt(await ConfigController.get('weeklyReward'))
-  const [goodie_purchased, goodie] = await Promise.all([
-    OrderController.hasUserOrdered(req.user.user_id, goodie_id),
-    ExchangeController.getRewardById(goodie_id)
-  ])
 
-  res.render('pages/exchange/list', {
-    rewards: await ExchangeController.listAvailable(req.user.no_shipping, goodie_id),
-    goodie_purchased,
-    goodie
-  })
+  if (goodie_id === null || goodie_id !== -1) {
+    const [goodie_purchased, goodie] = await Promise.all([
+      OrderController.hasUserOrdered(req.user.user_id, goodie_id),
+      ExchangeController.getRewardById(goodie_id)
+    ])
+
+    res.render('pages/exchange/list', {
+      rewards: await ExchangeController.listAvailable(req.user.no_shipping, goodie_id),
+      goodie_purchased,
+      goodie
+    })
+  } else {
+    res.render('pages/exchange/disabled')
+  }
 })
 
 router.post('/purchase', async (req, res) => {
@@ -39,7 +44,10 @@ router.post('/purchase', async (req, res) => {
     OrderController.hasUserOrdered(req.user.user_id, goodie_id)
   ])
 
-  if (reward_id !== goodie_id && !goodie_purchased) {
+  if (goodie_id === null || goodie_id === -1) {
+    req.flash('error', `The Roulette Exchange is currently offline. Please check back later!`)
+    return res.redirect('/exchange')
+  } else if (reward_id !== goodie_id && !goodie_purchased) {
     req.flash('error', `Please purchase Roulette Select first!`)
     return res.redirect('/exchange')
   } else if (!reward.enabled || reward.quantity <= 0) {
