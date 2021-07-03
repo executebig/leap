@@ -1,13 +1,11 @@
 {{#extend 'title'}}
   Modules
 {{/extend}}
-
 {{#*inline "module"}}
   <div class='module {{getSubmissionState @root/submissions module_id}}'>
     <div class="module__container">
       <h2>{{title}}</h2>
       <p>{{description}}</p>
-
       <span class="module__container__bottom">
         <a href="/modules/{{module_id}}" class="button">
           <span>Get Started</span>
@@ -15,15 +13,13 @@
             <ion-icon name='arrow-forward-outline'></ion-icon>
           </span>
         </a>
-
         <p>+{{points}} {{>chip}}</p>
       </span>
     </div>
   </div>
 {{/inline}}
-
 <div class='page__modules__list'>
-  <section class='hero {{#eq @root/user.state 'completed'}}is-success{{else}}is-primary{{/eq}}'>
+  <section class='hero {{#eq @root/user.state ' completed'}}is-success{{else}}is-primary{{/eq}}'>
     <div class="hero-body">
       <div class='container'>
         <div class="columns">
@@ -32,7 +28,6 @@
               <span class="level-left">
                 <h1 class='level-item title is-1'>Week {{user.current_week}} — {{project.title}}</h1>
               </span>
-
               <span class="level-right">
                 <a href="/submissions/{{project.project_id}}" class="level-item button is-light">
                   <span>Previous Submissions</span>
@@ -42,36 +37,30 @@
                 </a>
               </span>
             </div>
-
             <div class='block'>
               <span class="tag is-medium">
                 <strong>{{project.type}}</strong>
               </span>
-
               <span class="tag is-medium">
                 <strong>{{>chip}} {{project.pts_total}} Available</strong>
               </span>
-
               {{#if project.hardware}}
                 <span class="tag is-medium"><strong>🛠️ Hardware</strong></span>
               {{/if}}
             </div>
-
             <div class="block">
               <strong>
                 {{project.description}}
               </strong>
             </div>
           </div>
-
           <div class="column is-4 is-hidden-touch">
-            <img src="{{project.thumbnail_url}}" alt="" class="card hero-img" >
+            <img src="{{project.thumbnail_url}}" alt="" class="card hero-img">
           </div>
         </div>
       </div>
     </div>
   </section>
-
   {{#eq @root/user.state 'completed'}}
     <section class="section pb-0">
       <div class="container">
@@ -79,18 +68,15 @@
           <div class="message-header">
             <p>🎉 Congratulations!</p>
           </div>
-
           <div class="message-body content">
             <p>
               <strong>You've successfully submitted all the required modules for your weekly project!</strong> Once we grade &
               accept your submissions, we'll award you with <strong>+{{@root/config.pointsPerProject}} bonus chips</strong> for completing your project.
               Be sure to look at the <strong>optional modules</strong> for <strong>more chips</strong> & opportunities to <strong>learn new things!</strong>
             </p>
-
             {{#if @root/newBadges}}
               <p>
                 <i><strong>Psst...</strong> check out your newly-earned badges!</i>
-
                 {{#each @root/newBadges}}
                   <figure class='image is-64x64 my-0 ml-0 mr-3' aria-label='{{name}}: {{description}}' data-balloon-pos='down-left' data-balloon-length='large' style="display: inline-block;">
                     <img class='badge large' src='{{icon}}' />
@@ -103,7 +89,24 @@
       </div>
     </section>
   {{/eq}}
-
+  <div class="container mt-3">
+    <div class="card">
+      <div class="card-content">
+        <h1 class="title mb-2 is-4 has-text-primary">
+          Before you start... Please fill out this survey an additional 5 {{>chip}}!
+        </h1>
+        <p class="mb-3">
+          This survey allows us at Tech Roulette to better understand who our players (AKA you all) are and how to best serve you all. Along with collecting feedback on individual projects and modules, we plan to use this data to inform us in improving the Tech Roulette experience.
+        </p>
+        <p class="mb-3">
+          You will receive your reward in about a week.
+        </p>
+        <p>
+          <a href="https://www.cognitoforms.com/ExecuteBig1/TechRoulettePreEventSurvey?entry={UserID:{{@root/user.user_id}},Email:'{{@root/user.email}}'}&" class="button is-primary">Start Survey</a>
+        </p>
+      </div>
+    </div>
+  </div>
   <section class='section pb-0'>
     <div class="container">
       <h2 class="title">Required Modules</h2>
@@ -114,7 +117,6 @@
       </div>
     </div>
   </section>
-
   <section class='section'>
     <div class="container">
       <h2 class="title">Optional Modules: Complete to Earn Additional Gems!</h2>
@@ -126,7 +128,6 @@
     </div>
   </section>
 </div>
-
 {{#if confetti}}
   {{#extend 'scripts'}}
     <script src="https://unpkg.com/canvas-confetti@1.4.0/dist/confetti.browser.js"></script>
@@ -137,13 +138,13 @@
         confetti({
           angle: 60,
           spread: 55,
-          origin: { x: 0 },
+          origin: {x: 0},
         })
 
         confetti({
           angle: 120,
           spread: 55,
-          origin: { x: 1 },
+          origin: {x: 1},
         })
 
         times--

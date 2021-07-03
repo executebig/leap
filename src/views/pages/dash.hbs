@@ -1,94 +1,103 @@
 {{#extend "title"}}Dashboard{{/extend}}
-
-<div class='page__dash'>
-  <section class='section header pb-4'>
-    <div class='container'>
-      <h1 class='title is-primary'>Welcome back! Pick your adventure...</h1>
-      <p>
-        Task details will be presented to you once you select your task. Once selected, you will not
-        be able to change it, and you will have a week to complete it.
-      </p>
-    </div>
-  </section>
-
-  <section class='section'>
-    <div class='container'>
-      <div class='columns projects is-desktop'>
-        {{#each projects}}
-          {{>project}}
-        {{/each}}
+  <div class='page__dash'>
+    <section class='section header pb-4'>
+      <div class='container'>
+        <h1 class='title is-primary'>Welcome back! Pick your adventure...</h1>
+        <p>
+          Task details will be presented to you once you select your task. Once selected, you will not
+          be able to change it, and you will have a week to complete it.
+        </p>
+      </div>
+    </section>
+    <div class="container">
+      <div class="card">
+        <div class="card-content">
+          <h1 class="title mb-2 is-4 has-text-primary">
+            Before you start... Please fill out this survey an additional 5 {{>chip}}!
+          </h1>
+          <p class="mb-3">
+            This survey allows us at Tech Roulette to better understand who our players (AKA you all) are and how to best serve you all. Along with collecting feedback on individual projects and modules, we plan to use this data to inform us in improving the Tech Roulette experience.
+          </p>
+          <p class="mb-3">
+            You will receive your reward in about a week.
+          </p>
+          <p>
+            <a href="https://www.cognitoforms.com/ExecuteBig1/TechRoulettePreEventSurvey?entry={UserID:{{@root/user.user_id}},Email:'{{@root/user.email}}'}&" class="button is-primary">Start Survey</a>
+          </p>
+        </div>
       </div>
     </div>
-  </section>
-
-  <div class="modal">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-      <header class="modal-card-head">
-        <h1 class="modal-card-title">Heads up!</h1>
-      </header>
-
-      <section class="modal-card-body">
-        <p class="modal-message">
-          You're about to select <strong class="modal-project-title has-text-primary"></strong> as your project for the next week. Once you've selected a project for the week, <strong class="has-text-danger">you cannot change your mind.</strong>
-        </p>
-
-        <strong class="has-text-primary">Are you sure you want to continue?</strong>
-      </section>
-
-      <footer class="modal-card-foot">
-        <form action="" method="POST" style="width: 100%">
-          <button class="button is-danger modal-cancel" type="reset">
-            <span>Pick again</span>
-            <span class="icon">
-              <ion-icon name='refresh-outline'></ion-icon>
-            </span>
-          </button>
-
-          <button class="button is-primary is-pulled-right" type="submit">
-            <span>Let's do this!</span>
-            <span class="icon">
-              <ion-icon name='arrow-forward-outline'></ion-icon>
-            </span>
-          </button>
-
-          <input type="hidden" name="project_id" class="modal-project-id">
-        </form>
-      </footer>
+    <section class='section'>
+      <div class='container'>
+        <div class='columns projects is-desktop'>
+          {{#each projects}}
+            {{>project}}
+          {{/each}}
+        </div>
+      </div>
+    </section>
+    <div class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <h1 class="modal-card-title">Heads up!</h1>
+        </header>
+        <section class="modal-card-body">
+          <p class="modal-message">
+            You're about to select <strong class="modal-project-title has-text-primary"></strong> as your project for the next week. Once you've selected a project for the week, <strong class="has-text-danger">you cannot change your mind.</strong>
+          </p>
+          <strong class="has-text-primary">Are you sure you want to continue?</strong>
+        </section>
+        <footer class="modal-card-foot">
+          <form action="" method="POST" style="width: 100%">
+            <button class="button is-danger modal-cancel" type="reset">
+              <span>Pick again</span>
+              <span class="icon">
+                <ion-icon name='refresh-outline'></ion-icon>
+              </span>
+            </button>
+            <button class="button is-primary is-pulled-right" type="submit">
+              <span>Let's do this!</span>
+              <span class="icon">
+                <ion-icon name='arrow-forward-outline'></ion-icon>
+              </span>
+            </button>
+            <input type="hidden" name="project_id" class="modal-project-id">
+          </form>
+        </footer>
+      </div>
+      <button class="modal-close modal-cancel is-large" aria-label="close"></button>
     </div>
-    <button class="modal-close modal-cancel is-large" aria-label="close"></button>
   </div>
-</div>
+  <script nonce="{{@root/nonce}}">
+    const modal = document.querySelector(".modal")
+    const modalProjectTitle = modal.querySelector('.modal-project-title')
+    const modalProjectId = modal.querySelector('.modal-project-id')
 
-<script nonce="{{@root/nonce}}">
-  const modal = document.querySelector(".modal")
-  const modalProjectTitle = modal.querySelector('.modal-project-title')
-  const modalProjectId = modal.querySelector('.modal-project-id')
-
-  // Close modal on ESC keypress
-  document.addEventListener('keydown', ({ key }) => {
-    if (key === 'Escape') {
-      modal.classList.remove('is-active')
-    }
-  })
-
-  // Bind projects to modal + form
-  document.querySelectorAll('.project')
-    .forEach(node => {
-      node.addEventListener('click', () => {
-        modal.classList.add('is-active')
-
-        modalProjectTitle.textContent = node.getAttribute('project-title')
-        modalProjectId.value = node.getAttribute('project-id')
-      })
-    })
-
-  // Close modal on background & cancel button click
-  document.querySelectorAll('.modal-cancel, .modal-background')
-    .forEach(node => {
-      node.addEventListener('click', () => {
+    // Close modal on ESC keypress
+    document.addEventListener('keydown', ({key}) => {
+      if (key === 'Escape') {
         modal.classList.remove('is-active')
-      })
+      }
     })
 
-</script>
+    // Bind projects to modal + form
+    document.querySelectorAll('.project')
+      .forEach(node => {
+        node.addEventListener('click', () => {
+          modal.classList.add('is-active')
+
+          modalProjectTitle.textContent = node.getAttribute('project-title')
+          modalProjectId.value = node.getAttribute('project-id')
+        })
+      })
+
+    // Close modal on background & cancel button click
+    document.querySelectorAll('.modal-cancel, .modal-background')
+      .forEach(node => {
+        node.addEventListener('click', () => {
+          modal.classList.remove('is-active')
+        })
+      })
+
+  </script>
