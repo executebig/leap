@@ -30,3 +30,11 @@ exports.listUserOrders = async (user_id) => {
 exports.updateStatus = async(order_id, status) => {
    const q = await db.query('UPDATE orders SET status = $1, updated_at = NOW() WHERE order_id = $2', [status, order_id])
 }
+
+exports.hasUserOrdered = async (user_id, reward_id) => {
+  const q = await db.query('SELECT * FROM orders WHERE user_id = $1 AND reward_id = $2 LIMIT 1', [user_id, reward_id])
+
+  console.log(q.rows)
+
+  return q.rows.length > 0
+}

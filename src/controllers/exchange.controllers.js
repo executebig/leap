@@ -44,10 +44,11 @@ exports.listAll = async () => {
   return q?.rows
 }
 
-exports.listAvailable = async (no_shipping) => {
+// excludes weekly goodie
+exports.listAvailable = async (no_shipping, goodie_id) => {
   const q = await db.query(
-    'SELECT * FROM rewards WHERE (needs_shipping = false OR NOT $1) AND enabled = true ORDER BY reward_id ASC',
-    [no_shipping]
+    'SELECT * FROM rewards WHERE (needs_shipping = false OR NOT $1) AND enabled = true AND reward_id <> $2 ORDER BY reward_id ASC',
+    [no_shipping, goodie_id]
   )
   return q?.rows
 }
