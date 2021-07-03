@@ -1,8 +1,13 @@
 'use strict'
 
 const crypto = require('crypto')
-const moment = require('moment-timezone')
+const dayjs = require('dayjs')
+const utc = require('dayjs/plugin/utc')
+const timezone = require('dayjs/plugin/timezone')
 const { Slugger } = require('marked')
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 exports.stringify = (obj) => {
   return JSON.stringify(obj)
@@ -28,7 +33,7 @@ exports.inc = (value, step) => {
 }
 
 exports.prettyTime = (time) => {
-  return moment.tz('America/New_York').utc(time).format('MM/DD, h:mm A') + " EDT"
+  return dayjs(time).utc('z').local().tz("America/New_York").format('MM/DD, h:mm A') + " EDT"
 }
 
 /** Blocks helper controllers */

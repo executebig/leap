@@ -4,38 +4,50 @@
 <div class="page__chill">
     <section class="section header pb-1">
         <div class="container">
-            <h1 class="title">All Orders</h1>
+            <h1 class="title">{{type}}</h1>
         </div>
     </section>
-    <section class="section">
-        <div class="container">
-            {{#if orders}}
-                <table class='table is-fullwidth is-hoverable is-striped'>
-                    <thead>
-                        <tr>
-                            <th>Order #</th>
-                            <th>Ordered At</th>
-                            <th>Reward Name</th>
-                            <th>Status</th>
-                            <th>Updated At</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{#each orders}}
+    {{#with orders}}
+        <section class="section">
+            <div class="container">
+                {{#if orders}}
+                    <table class='table is-fullwidth is-hoverable is-striped'>
+                        <thead>
                             <tr>
-                                <td>{{order_id}}</td>
-                                <td>{{prettyTime ordered_at}}</td>
-                                <td>{{reward_name}}</td>
-                                <td>{{status}}</td>
-                                <td>{{prettyTime updated_at}}</td>
+                                <th>Order #</th>
+                                <th>U</th>
+                                <th>Ordered At</th>
+                                <th>Reward Name</th>
+                                <th>Status</th>
+                                <th>Updated At</th>
+                                <th>Actions</th>
                             </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
-            {{else}}
-                <p>No orders found!</p>
-            {{/if}}
-            <p>Got questions? Please email <a href="mailto:hi@techroulette.xyz">hi@techroulette.xyz</a> or message us on Discord.</p>
-        </div>
-    </section>
+                        </thead>
+                        <tbody>
+                            {{#each orders}}
+                                <tr>
+                                    <td>{{order_id}}</td>
+                                    <td>{{user_id}}</td>
+                                    <td>{{prettyTime ordered_at}}</td>
+                                    <td>{{reward_name}}</td>
+                                    <td>{{status}}</td>
+                                    <td>{{prettyTime updated_at}}</td>
+                                    <td><a href="/admin/orders/edit/{{order_id}}">Edit</a></td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                {{else}}
+                    <p>No orders found!</p>
+                {{/if}}
+                {{#notEq prevPage -1}}
+                    <a class="button" href="/admin/users/{{../prevPage}}?by={{../orderBy}}&order={{../order}}">Previous</a>
+                {{/notEq}}
+                {{#notEq nextPage -1}}
+                    <a class="button" href="/admin/users/{{../nextPage}}?by={{../orderBy}}&order={{../order}}">Next</a>
+                {{/notEq}}
+                <p>Got questions? Please email <a href="mailto:hi@techroulette.xyz">hi@techroulette.xyz</a> or message us on Discord.</p>
+            </div>
+        </section>
+    {{/with}}
 </div>

@@ -15,7 +15,18 @@ exports.createOrder = async (data) => {
   return q.rows[0]
 }
 
+exports.getOrderById = async (order_id) => {
+  const q = await db.query('SELECT * FROM orders WHERE order_id = $1', [order_id])
+  return q?.rows[0]
+}
+
 exports.listUserOrders = async (user_id) => {
-    const q = await db.query('SELECT * FROM orders WHERE user_id = $1 ORDER BY ordered_at ASC', [user_id])
-    return q?.rows
+  const q = await db.query('SELECT * FROM orders WHERE user_id = $1 ORDER BY ordered_at ASC', [
+    user_id
+  ])
+  return q?.rows
+}
+
+exports.updateStatus = async(order_id, status) => {
+   const q = await db.query('UPDATE orders SET status = $1, updated_at = NOW() WHERE order_id = $2', [status, order_id])
 }

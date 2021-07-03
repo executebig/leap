@@ -14,6 +14,7 @@ const ProjectController = require('@controllers/project.controllers')
 const ModuleController = require('@controllers/module.controllers')
 const SubmissionController = require('@controllers/submission.controllers')
 const ExchangeController = require('@controllers/exchange.controllers')
+const OrderController = require('@controllers/order.controllers')
 
 const { flagMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
 const notFoundMiddleware = require('@middlewares/404.middlewares')
@@ -209,9 +210,11 @@ router.post('/config', async (req, res, next) => {
   const badges = await BadgeController.listBadgeIds()
 
   if (req.body.weeklyBadges.trim() !== '') {
-    const weeklyBadges = [...new Set(req.body.weeklyBadges.split(',').map(e => parseInt(e.trim(), 10)))]
+    const weeklyBadges = [
+      ...new Set(req.body.weeklyBadges.split(',').map((e) => parseInt(e.trim(), 10)))
+    ]
 
-    if (weeklyBadges.some(id => isNaN(id) || !badges.includes(id))) {
+    if (weeklyBadges.some((id) => isNaN(id) || !badges.includes(id))) {
       req.flash('error', 'Invalid weekly badges')
       res.redirect(req.originalUrl)
       return
@@ -293,8 +296,10 @@ router.post('/projects/new', async (req, res) => {
     // Badge sanity checks
     const badges = await BadgeController.listBadgeIds()
 
-    completion_badges = [...new Set(completion_badges.split(',').map(e => parseInt(e.trim(), 10)))]
-    if (completion_badges.some(id => isNaN(id) || !badges.includes(id))) {
+    completion_badges = [
+      ...new Set(completion_badges.split(',').map((e) => parseInt(e.trim(), 10)))
+    ]
+    if (completion_badges.some((id) => isNaN(id) || !badges.includes(id))) {
       req.flash('error', 'Invalid completion badges')
       res.redirect(req.originalUrl)
       return
@@ -302,7 +307,6 @@ router.post('/projects/new', async (req, res) => {
   } else {
     completion_badges = []
   }
-
 
   const { project_id } = await ProjectController.createProject({
     title,
@@ -340,8 +344,10 @@ router.post('/projects/edit/:id', async (req, res) => {
     // Badge sanity checks
     const badges = await BadgeController.listBadgeIds()
 
-    completion_badges = [...new Set(completion_badges.split(',').map(e => parseInt(e.trim(), 10)))]
-    if (completion_badges.some(id => isNaN(id) || !badges.includes(id))) {
+    completion_badges = [
+      ...new Set(completion_badges.split(',').map((e) => parseInt(e.trim(), 10)))
+    ]
+    if (completion_badges.some((id) => isNaN(id) || !badges.includes(id))) {
       req.flash('error', 'Invalid completion badges')
       res.redirect(req.originalUrl)
       return
@@ -623,6 +629,43 @@ router.post('/rewards/edit/:id', async (req, res) => {
 
   req.flash('success', `Reward #${reward_id} updated successfully!`)
   res.redirect(`/admin/rewards`)
+})
+
+router.get('/orders/edit/:id', async (req, res) => {
+  const order = await OrderController.getOrderById(req.params.id)
+  req.session.redirectTo = req.originalUrl
+
+  res.render('pages/admin/rewards/update', {
+    order
+  })
+})
+
+router.post('/orders/edit/:id', async (req, res) => {
+  await OrderController.updateStatus(req.params.id, req.body.status)
+
+  req.flash('success', 'Order updated!')
+  res.redirect(req.session.prevUrl || '/admin/submissions')
+})
+
+router.get('/orders/:type?', async (req, res) => {
+  req.session.prevUrl = req.originalUrl
+
+  if (req.params.type === 'fulfillment') {
+    res.render('pages/admin/rewards/orders', {
+      type: 'Orders Pending Fulfillment',
+      orders: await AdminController.listOrders('fulfillment', req.params.page)
+    })
+  } else if (req.params.type === 'shipping') {
+    res.render('pages/admin/rewards/orders', {
+      type: 'Orders Pending Shipping',
+      orders: await AdminController.listOrders('shipping', req.params.page)
+    })
+  } else {
+    res.render('pages/admin/rewards/orders', {
+      type: 'All Orders',
+      orders: await AdminController.listOrders('all', req.params.page)
+    })
+  }
 })
 
 module.exports = router

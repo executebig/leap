@@ -1,0 +1,70 @@
+{{#extend "title"}}
+    Update Order #{{../order.order_id}}
+{{/extend}}
+<section class="section header">
+    <div class="container">
+        <h1 class="title">Edit Order #{{order.order_id}}</h1>
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+            <ul>
+                <li><a href="/admin/orders">Orders</a></li>
+                <li class="is-active"><a href="#" aria-current="page">#{{order.order_id}}</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
+{{#with order}}
+    <section class="section information">
+        <div class="container">
+            <form method="post">
+                <table class="table is-fullwidth is-hoverable is-striped">
+                    <tbody>
+                        <tr>
+                            <td>Email</td>
+                            <td>{{email}}</td>
+                        </tr>
+                        <tr>
+                            <td>Address</td>
+                            <td>{{address}}</td>
+                        </tr>
+                        <tr>
+                            <td>User ID</td>
+                            <td><a href="/account/edit/{{user_id}}">{{user_id}}</a></td>
+                        </tr>
+                        <tr>
+                            <td>Ordered</td>
+                            <td>{{prettyTime ordered_at}}</td>
+                        </tr>
+                        <tr>
+                            <td>Reward</td>
+                            <td>{{reward_name}}</td>
+                        </tr>
+                        <tr>
+                            <td>Updated</td>
+                            <td>{{prettyTime updated_at}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Update Status</strong></td>
+                            <td>
+                                <select name="status">
+                                    {{#select status}}
+                                        <option value="Order placed">Order placed</option>
+                                        <option value="Awaiting physical shipping">Awaiting physical shipping</option>
+                                        <option value="Fulfilled: sent via email">Fulfilled: sent via email</option>
+                                        <option value="Fulfilled: shipped">Fulfilled: shipped</option>
+                                        <option value="Canceled by staff">Canceled by staff</option>
+                                        <option value="Canceled and refunded">Canceled and refunded</option>
+                                        <option value="Problem: please contact staff">Problem: please contact staff</option>
+                                    {{/select}}
+                                </select>
+                                <br />
+                                (was "{{status}}")
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="submit" class="button is-primary">Update</button>
+                <a href="/admin/orders" class="button ml-4">Back</a>
+            </form>
+        </div>
+    </section>
+{{/with}}
