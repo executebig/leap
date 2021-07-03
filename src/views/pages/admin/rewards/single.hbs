@@ -1,0 +1,93 @@
+{{#extend "title"}}
+    {{#if ../edit}}Edit Reward #{{../reward.reward_id}}{{else}}New Reward{{/if}}
+{{/extend}}
+<section class="section header">
+    <div class="container">
+        <h1 class="title">{{#if edit}}Edit Reward #{{reward.reward_id}}{{else}}New Reward{{/if}}</h1>
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+            <ul>
+                <li><a href="/admin/rewards">Rewards</a></li>
+                <li class="is-active"><a href="#" aria-current="page">{{#if edit}}{{reward.name}}{{else}}New Reward{{/if}}</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
+<section class="section details">
+    <div class="container">
+        <h1 class="subtitle">Reward Details</h1>
+        <div class="columns">
+            <form method="post" class="column">
+                <div class="field">
+                    <label class="label">Reward Name (Product)</label>
+                    <p class="control">
+                        <input name="name" class="input" type="text" placeholder="Gift Card" value="{{reward.name}}" required />
+                    </p>
+                </div>
+                <div class="columns mb-0">
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">Quantity Available</label>
+                            <p class="control">
+                                <input name="quantity" class="input" type="number" placeholder="99999" value="{{reward.quantity}}" min="0" step="1" required />
+                            </p>
+                            <p class="help">If unlimited, use 99999.</p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">Price (Chips)</label>
+                            <p class="control">
+                                <input name="price" class="input" type="number" placeholder="5" value="{{reward.price}}" min="0" step="1" required />
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Description</label>
+                    <p class="control">
+                        <textarea name="description" class="textarea" type="text" placeholder="A brief description of the reward." required>{{reward.description}}</textarea>
+                    </p>
+                </div>
+                <div class="field">
+                    <label class="label">Fullfillment Method & Timeline</label>
+                    <p class="control">
+                        <textarea name="delivery" class="textarea" type="text" placeholder="This reward will be delivered to you via email." required>{{reward.delivery}}</textarea>
+                    </p>
+                    <p class="help">Displayed as: "Delivery Method & Timeline: \{{delivery}}"</p>
+                </div>
+                <div class="columns">
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">Image URL</label>
+                            <p class="control">
+                                <input name="image" class="input" type="text" value="{{#if reward.image}}{{reward.image}}{{else}}https://cdn.techroulette.xyz/rewards/{{/if}}" required />
+                            </p>
+                            <p class="help">
+                                Upload to <a href="https://github.com/executebig/tr-cdn" target="_blank">https://github.com/executebig/tr-cdn</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column">
+                        <div class="field">
+                            <label class="checkbox mt-3">
+                                <input type="checkbox" name="needs_shipping" {{#unless edit}}{{else}}{{#if reward.needs_shipping}}checked{{/if}}{{/unless}}>
+                                Needs shipping?
+                            </label>
+                            <p class="help">If checked, this reward will not show up for disqualified users. </p>
+                        </div>
+                        <div class="field">
+                            <label class="checkbox mt-3">
+                                <input type="checkbox" name="enabled" {{#unless edit}}checked{{else}}{{#if reward.enabled}}checked{{/if}}{{/unless}}>
+                                Enable reward?
+                            </label>
+                            <p class="help">Disabled rewards will not show up for any user.</p>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="button is-primary">{{#if edit}}Update Reward{{else}}Create Reward{{/if}}</button>
+            </form>
+        </div>
+    </div>
+</section>
