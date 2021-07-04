@@ -27,7 +27,7 @@ exports.listModules = async () => {
 }
 
 exports.getModulesByProjectId = async (project_id) => {
-  const q = await db.query('SELECT * FROM modules WHERE project_id = $1', [project_id])
+  const q = await db.query('SELECT * FROM modules WHERE project_id = $1 ORDER BY title ASC', [project_id])
 
   return q?.rows
 }

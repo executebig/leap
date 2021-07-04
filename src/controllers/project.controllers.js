@@ -52,7 +52,7 @@ exports.getModulesById = async (project_id, required) => {
     WHERE
       project_id = $1 AND
       required = $2 AND
-      enabled = true`,
+      enabled = true ORDER BY title ASC`,
     [project_id, required]
   )
 
@@ -63,7 +63,7 @@ exports.getProjectAndModulesById = async (project_id) => {
   return {
     project: await exports.getProjectById(project_id),
     modules_required: await exports.getModulesById(project_id, true),
-    modules_optional: await exports.getModulesById(project_id, false)
+    modules_optional: await exports.getModulesById(project_id, false) 
   }
 }
 
