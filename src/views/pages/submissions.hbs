@@ -15,9 +15,14 @@
             <h1 class='title is-1'>{{project.title}}</h1>
             <p class="subtitle">Previous Submissions</p>
 
-            <div class="block">
+            <div class="block mb-3">
               <strong>
                 {{project.description}}
+              </strong>
+            </div>
+            <div class="block">
+              <strong>
+                Got a question about this project? Please include the project ID: <code>P{{project.project_id}}</code>.
               </strong>
             </div>
           </div>
@@ -37,7 +42,8 @@
         <table class="table">
           <thead>
             <tr>
-              <th>ID</th>
+              <th>Submission ID</th>
+              <th>Module ID</th>
               <th>Module Title</th>
               <th>Created At</th>
               <th>Status</th>
@@ -54,6 +60,7 @@
                 data-content="{{content}}"
               >
                 <th>{{submission_id}}</th>
+                <th><code>P{{@root/project.project_id}}M{{module_id}}</code></th>
                 <td><a>{{title}}</a></td>
                 <td>{{prettyTime created_at}}</td>
                 <td>

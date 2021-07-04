@@ -24,19 +24,7 @@
       <div class='container'>
         <div class="columns">
           <div class="column">
-            <div class="level">
-              <span class="level-left">
-                <h1 class='level-item title is-1'>Week {{user.current_week}} — {{project.title}}</h1>
-              </span>
-              <span class="level-right">
-                <a href="/submissions/{{project.project_id}}" class="level-item button is-light">
-                  <span>Previous Submissions</span>
-                  <span class="icon">
-                    <ion-icon name="arrow-forward-outline"></ion-icon>
-                  </span>
-                </a>
-              </span>
-            </div>
+            <h1 class='title is-1'>Week {{user.current_week}} — {{project.title}}</h1>
             <div class='block'>
               <span class="tag is-medium">
                 <strong>{{project.type}}</strong>
@@ -48,10 +36,23 @@
                 <span class="tag is-medium"><strong>🛠️ Hardware</strong></span>
               {{/if}}
             </div>
-            <div class="block">
+            <div class="block mb-3">
               <strong>
                 {{project.description}}
               </strong>
+            </div>
+            <div class="block">
+              <strong>
+                Got a question about this project? Please include the project ID: <code>P{{project.project_id}}</code>.
+              </strong>
+            </div>
+            <div class="block">
+              <a href="/submissions/{{project.project_id}}" class="button">
+                <span>Previous Submissions</span>
+                <span class="icon">
+                  <ion-icon name="arrow-forward-outline"></ion-icon>
+                </span>
+              </a>
             </div>
           </div>
           <div class="column is-4 is-hidden-touch">
