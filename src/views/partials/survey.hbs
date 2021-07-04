@@ -1,0 +1,29 @@
+<div class="container mt-3" id="presurvey" style="display: none;">
+    <div class="card">
+        <div class="card-content">
+            <h1 class="title mb-2 is-4 has-text-primary">
+                Before you start... Please fill out this survey an additional 5 {{>chip}}!
+            </h1>
+            <p class="mb-3">
+                This survey allows us at Tech Roulette to better understand who our players (AKA you all) are and how to best serve you all. Along with collecting feedback on individual projects and modules, we plan to use this data to inform us in improving the Tech Roulette experience.
+            </p>
+            <p class="mb-3">
+                You will receive your reward in about a week.
+            </p>
+            <p>
+                <a href="https://www.cognitoforms.com/ExecuteBig1/TechRoulettePreEventSurvey?entry={UserID:{{@root/user.user_id}},Email:'{{@root/user.email}}'}&" class="button is-primary">Start Survey</a>
+                &nbsp;<button class="button is-light" id="dont-show-survey">Don't Show Again</button>
+            </p>
+        </div>
+    </div>
+</div>
+<script nonce="{{nonce}}">
+    if (!localStorage.getItem('hidePreSurvey')) {
+        document.getElementById('presurvey').style.display = 'block'
+    }
+
+    document.getElementById('dont-show-survey').addEventListener('click', () => {
+        document.getElementById('presurvey').style.display = 'none'
+        localStorage.setItem('hidePreSurvey', true)
+    })
+</script>

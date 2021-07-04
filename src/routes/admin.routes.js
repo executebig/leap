@@ -211,7 +211,7 @@ router.post('/config', async (req, res, next) => {
 
   if (req.body.weeklyBadges.trim() !== '') {
     const weeklyBadges = [
-      ...new Set(req.body.weeklyBadges.split(',').map((e) => parseInt(e.trim(), 10)))
+      ...req.body.weeklyBadges.split(',').map((e) => parseInt(e.trim(), 10))
     ]
 
     if (weeklyBadges.some((id) => isNaN(id) || !badges.includes(id))) {

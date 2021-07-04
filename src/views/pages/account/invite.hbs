@@ -41,13 +41,15 @@
                             </p>
                         </div>
                     </div>
-                    <button class="button is-primary" type="submit"><span class="mr-2">Send Invites</span>
-                        <ion-icon name="send"></ion-icon>
-                    </button>
-                    {{#if isOnboard}}
-                    <a href="/dash" class="ml-3 button"><span class="mr-2">Skip Now & Invite Later</span>
-                        <ion-icon name="play-forward"></ion-icon>
-                    </a>
+                    <p style="line-height: 2;">
+                        <button class="button is-primary mr-3 mb-2" type="submit"><span class="mr-2">Send Invites</span>
+                            <ion-icon name="send"></ion-icon>
+                        </button>
+                        {{#if isOnboard}}
+                            <a href="/dash" class="button"><span class="mr-2">Skip Now & Invite Later</span>
+                                <ion-icon name="play-forward"></ion-icon>
+                            </a>
+                    </p>
                     <p class="help">You can always invite more friends later through your account page.</p>
                     {{/if}}
                 </form>
