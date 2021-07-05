@@ -60,6 +60,12 @@ exports.getUserByEmail = async (email) => {
   }
 }
 
+exports.getUserByDiscord = async (discord_id) => {
+  const q = await db.query(`SELECT ${fields} FROM users WHERE discord_id = $1`, [discord_id])
+
+  return q?.rows?.[0]
+}
+
 exports.getAddressById = async (user_id) => {
   const q = await db.query(`SELECT address FROM users WHERE user_id = $1`, [user_id])
 
