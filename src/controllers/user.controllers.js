@@ -35,7 +35,9 @@ const fields = [
   'prev_projects',
   'prev_modules',
   'badges',
-  'discord_id'
+  'discord_id',
+
+  'current_session'
 ].join(', ')
 
 exports.getUserById = async (user_id) => {
@@ -214,4 +216,14 @@ exports.userHasCompletedProject = async (user_id, project_id) => {
     .map((e) => e.module_id)
 
   return modulesRequired.every((module_id) => modulesSubmitted.includes(module_id))
+}
+
+exports.exchangeSession = async (user_id, new_session) => {
+  const q = await db.query(
+    'UPDATE users SET current_session = $1 WHERE user_id = $2 RETURNING (SELECT current_session FROM users WHERE user_id = $2) AS old_session',
+    [new_session, user_id]
+  )
+
+  console.log(q)
+  return q?.rows[0].old_session
 }
