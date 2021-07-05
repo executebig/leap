@@ -54,7 +54,14 @@ router.get(
     failureFlash: 'Invalid token. Please try logging in again.'
   }),
 
-  (req, res) => {
+  async (req, res) => {
+    // success! exchange session
+    const old_session = await UserController.exchangeSession(req.user.user_id, req.session.id)
+    if (old_session) {
+      // destroy old session
+      redis.del(`sess:${old_session}`)
+    }
+
     res.redirect(req.session.redirectTo || '/dash')
     delete req.session.redirectTo
   }
@@ -70,10 +77,10 @@ router.get('/magic', stopLoggedInUsers, (req, res) => {
   }
 
   redis
-    .get(`AUTH_${hash}`)
+    .get(`magic:${hash}`)
     .then((token) => {
       if (token) {
-        redis.del(`AUTH_${hash}`)
+        redis.del(`magic:${hash}`)
         req.flash('success', 'Welcome! You are now logged in.')
         return res.redirect('/auth/login?token=' + token)
       } else {
@@ -111,7 +118,7 @@ router.post('/login', stopLoggedInUsers, hcaptcha.validate, async (req, res) => 
     .then((token) => {
       const hash = generateTokenHash(token)
       mailer.sendMagic(email, hash)
-      redis.set(`AUTH_${hash}`, token, 'ex', TOKEN_EXPIRATION)
+      redis.set(`magic:${hash}`, token, 'ex', TOKEN_EXPIRATION)
       res.redirect(`/auth/sent?email=${email}`)
     })
     .catch((error) => {

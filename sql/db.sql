@@ -29,7 +29,9 @@ create table if not exists users (
     prev_projects int[] default array[]::int[] not null,
     prev_modules int[] default array[]::int[] not null,
     project_pool int[] default array[]::int[] not null,
-    badges int[] default array[]::int[] not null
+    badges int[] default array[]::int[] not null,
+
+    current_session text
 );
 
 create table if not exists projects (
