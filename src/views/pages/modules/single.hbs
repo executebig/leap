@@ -172,10 +172,20 @@
   <script nonce='{{@root/nonce}}'>
     Prism.plugins.customClass.prefix('prism__')
 
-    // prevent copy/paste
+    let copyWarningDisplayed = false
+
+    // warn copy/paste
     document.querySelectorAll('pre').forEach(el => {
       el.addEventListener('copy', function (event) {
-        event.preventDefault()
+        if (!copyWarningDisplayed) {
+          notyf.open({
+            type: 'info',
+            message: 'Please use less copy & pasting from the examples. This will help you understand the concept a little better!',
+            duration: 0,
+            dismissible: true
+          })
+          copyWarningDisplayed = true
+        }
       })
     })
 
