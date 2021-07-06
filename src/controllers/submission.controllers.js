@@ -11,51 +11,66 @@ exports.getSubmissionById = async (submission_id) => {
 }
 
 exports.getLatestSubmission = async (user_id, module_id) => {
-  const q = await db.query(`
+  const q = await db.query(
+    `
     SELECT * FROM submissions
     WHERE
       user_id = $1 AND
       module_id = $2
     ORDER BY created_at DESC
     LIMIT 1
-  `, [user_id, module_id])
+  `,
+    [user_id, module_id]
+  )
 
   return q?.rows?.[0]
 }
 
 exports.getLatestSubmissionsByUserId = async (user_id) => {
-  const q = await db.query(`
+  const q = await db.query(
+    `
     SELECT DISTINCT ON (module_id) *
     FROM submissions
     WHERE user_id = $1
     ORDER BY module_id, created_at DESC
-  `, [user_id])
+  `,
+    [user_id]
+  )
 
   return q?.rows
 }
 
 exports.getSubmissionsByUserAndProjectId = async (user_id, project_id) => {
-  const q = await db.query(`
-    SELECT submissions.*, modules.title as title FROM submissions
+  const q = await db.query(
+    `
+    SELECT submissions.submission_id, 
+    submissions.created_at,
+    submissions.state,
+    modules.title as title FROM submissions
     INNER JOIN modules ON submissions.module_id = modules.module_id
     WHERE
       submissions.user_id = $1 AND
       submissions.project_id = $2
     ORDER BY created_at DESC
-  `, [user_id, project_id])
+  `,
+    [user_id, project_id]
+  )
 
   return q?.rows
 }
 
 exports.getSubmission = async (user_id, project_id, submission_id) => {
-  const q = await db.query(`
+  const q = await db.query(
+    `
     SELECT submissions.*, modules.title AS title FROM submissions
     INNER JOIN modules ON submissions.module_id = modules.module_id
     WHERE
       submissions.user_id = $1 AND
       submissions.project_id = $2 AND
       submissions.submission_id = $3
-  `, [user_id, project_id, submission_id])
+  `,
+    [user_id, project_id, submission_id]
+  )
 
   return q?.rows?.[0]
 }
