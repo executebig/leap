@@ -468,33 +468,18 @@ router.get('/submissions', async (req, res) => {
   })
 })
 
-router.get('/submissions/:project_id/:page?', async (req, res) => {
-  req.session.redirectTo = req.originalUrl
-
-  const filter = req.query.filter || 'pending'
-  const orderBy = req.query.by || 'created_at'
-  const order = req.query.order || 'DESC'
-
-  const { submissions, prevPage, nextPage } = await AdminController.listSubmissions(
-    filter,
-    orderBy,
-    order,
-    req.params.project_id,
-    req.params.page
-  )
-
-  res.render('pages/admin/submissions/list', {
-    filter,
-    orderBy,
-    order,
-    submissions,
-    prevPage,
-    nextPage
-  })
-})
-
 router.get('/submissions/edit/:id', async (req, res) => {
-  const submission = await SubmissionController.getSubmissionById(req.params.id)
+  const submission = (await db.query(`
+    SELECT
+      submissions.*,
+      m.title module_title,
+      p.title project_title
+      FROM submissions
+    INNER JOIN modules m on m.module_id = submissions.module_id
+    inner join projects p on p.project_id = m.project_id
+    WHERE submission_id = $1
+  `, [req.params.id]))?.rows?.[0]
+
   res.render('pages/admin/submissions/single', { submission })
 })
 
@@ -537,6 +522,32 @@ router.post('/submissions/edit/:id', async (req, res) => {
   res.redirect(req.session.redirectTo || '/admin/submissions')
   delete req.session.redirectTo
 })
+
+router.get('/submissions/:project_id/:page?', async (req, res) => {
+  req.session.redirectTo = req.originalUrl
+
+  const filter = req.query.filter || 'pending'
+  const orderBy = req.query.by || 'created_at'
+  const order = req.query.order || 'DESC'
+
+  const { submissions, prevPage, nextPage } = await AdminController.listSubmissions(
+    filter,
+    orderBy,
+    order,
+    req.params.project_id,
+    req.params.page
+  )
+
+  res.render('pages/admin/submissions/list', {
+    filter,
+    orderBy,
+    order,
+    submissions,
+    prevPage,
+    nextPage
+  })
+})
+
 
 /** Exchange Controls */
 router.get('/rewards', async (req, res) => {

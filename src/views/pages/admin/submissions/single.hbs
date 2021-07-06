@@ -19,22 +19,13 @@
 </section>
 <section class='section details'>
   <div class='container'>
-    <div class='columns'>
-      <span class='field column'>
-        <label class='label'>Submission ID</label>
-        <p>{{submission.submission_id}}</p>
-      </span>
-      <span class='field column'>
-        <label class='label'>Project ID</label>
-        <p>{{submission.project_id}}</p>
-      </span>
-      <span class='field column'>
-        <label class='label'>Module ID</label>
-        <p>{{submission.module_id}}</p>
-      </span>
+    <div class="content">
+      <h2 class="title">{{submission.project_title}}</h2>
+      <h5 class="subtitle">{{submission.module_title}}</h5>
     </div>
-    <label class='label'>Content</label>
+
     <textarea name='content' id='content-editor' class='textarea' type='text'>{{submission.content}}</textarea>
+
     <form method='post'>
       <div class='field'>
         <label class='label'>Action</label>
