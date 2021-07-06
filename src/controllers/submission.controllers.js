@@ -46,6 +46,7 @@ exports.getSubmissionsByUserAndProjectId = async (user_id, project_id) => {
     SELECT submissions.submission_id, 
     submissions.created_at,
     submissions.state,
+    modules.module_id as module_id, 
     modules.title as title FROM submissions
     INNER JOIN modules ON submissions.module_id = modules.module_id
     WHERE
