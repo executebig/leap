@@ -52,6 +52,8 @@
 
   // https://css-tricks.com/hash-tag-links-padding/
   .content {
+    position: relative;
+
     h1,
     h2,
     h3,
@@ -67,6 +69,39 @@
         pointer-events: none;
       }
     }
+
+    p {
+      line-height: 1.75;
+    }
+
+    pre {
+      white-space: -moz-pre-wrap !important; /* Mozilla, supported since 1999 */
+      white-space: -pre-wrap !important; /* Opera */
+      white-space: -o-pre-wrap !important; /* Opera */
+      white-space: pre-wrap !important; /* CSS3 - Text module (Candidate Recommendation) http://www.w3.org/TR/css3-text/#white-space */
+      word-wrap: break-word !important; /* IE 5.5+ */
+
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      -o-user-select: none;
+      user-select: none;
+
+      &::selection {
+        background: none;
+      }
+      &::-moz-selection {
+        background: none;
+      }
+    }
+  }
+
+  p img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
   }
 
   .menu {

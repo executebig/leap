@@ -3,7 +3,7 @@
 {{/extend}}
 <!-- Markdown editor styling so it's not enabled everywhere -->
 {{#extend "header-inject"}}
-    <link rel="stylesheet" href="https://unpkg.com/simplemde@1.11.2/dist/simplemde.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
 {{/extend}}
 <section class="section header">
     <div class="container">
@@ -88,12 +88,14 @@
     </div>
 </section>
 {{#extend "scripts"}}
-    <script src="https://unpkg.com/simplemde@1.11.2/dist/simplemde.min.js"></script>
+    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
     <script nonce="{{@root/nonce}}">
-        const editor = new SimpleMDE({
-            element: document.getElementById("module-content-editor"),
+        const editor = new EasyMDE({
+            element: document.querySelector("#module-content-editor"),
+            toolbar: ['preview'],
+            status: null,
+            forceSync: true,
             spellChecker: true,
-            forceSync: true
-        });
+        })
     </script>
 {{/extend}}

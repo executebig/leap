@@ -1,0 +1,190 @@
+/**
+ * atom-dark theme for `prism.js`
+ * Based on Atom's `atom-dark` theme: https://github.com/atom/atom-dark-syntax
+ * @author Joe Gibson (@gibsjose)
+ */
+code[class*='language-'] {
+  color: #c5c8c6;
+  text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+  font-family: Inconsolata, Monaco, Consolas, 'Courier New', Courier, monospace;
+  direction: ltr;
+  text-align: left;
+  word-break: normal;
+  line-height: 1.5;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+  white-space: -moz-pre-wrap !important;
+
+  /* Mozilla, supported since 1999 */
+  white-space: -pre-wrap !important;
+
+  /* Opera */
+  white-space: -o-pre-wrap !important;
+
+  /* Opera */
+  white-space: pre-wrap !important;
+
+  /* CSS3 - Text module (Candidate Recommendation) http://www.w3.org/TR/css3-text/#white-space */
+  word-wrap: break-word !important;
+
+  /* IE 5.5+ */
+}
+
+pre[class*='language-'] {
+  color: #c5c8c6;
+  text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+  font-family: Inconsolata, Monaco, Consolas, 'Courier New', Courier, monospace;
+  direction: ltr;
+  text-align: left;
+  word-break: normal;
+  line-height: 1.5;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+  white-space: -moz-pre-wrap !important;
+
+  /* Mozilla, supported since 1999 */
+  white-space: -pre-wrap !important;
+
+  /* Opera */
+  white-space: -o-pre-wrap !important;
+
+  /* Opera */
+  white-space: pre-wrap !important;
+
+  /* CSS3 - Text module (Candidate Recommendation) http://www.w3.org/TR/css3-text/#white-space */
+  word-wrap: break-word !important;
+
+  /* IE 5.5+ */
+
+  padding: 1em;
+  margin: 0.5em 0;
+  overflow: auto;
+  border-radius: 0.3em;
+}
+
+/* Code blocks */
+
+:not(pre) > code[class*='language-'],
+pre[class*='language-'] {
+  background: #1d1f21;
+}
+
+/* Inline code */
+
+:not(pre) > code[class*='language-'] {
+  padding: 0.1em;
+  border-radius: 0.3em;
+}
+
+.prism__token {
+  &.prism__comment,
+  &.prism__prolog,
+  &.prism__doctype,
+  &.prism__cdata {
+    color: #7c7c7c;
+  }
+
+  &.prism__punctuation {
+    color: #c5c8c6;
+  }
+}
+
+.prism__namespace {
+  opacity: 0.7;
+}
+
+.prism__token {
+  &.prism__property,
+  &.prism__keyword,
+  &.prism__tag {
+    color: #96cbfe;
+  }
+
+  &.prism__class-name {
+    color: #ffffb6;
+    text-decoration: underline;
+  }
+
+  &.prism__boolean,
+  &.prism__constant {
+    color: #99cc99;
+  }
+
+  &.prism__symbol,
+  &.prism__deleted {
+    color: #f92672;
+  }
+
+  &.prism__number {
+    color: #ff73fd;
+  }
+
+  &.prism__selector,
+  &.prism__attr-name,
+  &.prism__string,
+  &.prism__char,
+  &.prism__builtin,
+  &.prism__inserted {
+    color: #a8ff60;
+  }
+
+  &.prism__variable {
+    color: #c6c5fe;
+  }
+
+  &.prism__operator {
+    color: #ededed;
+  }
+
+  &.prism__entity {
+    color: #ffffb6;
+    cursor: help;
+  }
+
+  &.prism__url {
+    color: #96cbfe;
+  }
+}
+
+.prism__language-css .prism__token.prism__string,
+.prism__style .prism__token.prism__string {
+  color: #87c38a;
+}
+
+.prism__token {
+  &.prism__atrule,
+  &.prism__attr-value {
+    color: #f9ee98;
+  }
+
+  &.prism__function {
+    color: #dad085;
+  }
+
+  &.prism__regex {
+    color: #e9c062;
+  }
+
+  &.prism__important {
+    color: #fd971f;
+    font-weight: bold;
+  }
+
+  &.prism__bold {
+    font-weight: bold;
+  }
+
+  &.prism__italic {
+    font-style: italic;
+  }
+}

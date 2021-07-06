@@ -2,7 +2,7 @@
   {{@root/module.title}}
 {{/extend}}
 {{#extend 'header-inject'}}
-  <link rel='stylesheet' href='https://unpkg.com/simplemde@1.11.2/dist/simplemde.min.css' />
+  <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
 {{/extend}}
 <div class='page__modules__single'>
   <section class='section'>
@@ -165,17 +165,29 @@
 </div>
 {{! prettier-ignore }}
 {{#extend 'scripts'}}
-  <script src="https://unpkg.com/simplemde@1.11.2/dist/simplemde.min.js"></script>
+  <script src="https://unpkg.com/prismjs/components/prism-core.min.js"></script>
+  <script src="https://unpkg.com/prismjs/plugins/autoloader/prism-autoloader.min.js"></script>
+  <script src="https://unpkg.com/prismjs/plugins/custom-class/prism-custom-class.min.js"></script>
+  <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
   <script nonce='{{@root/nonce}}'>
+    Prism.plugins.customClass.prefix('prism__')
+
+    // prevent copy/paste
+    document.querySelectorAll('pre').forEach(el => {
+      el.addEventListener('copy', function (event) {
+        event.preventDefault()
+      })
+    })
+
     const modal = document.querySelector(".modal")
     const submissionLink = document.querySelector('#submission-link')
     const submissionLinkInput = submissionLink.querySelector('input')
     const submissionContent = document.querySelector('#submission-content')
     const submissionContentInput = submissionContent.querySelector('textarea')
 
-    const editor = new SimpleMDE({
+    const editor = new EasyMDE({
       element: submissionContent.querySelector('textarea'),
-      spellChecker: true,
+      spellChecker: false,
       forceSync: true,
       autosave: {
         enabled: true,
