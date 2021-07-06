@@ -3,7 +3,7 @@
 {{/extend}}
 
 {{#extend 'header-inject'}}
-  <link rel='stylesheet' href='https://unpkg.com/simplemde@1.11.2/dist/simplemde.min.css' />
+  <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
 {{/extend}}
 
 <div class='page__submissions'>
@@ -115,15 +115,17 @@
 </div>
 
 {{#extend 'scripts'}}
-  <script src="https://unpkg.com/simplemde@1.11.2/dist/simplemde.min.js"></script>
+  <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
   <script nonce='{{@root/nonce}}'>
     const table = document.querySelector('table')
     const modal = document.querySelector('.modal')
 
-    const editor = new SimpleMDE({
+    const editor = new EasyMDE({
       element: modal.querySelector("#submission-content > textarea"),
       toolbar: ['preview'],
-      status: null
+      status: null,
+      forceSync: true,
+      spellChecker: true,
     })
 
     editor.codemirror.options.readOnly = true

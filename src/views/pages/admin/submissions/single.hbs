@@ -1,17 +1,14 @@
 {{#extend 'title'}}
   Grade Submission #{{submission.submission_id}}
 {{/extend}}
-
 {{#extend 'header-inject'}}
-  <link rel='stylesheet' href='https://unpkg.com/simplemde@1.11.2/dist/simplemde.min.css' />
+  <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
 {{/extend}}
-
 <section class='section header'>
   <div class='container'>
     <h1 class='title'>
       Grade Submission #{{submission.submission_id}}
     </h1>
-
     <nav class='breadcrumb' aria-label='breadcrumbs'>
       <ul>
         <li><a href='/admin/submissions'>Submissions</a></li>
@@ -20,7 +17,6 @@
     </nav>
   </div>
 </section>
-
 <section class='section details'>
   <div class='container'>
     <div class='columns'>
@@ -28,26 +24,17 @@
         <label class='label'>Submission ID</label>
         <p>{{submission.submission_id}}</p>
       </span>
-
       <span class='field column'>
         <label class='label'>Project ID</label>
         <p>{{submission.project_id}}</p>
       </span>
-
       <span class='field column'>
         <label class='label'>Module ID</label>
         <p>{{submission.module_id}}</p>
       </span>
     </div>
-
     <label class='label'>Content</label>
-    <textarea
-      name='content'
-      id='content-editor'
-      class='textarea'
-      type='text'
-    >{{submission.content}}</textarea>
-
+    <textarea name='content' id='content-editor' class='textarea' type='text'>{{submission.content}}</textarea>
     <form method='post'>
       <div class='field'>
         <label class='label'>Action</label>
@@ -58,30 +45,27 @@
           </select>
         </div>
       </div>
-
       <div class='field' id='comments'>
         <label class='label'>Comments</label>
         <textarea name='comments' id='comments-editor' class='textarea' type='text'></textarea>
       </div>
-
       <button class='button is-primary mt-1' type='submit'>
         Grade Submission
       </button>
     </form>
   </div>
 </section>
-
 {{! prettier-ignore }}
 {{#extend 'scripts'}}
-  <script src='https://unpkg.com/simplemde@1.11.2/dist/simplemde.min.js'></script>
+  <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
   <script nonce='{{@root/nonce}}'>
     const comments = document.querySelector('#comments')
 
-    const contentEditor = new SimpleMDE({
+    const contentEditor = new EasyMDE({
       element: document.getElementById("content-editor")
     })
 
-    const commentsEditor = new SimpleMDE({
+    const commentsEditor = new EasyMDE({
       element: document.getElementById("comments-editor"),
       spellChecker: true, forceSync: true
     })

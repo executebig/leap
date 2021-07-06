@@ -125,6 +125,10 @@ exports.MdToTableOfContents = (value, options) => {
   let prevIndent = 0
 
   const slugger = new Slugger()
+  
+  const codeBlockStripper = /(```.+?```)/gms
+  value = value.replace(codeBlockStripper, '')
+
   const lines = value
     .split(/\r?\n/)
     .filter((e) => e.startsWith('#'))
