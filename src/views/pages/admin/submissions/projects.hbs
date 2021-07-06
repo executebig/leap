@@ -1,0 +1,34 @@
+{{#extend "title"}}
+    Submissions
+{{/extend}}
+<section class="section header">
+    <div class="container">
+        <h1 class="title">Submissions</h1>
+        <p>Select a project to begin grading!</p>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <div class="columns is-multiline">
+            {{#each projects}}
+                <div class='column is-half'>
+                    <a
+                        class="project card"
+                        href="/admin/submissions/{{project_id}}"
+                    >
+                        <h2>{{title}}</h2>
+                        <p>{{description}}</p>
+
+                        <span>
+                            <p>{{type}}</p>
+                            <p>{{num_submissions}} submissions</p>
+                        </span>
+
+                        <img src={{thumbnail_url}} alt='' class='project__bg' />
+                        <div class='project__overlay--1'></div>
+                    </a>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</section>

@@ -20,6 +20,7 @@ const { flagMiddleware, banMiddleware } = require('@middlewares/state.middleware
 const notFoundMiddleware = require('@middlewares/404.middlewares')
 
 const mailer = require('@libs/mailer')
+const db = require('@db')
 
 // Deny unauthorized users
 router.use((req, res, next) => {
@@ -454,7 +455,20 @@ router.post('/modules/edit/:id', async (req, res) => {
 })
 
 /** Submissions */
-router.get('/submissions/:page?', async (req, res) => {
+router.get('/submissions', async (req, res) => {
+  const projects = (await db.query(`
+    SELECT projects.*, count(submissions) num_submissions FROM projects
+    LEFT JOIN submissions ON projects.project_id = submissions.project_id
+    GROUP BY projects.project_id
+    ORDER BY num_submissions DESC
+  `))?.rows
+
+  res.render('pages/admin/submissions/projects', {
+    projects
+  })
+})
+
+router.get('/submissions/:project_id/:page?', async (req, res) => {
   req.session.redirectTo = req.originalUrl
 
   const filter = req.query.filter || 'pending'
@@ -465,6 +479,7 @@ router.get('/submissions/:page?', async (req, res) => {
     filter,
     orderBy,
     order,
+    req.params.project_id,
     req.params.page
   )
 
@@ -521,51 +536,6 @@ router.post('/submissions/edit/:id', async (req, res) => {
   req.flash('success', 'Submission graded!')
   res.redirect(req.session.redirectTo || '/admin/submissions')
   delete req.session.redirectTo
-})
-
-/** Submissions */
-router.get('/submissions/:page?', async (req, res) => {
-  req.session.prevUrl = req.originalUrl
-
-  const filter = req.query.filter || 'pending'
-  const orderBy = req.query.by || 'created_at'
-  const order = req.query.order || 'DESC'
-
-  const { submissions, prevPage, nextPage } = await AdminController.listSubmissions(
-    filter,
-    orderBy,
-    order,
-    req.params.page
-  )
-
-  res.render('pages/admin/submissions/list', {
-    filter,
-    orderBy,
-    order,
-    submissions,
-    prevPage,
-    nextPage
-  })
-})
-
-router.get('/submissions/edit/:id', async (req, res) => {
-  const submission = await SubmissionController.getSubmissionById(req.params.id)
-  res.render('pages/admin/submissions/single', { submission })
-})
-
-router.post('/submissions/edit/:id', async (req, res) => {
-  let { state, comments } = req.body
-
-  const submission = await SubmissionController.updateSubmission(req.params.id, { state, comments })
-
-  if (state === 'rejected') {
-    mailer.sendSubmissionRejection(submission, comments)
-  }
-
-  // TODO: Implement submission accepted notification
-
-  req.flash('success', 'Submission graded!')
-  res.redirect(req.session.prevUrl || '/admin/submissions')
 })
 
 /** Exchange Controls */
