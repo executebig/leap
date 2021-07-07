@@ -305,4 +305,4 @@ const generateProjectEmbed = (project) => {
     .setTimestamp()
 }
 
-// client.login(config.discord.bot_token)
+client.login(config.discord.bot_token)
