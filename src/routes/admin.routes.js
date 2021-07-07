@@ -518,7 +518,7 @@ router.get('/submissions/:project_id/:module_id/:page?', async (req, res) => {
 
   const filter = req.query.filter || 'pending'
   const orderBy = req.query.by || 'created_at'
-  const order = req.query.order || 'DESC'
+  const order = req.query.order || 'ASC'
 
   const { submissions, prevPage, nextPage } = await AdminController.listSubmissions(
     filter,
