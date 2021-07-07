@@ -490,10 +490,31 @@ router.get('/submissions/edit/:id', async (req, res) => {
   res.render('pages/admin/submissions/single', { submission })
 })
 
+router.get('/submissions/update/:id', async (req, res) => {
+  const submission = (
+    await db.query(
+      `
+    SELECT
+      submissions.*,
+      m.title module_title,
+      p.title project_title
+      FROM submissions
+    INNER JOIN modules m on m.module_id = submissions.module_id
+    inner join projects p on p.project_id = m.project_id
+    WHERE submission_id = $1
+  `,
+      [req.params.id]
+    )
+  )?.rows?.[0]
+
+  res.render('pages/admin/submissions/single', { submission, update: true })
+})
+
 router.get('/submissions/:project_id', async (req, res) => {
   const { project_id } = req.params
   const modules = (
-    await db.query(`
+    await db.query(
+      `
     SELECT modules.*, count(submissions) num_submissions FROM modules
     LEFT JOIN submissions ON
       modules.module_id = submissions.module_id AND
@@ -502,7 +523,9 @@ router.get('/submissions/:project_id', async (req, res) => {
       modules.project_id = $1
     GROUP BY modules.module_id, submissions.state
     ORDER BY num_submissions DESC
-  `, [project_id])
+  `,
+      [project_id]
+    )
   )?.rows
 
   res.render('pages/admin/submissions/modules', {
@@ -579,11 +602,6 @@ router.post('/submissions/edit/:id', async (req, res) => {
   req.flash('success', 'Submission graded!')
   res.redirect(req.session.redirectTo || '/admin/submissions')
   delete req.session.redirectTo
-})
-
-router.get('/submissions/update/:id', async (req, res) => {
-  const submission = await SubmissionController.getSubmissionById(req.params.id)
-  res.render('pages/admin/submissions/single', { submission, update: true })
 })
 
 router.post('/submissions/update/:id', async (req, res) => {
