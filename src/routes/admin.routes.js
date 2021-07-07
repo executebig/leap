@@ -489,18 +489,23 @@ router.get('/submissions/edit/:id', async (req, res) => {
 })
 
 router.get('/submissions/:project_id', async (req, res) => {
+  const { project_id } = req.params
   const modules = (
     await db.query(`
     SELECT modules.*, count(submissions) num_submissions FROM modules
-    LEFT JOIN submissions ON modules.module_id = submissions.module_id
-    GROUP BY modules.module_id
+    LEFT JOIN submissions ON
+      modules.module_id = submissions.module_id AND
+      submissions.state = 'pending'
+    WHERE
+      modules.project_id = $1
+    GROUP BY modules.module_id, submissions.state
     ORDER BY num_submissions DESC
-  `)
+  `, [project_id])
   )?.rows
 
   res.render('pages/admin/submissions/modules', {
     modules,
-    project_id: req.params.project_id
+    project_id
   })
 })
 
