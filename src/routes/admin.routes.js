@@ -211,9 +211,7 @@ router.post('/config', async (req, res, next) => {
   const badges = await BadgeController.listBadgeIds()
 
   if (req.body.weeklyBadges.trim() !== '') {
-    const weeklyBadges = [
-      ...req.body.weeklyBadges.split(',').map((e) => parseInt(e.trim(), 10))
-    ]
+    const weeklyBadges = [...req.body.weeklyBadges.split(',').map((e) => parseInt(e.trim(), 10))]
 
     if (weeklyBadges.some((id) => isNaN(id) || !badges.includes(id))) {
       req.flash('error', 'Invalid weekly badges')

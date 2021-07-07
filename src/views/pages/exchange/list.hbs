@@ -40,19 +40,6 @@
                                             </span>
                                         </strong>
                                 {{/eq}}
-                                {{#if goodie_purchased}}
-                                    <strong>
-                                        <span class='tag is-success is-large' aria-label='Weekly Goodies Purchased' data-balloon-pos="down-left" data-balloon-length="large">
-                                            <ion-icon name="heart-circle-outline"></ion-icon>
-                                        </span>
-                                    </strong>
-                                    {{else}}
-                                        <strong>
-                                            <span class='tag is-danger is-large' aria-label='Weekly Goodies Not Purchased' data-balloon-pos="down-left" data-balloon-length="large">
-                                               <ion-icon name="heart-dislike-circle-outline"></ion-icon>
-                                            </span>
-                                        </strong>
-                                {{/if}}
                             </p>
                         </div>
                     </div>
@@ -69,48 +56,6 @@
             description clearly. If you have questions, please reach out to staff on Discord.
         </div>
     </div>
-    {{#unless goodie_purchased}}
-        <div class="container">
-            {{#with @root/goodie}}
-                <div class="card mt-5 reward" reward-id="{{reward_id}}" reward-name="{{name}}" reward-price="{{price}}">
-                    <div class="card-header">
-                        <h1 class="card-header-title">Roulette Select Goodie Bag</h1>
-                    </div>
-                    <div class="card-content">
-                        <article class="media">
-                            <figure class="media-left">
-                                <p class="image">
-                                    <img class="reward_image" src="{{image}}">
-                                </p>
-                            </figure>
-                            <div class="media-content">
-                                <div class="content">
-                                    <h1 class="title is-5 mb-3">{{name}}</h1>
-                                    <p class="mb-2">
-                                        <strong>We ask that you purchase our "Roulette Select" Goodie Bag every week first before moving on to other rewards!</strong> In this
-                                        week's Roulette Select pack: {{description}}
-                                    </p>
-                                    <p class="mb-2">
-                                        <strong>Delivery Method & Timeline:</strong> {{delivery}}
-                                        {{#if needs_shipping}}
-                                            <strong>This reward requires physical shipping.</strong>
-                                        {{/if}}
-                                    </p>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="card-footer">
-                        {{#if quantity}}
-                            <a class="purchase-button card-footer-item button is-primary">Buy for {{price}}&nbsp;{{>chip}}</a>
-                        {{else}}
-                            <a class="card-footer-item button is-light" disabled>Sold Out</a>
-                        {{/if}}
-                    </div>
-                </div>
-            {{/with}}
-        </div>
-    {{/unless}}
     <section class="section shop">
         <div class="container">
             <div class="columns is-multiline is-mobile">
@@ -142,11 +87,7 @@
                             </div>
                             <div class="card-footer">
                                 {{#if quantity}}
-                                    {{#if @root/goodie_purchased}}
-                                        <a class="purchase-button card-footer-item button is-primary">Buy for {{price}}&nbsp;{{>chip}}</a>
-                                    {{else}}
-                                        <a class="card-footer-item button is-light" disabled>Please purchase Roulette Select first!</a>
-                                    {{/if}}
+                                    <a class="purchase-button card-footer-item button is-primary">Buy for {{price}}&nbsp;{{>chip}}</a>
                                 {{else}}
                                     <a class="card-footer-item button is-light" disabled>Sold Out</a>
                                 {{/if}}

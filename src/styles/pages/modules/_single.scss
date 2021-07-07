@@ -80,20 +80,6 @@
       white-space: -o-pre-wrap !important; /* Opera */
       white-space: pre-wrap !important; /* CSS3 - Text module (Candidate Recommendation) http://www.w3.org/TR/css3-text/#white-space */
       word-wrap: break-word !important; /* IE 5.5+ */
-
-      -webkit-user-select: none;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      -o-user-select: none;
-      user-select: none;
-
-      &::selection {
-        background: none;
-      }
-      &::-moz-selection {
-        background: none;
-      }
     }
   }
 

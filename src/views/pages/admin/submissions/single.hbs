@@ -27,21 +27,23 @@
     <textarea name='content' id='content-editor' class='textarea' type='text'>{{submission.content}}</textarea>
 
     <form method='post'>
+      <div class='field' id='comments'>
+        <label class='label'>Comments (Please fill out for rejections, optional for acceptance)</label>
+        <textarea name='comments' id='comments-editor' class='textarea' type='text'></textarea>
+      </div>
       <div class='field'>
-        <label class='label'>Action</label>
-        <div class='select'>
+        <label class='label'>Grading Decision (was <code>{{submission.state}}</code>)</label>
+        <div class='select is-fullwidth'>
           <select name='state'>
-            <option value='accepted'>Accept</option>
-            <option value='rejected'>Reject</option>
+            {{#select submission.state}}
+            <option value="accepted">Accept Submission</option>
+            <option value="rejected">Reject Submission</option>
+            {{/select}}
           </select>
         </div>
       </div>
-      <div class='field' id='comments'>
-        <label class='label'>Comments</label>
-        <textarea name='comments' id='comments-editor' class='textarea' type='text'></textarea>
-      </div>
       <button class='button is-primary mt-1' type='submit'>
-        Grade Submission
+        {{#if update}}Update{{else}}Grade{{/if}} Submission
       </button>
     </form>
   </div>
@@ -60,16 +62,6 @@
       element: document.getElementById("comments-editor"),
       spellChecker: true, forceSync: true
     })
-
-    document.querySelector('select[name=state]').addEventListener('change', (e) => {
-      if (e.target.value === 'rejected') {
-        comments.style.display = 'block'
-      } else {
-        comments.style.display = 'none'
-      }
-    })
-
-    comments.style.display = 'none'
 
     contentEditor.togglePreview()
   </script>
