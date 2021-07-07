@@ -54,14 +54,18 @@
   <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
   <script nonce='{{@root/nonce}}'>
     const comments = document.querySelector('#comments')
+    const commentsEditor = document.querySelector('#comments-editor')
 
     const contentEditor = new EasyMDE({
       element: document.getElementById("content-editor")
     })
 
-    const commentsEditor = new EasyMDE({
-      element: document.getElementById("comments-editor"),
-      spellChecker: true, forceSync: true
+    document.querySelector('select[name=state]').addEventListener('change', (e) => {
+      if (e.target.value === 'rejected') {
+        commentsEditor.setAttribute("required","required");
+      } else {
+        commentsEditor.removeAttribute("required");
+      }
     })
 
     contentEditor.togglePreview()
