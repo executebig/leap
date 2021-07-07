@@ -487,6 +487,11 @@ router.get('/submissions/edit/:id', async (req, res) => {
     )
   )?.rows?.[0]
 
+  if (submission.state !== 'pending') {
+    req.flash('error', 'Warning: This submission has already been graded. You are now updating its result.')
+    return res.redirect('/admin/submissions/update/' + req.params.id)
+  }
+
   res.render('pages/admin/submissions/single', { submission })
 })
 
