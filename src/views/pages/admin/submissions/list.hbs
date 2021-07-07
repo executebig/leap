@@ -4,7 +4,15 @@
 <section class="section header">
     <div class="container">
         <h1 class="title">Submissions</h1>
-        {{!-- <a href="/admin/submissions/new" class="button">New Submission</a> --}}
+
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+            <ul>
+                <li class="is-active"><a>Submissions</a></li>
+                <li><a href="/admin/submissions/" aria-current="page">Projects</a></li>
+                <li><a href="/admin/submissions/{{project_id}}" aria-current="page">P{{project_id}}</a></li>
+                <li class="is-active"><a href="/admin/submissions/{{project_id}}/{{module_id}}" aria-current="page">M{{module_id}}</a></li>
+            </ul>
+        </nav>
     </div>
 </section>
 <section class="section">
