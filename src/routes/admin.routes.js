@@ -466,6 +466,48 @@ router.get('/submissions', async (req, res) => {
   })
 })
 
+router.get('/submissions/:project_id', async (req, res) => {
+  const modules = (await db.query(`
+    SELECT modules.*, count(submissions) num_submissions FROM modules
+    LEFT JOIN submissions ON modules.module_id = submissions.module_id
+    GROUP BY modules.module_id
+    ORDER BY num_submissions DESC
+  `))?.rows
+
+  res.render('pages/admin/submissions/modules', {
+    modules,
+    project_id: req.params.project_id
+  })
+})
+
+router.get('/submissions/:project_id/:module_id/:page?', async (req, res) => {
+  req.session.redirectTo = req.originalUrl
+
+  const filter = req.query.filter || 'pending'
+  const orderBy = req.query.by || 'created_at'
+  const order = req.query.order || 'DESC'
+
+  const { submissions, prevPage, nextPage } = await AdminController.listSubmissions(
+    filter,
+    orderBy,
+    order,
+    req.params.project_id,
+    req.params.module_id,
+    req.params.page
+  )
+
+  res.render('pages/admin/submissions/list', {
+    filter,
+    orderBy,
+    order,
+    submissions,
+    prevPage,
+    nextPage,
+    project_id: req.params.project_id,
+    module_id: req.params.module_id
+  })
+})
+
 router.get('/submissions/edit/:id', async (req, res) => {
   const submission = (await db.query(`
     SELECT

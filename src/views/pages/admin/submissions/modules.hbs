@@ -1,0 +1,37 @@
+{{#extend "title"}}
+    Submissions
+{{/extend}}
+
+<div class="page__admin__submissions__modules">
+    <section class="section header">
+        <div class="container">
+            <h1 class="title">Submissions — Modules</h1>
+
+            <nav class="breadcrumb" aria-label="breadcrumbs">
+                <ul>
+                    <li class="is-active"><a>Submissions</a></li>
+                    <li><a href="/admin/submissions/" aria-current="page">Projects</a></li>
+                    <li class="is-active"><a href="/admin/submissions/{{project_id}}" aria-current="page">P{{project_id}}</a></li>
+                </ul>
+            </nav>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="columns is-multiline modules">
+                {{#each modules}}
+                    <a class='module' href="/admin/submissions/{{project_id}}/{{module_id}}">
+                        <div class="module__container">
+                            <h2>{{title}}</h2>
+                            <p>{{description}}</p>
+
+                            <span class="module__container__bottom">
+                                <p>{{num_submissions}} submissions</p>
+                            </span>
+                        </div>
+                    </a>
+                {{/each}}
+            </div>
+        </div>
+    </section>
+</div>
