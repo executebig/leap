@@ -457,7 +457,9 @@ router.get('/submissions', async (req, res) => {
   const projects = (
     await db.query(`
     SELECT projects.*, count(submissions) num_submissions FROM projects
-    LEFT JOIN submissions ON projects.project_id = submissions.project_id
+    LEFT JOIN submissions ON
+      projects.project_id = submissions.project_id AND
+      submissions.state = 'pending'
     GROUP BY projects.project_id
     ORDER BY num_submissions DESC
   `)
