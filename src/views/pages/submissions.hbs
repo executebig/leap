@@ -110,6 +110,7 @@
     const modal = document.querySelector('.modal')
     const submissionData = document.querySelector('.submission-data')
     const spinner = document.querySelector('.spinner')
+    const commentsModal = modal.querySelector('.submission-comment-container')
 
     const editor = new EasyMDE({
       element: modal.querySelector("#submission-content > textarea"),
@@ -140,7 +141,6 @@
               modal.querySelector('#submission-state').textContent = submission.state
               modal.querySelector('#submission-created-at').textContent = data.createdAt
 
-              const commentsModal = modal.querySelector('.submission-comment-container')
               const comments = modal.querySelector('#submission-comment')
               if (submission.state === 'rejected') {
                 commentsModal.classList.add('is-danger')
@@ -174,6 +174,8 @@
           modal.classList.remove("is-active")
           submissionData.style.display = "none"
           spinner.style.display = 'block'
+          commentsModal.classList.remove('is-success')
+          commentsModal.classList.remove('is-danger')
         })
       })
   </script>
