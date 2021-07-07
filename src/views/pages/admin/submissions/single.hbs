@@ -41,16 +41,18 @@
         <textarea name='comments' id='comments-editor' class='textarea' type='text'></textarea>
       </div>
       <div class='field'>
-        <label class='label'>Grading Decision</label>
+        <label class='label'>Grading Decision (was <code>{{submission.state}}</code>)</label>
         <div class='select is-fullwidth'>
           <select name='state'>
-            <option value='accepted'>Accept Submission</option>
-            <option value='rejected'>Reject Submission</option>
+            {{#select submission.state}}
+            <option value="accepted">Accept Submission</option>
+            <option value="rejected">Reject Submission</option>
+            {{/select}}
           </select>
         </div>
       </div>
       <button class='button is-primary mt-1' type='submit'>
-        Grade Submission
+        {{#if update}}Update{{else}}Grade{{/if}} Submission
       </button>
     </form>
   </div>
