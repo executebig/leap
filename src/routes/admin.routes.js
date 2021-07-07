@@ -539,7 +539,6 @@ router.post('/submissions/update/:id', async (req, res) => {
 
     if (old_submission.state === 'accepted') {
       // used to be accepted, take points away
-      console.log(module.points)
       await UserController.grantPoints(submission.user_id, 0 - module.points)
 
       if (module.required) {
@@ -556,10 +555,8 @@ router.post('/submissions/update/:id', async (req, res) => {
 
         // remove all the completed projects
         modulesRemaining = modulesRequired.filter((m) => modulesAccepted.indexOf(m) < 0)
-        console.log(modulesRemaining)
 
         const pts = (await ConfigController.get('pointsPerProject')) || 0
-        console.log(pts)
         if (modulesRemaining.length === 1 && modulesRemaining[0] === submission.module_id) {
           // this is the only project left
           await UserController.grantPoints(submission.user_id, 0 - pts)
