@@ -73,7 +73,7 @@ exports.searchUsersByName = async (query, page = 1) => {
   return generateSearchResult(users, page)
 }
 
-exports.listSubmissions = async (filter, orderBy, order, page = 1) => {
+exports.listSubmissions = async (filter, orderBy, order, project_id, module_id, page = 1) => {
   const allowedFilters = ['pending', 'accepted', 'rejected']
   const allowedOrderingFields = ['created_at']
   const allowedOrders = ['ASC', 'DESC']
@@ -93,10 +93,17 @@ exports.listSubmissions = async (filter, orderBy, order, page = 1) => {
     return fallback
   }
 
-  const submissions = await db.query(
-    `SELECT *, count(*) OVER() AS total_submissions FROM submissions WHERE state = $3 ORDER BY ${orderBy} ${order} OFFSET $1 LIMIT $2`,
-    [(page - 1) * PAGE_SIZE, PAGE_SIZE, filter]
+  const submissions = await db.query(`
+    SELECT *, count(*) OVER() AS total_submissions FROM submissions
+    WHERE
+      state = $3 AND
+      project_id = $4 AND
+      module_id = $5
+    ORDER BY ${orderBy} ${order}
+    OFFSET $1 LIMIT $2`,
+    [(page - 1) * PAGE_SIZE, PAGE_SIZE, filter, project_id, module_id]
   )
+
   if (submissions.rows.length > 0) {
     const total_pages = submissions.rows[0].total_submissions / PAGE_SIZE
 

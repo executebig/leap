@@ -1,0 +1,51 @@
+.page__admin__submissions__modules {
+  .modules {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .module {
+    box-sizing: border-box;
+    padding: 24px 32px;
+
+    border-radius: 20px;
+
+    background-color: $primary;
+
+    color: white;
+
+    width: 400px;
+    height: 280px;
+
+    h2 {
+      font-size: 1.8rem;
+      font-weight: bold;
+
+      text-shadow: 0 2px 4px rgba(black, 0.25);
+    }
+
+    &__container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+
+      p {
+        font-weight: 500;
+      }
+
+      &__bottom {
+        display: flex;
+        align-items: center;
+
+        position: absolute;
+        bottom: 0;
+
+        width: 100%;
+
+        p {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}

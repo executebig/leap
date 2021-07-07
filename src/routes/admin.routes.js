@@ -20,6 +20,7 @@ const { flagMiddleware, banMiddleware } = require('@middlewares/state.middleware
 const notFoundMiddleware = require('@middlewares/404.middlewares')
 
 const mailer = require('@libs/mailer')
+const db = require('@db')
 
 // Deny unauthorized users
 router.use((req, res, next) => {
@@ -452,8 +453,68 @@ router.post('/modules/edit/:id', async (req, res) => {
 })
 
 /** Submissions */
-router.get('/submissions/:page?', async (req, res) => {
+router.get('/submissions', async (req, res) => {
+  const projects = (
+    await db.query(`
+    SELECT projects.*, count(submissions) num_submissions FROM projects
+    LEFT JOIN submissions ON
+      projects.project_id = submissions.project_id AND
+      submissions.state = 'pending'
+    GROUP BY projects.project_id
+    ORDER BY num_submissions DESC
+  `)
+  )?.rows
+
+  res.render('pages/admin/submissions/projects', {
+    projects
+  })
+})
+
+router.get('/submissions/edit/:id', async (req, res) => {
+  const submission = (
+    await db.query(
+      `
+    SELECT
+      submissions.*,
+      m.title module_title,
+      p.title project_title
+      FROM submissions
+    INNER JOIN modules m on m.module_id = submissions.module_id
+    inner join projects p on p.project_id = m.project_id
+    WHERE submission_id = $1
+  `,
+      [req.params.id]
+    )
+  )?.rows?.[0]
+
+  res.render('pages/admin/submissions/single', { submission })
+})
+
+router.get('/submissions/:project_id', async (req, res) => {
+  const { project_id } = req.params
+  const modules = (
+    await db.query(`
+    SELECT modules.*, count(submissions) num_submissions FROM modules
+    LEFT JOIN submissions ON
+      modules.module_id = submissions.module_id AND
+      submissions.state = 'pending'
+    WHERE
+      modules.project_id = $1
+    GROUP BY modules.module_id, submissions.state
+    ORDER BY num_submissions DESC
+  `, [project_id])
+  )?.rows
+
+  res.render('pages/admin/submissions/modules', {
+    modules,
+    project_id
+  })
+})
+
+router.get('/submissions/:project_id/:module_id/:page?', async (req, res) => {
   req.session.redirectTo = req.originalUrl
+
+  let { project_id, module_id, page } = req.params
 
   const filter = req.query.filter || 'pending'
   const orderBy = req.query.by || 'created_at'
@@ -463,7 +524,9 @@ router.get('/submissions/:page?', async (req, res) => {
     filter,
     orderBy,
     order,
-    req.params.page
+    project_id,
+    module_id,
+    page
   )
 
   res.render('pages/admin/submissions/list', {
@@ -472,13 +535,10 @@ router.get('/submissions/:page?', async (req, res) => {
     order,
     submissions,
     prevPage,
-    nextPage
+    nextPage,
+    project_id,
+    module_id
   })
-})
-
-router.get('/submissions/edit/:id', async (req, res) => {
-  const submission = await SubmissionController.getSubmissionById(req.params.id)
-  res.render('pages/admin/submissions/single', { submission })
 })
 
 router.post('/submissions/edit/:id', async (req, res) => {
@@ -539,7 +599,6 @@ router.post('/submissions/update/:id', async (req, res) => {
 
     if (old_submission.state === 'accepted') {
       // used to be accepted, take points away
-      console.log(module.points)
       await UserController.grantPoints(submission.user_id, 0 - module.points)
 
       if (module.required) {
@@ -556,10 +615,8 @@ router.post('/submissions/update/:id', async (req, res) => {
 
         // remove all the completed projects
         modulesRemaining = modulesRequired.filter((m) => modulesAccepted.indexOf(m) < 0)
-        console.log(modulesRemaining)
 
         const pts = (await ConfigController.get('pointsPerProject')) || 0
-        console.log(pts)
         if (modulesRemaining.length === 1 && modulesRemaining[0] === submission.module_id) {
           // this is the only project left
           await UserController.grantPoints(submission.user_id, 0 - pts)
@@ -610,6 +667,7 @@ router.get('/submissions/:page?', async (req, res) => {
     filter,
     orderBy,
     order,
+    req.params.project_id,
     req.params.page
   )
 
@@ -621,26 +679,6 @@ router.get('/submissions/:page?', async (req, res) => {
     prevPage,
     nextPage
   })
-})
-
-router.get('/submissions/edit/:id', async (req, res) => {
-  const submission = await SubmissionController.getSubmissionById(req.params.id)
-  res.render('pages/admin/submissions/single', { submission })
-})
-
-router.post('/submissions/edit/:id', async (req, res) => {
-  let { state, comments } = req.body
-
-  const submission = await SubmissionController.updateSubmission(req.params.id, { state, comments })
-
-  if (state === 'rejected') {
-    mailer.sendSubmissionRejection(submission, comments)
-  }
-
-  // TODO: Implement submission accepted notification
-
-  req.flash('success', 'Submission graded!')
-  res.redirect(req.session.prevUrl || '/admin/submissions')
 })
 
 /** Exchange Controls */
