@@ -210,9 +210,7 @@ router.post('/config', async (req, res, next) => {
   const badges = await BadgeController.listBadgeIds()
 
   if (req.body.weeklyBadges.trim() !== '') {
-    const weeklyBadges = [
-      ...req.body.weeklyBadges.split(',').map((e) => parseInt(e.trim(), 10))
-    ]
+    const weeklyBadges = [...req.body.weeklyBadges.split(',').map((e) => parseInt(e.trim(), 10))]
 
     if (weeklyBadges.some((id) => isNaN(id) || !badges.includes(id))) {
       req.flash('error', 'Invalid weekly badges')
@@ -517,6 +515,83 @@ router.post('/submissions/edit/:id', async (req, res) => {
   }
 
   // TODO: Implement submission accepted notification
+
+  req.flash('success', 'Submission graded!')
+  res.redirect(req.session.redirectTo || '/admin/submissions')
+  delete req.session.redirectTo
+})
+
+router.get('/submissions/update/:id', async (req, res) => {
+  const submission = await SubmissionController.getSubmissionById(req.params.id)
+  res.render('pages/admin/submissions/single', { submission, update: true })
+})
+
+router.post('/submissions/update/:id', async (req, res) => {
+  let { state, comments } = req.body
+
+  const old_submission = await SubmissionController.getSubmissionById(req.params.id)
+  const submission = await SubmissionController.updateSubmission(req.params.id, { state, comments })
+
+  const module = await ModuleController.getModuleById(submission.module_id)
+
+  if (state === 'rejected') {
+    mailer.sendSubmissionRejection(submission, comments)
+
+    if (old_submission.state === 'accepted') {
+      // used to be accepted, take points away
+      console.log(module.points)
+      await UserController.grantPoints(submission.user_id, 0 - module.points)
+
+      if (module.required) {
+        // if this is the only project that is now missing from the requirements,
+        // take off the additional bonus points
+        const modulesRequired = await ProjectController.getRequiredModuleIdsByProjectId(
+          submission.project_id
+        )
+        const modulesAccepted = (
+          await SubmissionController.getLatestSubmissionsByUserId(submission.user_id)
+        )
+          .filter((e) => e.state === 'accepted')
+          .map((e) => e.module_id)
+
+        // remove all the completed projects
+        modulesRemaining = modulesRequired.filter((m) => modulesAccepted.indexOf(m) < 0)
+        console.log(modulesRemaining)
+
+        const pts = (await ConfigController.get('pointsPerProject')) || 0
+        console.log(pts)
+        if (modulesRemaining.length === 1 && modulesRemaining[0] === submission.module_id) {
+          // this is the only project left
+          await UserController.grantPoints(submission.user_id, 0 - pts)
+        }
+      }
+    }
+  } else if (state === 'accepted') {
+    // only grant points if used to be rejected
+    if (old_submission.state === 'rejected') {
+      // Grant module points
+      await UserController.grantPoints(submission.user_id, module.points)
+    }
+
+    if (module.required) {
+      const modulesRequired = await ProjectController.getRequiredModuleIdsByProjectId(
+        submission.project_id
+      )
+      const modulesAccepted = (
+        await SubmissionController.getLatestSubmissionsByUserId(submission.user_id)
+      )
+        .filter((e) => e.state === 'accepted')
+        .map((e) => e.module_id)
+
+      // Grant additional points if every required module is completed
+      if (modulesRequired.every((module_id) => modulesAccepted.includes(module_id))) {
+        await UserController.grantPoints(
+          submission.user_id,
+          (await ConfigController.get('pointsPerProject')) || 0
+        )
+      }
+    }
+  }
 
   req.flash('success', 'Submission graded!')
   res.redirect(req.session.redirectTo || '/admin/submissions')

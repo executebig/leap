@@ -20,9 +20,7 @@
                 <a href="?filter=accepted&by={{orderBy}}&order={{order}}">Accepted</a>
             </p>
         </div>
-
         <hr />
-
         {{#if submissions}}
             <table class='table is-fullwidth is-hoverable is-striped'>
                 <thead>
@@ -45,10 +43,17 @@
                             <th>M{{module_id}}</th>
                             <th>{{prettyTime created_at}}</th>
                             <td><span class="tag state {{state}}">{{state}}</span></td>
-
-                            <td><a href="/admin/submissions/edit/{{submission_id}}">
-                                {{#eq ../filter "pending"}}Grade{{else}}Edit{{/eq}}
-                            </a></td>
+                            <td>
+                                {{#eq ../filter "pending"}}
+                                    <a href="/admin/submissions/edit/{{../submission_id}}">
+                                        Grade
+                                    </a>
+                                {{else}}
+                                    <a href="/admin/submissions/update/{{../submission_id}}">
+                                        Update
+                                    </a>
+                                {{/eq}}
+                            </td>
                         </tr>
                     {{/each}}
                 </tbody>
@@ -56,7 +61,6 @@
         {{else}}
             <p>No <strong>{{filter}}</strong> submissions found!</p>
         {{/if}}
-
         {{#notEq prevPage -1}}
             <a class="button" href="/admin/submissions/{{../prevPage}}?filter={{filter}}&by={{orderBy}}&order={{order}}">Previous</a>
         {{/notEq}}
