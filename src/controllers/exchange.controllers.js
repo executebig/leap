@@ -46,7 +46,7 @@ exports.listAll = async () => {
 
 exports.listAvailable = async (no_shipping) => {
   const q = await db.query(
-    'SELECT * FROM rewards WHERE (needs_shipping = false OR NOT $1) AND enabled = true ORDER BY reward_id ASC',
+    'SELECT * FROM rewards WHERE (needs_shipping = false OR NOT $1) AND enabled = true ORDER BY price ASC',
     [no_shipping]
   )
   return q?.rows
