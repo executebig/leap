@@ -4,47 +4,8 @@
 <div class="page__exchange">
     <section class="section header pb-3">
         <div class="container">
-            <div class="columns">
-                <div class="column is-8">
-                    <h1 class="title is-1">Roulette Exchange</h1>
-                    <p>Welcome to the Roulette Exchange! Rewards change from week to week, so be sure to redeem them while you can!</p>
-                </div>
-                <div class="column is-4">
-                    <div class="card">
-                        <div class="card-content has-text-centered">
-                            <h1 class="title is-5 mb-3">Welcome to Week {{user.current_week}} Exchange!</h1>
-                            <p>
-                                {{#if user.no_shipping}}
-                                    <strong>
-                                        <span class='tag is-danger is-large' aria-label='Shipping Disabled' data-balloon-pos="down-left" data-balloon-length="large">
-                                            <ion-icon name='close-circle-outline'></ion-icon>
-                                        </span>
-                                    </strong>
-                                {{else}}
-                                    <strong>
-                                        <span class='tag is-success is-large' aria-label='Shipping Enabled' data-balloon-pos="down-left" data-balloon-length="large">
-                                            <ion-icon name='checkmark-circle-outline'></ion-icon>
-                                        </span>
-                                    </strong>
-                                {{/if}}
-                                {{#eq user.state "completed"}}
-                                    <strong>
-                                        <span class='tag is-success is-large' aria-label='Week Complete' data-balloon-pos="down-left" data-balloon-length="large">
-                                            <ion-icon name="star"></ion-icon>
-                                        </span>
-                                    </strong>
-                                    {{else}}
-                                        <strong>
-                                            <span class='tag is-danger is-large' aria-label='Week Incomplete' data-balloon-pos="down-left" data-balloon-length="large">
-                                                <ion-icon name="airplane"></ion-icon>
-                                            </span>
-                                        </strong>
-                                {{/eq}}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <h1 class="title is-1 mb-2">Roulette Exchange</h1>
+            <p>Welcome to the Roulette Exchange! Rewards change from week to week, so be sure to redeem them while you can!</p>
         </div>
     </section>
     <div class="container">
