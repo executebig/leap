@@ -7,6 +7,7 @@ const router = require('express').Router()
 
 const ProjectController = require('@controllers/project.controllers')
 const UserController = require('@controllers/user.controllers')
+const DiscordController = require('@controllers/discord.controllers')
 
 const { flagMiddleware, stateMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
 const { checkAuth } = require('@middlewares/auth.middlewares')
@@ -51,6 +52,13 @@ router.post('/', async (req, res) => {
     state: 'inprogress',
     current_project: req.body.project_id
   })
+
+  // grant Discord role 
+  if (req.user.discord_id) {
+    const roleName = "P#" + req.body?.project_id
+    await DiscordController.clearAllProjectRoles(req.user.discord_id)
+    await DiscordController.grantRole(req.user.discord_id, roleName)
+  }
 
   // Refresh req.user
   req.login(newUser, (err) => {

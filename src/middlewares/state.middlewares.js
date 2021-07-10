@@ -1,6 +1,7 @@
 const ProjectController = require('@controllers/project.controllers')
 const UserController = require('@controllers/user.controllers')
 const ConfigController = require('@controllers/config.controllers')
+const DiscordController = require('@controllers/discord.controllers')
 
 exports.stateMiddleware = async (req, res, next) => {
   if (req.user.state !== 'onboarding') {
@@ -8,13 +9,18 @@ exports.stateMiddleware = async (req, res, next) => {
 
     // If user week is behind, (re)generate projects
     if (req.user.current_week < week) {
+      await DiscordController.clearAllProjectRoles(req.user.discord_id)
       const prevProjects = [...req.user.prev_projects, req.user.current_project]
       const newUser = await UserController.updateUser(req.user.user_id, {
         state: 'pending',
         current_week: week,
         current_project: -1,
         prev_projects: prevProjects,
-        project_pool: await ProjectController.getRandomProjectIds(3, prevProjects, req.user.no_shipping)
+        project_pool: await ProjectController.getRandomProjectIds(
+          3,
+          prevProjects,
+          req.user.no_shipping
+        )
       })
 
       req.login(newUser, (err) => {

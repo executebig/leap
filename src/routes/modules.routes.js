@@ -52,7 +52,7 @@ router.get('/', async (req, res) => {
     },
     newBadges: [
       await BadgeController.getWeeklyBadge(),
-      ...(await BadgeController.getBadgesByIds(project.completion_badges))
+      ...(await BadgeController.getBadgesByIds(project?.completion_badges))
     ]
   })
 })

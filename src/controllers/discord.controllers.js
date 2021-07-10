@@ -65,7 +65,33 @@ exports.grantRole = async (discord_id, role_name) => {
   const role = guild.roles.cache.find((role) => role.name == role_name)
   const member = guild.members.cache.get(discord_id)
 
-  member.roles.add(role)
+  if (!role) {
+    guild.roles
+      .create({
+        data: {
+          name: role_name
+        }
+      })
+      .catch(console.error)
+      .then((role) => {
+        member.roles.add(role)
+      })
+  } else {
+    member.roles.add(role)
+  }
+}
+
+exports.clearAllProjectRoles = async (discord_id) => {
+  const guild = client.guilds.cache.get(config.discord.guild)
+  const member = guild.members.cache.get(discord_id)
+
+  const roles = member.roles.cache.map((role) => role)
+
+  roles.forEach((role) => {
+    if (role.name.startsWith('P#')) {
+      member.roles.remove(role)
+    }
+  })
 }
 
 client.on('message', async (message) => {
