@@ -9,7 +9,9 @@ exports.stateMiddleware = async (req, res, next) => {
 
     // If user week is behind, (re)generate projects
     if (req.user.current_week < week) {
-      await DiscordController.clearAllProjectRoles(req.user.discord_id)
+      if (req.user.discord_id) {
+        await DiscordController.clearAllProjectRoles(req.user.discord_id)
+      }
       const prevProjects = [...req.user.prev_projects, req.user.current_project]
       const newUser = await UserController.updateUser(req.user.user_id, {
         state: 'pending',
