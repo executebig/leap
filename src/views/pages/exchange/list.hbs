@@ -21,9 +21,9 @@
         <div class="container">
             <div class="columns is-multiline">
                 {{#each rewards}}
-                    <div class="column is-6">
-                        <div class="card reward" reward-id="{{reward_id}}" reward-name="{{name}}" reward-price="{{price}}">
-                            <div class="card-content">
+                    <div class="column is-6 is-flex">
+                        <div class="card reward is-flex is-flex-direction-column" reward-id="{{reward_id}}" reward-name="{{name}}" reward-price="{{price}}">
+                            <div class="card-content is-flex-grow-1">
                                 <div class="columns">
                                     <div class="column is-3">
                                         <p class="image">
