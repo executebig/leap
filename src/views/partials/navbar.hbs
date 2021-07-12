@@ -12,6 +12,22 @@
                     <span class="blinker">●</span> Now Live: {{liveEvent}}
                 </a>
             {{/if}}
+            <span class="navbar-item has-text-weight-bold">
+                <div class="tag is-primary expiration_timer">
+                    W{{@root/user.current_week}} Ends:&nbsp;
+                    <span class="days"></span>
+                    &nbsp;
+                    <span>Days</span>
+                    &nbsp;
+                    <span class="hours"></span>
+                    &nbsp;
+                    <span>Hours</span>
+                    &nbsp;
+                    <span class="minutes"></span>
+                    &nbsp;
+                    <span>Mins</span>
+                </div>
+            </span>
             <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
@@ -93,12 +109,3 @@
         </div>
     </div>
 </nav>
-<script nonce="{{@root/nonce}}">
-    const burger = document.querySelector('.navbar-burger')
-    const menu = document.querySelector('.navbar-menu')
-
-    burger.addEventListener('click', () => {
-        burger.classList.toggle('is-active')
-        menu.classList.toggle('is-active')
-    })
-</script>
