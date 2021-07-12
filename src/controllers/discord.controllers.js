@@ -85,6 +85,10 @@ exports.clearAllProjectRoles = async (discord_id) => {
   const guild = client.guilds.cache.get(config.discord.guild)
   const member = guild.members.cache.get(discord_id)
 
+  if (!member) {
+    return
+  }
+
   const roles = member.roles.cache.map((role) => role)
 
   roles.forEach((role) => {
