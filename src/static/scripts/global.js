@@ -43,27 +43,30 @@ const getTimeRemaining = (endtime) => {
 }
 
 const clock = document.querySelector('.expiration_timer')
-const cd_days = clock.querySelector('.days')
-const cd_hours = clock.querySelector('.hours')
-const cd_mins = clock.querySelector('.minutes')
 
-const refreshClock = () => {
-  const t = getTimeRemaining(getNextDue())
-  cd_days.innerText = t.days
-  cd_hours.innerText = t.hours
-  cd_mins.innerText = t.minutes
+if (clock) {
+  const cd_days = clock.querySelector('.days')
+  const cd_hours = clock.querySelector('.hours')
+  const cd_mins = clock.querySelector('.minutes')
 
-  if (t.total <= 0) {
-    window.location.href = '/dash'
-  } else if (t.days < 1) {
-    clock.classList.remove('is-primary')
-    clock.classList.add('is-danger')
+  const refreshClock = () => {
+    const t = getTimeRemaining(getNextDue())
+    cd_days.innerText = t.days
+    cd_hours.innerText = t.hours
+    cd_mins.innerText = t.minutes
+
+    if (t.total <= 0) {
+      window.location.href = '/dash'
+    } else if (t.days < 1) {
+      clock.classList.remove('is-primary')
+      clock.classList.add('is-danger')
+    }
   }
-}
 
-const initializeClock = () => {
-  const timeinterval = setInterval(refreshClock, 2000)
-}
+  const initializeClock = () => {
+    const timeinterval = setInterval(refreshClock, 2000)
+  }
 
-refreshClock()
-initializeClock()
+  refreshClock()
+  initializeClock()
+}
