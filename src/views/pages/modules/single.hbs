@@ -109,7 +109,7 @@
     <div class='container'>
       <div class="columns is-desktop">
         {{{MdToTableOfContents module.content}}}
-        <div class="column content">
+        <div class="column content" id="module_content">
           {{{module.rendered_content}}}
           <hr />
           {{> submissionStatus}}
@@ -175,12 +175,14 @@
   <script src="https://unpkg.com/prismjs/plugins/custom-class/prism-custom-class.min.js"></script>
   <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
   <script nonce='{{@root/nonce}}'>
+    const contentContainer = document.getElementById('module_content')
+
     Prism.plugins.customClass.prefix('prism__')
 
     let copyWarningDisplayed = false
 
     // warn copy/paste
-    document.querySelectorAll('pre').forEach(el => {
+    contentContainer.querySelectorAll('pre').forEach(el => {
       el.addEventListener('copy', function (event) {
         if (!copyWarningDisplayed) {
           notyf.open({
@@ -250,5 +252,11 @@
           modal.classList.remove("is-active")
         })
       })
+
+    // open ext links in new tab
+    for (let c = contentContainer.getElementsByTagName("a"), a = 0; a < c.length; a++) {
+      let b = c[a];
+      b.getAttribute("href") && b.hostname !== location.hostname && (b.target = "_blank")
+    }
   </script>
 {{/extend}}
