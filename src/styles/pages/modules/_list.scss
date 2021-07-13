@@ -10,121 +10,51 @@
     }
   }
 
-  .modules {
-    position: relative;
-
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-
-    color: white;
-
-    &--required {
-      gap: 24px;
-
-      .module {
-        width: 400px;
-        height: 280px;
-
-        h2 {
-          font-size: 1.8rem;
-          font-weight: bold;
-
-          text-shadow: 0 2px 4px rgba(black, 0.25);
-        }
-      }
+  .card {
+    &.optional {
+      border-style: dashed;
     }
 
-    &--optional {
-      gap: 18px;
-
-      .module {
-        width: 400px;
-        height: 240px;
-
-        h2 {
-          font-size: 1.4rem;
-          font-weight: bold;
-
-          text-shadow: 0 2px 4px rgba(black, 0.25);
-        }
-      }
-    }
-  }
-
-  .module {
-    flex: 0 0 auto;
-
-    box-sizing: border-box;
-    padding: 24px 32px;
-
-    border-radius: 20px;
-
-    background-color: $primary;
-
-    &.pending {
-      background-color: $warning;
-    }
-
-    &.rejected {
-      background-color: $red;
-    }
-
-    &.accepted {
-      background-color: $green;
-    }
-
-    &__container {
-      position: relative;
-      width: 100%;
-      height: 100%;
-
-      p {
-        font-weight: 500;
-      }
-
-      &__bottom {
-        display: flex;
+    .card-header {
+      .card-header-chip {
         align-items: center;
+        display: flex;
+        justify-content: center;
+        padding: 0 0.75rem;
+        color: gray;
+        font-weight: 800;
 
-        position: absolute;
-        bottom: 0;
-
-        width: 100%;
-
-        * {
-          font-size: 1.1rem;
-        }
-
-        *:first-child {
-          margin-right: auto;
-        }
-
-        p {
-          font-weight: bold;
-        }
-
-        a {
-          color: white;
-          background: none;
-          border: none;
-          padding-left: 0;
-
-          transition: margin 150ms ease;
-
-          ion-icon {
-            transition: margin 150ms ease;
+        &.accepted {
+          color: $primary;
+          span.chip {
+            filter: grayscale(0);
           }
+        }
 
-          &:hover, &:active, &:focus {
-            color: white;
+        span.chip {
+          transform: translateY(3px);
+          filter: grayscale(1);
+        }
+      }
+    }
 
-            margin-left: 4px;
+    .card-content {
+      h2 {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+      }
+    }
 
-            ion-icon {
-              margin-left: 3px;
-            }
-          }
+    .card-footer {
+      border-color: transparent;
+
+      .button {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        height: 3rem;
+
+        ion-icon {
+          font-size: 20px;
         }
       }
     }

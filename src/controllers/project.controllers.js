@@ -31,7 +31,8 @@ exports.getProjectsByIds = async (project_ids) => {
 // Excludes hardware projects if no_shipping is true
 // Query doesn't scale well w/ larger datasets, but should be fine for our purposes
 exports.getRandomProjectIds = async (num, exclude, no_shipping) => {
-  const q = await db.query(`
+  const q = await db.query(
+    `
     SELECT project_id FROM projects
     WHERE
       (NOT project_id = ANY ($2)) AND
@@ -46,14 +47,13 @@ exports.getRandomProjectIds = async (num, exclude, no_shipping) => {
 }
 
 // Returns modules associated w/ project, filtered by required flag
-exports.getModulesById = async (project_id, required) => {
+exports.getModulesByProjectId = async (project_id) => {
   const q = await db.query(
     `SELECT * FROM modules
     WHERE
       project_id = $1 AND
-      required = $2 AND
       enabled = true ORDER BY title ASC`,
-    [project_id, required]
+    [project_id]
   )
 
   return q?.rows
@@ -62,8 +62,7 @@ exports.getModulesById = async (project_id, required) => {
 exports.getProjectAndModulesById = async (project_id) => {
   return {
     project: await exports.getProjectById(project_id),
-    modules_required: await exports.getModulesById(project_id, true),
-    modules_optional: await exports.getModulesById(project_id, false) 
+    modules: await exports.getModulesByProjectId(project_id)
   }
 }
 
@@ -101,12 +100,15 @@ exports.updateProject = async (project_id, data) => {
 }
 
 exports.getRequiredModuleIdsByProjectId = async (project_id) => {
-  const q = await db.query(`
+  const q = await db.query(
+    `
     SELECT module_id FROM modules
     WHERE
       project_id = $1 AND
       required = true
-  `, [project_id])
+  `,
+    [project_id]
+  )
 
-  return q?.rows?.map(row => row.module_id)
+  return q?.rows?.map((row) => row.module_id)
 }
