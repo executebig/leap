@@ -13,6 +13,29 @@
     overflow: hidden;
     min-height: 400px;
 
+    .card-header {
+      .card-header-chip {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        padding: 0 0.75rem;
+        color: gray;
+        font-weight: 800;
+
+        &.accepted {
+          color: $primary;
+          span.chip {
+            filter: grayscale(0);
+          }
+        }
+
+        span.chip {
+          transform: translateY(3px);
+          filter: grayscale(1);
+        }
+      }
+    }
+
     .card-content {
       flex: auto;
     }
