@@ -2,19 +2,43 @@
   Modules
 {{/extend}}
 {{#*inline "module"}}
-  <div class='module {{getSubmissionState @root/submissions module_id}}'>
-    <div class="module__container">
+  <div class='card module is-flex is-flex-direction-column is-flex-grow-1 {{#unless required}}optional{{/unless}}'>
+    <header class="card-header">
+      <p class="card-header-title">
+        <span>P{{@root/project.project_id}}M{{module_id}}{{#unless required}}
+          <span class='tag is-primary is-light ml-1'>Optional</span>{{/unless}}</span>
+      </p>
+      <span class="card-header-chip {{getSubmissionState @root/submissions module_id}}">
+        +{{points}}&nbsp;{{>chip}}
+      </span>
+    </header>
+    <div class="card-content is-flex-grow-1">
       <h2>{{title}}</h2>
       <p>{{description}}</p>
-      <span class="module__container__bottom">
-        <a href="/modules/{{module_id}}" class="button">
-          <span>Get Started</span>
-          <span class="icon">
-            <ion-icon name='arrow-forward-outline'></ion-icon>
-          </span>
-        </a>
-        <p>+{{points}} {{>chip}}</p>
-      </span>
+    </div>
+    <div class="card-footer">
+      {{#switch (getSubmissionState @root/submissions module_id)}}
+        {{#case ''}}
+          <a class="card-footer-item button is-primary" href="/modules/{{../module_id}}">
+            <ion-icon name="footsteps"></ion-icon><span>Start Now</span>
+          </a>
+        {{/case}}
+        {{#case 'pending'}}
+          <a class="card-footer-item button is-warning is-light" href="/modules/{{../module_id}}">
+            <ion-icon name="time-outline"></ion-icon><span>Still Grading</span>
+          </a>
+        {{/case}}
+        {{#case 'accepted'}}
+          <a class="card-footer-item button" href="/modules/{{../module_id}}">
+            <ion-icon name="checkmark-circle"></ion-icon><span>Submission Accepted!</span>
+          </a>
+        {{/case}}
+        {{#case 'rejected'}}
+          <a class="card-footer-item button is-danger is-light" href="/modules/{{../module_id}}">
+            <ion-icon name="alert-circle"></ion-icon><span>Submission Rejected</span>
+          </a>
+        {{/case}}
+      {{/switch}}
     </div>
   </div>
 {{/inline}}
@@ -24,16 +48,16 @@
       <div class='container'>
         <div class="columns">
           <div class="column">
-            <h1 class='title is-1'>Week {{user.current_week}} — {{project.title}}</h1>
+            <h1 class='title is-1'>{{project.title}}</h1>
             <div class='block'>
               <span class="tag is-medium">
                 <strong>{{project.type}}</strong>
               </span>
-              <span class="tag is-medium">
+              <span class="tag is-medium ml-2">
                 <strong>{{>chip}} {{project.pts_total}} Available</strong>
               </span>
               {{#if project.hardware}}
-                <span class="tag is-medium"><strong>🛠️ Hardware</strong></span>
+                <span class="tag is-medium ml-2"><strong>🛠️ Hardware</strong></span>
               {{/if}}
             </div>
             <div class="block mb-3">
@@ -65,25 +89,34 @@
   {{#eq @root/user.state 'completed'}}
     <section class="section pb-0">
       <div class="container">
-        <div class="message is-success">
-          <div class="message-header">
-            <p>🎉 Congratulations!</p>
-          </div>
-          <div class="message-body content">
-            <p>
-              <strong>You've successfully submitted all the required modules for your weekly project!</strong> Once we grade &
-              accept your submissions, we'll award you with <strong>+{{@root/config.pointsPerProject}} bonus chips</strong> for completing your project.
-              Be sure to look at the <strong>optional modules</strong> for <strong>more chips</strong> & opportunities to <strong>learn new things!</strong>
-            </p>
-            {{#if @root/newBadges}}
+        <div class="card is-success">
+          <header class="card-header">
+            <p class="card-header-title">🎉 Congratulations! You've completed Week {{@root/user.current_week}}.</p>
+          </header>
+          <div class="card-content content is-flex">
+            <div>
               <p>
-                <i><strong>Psst...</strong> check out your newly-earned badges!</i>
+                <strong>You've successfully submitted all the required modules for your weekly project!</strong>
+              </p>
+              <p>
+                Once we grade &
+                accept your submissions, we'll award you with another <strong>+{{@root/config.pointsPerProject}} {{>chip}}</strong> for completing your project.
+                Be sure to look at the <strong>optional modules</strong> for <strong>more chips</strong> & opportunities to <strong>learn new things!</strong>
+              </p>
+              {{#if @root/newBadges}}
+                <p>
+                  <i><span><strong>Psst...</strong> check out your newly-earned badges!</span>&nbsp;<ion-icon name="arrow-forward-outline"></ion-icon></i>
+                </p>
+              {{/if}}
+            </div>
+            {{#if @root/newBadges}}
+              <div class="badges is-flex-shrink-0 ml-5 is-flex is-align-items-center">
                 {{#each @root/newBadges}}
                   <figure class='image is-64x64 my-0 ml-0 mr-3' aria-label='{{name}}: {{description}}' data-balloon-pos='down-left' data-balloon-length='large' style="display: inline-block;">
                     <img class='badge large' src='{{icon}}' />
                   </figure>
                 {{/each}}
-              </p>
+              </div>
             {{/if}}
           </div>
         </div>
@@ -93,20 +126,11 @@
   {{> survey}}
   <section class='section pb-0'>
     <div class="container">
-      <h2 class="title">Required Modules</h2>
-      <div class='modules modules--required has-horizontal-scroll'>
-        {{#each modules_required}}
-          {{>module}}
-        {{/each}}
-      </div>
-    </div>
-  </section>
-  <section class='section'>
-    <div class="container">
-      <h2 class="title">Optional Modules</h2>
-      <div class='modules modules--optional has-horizontal-scroll'>
-        {{#each modules_optional}}
-          {{>module}}
+      <div class='modules modules--required columns is-multiline'>
+        {{#each modules}}
+          <div class="column is-one-third-desktop is-half is-flex is-flex-direction-column">
+            {{>module}}
+          </div>
         {{/each}}
       </div>
     </div>
