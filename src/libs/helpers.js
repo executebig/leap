@@ -5,6 +5,7 @@ const dayjs = require('dayjs')
 const utc = require('dayjs/plugin/utc')
 const timezone = require('dayjs/plugin/timezone')
 const { Slugger } = require('marked')
+const xss = require('xss')
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -99,6 +100,10 @@ exports.select = (value, options) => {
   return options.fn(this).replace(new RegExp(' value="' + value + '"'), '$& selected="selected"')
 }
 
+exports.sanitize = (value, options) => {
+  return xss(value)
+}
+
 // Switch / case / default statement
 exports.switch = (value, options) => {
   this.switch_value = value
@@ -125,7 +130,7 @@ exports.MdToTableOfContents = (value, options) => {
   let prevIndent = 0
 
   const slugger = new Slugger()
-  
+
   const codeBlockStripper = /(```.+?```)/gms
   value = value.replace(codeBlockStripper, '')
 
