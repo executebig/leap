@@ -1,5 +1,5 @@
 {{#extend 'title'}}
-  {{@root/module.title}}
+  {{sanitize @root/module.title}}
 {{/extend}}
 {{#extend 'header-inject'}}
   <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
