@@ -10,7 +10,7 @@
             <nav class="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li class="is-active"><a>Submissions</a></li>
-                    <li><a href="/admin/submissions/" aria-current="page">Projects</a></li>
+                    <li><a href="/admin/submissions/">Projects</a></li>
                     <li class="is-active"><a href="/admin/submissions/{{project_id}}" aria-current="page">P{{project_id}}</a></li>
                 </ul>
             </nav>
@@ -45,16 +45,6 @@
                             </div>
                         </a>
                     </div>
-                    {{!-- <a class='module' href="/admin/submissions/{{project_id}}/{{module_id}}">
-                        <div class="module__container">
-                            <h2>{{title}}</h2>
-                            <p>{{description}}</p>
-
-                            <span class="module__container__bottom">
-                                <p>{{num_submissions}} pending</p>
-                            </span>
-                        </div>
-                    </a> --}}
                 {{/each}}
             </div>
         </div>
