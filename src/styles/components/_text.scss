@@ -2,6 +2,18 @@ a {
   &:hover {
     text-decoration: underline;
   }
+
+  &.nostyle {
+    &:link {
+      text-decoration: inherit;
+      color: inherit;
+    }
+
+    &:visited {
+      text-decoration: inherit;
+      color: inherit;
+    }
+  }
 }
 
 .is-discord {

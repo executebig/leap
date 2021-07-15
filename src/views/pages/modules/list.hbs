@@ -3,15 +3,17 @@
 {{/extend}}
 {{#*inline "module"}}
   <div class='card module is-flex is-flex-direction-column is-flex-grow-1 {{#unless required}}optional{{/unless}}'>
-    <header class="card-header">
-      <p class="card-header-title">
-        <span>P{{@root/project.project_id}}M{{module_id}}{{#unless required}}
-          <span class='tag is-primary is-light ml-1'>Optional</span>{{/unless}}</span>
-      </p>
-      <span class="card-header-chip {{getSubmissionState @root/submissions module_id}}">
-        +{{points}}&nbsp;{{>chip}}
-      </span>
-    </header>
+    <a class="nostyle" href="/modules/{{../module_id}}">
+      <header class="card-header">
+        <p class="card-header-title">
+          <span>P{{@root/project.project_id}}M{{module_id}}{{#unless required}}
+            <span class='tag is-primary is-light ml-1'>Optional</span>{{/unless}}</span>
+        </p>
+        <span class="card-header-chip {{getSubmissionState @root/submissions module_id}}">
+          +{{points}}&nbsp;{{>chip}}
+        </span>
+      </header>
+    </a>
     <div class="card-content is-flex-grow-1">
       <h2>{{title}}</h2>
       <p>{{description}}</p>
