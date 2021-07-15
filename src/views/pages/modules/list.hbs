@@ -3,15 +3,17 @@
 {{/extend}}
 {{#*inline "module"}}
   <div class='card module is-flex is-flex-direction-column is-flex-grow-1 {{#unless required}}optional{{/unless}}'>
-    <header class="card-header">
-      <p class="card-header-title">
-        <span>P{{@root/project.project_id}}M{{module_id}}{{#unless required}}
-          <span class='tag is-primary is-light ml-1'>Optional</span>{{/unless}}</span>
-      </p>
-      <span class="card-header-chip {{getSubmissionState @root/submissions module_id}}">
-        +{{points}}&nbsp;{{>chip}}
-      </span>
-    </header>
+    <a class="nostyle" href="/modules/{{../module_id}}">
+      <header class="card-header">
+        <p class="card-header-title">
+          <span>P{{@root/project.project_id}}M{{module_id}}{{#unless required}}
+            <span class='tag is-primary is-light ml-1'>Optional</span>{{/unless}}</span>
+        </p>
+        <span class="card-header-chip {{getSubmissionState @root/submissions module_id}}">
+          +{{points}}&nbsp;{{>chip}}
+        </span>
+      </header>
+    </a>
     <div class="card-content is-flex-grow-1">
       <h2>{{title}}</h2>
       <p>{{description}}</p>
@@ -93,7 +95,7 @@
           <header class="card-header">
             <p class="card-header-title">🎉 Congratulations! You've completed Week {{@root/user.current_week}}.</p>
           </header>
-          <div class="card-content content is-flex">
+          <div class="card-content content is-flex-desktop">
             <div>
               <p>
                 <strong>You've successfully submitted all the required modules for your weekly project!</strong>
@@ -105,12 +107,12 @@
               </p>
               {{#if @root/newBadges}}
                 <p>
-                  <i><span><strong>Psst...</strong> check out your newly-earned badges!</span>&nbsp;<ion-icon name="arrow-forward-outline"></ion-icon></i>
+                  <span><strong>Psst...</strong> check out your newly-earned badges!
                 </p>
               {{/if}}
             </div>
             {{#if @root/newBadges}}
-              <div class="badges is-flex-shrink-0 ml-5 is-flex is-align-items-center">
+              <div class="badges is-flex-shrink-0 is-flex is-align-items-center mt-4">
                 {{#each @root/newBadges}}
                   <figure class='image is-64x64 my-0 ml-0 mr-3' aria-label='{{name}}: {{description}}' data-balloon-pos='down-left' data-balloon-length='large' style="display: inline-block;">
                     <img class='badge large' src='{{icon}}' />
