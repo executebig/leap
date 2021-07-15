@@ -1,0 +1,26 @@
+.page__admin__submissions__projects {
+  .card {
+    height: 100%;
+
+    .card-content {
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      h5 {
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+      }
+    }
+
+    .card-footer {
+      border-color: transparent;
+
+      .button {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        height: 3rem;
+      }
+    }
+  }
+}

@@ -1,40 +1,66 @@
 {{#extend "title"}}
     Submissions
 {{/extend}}
-<section class="section header">
-    <div class="container">
-        <h1 class="title">Submissions — Projects</h1>
 
-        <nav class="breadcrumb" aria-label="breadcrumbs">
-            <ul>
-                <li class="is-active"><a>Submissions</a></li>
-                <li><a href="/admin/submissions/" aria-current="page">Projects</a></li>
-            </ul>
-        </nav>
-    </div>
-</section>
-<section class="section">
-    <div class="container">
-        <div class="columns is-multiline">
-            {{#each projects}}
-                <div class='column is-half'>
-                    <a
-                        class="project card"
-                        href="/admin/submissions/{{project_id}}"
-                    >
-                        <h2>{{title}}</h2>
-                        <p>{{description}}</p>
+<div class="page__admin__submissions__projects">
+    <section class="section header">
+        <div class="container">
+            <h1 class="title">Submissions — Projects</h1>
 
-                        <span>
-                            <p>{{type}}</p>
-                            <p>{{num_submissions}} pending</p>
-                        </span>
+            <nav class="breadcrumb" aria-label="breadcrumbs">
+                <ul>
+                    <li class="is-active"><a>Submissions</a></li>
+                    <li><a href="/admin/submissions/" aria-current="page">Projects</a></li>
+                </ul>
+            </nav>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="columns is-multiline">
+                {{#each projects}}
+                <div class="column is-half">
+                    <a class="nostyle" href="/admin/submissions/{{project_id}}">
+                        <div class='card module is-flex is-flex-direction-column is-flex-grow-1'>
+                            <header class="card-header">
+                                <p class="card-header-title">
+                                    <span>P{{project_id}}</span>
+                                </p>
+                            </header>
 
-                        <img src={{thumbnail_url}} alt='' class='project__bg' />
-                        <div class='project__overlay--1'></div>
+                            <div class="card-content is-flex-grow-1">
+                                <h2>{{title}}</h2>
+                                <h5>{{type}}</h5>
+                                <p>{{description}}</p>
+                            </div>
+
+                            <div class="card-footer">
+                                <span class="card-footer-item button is-primary">
+                                    <p>{{num_submissions}} pending</p>
+                                </span>
+                            </div>
+                        </div>
                     </a>
                 </div>
-            {{/each}}
+                    {{!-- <div class='column is-half'>
+                        <a
+                            class="project card"
+                            href="/admin/submissions/{{project_id}}"
+                        >
+                            <h2>{{title}}</h2>
+                            <p>{{description}}</p>
+
+                            <span>
+                                <p>{{type}}</p>
+                                <p>{{num_submissions}} pending</p>
+                            </span>
+
+                            <img src={{thumbnail_url}} alt='' class='project__bg' />
+                            <div class='project__overlay--1'></div>
+                        </a>
+                    </div> --}}
+                {{/each}}
+            </div>
         </div>
-    </div>
-</section>
+    </section>
+</div>
