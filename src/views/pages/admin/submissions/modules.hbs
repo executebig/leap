@@ -20,7 +20,32 @@
         <div class="container">
             <div class="columns is-multiline modules">
                 {{#each modules}}
-                    <a class='module' href="/admin/submissions/{{project_id}}/{{module_id}}">
+                    <div class="column is-one-third">
+                        <a class="nostyle" href="/admin/submissions/{{project_id}}/{{module_id}}">
+                            <div class='card module is-flex is-flex-direction-column is-flex-grow-1 {{#unless required}}optional{{/unless}}'>
+                                <header class="card-header">
+                                    <p class="card-header-title">
+                                        <span>P{{project_id}}M{{module_id}}</span>
+                                        {{#unless required}}
+                                            <span class='tag is-primary is-light ml-2'>Optional</span>
+                                        {{/unless}}
+                                    </p>
+                                </header>
+
+                                <div class="card-content is-flex-grow-1">
+                                    <h2>{{title}}</h2>
+                                    <p>{{description}}</p>
+                                </div>
+
+                                <div class="card-footer">
+                                    <span class="card-footer-item button {{numSubmissionsAsColorWeight num_submissions 20}}">
+                                        <p>{{num_submissions}} pending</p>
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    {{!-- <a class='module' href="/admin/submissions/{{project_id}}/{{module_id}}">
                         <div class="module__container">
                             <h2>{{title}}</h2>
                             <p>{{description}}</p>
@@ -29,7 +54,7 @@
                                 <p>{{num_submissions}} pending</p>
                             </span>
                         </div>
-                    </a>
+                    </a> --}}
                 {{/each}}
             </div>
         </div>

@@ -1,50 +1,25 @@
 .page__admin__submissions__modules {
-  .modules {
-    display: flex;
-    gap: 1rem;
-  }
+  .card {
+    height: 100%;
 
-  .module {
-    box-sizing: border-box;
-    padding: 24px 32px;
-
-    border-radius: 20px;
-
-    background-color: $primary;
-
-    color: white;
-
-    width: 400px;
-    height: 280px;
-
-    h2 {
-      font-size: 1.8rem;
-      font-weight: bold;
-
-      text-shadow: 0 2px 4px rgba(black, 0.25);
+    &.optional {
+      border-style: dashed;
     }
 
-    &__container {
-      position: relative;
-      width: 100%;
-      height: 100%;
-
-      p {
-        font-weight: 500;
+    .card-content {
+      h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
       }
+    }
 
-      &__bottom {
-        display: flex;
-        align-items: center;
+    .card-footer {
+      border-color: transparent;
 
-        position: absolute;
-        bottom: 0;
-
-        width: 100%;
-
-        p {
-          font-weight: bold;
-        }
+      .button {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        height: 3rem;
       }
     }
   }
