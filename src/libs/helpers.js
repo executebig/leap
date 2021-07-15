@@ -165,3 +165,13 @@ exports.MdToTableOfContents = (value, options) => {
     </div>
   `
 }
+
+// Color weighting helpers
+exports.numSubmissionsAsColorWeight = (value, max, options) => {
+  if (value >= parseInt(max, 10))
+    return 'is-danger'
+  else if (value > 0)
+    return 'is-warning'
+  else
+    return 'is-primary'
+}

@@ -1,9 +1,11 @@
 {{#extend 'title'}}
   Grade Submission #{{submission.submission_id}}
 {{/extend}}
+
 {{#extend 'header-inject'}}
-  <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+  <link rel='stylesheet' href='https://unpkg.com/easymde/dist/easymde.min.css' />
 {{/extend}}
+
 <section class='section header'>
   <div class='container'>
     <h1 class='title'>
@@ -18,33 +20,61 @@
     </nav>
   </div>
 </section>
+
 <section class='section details'>
   <div class='container'>
-    <div class="content">
-      <h2 class="title">{{submission.project_title}}</h2>
-      <h5 class="subtitle">{{submission.module_title}}</h5>
+    <div class='content'>
+      <h2 class='title'>{{submission.project_title}}</h2>
+      <h5 class='subtitle mb-2'>{{submission.module_title}}</h5>
+
+      <strong class="tag is-medium is-primary">
+        {{prettyTime submission.created_at}}
+      </strong>
+
+      <strong class="tag is-medium is-primary">
+        U{{submission.user_id}}
+      </strong>
+
+      <strong class="tag is-medium is-primary">
+        S{{submission.submission_id}}
+      </strong>
+
+      <strong class="tag is-medium is-primary">
+        P{{submission.project_id}}M{{submission.module_id}}
+      </strong>
     </div>
 
-    <textarea name='content' id='content-editor' class='textarea' type='text'>{{submission.content}}</textarea>
+    <textarea
+      name='content'
+      id='content-editor'
+      class='textarea'
+      type='text'
+    >{{submission.content}}</textarea>
 
     <form method='post'>
       <div class='field' id='comments'>
         <label class='label'>Comments (Please fill out for rejections, optional for acceptance)</label>
-        <textarea name='comments' id='comments-editor' class='textarea' type='text'>{{submission.comments}}</textarea>
+        <textarea
+          name='comments'
+          id='comments-editor'
+          class='textarea'
+          type='text'
+        >{{submission.comments}}</textarea>
       </div>
       <div class='field'>
         <label class='label'>Grading Decision (was <code>{{submission.state}}</code>)</label>
         <div class='select is-fullwidth'>
           <select name='state'>
             {{#select submission.state}}
-            <option value="accepted">Accept Submission</option>
-            <option value="rejected">Reject Submission</option>
+              <option value='accepted'>Accept Submission</option>
+              <option value='rejected'>Reject Submission</option>
             {{/select}}
           </select>
         </div>
       </div>
       <button class='button is-primary mt-1' type='submit'>
-        {{#if update}}Update{{else}}Grade{{/if}} Submission
+        {{#if update}}Update{{else}}Grade{{/if}}
+        Submission
       </button>
     </form>
   </div>

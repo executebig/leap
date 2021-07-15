@@ -1,14 +1,14 @@
-.page__admin__submissions__modules {
+.page__admin__submissions__projects {
   .card {
     height: 100%;
-
-    &.optional {
-      border-style: dashed;
-    }
 
     .card-content {
       h2 {
         font-size: 1.5rem;
+      }
+
+      h5 {
+        font-size: 0.8rem;
         margin-bottom: 1rem;
       }
     }
