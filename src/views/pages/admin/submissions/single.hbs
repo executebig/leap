@@ -1,103 +1,109 @@
-{{#extend 'title'}}
-  Grade Submission #{{submission.submission_id}}
-{{/extend}}
+{{#with submission}}
+  {{#extend 'title'}}
+    Grade Submission #{{submission_id}}
+  {{/extend}}
 
-{{#extend 'header-inject'}}
-  <link rel='stylesheet' href='https://unpkg.com/easymde/dist/easymde.min.css' />
-{{/extend}}
+  {{#extend 'header-inject'}}
+    <link rel='stylesheet' href='https://unpkg.com/easymde/dist/easymde.min.css' />
+  {{/extend}}
 
-<section class='section header'>
-  <div class='container'>
-    <h1 class='title'>
-      Grade Submission #{{submission.submission_id}}
-    </h1>
+  <section class='section header'>
+    <div class='container'>
+      <h1 class='title'>
+        Grade Submission #{{submission_id}}
+      </h1>
 
-    <nav class='breadcrumb' aria-label='breadcrumbs'>
-      <ul>
-        <li><a href='/admin/submissions'>Submissions</a></li>
-        <li class='is-active'><a href='#' aria-current='page'>Submission #{{submission.submission_id}}</a></li>
-      </ul>
-    </nav>
-  </div>
-</section>
-
-<section class='section details'>
-  <div class='container'>
-    <div class='content'>
-      <h2 class='title'>{{submission.project_title}}</h2>
-      <h5 class='subtitle mb-2'>{{submission.module_title}}</h5>
-
-      <strong class="tag is-medium is-primary">
-        {{prettyTime submission.created_at}}
-      </strong>
-
-      <strong class="tag is-medium is-primary">
-        U{{submission.user_id}}
-      </strong>
-
-      <strong class="tag is-medium is-primary">
-        S{{submission.submission_id}}
-      </strong>
-
-      <strong class="tag is-medium is-primary">
-        P{{submission.project_id}}M{{submission.module_id}}
-      </strong>
+      <nav class='breadcrumb' aria-label='breadcrumbs'>
+        <ul>
+          <li class="is-active"><a>Submissions</a></li>
+          <li><a href="/admin/submissions/">Projects</a></li>
+          <li><a href="/admin/submissions/{{project_id}}">P{{project_id}}</a></li>
+          <li><a href="/admin/submissions/{{project_id}}/{{module_id}}">M{{module_id}}</a></li>
+          <li class="is-active"><a aria-current="page">S{{submission_id}}</a></li>
+        </ul>
+      </nav>
     </div>
+  </section>
 
-    <textarea
-      name='content'
-      id='content-editor'
-      class='textarea'
-      type='text'
-    >{{submission.content}}</textarea>
+  <section class='section details'>
+    <div class='container'>
+      <div class='content mb-5'>
+        <h2 class='title'>{{project_title}}</h2>
+        <h5 class='subtitle mb-2'>{{module_title}}</h5>
 
-    <form method='post'>
-      <div class='field' id='comments'>
-        <label class='label'>Comments (Please fill out for rejections, optional for acceptance)</label>
-        <textarea
-          name='comments'
-          id='comments-editor'
-          class='textarea'
-          type='text'
-        >{{submission.comments}}</textarea>
+        <strong class="tag is-medium is-primary">
+          {{prettyTime created_at}}
+        </strong>
+
+        <strong class="tag is-medium is-primary">
+          U{{user_id}}
+        </strong>
+
+        <strong class="tag is-medium is-primary">
+          S{{submission_id}}
+        </strong>
+
+        <strong class="tag is-medium is-primary">
+          P{{project_id}}M{{module_id}}
+        </strong>
       </div>
-      <div class='field'>
-        <label class='label'>Grading Decision (was <code>{{submission.state}}</code>)</label>
-        <div class='select is-fullwidth'>
-          <select name='state'>
-            {{#select submission.state}}
-              <option value='accepted'>Accept Submission</option>
-              <option value='rejected'>Reject Submission</option>
-            {{/select}}
-          </select>
+
+      <textarea
+        name='content'
+        id='content-editor'
+        class='textarea'
+        type='text'
+      >{{content}}</textarea>
+
+      <form method='post'>
+        <div class='field' id='comments'>
+          <label class='label'>Comments (Please fill out for rejections, optional for acceptance)</label>
+          <textarea
+            name='comments'
+            id='comments-editor'
+            class='textarea'
+            type='text'
+          >{{comments}}</textarea>
         </div>
-      </div>
-      <button class='button is-primary mt-1' type='submit'>
-        {{#if update}}Update{{else}}Grade{{/if}}
-        Submission
-      </button>
-    </form>
-  </div>
-</section>
-{{! prettier-ignore }}
-{{#extend 'scripts'}}
-  <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
-  <script nonce='{{@root/nonce}}'>
-    const comments = document.querySelector('#comments')
-    const commentsEditor = document.querySelector('#comments-editor')
+        <div class='field'>
+          <label class='label'>Grading Decision (was <code>{{state}}</code>)</label>
+          <div class='select is-fullwidth'>
+            <select name='state'>
+              {{#select state}}
+                <option value='accepted'>Accept Submission</option>
+                <option value='rejected'>Reject Submission</option>
+              {{/select}}
+            </select>
+          </div>
+        </div>
+        <button class='button is-primary mt-1' type='submit'>
+          {{#if @root/update}}Update{{else}}Grade{{/if}}
+          Submission
+        </button>
+      </form>
+    </div>
+  </section>
 
-    const contentEditor = new EasyMDE({
-      element: document.getElementById("content-editor")
-    })
+  {{! prettier-ignore }}
+  {{#extend 'scripts'}}
+    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+    <script nonce='{{@root/nonce}}'>
+      const comments = document.querySelector('#comments')
+      const commentsEditor = document.querySelector('#comments-editor')
 
-    document.querySelector('select[name=state]').addEventListener('change', (e) => {
-      if (e.target.value === 'rejected') {
-        commentsEditor.setAttribute("required","required");
-      } else {
-        commentsEditor.removeAttribute("required");
-      }
-    })
+      const contentEditor = new EasyMDE({
+        element: document.getElementById("content-editor")
+      })
 
-    contentEditor.togglePreview()
-  </script>
-{{/extend}}
+      document.querySelector('select[name=state]').addEventListener('change', (e) => {
+        if (e.target.value === 'rejected') {
+          commentsEditor.setAttribute("required","required");
+        } else {
+          commentsEditor.removeAttribute("required");
+        }
+      })
+
+      contentEditor.togglePreview()
+    </script>
+  {{/extend}}
+{{/with}}
