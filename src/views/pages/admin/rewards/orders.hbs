@@ -40,12 +40,6 @@
                 {{else}}
                     <p>No orders found!</p>
                 {{/if}}
-                {{#notEq prevPage -1}}
-                    <a class="button" href="/admin/users/{{../prevPage}}?by={{../orderBy}}&order={{../order}}">Previous</a>
-                {{/notEq}}
-                {{#notEq nextPage -1}}
-                    <a class="button" href="/admin/users/{{../nextPage}}?by={{../orderBy}}&order={{../order}}">Next</a>
-                {{/notEq}}
                 <p>Got questions? Please email <a href="mailto:hi@techroulette.xyz">hi@techroulette.xyz</a> or message us on Discord.</p>
             </div>
         </section>

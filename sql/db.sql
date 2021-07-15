@@ -118,6 +118,7 @@ create table rewards (
     quantity integer not null,
     needs_shipping boolean default false not null,
     enabled boolean default false not null,
+    raffle boolean default false not null,
     price integer not null,
     delivery text not null
 );

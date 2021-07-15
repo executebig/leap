@@ -5,28 +5,28 @@
 const db = require('@db')
 
 exports.createReward = async (data) => {
-  const { name, description, image, quantity, needs_shipping, enabled, price, delivery } = data
+  const { name, description, image, quantity, needs_shipping, enabled, price, delivery, raffle } = data
 
   const q = await db.query(
-    `INSERT INTO rewards (name, description, image, quantity, needs_shipping, enabled, price, delivery)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+    `INSERT INTO rewards (name, description, image, quantity, needs_shipping, enabled, price, delivery, raffle)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
         RETURNING *
     `,
-    [name, description, image, quantity, needs_shipping, enabled, price, delivery]
+    [name, description, image, quantity, needs_shipping, enabled, price, delivery, raffle]
   )
 
   return q?.rows[0]
 }
 
 exports.updateReward = async (reward_id, data) => {
-  const { name, description, image, quantity, needs_shipping, enabled, price, delivery } = data
+  const { name, description, image, quantity, needs_shipping, enabled, price, delivery, raffle } = data
 
   const q = await db.query(
-    `UPDATE rewards SET name = $1, description = $2, image = $3, quantity = $4, needs_shipping = $5, enabled = $6, price = $7, delivery = $8
-        WHERE reward_id = $9
+    `UPDATE rewards SET name = $1, description = $2, image = $3, quantity = $4, needs_shipping = $5, enabled = $6, price = $7, delivery = $8, raffle = $9
+        WHERE reward_id = $10
         RETURNING reward_id
     `,
-    [name, description, image, quantity, needs_shipping, enabled, price, delivery, reward_id]
+    [name, description, image, quantity, needs_shipping, enabled, price, delivery, raffle, reward_id]
   )
 
   return q?.rows[0]
@@ -46,7 +46,7 @@ exports.listAll = async () => {
 
 exports.listAvailable = async (no_shipping) => {
   const q = await db.query(
-    'SELECT * FROM rewards WHERE (needs_shipping = false OR NOT $1) AND enabled = true ORDER BY price ASC',
+    'SELECT * FROM rewards WHERE (needs_shipping = false OR NOT $1) AND enabled = true ORDER BY price ASC, name ASC',
     [no_shipping]
   )
   return q?.rows
