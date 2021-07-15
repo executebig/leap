@@ -3,7 +3,7 @@
 {{/extend}}
 {{#*inline "module"}}
   <div class='card module is-flex is-flex-direction-column is-flex-grow-1 {{#unless required}}optional{{/unless}}'>
-    <a class="nostyle" href="/modules/{{../module_id}}">
+    <a class="nostyle" href="/modules/{{module_id}}">
       <header class="card-header">
         <p class="card-header-title">
           <span>P{{@root/project.project_id}}M{{module_id}}{{#unless required}}
