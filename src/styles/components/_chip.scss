@@ -10,13 +10,3 @@ span.chip {
     box-shadow: 0 0 3px $secondary;
   }
 }
-
-span.tag {
-  span.chip {
-    img {
-      width: 18px !important;
-      height: 18px !important;
-      margin-bottom: -2px;
-    }
-  }
-}

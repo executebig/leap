@@ -45,22 +45,27 @@
   </div>
 {{/inline}}
 <div class='page__modules__list'>
-  <section class='hero {{#eq @root/user.state ' completed'}}is-success{{else}}is-primary{{/eq}}'>
+  <section class='hero'>
     <div class="hero-body">
       <div class='container'>
         <div class="columns">
           <div class="column">
-            <h1 class='title is-1'>{{project.title}}</h1>
-            <div class='block'>
-              <span class="tag is-medium">
-                <strong>{{project.type}}</strong>
+            <h1 class='title is-1 has-text-primary'>{{project.title}}</h1>
+            <div class='tags are-medium'>
+              <span class="tag is-primary is-light">
+                {{project.type}}
               </span>
-              <span class="tag is-medium ml-2">
-                <strong>{{>chip}} {{project.pts_total}} Available</strong>
+              <span class="tag is-primary is-light">
+                {{>chip}} {{project.pts_total}} Available
               </span>
               {{#if project.hardware}}
-                <span class="tag is-medium ml-2"><strong>🛠️ Hardware</strong></span>
+                <span class="tag is-warning">Hardware Required</span>
               {{/if}}
+              {{#eq @root/user.state 'completed'}}
+                <span class="tag is-success is-light">Completed</span>
+              {{else}}
+                <span class="tag is-warning is-light">Incomplete</span>
+              {{/eq}}
             </div>
             <div class="block mb-3">
               <strong>
@@ -69,11 +74,11 @@
             </div>
             <div class="block">
               <strong>
-                Got a question about this project? Please include the project ID: <code>P{{project.project_id}}</code>.
+                Got a question about this project? Please include the project ID: <span class="tag is-primary">P{{project.project_id}}</span>
               </strong>
             </div>
             <div class="block">
-              <a href="/submissions/{{project.project_id}}" class="button">
+              <a href="/submissions/{{project.project_id}}" class="button is-primary">
                 <span>Previous Submissions</span>
                 <span class="icon">
                   <ion-icon name="arrow-forward-outline"></ion-icon>
