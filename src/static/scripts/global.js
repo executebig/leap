@@ -22,10 +22,13 @@ burger.addEventListener('click', () => {
 
 // countdown timer
 const getNextDue = () => {
-  const currentUTC = new Date().getTime()
-  const DAY = 1000 * 60 * 60 * 24
+  const nextDue = new Date()
+  nextDue.setDate(nextDue.getDate() + ((7 - nextDue.getDay()) % 7))
+  nextDue.setUTCHours(0)
+  nextDue.setMinutes(0)
+  nextDue.setMilliseconds(0)
 
-  return new Date(currentUTC - (currentUTC % (DAY * 7)) + DAY * 10)
+  return nextDue
 }
 
 const getTimeRemaining = (endtime) => {
