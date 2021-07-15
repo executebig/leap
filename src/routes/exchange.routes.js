@@ -63,7 +63,7 @@ router.post('/purchase', async (req, res) => {
     reward_name: reward.name,
     email: req.user.email,
     address: address,
-    status: reward.needs_shipping ? 'Awaiting physical shipping' : 'Order placed'
+    status: reward.raffle ? 'Pending raffle' : (reward.needs_shipping ? 'Awaiting physical shipping' : 'Order placed')
   })
 
   await UserController.updateUser(req.user.user_id, { points: req.user.points - reward.price })

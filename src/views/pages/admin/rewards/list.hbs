@@ -19,6 +19,7 @@
                         <th><abbr title='quantity remaining'>Q/R</abbr></th>
                             <th><abbr title="image">Image</abbr></th>
                         <th><abbr title='needs_shipping'>Ship?</abbr></th>
+                        <th><abbr title='needs_shipping'>Raffle?</abbr></th>
                         <th><abbr title='enabled'>EN?</abbr></th>
                         <th>Actions</th>
                     </tr>
@@ -32,6 +33,7 @@
                             <td>{{{quantity}}}</td>
                             <td><img src="{{image}}" alt="" style="width: 60px;"></td>
                             <td>{{{showBool needs_shipping}}}</td>
+                            <td>{{{showBool raffle}}}</td>
                             <td>{{{showBool enabled}}}</td>
                             <td><a href='/admin/rewards/edit/{{reward_id}}'>Edit R{{reward_id}}</a></td>
                         </tr>

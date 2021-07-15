@@ -22,7 +22,7 @@
             <div class="columns is-multiline">
                 {{#each rewards}}
                     <div class="column is-6 is-flex">
-                        <div class="card reward is-flex is-flex-direction-column" reward-id="{{reward_id}}" reward-name="{{name}}" reward-price="{{price}}">
+                        <div class="card reward is-flex is-flex-direction-column{{#if raffle}} raffle{{/if}}" reward-id="{{reward_id}}" reward-name="{{name}}" reward-price="{{price}}">
                             <div class="card-content is-flex-grow-1">
                                 <div class="columns">
                                     <div class="column is-3">
@@ -48,7 +48,15 @@
                             </div>
                             <div class="card-footer">
                                 {{#if quantity}}
-                                    <a class="purchase-button card-footer-item button is-primary">Buy for {{price}}&nbsp;{{>chip}}</a>
+                                    {{#if raffle}}
+                                        <a class="purchase-button card-footer-item button is-primary is-light">
+                                            Buy a raffle entry for {{price}}&nbsp;{{>chip}}
+                                        </a>
+                                    {{else}}
+                                        <a class="purchase-button card-footer-item button is-primary">
+                                            Buy for {{price}}&nbsp;{{>chip}}
+                                        </a>
+                                    {{/if}}
                                 {{else}}
                                     <a class="card-footer-item button is-light" disabled>Sold Out</a>
                                 {{/if}}

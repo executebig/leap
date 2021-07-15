@@ -84,6 +84,13 @@
                             </label>
                             <p class="help">Disabled rewards will not show up for any user.</p>
                         </div>
+                        <div class="field">
+                            <label class="checkbox mt-3">
+                                <input type="checkbox" name="raffle" {{#unless edit}}checked{{else}}{{#if reward.raffle}}checked{{/if}}{{/unless}}>
+                                Raffle?
+                            </label>
+                            <p class="help">Raffle items will have special raffle controls and show up to users as "pending raffle".</p>
+                        </div>
                     </div>
                 </div>
                 <button type="submit" class="button is-primary">{{#if edit}}Update Reward{{else}}Create Reward{{/if}}</button>
