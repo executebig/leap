@@ -1,0 +1,81 @@
+{{#extend "title"}}
+    Batch User Controls #{{@root/target.user_id}}
+{{/extend}}
+<section class="section header">
+    <div class="container">
+        <h1 class="title">Batch Controls</h1>
+    </div>
+</section>
+<section class="section badge">
+    <div class="container">
+        <form method="POST" action="/admin/users/batch">
+            <div class="card">
+                <div class="card-header">
+                    <p class="card-header-title">User ID Selection</p>
+                </div>
+                <div class="card-content">
+                    <div class="field">
+                        <div class="control">
+                            <textarea class="textarea" id="user_ids"></textarea>
+                        </div>
+                    </div>
+                    <a class="button is-primary mt-2" id="sanitize">Sanitize & Dedupe</a>
+                    <p id="report" class="mt-2"></p>
+                </div>
+            </div>
+            <div class="card mt-5" id="points_card" style="display: none;">
+                <div class="card-header">
+                    <p class="card-header-title">Point value Selection</p>
+                </div>
+                <div class="card-content">
+                    <div class="field mb-4 has-addons">
+                        <div class="control">
+                            <input class="input" type="hidden" name="user_ids" id="sanitized_ids" />
+                            <input class="input" type="number" name="change" value=0 id="bal_change" />
+                        </div>
+                    </div>
+                    <div class="quick_change mb-3">
+                        <a class="button is-danger is-light qc_button" data-change=-10>-10</a>
+                        <a class="button is-danger is-light qc_button" data-change=-5>-5</a>
+                        <a class="button is-danger is-light qc_button" data-change=-1>-1</a>
+                        <a class="button is-light qc_button" data-change=0>RESET</a>
+                        <a class="button is-success is-light qc_button" data-change=1>+1</a>
+                        <a class="button is-success is-light qc_button" data-change=5>+5</a>
+                        <a class="button is-success is-light qc_button" data-change=10>+10</a>
+                    </div>
+                    <div class="control">
+                        <button class="button is-primary" type="submit">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+</section>
+<script nonce={{nonce}}>
+    const sanitizeButton = document.getElementById('sanitize')
+    const idsField = document.getElementById('user_ids')
+    const report = document.getElementById('report')
+    const pointsCard = document.getElementById('points_card')
+    const sanitizedIdsField = document.getElementById('sanitized_ids')
+
+    sanitizeButton.addEventListener('click', () => {
+        const ids = idsField.value.split(/[\n,]+/).map(item => parseInt(item.trim()))
+        const sanitized = [...new Set(ids)].sort((a, b) => a - b).filter(n => n >= 0)
+
+        idsField.value = sanitized
+        sanitizedIdsField.value = sanitized
+
+        report.textContent = `Sanitized ${ids.length} values, remaining ${sanitized.length} valid values.`
+        idsField.setAttribute('disabled', 'disabled')
+        pointsCard.style.display = 'block'
+    })
+    const change = document.getElementById('bal_change')
+    document.querySelectorAll('.qc_button').forEach(el => {
+        el.addEventListener('click', () => {
+            if (Number(el.dataset.change) === 0) {
+                change.value = 0
+            } else {
+                change.value = Number(change.value) + Number(el.dataset.change)
+            }
+        })
+    })
+</script>

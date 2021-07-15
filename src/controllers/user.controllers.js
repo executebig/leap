@@ -134,6 +134,19 @@ exports.grantPoints = async (user_id, points) => {
   return q?.rows?.[0]
 }
 
+exports.batchGrantPoints = async (ids, points) => {
+  const q = await db.query('UPDATE users SET points = points + $2 WHERE ARRAY[user_id] <@ $1 RETURNING *', [
+    ids,
+    points
+  ])
+
+  ids.forEach((id) => {
+    this.flagRefresh(id)
+  })
+
+  return q?.rows
+}
+
 exports.inviteUser = async (email, referrer) => {
   // silently exit if email invalid
   if (!validateEmail(email) || email === referrer.email) {
