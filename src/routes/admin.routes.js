@@ -489,7 +489,7 @@ router.get('/submissions', async (req, res) => {
       projects.project_id = submissions.project_id AND
       submissions.state = 'pending'
     GROUP BY projects.project_id
-    ORDER BY num_submissions DESC
+    ORDER BY projects.project_id ASC
   `)
   )?.rows
 
