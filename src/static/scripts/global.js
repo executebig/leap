@@ -23,7 +23,7 @@ burger.addEventListener('click', () => {
 // countdown timer
 const getNextDue = () => {
   const nextDue = new Date()
-  nextDue.setDate(nextDue.getDate() + ((7 - nextDue.getDay()) % 7))
+  nextDue.setDate(nextDue.getUTCDate() + ((7 - nextDue.getUTCDay()) % 7))
   nextDue.setUTCHours(0)
   nextDue.setMinutes(0)
   nextDue.setMilliseconds(0)
