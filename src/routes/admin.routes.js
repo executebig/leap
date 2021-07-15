@@ -56,6 +56,20 @@ router.get('/', (req, res) => {
   res.render('pages/admin/dashboard')
 })
 
+router.get('/users/batch', (req, res) => {
+  res.render('pages/admin/users/batch')
+})
+
+router.post('/users/batch', async (req, res) => {
+  const ids = req.body.user_ids.split(/[\n,]+/).map(item => parseInt(item.trim()))
+  const change = req.body.change
+
+  const q = await UserController.batchGrantPoints(ids, change)
+
+  req.flash('success', `${change} Chips batch adjustment applied to valid ${q?.length || 0} users!`)
+  res.redirect('/admin/users')
+})
+
 router.get('/users/:page?', async (req, res) => {
   const orderBy = req.query.by || 'user_id'
   const order = req.query.order || 'ASC'
