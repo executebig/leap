@@ -28,37 +28,21 @@
   <section class='section details'>
     <div class='container'>
       <div class='content mb-5'>
-        <h2 class='title'>{{project_title}}</h2>
-        <h5 class='subtitle mb-2'>{{module_title}}</h5>
+        <h2 class='title'>{{project_title}} &ndash; {{module_title}}</h2>
         <div class="tags are-medium">
-          <strong class="tag is-primary">
-            {{prettyTime created_at}}
-          </strong>
-          <strong class="tag is-primary">
-            U{{user_id}}
-          </strong>
-          <strong class="tag is-primary">
-            S{{submission_id}}
-          </strong>
-          <strong class="tag is-primary">
+          <span class="tag is-primary">
             P{{project_id}}M{{module_id}}
-          </strong>
+          </span>
+          <span class="tag is-primary">
+            U#{{user_id}}
+          </span>
+          <span class="tag is-primary">
+            S#{{submission_id}}
+          </span>
+          <span class="tag is-primary">
+            {{prettyTime created_at}}
+          </span>
         </div>
-        <strong class="tag is-medium is-primary">
-          {{prettyTime created_at}}
-        </strong>
-
-        <strong class="tag is-medium is-primary">
-          U{{user_id}}
-        </strong>
-
-        <strong class="tag is-medium is-primary">
-          S{{submission_id}}
-        </strong>
-
-        <strong class="tag is-medium is-primary">
-          P{{project_id}}M{{module_id}}
-        </strong>
       </div>
 
       <textarea
