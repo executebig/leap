@@ -132,6 +132,20 @@ router.post('/users/control/badge/:id', async (req, res) => {
   res.redirect('/admin/users')
 })
 
+router.post('/users/control/balance/:id', async (req, res) => {
+  const change = Number(req.body.change)
+
+  if (change === 0) {
+    req.flash('success', `No change applied.`)
+    return res.redirect('/admin/users')
+  }
+
+  await UserController.grantPoints(req.params.id, change)
+
+  req.flash('success', `${change} Chips adjustment applied to User #${req.params.id}!`)
+  res.redirect('/admin/users')
+})
+
 router.get('/users/disqualify/:id', async (req, res) => {
   const target = await UserController.getUserById(req.params.id)
 
@@ -488,7 +502,10 @@ router.get('/submissions/edit/:id', async (req, res) => {
   )?.rows?.[0]
 
   if (submission.state !== 'pending') {
-    req.flash('error', 'Warning: This submission has already been graded. You are now updating its result.')
+    req.flash(
+      'error',
+      'Warning: This submission has already been graded. You are now updating its result.'
+    )
     return res.redirect('/admin/submissions/update/' + req.params.id)
   }
 
@@ -718,7 +735,8 @@ router.get('/rewards/new', (req, res) => {
 })
 
 router.post('/rewards/new', async (req, res) => {
-  let { name, description, image, quantity, needs_shipping, enabled, price, delivery, raffle } = req.body
+  let { name, description, image, quantity, needs_shipping, enabled, price, delivery, raffle } =
+    req.body
   enabled = !!enabled
   needs_shipping = !!needs_shipping
   raffle = !!raffle
@@ -750,7 +768,8 @@ router.get('/rewards/edit/:id', async (req, res) => {
 })
 
 router.post('/rewards/edit/:id', async (req, res) => {
-  let { name, description, image, quantity, needs_shipping, enabled, price, delivery, raffle } = req.body
+  let { name, description, image, quantity, needs_shipping, enabled, price, delivery, raffle } =
+    req.body
   enabled = !!enabled
   needs_shipping = !!needs_shipping
   raffle = !!raffle

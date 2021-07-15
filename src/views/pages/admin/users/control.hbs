@@ -22,49 +22,101 @@
         {{#unless badges}}
             <p class="mb-4"><strong>You have not collected a badge yet.</strong></p>
         {{/unless}}
-        <form method="POST" action="/admin/users/control/badge/{{target.user_id}}">
-            <div class="field mb-3  has-addons">
-                <div class="control">
-                    <div class="select">
-                        <select name="badge" required>
-                            <option disabled selected value>Select a badge</option>
-                            {{#each all_badges}}
-                                {{stringify @root/target.badges}}
-                                {{stringify badge_id}}
-                                {{#notContains @root/target.badges badge_id }}
-                                    <option value={{../badge_id}}>#{{../badge_id}} - {{#if ../hidden}}*{{/if}} {{../name}}: {{../description}}</option>
-                                {{/notContains}}
-                            {{/each}}
-                        </select>
-                    </div>
-                    <p class="help">Badges with "*" are hidden.</p>
-                </div>
-                <div class="control">
-                    <button class="button is-primary">Grant</button>
-                </div>
+        <div class="card">
+            <div class="card-header">
+                <p class="card-header-title">Badge Controls</p>
             </div>
-        </form>
-        <form method="POST" action="/admin/users/control/badge/{{target.user_id}}?remove=true">
-            <div class="field mb-3  has-addons">
-                <div class="control">
-                    <div class="select">
-                        <select name="badge" required>
-                            <option disabled selected value>Select a badge</option>
-                            {{#each all_badges}}
-                                {{stringify @root/target.badges}}
-                                {{stringify badge_id}}
-                                {{#contains @root/target.badges badge_id }}
-                                    <option value={{../badge_id}}>#{{../badge_id}} - {{#if ../hidden}}*{{/if}} {{../name}}: {{../description}}</option>
-                                {{/contains}}
-                            {{/each}}
-                        </select>
+            <div class="card-content">
+                <form method="POST" action="/admin/users/control/badge/{{target.user_id}}">
+                    <div class="field mb-3  has-addons">
+                        <div class="control">
+                            <div class="select">
+                                <select name="badge" required>
+                                    <option disabled selected value>Select a badge</option>
+                                    {{#each all_badges}}
+                                        {{stringify @root/target.badges}}
+                                        {{stringify badge_id}}
+                                        {{#notContains @root/target.badges badge_id }}
+                                            <option value={{../badge_id}}>#{{../badge_id}} - {{#if ../hidden}}*{{/if}} {{../name}}: {{../description}}</option>
+                                        {{/notContains}}
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <p class="help">Badges with "*" are hidden.</p>
+                        </div>
+                        <div class="control">
+                            <button class="button is-primary">Grant</button>
+                        </div>
                     </div>
-                    <p class="help">Badges with "*" are hidden.</p>
-                </div>
-                <div class="control">
-                    <button class="button is-primary">Remove</button>
-                </div>
+                </form>
+                <form class="mt-5" method="POST" action="/admin/users/control/badge/{{target.user_id}}?remove=true">
+                    <div class="field mb-3  has-addons">
+                        <div class="control">
+                            <div class="select">
+                                <select name="badge" required>
+                                    <option disabled selected value>Select a badge</option>
+                                    {{#each all_badges}}
+                                        {{stringify @root/target.badges}}
+                                        {{stringify badge_id}}
+                                        {{#contains @root/target.badges badge_id }}
+                                            <option value={{../badge_id}}>#{{../badge_id}} - {{#if ../hidden}}*{{/if}} {{../name}}: {{../description}}</option>
+                                        {{/contains}}
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <p class="help">Badges with "*" are hidden.</p>
+                        </div>
+                        <div class="control">
+                            <button class="button is-primary">Remove</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
+        <div class="card mt-5">
+            <div class="card-header">
+                <p class="card-header-title">Balance Controls</p>
+            </div>
+            <div class="card-content">
+                <form method="POST" action="/admin/users/control/balance/{{target.user_id}}">
+                    <p class="has-text-weight-bold mb-3">The user currently has {{target.points}} Chips. </p>
+                    <div class="field mb-4  has-addons">
+                        <div class="control">
+                            <input class="input" type="number" name="change" value=0 id="bal_change" />
+                        </div>
+                    </div>
+                    <div class="quick_change mb-3">
+                        <a class="button is-danger is-light qc_button" data-change=-10>-10</a>
+                        <a class="button is-danger is-light qc_button" data-change=-5>-5</a>
+                        <a class="button is-danger is-light qc_button" data-change=-1>-1</a>
+                        <a class="button is-light qc_button" data-change=0>RESET</a>
+                        <a class="button is-success is-light qc_button" data-change=1>+1</a>
+                        <a class="button is-success is-light qc_button" data-change=5>+5</a>
+                        <a class="button is-success is-light qc_button" data-change=10>+10</a>
+                    </div>
+                    <p class="has-text-weight-bold mb-3">After the change, the user will have <span id="post_change_bal">{{target.points}}</span> Chips.</p>
+                    <div class="control">
+                        <button class="button is-primary">Confirm</button>
+                    </div>
+                </form>
+                <script nonce="{{nonce}}">
+                    const orig_bal = {{target.points}}
+                    const change = document.getElementById('bal_change')
+                    const updatePreview = () =>
+                        document.getElementById('post_change_bal').textContent = orig_bal + Number(change.value)
+                    change.addEventListener('change', updatePreview)
+                    document.querySelectorAll('.qc_button').forEach(el => {
+                        el.addEventListener('click', () => {
+                            if (Number(el.dataset.change) === 0) {
+                                change.value = 0
+                            } else {
+                                change.value = Number(change.value) + Number(el.dataset.change)
+                            }
+                            updatePreview()
+                        })
+                    })
+                </script>
+            </div>
+        </div>
     </div>
 </section>
