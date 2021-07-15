@@ -5,22 +5,24 @@
   <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
 {{/extend}}
 <div class='page__submissions'>
-  <section class='hero is-danger'>
+  <section class='hero'>
     <div class="hero-body">
       <div class='container'>
         <div class="columns">
-          <div class="column">
-            <h1 class='title is-1'>{{project.title}}</h1>
-            <p class="subtitle">Previous Submissions</p>
-            <div class="block mb-3">
-              <strong>
-                {{project.description}}
-              </strong>
-            </div>
-            <div class="block">
-              <strong>
-                Got a question about this project? Please include the project ID: <code>P{{project.project_id}}</code>.
-              </strong>
+          <div class="column is-flex is-align-items-center">
+            <div>
+              <h1 class='title is-1 has-text-primary'>{{project.title}}</h1>
+              <p class="subtitle">Previous Submissions</p>
+              <div class="block mb-3">
+                <strong>
+                  {{project.description}}
+                </strong>
+              </div>
+              <div class="block">
+                <strong>
+                  Got a question about this project? Please include the project ID: <span class="tag is-primary">P{{project.project_id}}</span>
+                </strong>
+              </div>
             </div>
           </div>
           <div class="column is-4">

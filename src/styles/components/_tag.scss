@@ -1,0 +1,20 @@
+span.tag,
+div.tag {
+  font-weight: bold;
+  border-radius: 0.5rem;
+  padding-left: 1em;
+  padding-right: 1em;
+
+  span.chip {
+    img {
+      width: 18px !important;
+      height: 18px !important;
+      transform: translateY(2px);
+      margin: 0 2px;
+    }
+  }
+
+  &.is-primary.is-light {
+      color: $primary;
+  }
+}
