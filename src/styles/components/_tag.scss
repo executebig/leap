@@ -16,5 +16,18 @@ div.tag {
 
   &.is-primary.is-light {
       color: $primary;
+      border: 2px solid $primary;
+  }
+
+  &.is-warning.is-light {
+      border: 2px solid $warning;
+  }
+
+  &.is-success.is-light {
+      border: 2px solid $success;
+  }
+  
+  &.is-danger.is-light {
+      border: 2px solid $danger;
   }
 }

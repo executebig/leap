@@ -18,8 +18,12 @@
                 •
                 {{email}}
                 •
-                {{#if no_shipping}}Not{{/if}}
-                  Eligible for Shipping
+                {{#if international}}
+                  Limited International Shipping
+                {{else}}
+                  {{#if no_shipping}}Not{{/if}}
+                    Eligible for Shipping
+                {{/if}}
               </h6>
               <a href='/account/edit' class='button'>
                 <span>

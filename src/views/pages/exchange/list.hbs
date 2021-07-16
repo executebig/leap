@@ -5,45 +5,62 @@
     <section class="section header pb-3">
         <div class="container">
             <h1 class="title is-1 mb-2">Roulette Exchange</h1>
-            <p>Welcome to the Roulette Exchange! Rewards change from week to week, so be sure to redeem them while you can!</p>
         </div>
     </section>
     <div class="container">
-        <div class="notification is-primary is-light">
-            All purchases at the Roulette Exchange are <strong>final</strong>. Once you place your order, we cannot cancel your order or refund you
-            for the cost of the item. This is to ensure that people are not stocking on items that are limited in supplies. Some items may only be
-            available for students eligible for shipping, and others may only be useful in certain regions. <strong>We are not going to stop you from
-                placing multiple orders for the same item.</strong> Before you place the order, please read the
-            description clearly. If you have questions, please reach out to staff on Discord.
+        <div class="card mb-5">
+            <div class="card-header">
+                <p class="card-header-title">
+                    Welcome to the Roulette Exchange &nbsp;
+                    {{#if user.no_shipping}}
+                        {{#if user.international}}
+                            <span class="tag is-warning is-light">International Limited Edition</span>
+                        {{else}}
+                            <span class="tag is-danger is-light">Virtual Edition</span>
+                        {{/if}}
+                    {{else}}
+                        <span class="tag is-success is-light">Regular Edition</span>
+                    {{/if}}
+                </p>
+            </div>
+            <div class="card-content">
+                <p>
+                    All purchases at the Roulette Exchange are <strong>final</strong>. Once you place your order, we cannot cancel your order or refund you
+                    for the cost of the item. This is to ensure that people are not stocking on items that are limited in supplies. Some items may only be
+                    available for students eligible for shipping, and others may only be useful in certain regions. <strong>We are not going to stop you from
+                        placing multiple orders for the same item.</strong> Before you place the order, please read the
+                    description clearly. If you have questions, please reach out to staff on Discord.
+                </p>
+            </div>
         </div>
         {{#if user.no_shipping}}
             {{#unless user.international}}
-            <div class="card">
-                <div class="card-header">
-                    <p class="card-header-title">You currently do not qualify for physical prizes{{#leq user.age 21}}, but you can opt-in{{/leq}}.</p>
+                <div class="card">
+                    <div class="card-header">
+                        <p class="card-header-title">You currently do not qualify for physical prizes{{#leq user.age 21}}, but you can opt-in{{/leq}}.</p>
+                    </div>
+                    <div class="card-content">
+                        {{#leq user.age 21}}
+                            <p>
+                                Your selection of rewards may be limited right now. If you did not qualify for physical rewards because you live outside the United States,
+                                you can now opt-in to receive a limited selection of physical prizes!
+                            </p>
+                            <p class="mt-2">
+                                To opt-in, simply complete the form below. To help us lower
+                                the cost and prevent spam, enabling international shipping will require a one-time payment of <strong>10 Chips</strong>. Like all other
+                                products in the Exchange, this action is also not reversible.
+                            </p>
+                            <a href="/account/intl-shipping" class="button is-primary mt-5">Start Opt-In</a>
+                            {{! prettier-ignore-start }}
+            {{else}}
+                <p>
+                    Your selection of rewards may be limited. If you are still a full-time student, you may still be eligible for physical rewards.
+                    To correct our records, please contact us at <a href="mailto:hi@techroulette.xyz">hi@techroulette.xyz</a>.
+                </p>
+                        {{/leq}}
+                        {{! prettier-ignore-end }}
+                    </div>
                 </div>
-                <div class="card-content">
-                    {{#leq user.age 21}}
-                        <p>
-                            Your selection of rewards may be limited right now. If you did not qualify for physical rewards because you live outside the United States, 
-                            you can now opt-in to receive a limited selection of physical prizes!
-                        </p>
-                        <p class="mt-2">
-                            To opt-in, simply complete the form below.  To help us lower 
-                            the cost and prevent spam, enabling international shipping will require a one-time payment of <strong>10 Chips</strong>. Like all other 
-                            products in the Exchange, this action is also not reversible. 
-                        </p>
-                        <a href="/account/intl-shipping" class="button is-primary mt-5">Start Opt-In</a>
-                    {{! prettier-ignore-start }}
-                    {{else}}
-                        <p>
-                            Your selection of rewards may be limited. If you are still a full-time student, you may still be eligible for physical rewards.
-                            To correct our records, please contact us at <a href="mailto:hi@techroulette.xyz">hi@techroulette.xyz</a>.
-                        </p>
-                    {{/leq}}
-                    {{! prettier-ignore-end }}
-                </div>
-            </div>
             {{/unless}}
         {{/if}}
     </div>
