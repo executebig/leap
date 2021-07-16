@@ -205,6 +205,38 @@ router.get('/discord/callback', async (req, res) => {
   }
 })
 
+router.get('/intl-shipping', (req, res) => {
+  if (!req.user.no_shipping) {
+    return res.redirect('/account')
+  }
+
+  res.render('pages/account/international')
+})
+
+// allow opt-in to international shipping
+router.post('/intl-shipping', async (req, res) => {
+  if (!req.user.no_shipping) {
+    return res.redirect('/account')
+  } else if (req.user.points < 10) {
+    req.flash('error', 'You need to pay 10 Chips to enable international shipping.')
+    return res.redirect('/account')
+  }
+
+  let addr = req.body.address
+  if (req.body.native) {
+    addr += "\n" + req.body.native
+  } 
+
+  const user = await UserController.updateUser(req.user.user_id, {
+    address: addr,
+    international: true,
+    points: req.user.points - 10
+  })
+
+  req.flash('success', 'Success! You are now eligible for international shipping.')
+  refreshUser(req, res, user, '/exchange')
+})
+
 /* updates the req.user object */
 router.get('/refresh', async (req, res) => {
   const user = await UserController.getUserById(req.user.user_id)

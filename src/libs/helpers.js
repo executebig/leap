@@ -175,3 +175,7 @@ exports.numSubmissionsAsColorWeight = (value, max, options) => {
   else
     return 'is-primary'
 }
+
+exports.leq = (a, b, options) => {
+  return a <= b ? options.fn(this) : options.inverse(this)
+}

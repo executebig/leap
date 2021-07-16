@@ -1,0 +1,85 @@
+{{#extend 'title'}}
+  International Shipping Opt-In
+{{/extend}}
+<section class="section header">
+  <div class="container">
+    <h1 class="title">
+      International Shipping Opt-In
+    </h1>
+  </div>
+</section>
+<div class="container">
+    <p>
+        You can now opt-in to be eligible for international shipping! To help us lower the cost and prevent spam, enabling international
+        shipping will require a one-time payment of <strong>10 Chips</strong>. Like all other products in the Exchange, this action is also not 
+        reversible.
+    </p>
+  <form action="/account/intl-shipping" method="POST" autocomplete="off">
+    <div class="field mt-4">
+      <label class="label">
+        Your Shipping Address (Must Be in English)
+      </label>
+      <div class="control">
+        <input
+          class="input"
+          name="address"
+          id="address"
+          placeholder="e.g. 1239 Sipin Rd, Yangpu District, Shanghai, China 200092"
+          required
+        />
+      </div>
+    </div>
+    <div class="field mt-4">
+      <label class="label">
+        [Optional] If you shipping address is in Russian, Greek, Arabic, Hebrew, Cyrillic, Japanese, or Chinese,
+                please provide the address in the native language.
+      </label>
+      <div class="control">
+        <input
+          class="input"
+          name="native"
+          id="address"
+          placeholder="e.g. 中国，上海市，杨浦区四平路1239号 200092"
+        />
+      </div>
+    </div>
+    <hr />
+    <p class="mb-2 has-text-weight-bold">
+      Before you submit, please double check your address to make sure that it contains all of the following (staff will not
+            be checking your address! Please check all boxes to confirm):
+    </p>
+    <label>
+      <input type="checkbox" required />
+      Street Address
+    </label>
+    <br />
+    <label>
+      <input type="checkbox" required />
+      (District and) City
+    </label>
+    <br />
+    <label>
+      <input type="checkbox" required />
+      State/Province
+    </label>
+    <br />
+    <label>
+      <input type="checkbox" required />
+      Country (full name, no abbreviations)
+    </label>
+    <br />
+    <label>
+      <input type="checkbox" required />
+      Postal Code
+    </label>
+    <br />
+    <label>
+      <input type="checkbox" />
+      A native language address my address is in Russian, Greek, Arabic, Hebrew, Cyrillic, Japanese, or Chinese.
+    </label>
+    <br />
+    <button class="button is-primary mt-5" type="submit">
+      Submit & Pay 10 Chips
+    </button>
+  </form>
+</div>

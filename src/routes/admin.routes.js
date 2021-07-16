@@ -749,11 +749,12 @@ router.get('/rewards/new', (req, res) => {
 })
 
 router.post('/rewards/new', async (req, res) => {
-  let { name, description, image, quantity, needs_shipping, enabled, price, delivery, raffle } =
+  let { name, description, image, quantity, needs_shipping, enabled, price, delivery, raffle, international } =
     req.body
   enabled = !!enabled
   needs_shipping = !!needs_shipping
   raffle = !!raffle
+  international = !!international
 
   const { reward_id } = await ExchangeController.createReward({
     name,
@@ -764,7 +765,8 @@ router.post('/rewards/new', async (req, res) => {
     enabled,
     price,
     delivery,
-    raffle
+    raffle,
+    international
   })
 
   req.flash('success', `Reward #${reward_id} created successfully!`)
@@ -782,11 +784,12 @@ router.get('/rewards/edit/:id', async (req, res) => {
 })
 
 router.post('/rewards/edit/:id', async (req, res) => {
-  let { name, description, image, quantity, needs_shipping, enabled, price, delivery, raffle } =
+  let { name, description, image, quantity, needs_shipping, enabled, price, delivery, raffle, international } =
     req.body
   enabled = !!enabled
   needs_shipping = !!needs_shipping
   raffle = !!raffle
+  international = !!international
 
   const { reward_id } = await ExchangeController.updateReward(req.params.id, {
     name,
@@ -797,7 +800,8 @@ router.post('/rewards/edit/:id', async (req, res) => {
     enabled,
     price,
     delivery,
-    raffle
+    raffle,
+    international
   })
 
   req.flash('success', `Reward #${reward_id} updated successfully!`)
