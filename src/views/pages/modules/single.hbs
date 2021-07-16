@@ -176,19 +176,42 @@
 
     Prism.plugins.customClass.prefix('prism__')
 
-    let copyWarningDisplayed = false
+    let copyPastedCount = 0
 
     // warn copy/paste
     contentContainer.querySelectorAll('pre').forEach(el => {
       el.addEventListener('copy', function (event) {
-        if (!copyWarningDisplayed) {
+        copyPastedCount++
+        if (copyPastedCount === 1) {
           notyf.open({
             type: 'info',
-            message: 'Please use less copy & pasting from the examples. This will help you understand the concept a little better!',
+            message: 'Please use less copy & pasting. Try to understand the concept a little better!',
+            duration: 5000,
+            dismissible: true
+          })
+        } else if (copyPastedCount === 5) {
+          notyf.open({
+            type: 'warning',
+            message: 'Come on... I can\'t believe we\'re still doing this. Do better!',
+            duration: 5000,
+            dismissible: true
+          })
+        } else if (copyPastedCount === 8) {
+          notyf.open({
+            type: 'warning',
+            message: 'I\'m getting a little angry... <strong>3! 3 more times.</strong> No more.',
+            duration: 5000,
+            dismissible: true
+          })
+        } else if (copyPastedCount === 12) {
+          notyf.open({
+            type: 'special',
+            message: 'Ugh. You\'re an annoying one. Here you go: <span class="tag is-light"><span class="badge_code">COPYPASTA</span></span>. Take it, and promise that you won\'t do it again.',
             duration: 0,
             dismissible: true
           })
-          copyWarningDisplayed = true
+        } else if (copyPastedCount > 12) {
+          notyf.error('<strong>I SAID NO MORE!</strong>')
         }
       })
     })

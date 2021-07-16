@@ -7,6 +7,14 @@ const notyf = new Notyf({
     {
       type: 'info',
       background: '#3d6aff'
+    },
+    { 
+      type: 'warning',
+      background: '#daa000',
+    },
+    { 
+      type: 'special',
+      background: '#9E6ABC',
     }
   ]
 })
