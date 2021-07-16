@@ -2,89 +2,135 @@
   {{#extend 'title'}}
     Grade Submission #{{submission_id}}
   {{/extend}}
-
   {{#extend 'header-inject'}}
-    <link rel='stylesheet' href='https://unpkg.com/easymde/dist/easymde.min.css' />
+    <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css" />
   {{/extend}}
-
-  <section class='section header'>
-    <div class='container'>
-      <h1 class='title'>
-        Grade Submission #{{submission_id}}
+  <section class="section header">
+    <div class="container">
+      <h1 class="title">
+        Grade Submission #
+        {{submission_id}}
       </h1>
-
-      <nav class='breadcrumb' aria-label='breadcrumbs'>
+      <nav class="breadcrumb" aria-label="breadcrumbs">
         <ul>
-          <li class="is-active"><a>Submissions</a></li>
-          <li><a href="/admin/submissions/">Projects</a></li>
-          <li><a href="/admin/submissions/{{project_id}}">P{{project_id}}</a></li>
-          <li><a href="/admin/submissions/{{project_id}}/{{module_id}}">M{{module_id}}</a></li>
-          <li class="is-active"><a aria-current="page">S{{submission_id}}</a></li>
+          <li class="is-active">
+            <a>
+              Submissions
+            </a>
+          </li>
+          <li>
+            <a href="/admin/submissions/">
+              Projects
+            </a>
+          </li>
+          <li>
+            <a href="/admin/submissions/{{project_id}}">
+              P
+              {{project_id}}
+            </a>
+          </li>
+          <li>
+            <a href="/admin/submissions/{{project_id}}/{{module_id}}">
+              M
+              {{module_id}}
+            </a>
+          </li>
+          <li class="is-active">
+            <a aria-current="page">
+              S
+              {{submission_id}}
+            </a>
+          </li>
         </ul>
       </nav>
     </div>
   </section>
-
-  <section class='section details'>
-    <div class='container'>
-      <div class='content mb-5'>
-        <h2 class='title'>{{project_title}} &ndash; {{module_title}}</h2>
+  <section class="section details">
+    <div class="container">
+      <div class="content mb-5">
+        <h2 class="title">
+          {{project_title}}
+          –
+          {{module_title}}
+        </h2>
         <div class="tags are-medium">
           <span class="tag is-primary">
-            P{{project_id}}M{{module_id}}
+            P
+            {{project_id}}
+            M
+            {{module_id}}
           </span>
           <span class="tag is-primary">
-            U#{{user_id}}
+            U#
+            {{user_id}}
           </span>
           <span class="tag is-primary">
-            S#{{submission_id}}
+            S#
+            {{submission_id}}
           </span>
           <span class="tag is-primary">
             {{prettyTime created_at}}
           </span>
         </div>
       </div>
-
-      <textarea
-        name='content'
-        id='content-editor'
-        class='textarea'
-        type='text'
-      >{{content}}</textarea>
-
-      <form method='post'>
-        <div class='field' id='comments'>
-          <label class='label'>Comments (Please fill out for rejections, optional for acceptance)</label>
-          <textarea
-            name='comments'
-            id='comments-editor'
-            class='textarea'
-            type='text'
-          >{{comments}}</textarea>
+      <textarea name="content" id="content-editor" class="textarea" type="text">
+      {{content}}
+      </textarea>
+      <form method="post">
+        <div class="field" id="comments">
+          <label class="label">
+            Comments (Please fill out for rejections, optional for acceptance)
+          </label>
+          <textarea name="comments" id="comments-editor" class="textarea" type="text">{{comments}}</textarea>
         </div>
-        <div class='field'>
-          <label class='label'>Grading Decision (was <code>{{state}}</code>)</label>
-          <div class='select is-fullwidth'>
-            <select name='state'>
+        <div class="field">
+          <label class="label">
+            Grading Decision (was
+            <code>
+            {{state}}
+            </code>
+            )
+          </label>
+          <div class="select is-fullwidth">
+            <select name="state">
               {{#select state}}
-                <option value='accepted'>Accept Submission</option>
-                <option value='rejected'>Reject Submission</option>
+                <option value="accepted">
+                  Accept Submission
+                </option>
+                <option value="rejected">
+                  Reject Submission
+                </option>
               {{/select}}
             </select>
           </div>
         </div>
-        <button class='button is-primary mt-1' type='submit'>
-          {{#if @root/update}}Update{{else}}Grade{{/if}}
-          Submission
-        </button>
+        <div class="field has-addons mt-5">
+          <p class="control">
+            <a class="button is-static">
+              Graded By:
+            </a>
+          </p>
+          <p class="control">
+            <input class="input" type="text" placeholder="Graded by" value="{{@root/user.first_name}}" name="grader" />
+          </p>
+          <p class="control">
+            <button class="button is-primary" type="submit">
+              {{#if @root/update}}
+                Update
+              {{else}}
+                Grade
+              {{/if}}
+              Submission
+            </button>
+          </p>
+        </div>
       </form>
     </div>
   </section>
-
   {{! prettier-ignore }}
   {{#extend 'scripts'}}
     <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
-    <script nonce='{{@root/nonce}}'>
+    <script nonce="{{@root/nonce}}">
       const comments = document.querySelector('#comments')
       const commentsEditor = document.querySelector('#comments-editor')
 
@@ -94,7 +140,7 @@
 
       document.querySelector('select[name=state]').addEventListener('change', (e) => {
         if (e.target.value === 'rejected') {
-          commentsEditor.setAttribute("required","required");
+          commentsEditor.setAttribute("required", "required");
         } else {
           commentsEditor.removeAttribute("required");
         }

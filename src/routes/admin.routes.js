@@ -601,7 +601,13 @@ router.get('/submissions/:project_id/:module_id/:page?', async (req, res) => {
 })
 
 router.post('/submissions/edit/:id', async (req, res) => {
-  let { state, comments } = req.body
+  let { state, comments, grader } = req.body
+  comments = comments.trim()
+  if (comments && grader) {
+    comments += ` — reviewed by ${grader}.`
+  } else if (!comments && grader) {
+    comments = `Reviewed by ${grader}`
+  }
 
   const submission = await SubmissionController.updateSubmission(req.params.id, { state, comments })
 
@@ -641,7 +647,13 @@ router.post('/submissions/edit/:id', async (req, res) => {
 })
 
 router.post('/submissions/update/:id', async (req, res) => {
-  let { state, comments } = req.body
+  let { state, comments, grader } = req.body
+  comments = comments.trim()
+  if (comments && grader) {
+    comments += ` — reviewed by ${grader}.`
+  } else if (!comments && grader) {
+    comments = `Reviewed by ${grader}`
+  }
 
   const old_submission = await SubmissionController.getSubmissionById(req.params.id)
   const submission = await SubmissionController.updateSubmission(req.params.id, { state, comments })
