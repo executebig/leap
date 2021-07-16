@@ -17,11 +17,13 @@ const fields = [
   'display_name',
   'first_name',
   'last_name',
+  'age',
   // - age, address, phone
   'email',
   // - parent_email
   'no_shipping',
   // - referrer
+  'international',
 
   // - created_at, updated_at
   'state',
@@ -68,12 +70,7 @@ exports.getUserByDiscord = async (discord_id) => {
 
 exports.getAddressById = async (user_id) => {
   const q = await db.query(`SELECT address FROM users WHERE user_id = $1`, [user_id])
-
-  if (q.rows.length > 0) {
-    return q.rows[0].address
-  } else {
-    return null
-  }
+  return q?.rows?.[0].address
 }
 
 /** creates the user with the email address, returns the UUID */

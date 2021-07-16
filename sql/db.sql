@@ -14,6 +14,7 @@ create table if not exists users (
     parent_email text,
     no_shipping boolean default false not null,
     referrer integer,
+    international boolean default false not null,
 
     discord_id text,
 
@@ -120,7 +121,8 @@ create table rewards (
     enabled boolean default false not null,
     raffle boolean default false not null,
     price integer not null,
-    delivery text not null
+    delivery text not null,
+    international boolean default false not null
 );
 
 create table orders (

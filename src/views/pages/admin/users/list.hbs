@@ -58,6 +58,7 @@
                         <th><abbr title="Discord Linked">D</abbr></th>
                         <th><abbr title="Address">ADDR</abbr></th>
                         <th><abbr title="No Shipping?">NS?</abbr></th>
+                        <th><abbr title="International">INTL?</abbr></th>
                         <th><abbr title="Banned?">BN?</abbr></th>
                         <th><abbr title="Current Week">W</abbr></th>
                         <th>Actions</th>
@@ -78,6 +79,11 @@
                                 <a href="/admin/users/{{#unless no_shipping}}disqualify{{else}}requalify{{/unless}}/{{user_id}}" class="admin_toggle">
                                     {{{showBoolWarn no_shipping}}}
                                 </a>
+                            </td>
+                            <td>
+                                {{#if no_shipping}}
+                                    {{{showBool international}}}
+                                {{/if}}
                             </td>
                             <td>
                                 <a href="{{#if banned}}/admin/unban/{{user_id}}{{else}}/admin/ban/{{user_id}}{{/if}}" class="admin_toggle">

@@ -79,6 +79,13 @@
                         </div>
                         <div class="field">
                             <label class="checkbox mt-3">
+                                <input type="checkbox" name="international" {{#unless edit}}checked{{else}}{{#if reward.international}}checked{{/if}}{{/unless}}>
+                                International Allowed?
+                            </label>
+                            <p class="help">If checked, this reward will remain available to international opt-in users.</p>
+                        </div>
+                        <div class="field">
+                            <label class="checkbox mt-3">
                                 <input type="checkbox" name="enabled" {{#unless edit}}checked{{else}}{{#if reward.enabled}}checked{{/if}}{{/unless}}>
                                 Enable reward?
                             </label>

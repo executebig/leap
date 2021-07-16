@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
 
   if (exchangeStatus === 'enabled') {
     res.render('pages/exchange/list', {
-      rewards: await ExchangeController.listAvailable(req.user.no_shipping)
+      rewards: await ExchangeController.listAvailable(req.user.international, req.user.no_shipping)
     })
   } else {
     res.render('pages/exchange/disabled')
@@ -42,7 +42,12 @@ router.post('/purchase', async (req, res) => {
   } else if (!reward.enabled || reward.quantity <= 0) {
     req.flash('error', `This reward is no longer available.`)
     return res.redirect('/exchange')
-  } else if (req.user.no_shipping && reward.needs_shipping) {
+  } else if (
+    req.user.no_shipping &&
+    reward.needs_shipping &&
+    reward.international &&
+    !req.user.international
+  ) {
     req.flash(
       'error',
       `You are not eligible for this reward. Please check your eligibility status or try another reward.`
@@ -63,7 +68,11 @@ router.post('/purchase', async (req, res) => {
     reward_name: reward.name,
     email: req.user.email,
     address: address,
-    status: reward.raffle ? 'Pending raffle' : (reward.needs_shipping ? 'Awaiting physical shipping' : 'Order placed')
+    status: reward.raffle
+      ? 'Pending raffle'
+      : reward.needs_shipping
+      ? (req.user.international ? 'Awaiting international shipping' : 'Awaiting physical shipping')
+      : 'Order placed'
   })
 
   await UserController.updateUser(req.user.user_id, { points: req.user.points - reward.price })
