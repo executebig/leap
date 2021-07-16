@@ -71,8 +71,9 @@
       <p>Having trouble with submissions? Shoot us an email at <strong><a href="mailto:hi@techroulette.xyz">hi@techroulette.xyz</a></strong>.</p>
     </div>
   </section>
-  <form class='modal' action='' method='POST'>
+  <div class='modal'>
     <div class='modal-background'></div>
+    <form  action='' method='POST'>
     <div class='modal-card'>
       <header class='modal-card-head'>
         <h1 class='modal-card-title'>Submission Details</h1>
@@ -102,8 +103,9 @@
         </button>
       </footer>
     </div>
+    </form>
     <button class='modal-close modal-cancel is-large' aria-label='close'></button>
-  </form>
+  </div>
 </div>
 {{#extend 'scripts'}}
   <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
