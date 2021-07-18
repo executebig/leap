@@ -67,9 +67,7 @@ if (clock) {
     cd_hours.innerText = t.hours
     cd_mins.innerText = t.minutes
 
-    if (t.total <= 0) {
-      window.location.href = '/dash'
-    } else if (t.days < 1) {
+    if (t.days < 1) {
       clock.classList.remove('is-primary')
       clock.classList.add('is-danger')
     }
