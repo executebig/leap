@@ -8,11 +8,11 @@ const notyf = new Notyf({
       type: 'info',
       background: '#3d6aff'
     },
-    { 
+    {
       type: 'warning',
       background: '#daa000',
     },
-    { 
+    {
       type: 'special',
       background: '#9E6ABC',
     }
@@ -31,7 +31,7 @@ burger.addEventListener('click', () => {
 // countdown timer
 const getNextDue = () => {
   const nextDue = new Date()
-  nextDue.setUTCDate(nextDue.getUTCDate() + ((7 - nextDue.getUTCDay()) % 7))
+  nextDue.setUTCDate(nextDue.getUTCDate() - nextDue.getUTCDay() + 7)
   nextDue.setUTCHours(0)
   nextDue.setMinutes(0)
   nextDue.setSeconds(0)
@@ -41,7 +41,7 @@ const getNextDue = () => {
 }
 
 const getTimeRemaining = (endtime) => {
-  const total = Date.parse(endtime) - Date.parse(new Date())
+  const total = endtime - Date.now()
   const minutes = Math.floor((total / 1000 / 60) % 60)
   const hours = Math.floor((total / (1000 * 60 * 60)) % 24)
   const days = Math.floor(total / (1000 * 60 * 60 * 24))
