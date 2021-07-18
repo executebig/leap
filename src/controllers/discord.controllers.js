@@ -96,7 +96,16 @@ client.on('message', async (message) => {
       return message.reply('Sup, no directive found.')
     }
 
-    const adminOnlyCommands = ['user', 'm', 'p', 'grant', 'ungrant', 'refresh', 'role_all']
+    const adminOnlyCommands = [
+      'user',
+      'm',
+      'p',
+      'grant',
+      'ungrant',
+      'refresh',
+      'role_all',
+      'create_roles'
+    ]
     if (adminOnlyCommands.includes(args[0]) && !isStaff) {
       return message.reply('You do not have permission for this command.')
     }
@@ -106,6 +115,12 @@ client.on('message', async (message) => {
     switch (args[0]) {
       case 'role':
         return await updateProjectRole(message, cmdArgs)
+        break
+      case 'create_roles':
+        return await createProjectRoles()
+        break
+      case 'create_channels':
+        return await createProjectChannels()
         break
       case 'role_all':
         return await regrantAllProjectRoles()
@@ -136,6 +151,73 @@ client.on('message', async (message) => {
     }
   }
 })
+
+// pull list of all projects in the system and create a
+// role for each project in the format of "W" + current_week + "P" + project_id
+const createProjectRoles = async () => {
+  const projects = await ProjectController.listProjects()
+  const current_week = await ConfigController.get('week')
+  const roleNames = projects.map((project) => {
+    return `W${current_week}P${project.project_id}`
+  })
+
+  return Promise.all(
+    roleNames.map((roleName) => {
+      return client.guilds.cache.get(config.discord.guild).roles.create({
+        data: {
+          name: roleName
+        }
+      })
+    })
+  )
+}
+
+const createProjectChannels = async () => {
+  const projects = await ProjectController.listProjects()
+  const current_week = await ConfigController.get('week')
+
+  const channels = projects.map((project) => {
+    const projectRoleName = `W${current_week}P${project.project_id}`
+    const projectRoleId = client.guilds.cache
+      .get(config.discord.guild)
+      .roles.cache.find((role) => role.name === projectRoleName).id
+    const playerRoleId = client.guilds.cache
+      .get(config.discord.guild)
+      .roles.cache.find((role) => role.name === 'Player').id
+
+    console.log(projectRoleId)
+
+    return client.guilds.cache
+      .get(config.discord.guild)
+      .channels.create(projectRoleName.toLowerCase(), {
+        type: 'text',
+        permissionOverwrites: [
+          {
+            // disallow role "Player" to see the channel
+            id: playerRoleId,
+            deny: ['VIEW_CHANNEL']
+          },
+          {
+            id: projectRoleId,
+            allow: ['VIEW_CHANNEL', 'SEND_MESSAGES', 'READ_MESSAGE_HISTORY']
+          }
+        ]
+      })
+      .catch((err) => {})
+      .then(async (channel) => {
+        // send message to the channel created
+        await channel.setTopic(`Week ${current_week}: ${project.title}`)
+        return channel.send(
+          `**Welcome to the Week ${current_week} project channel of ${project.title}!**\n\n` + 
+          `Your task this week: ${project.description}.\n\n` +
+          "No spoiler tags needed here. This channel will be gone once your project expires... " +
+          "so make sure anything important goes somewhere else! Good luck :poggies:"
+        )
+      })
+  })
+
+  return Promise.all(channels)
+}
 
 const updateProjectRole = async (message, args) => {
   const user = await UserController.getUserByDiscord(message.author.id)
