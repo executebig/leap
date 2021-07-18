@@ -112,6 +112,8 @@ client.on('message', async (message) => {
     }
 
     const cmdArgs = args.slice(1)
+    const rxns = ['👍', '✅', '👌', '💯', '🎉']
+    message.react(rxns[Math.floor(Math.random() * rxns.length)])
 
     switch (args[0]) {
       case 'role':
