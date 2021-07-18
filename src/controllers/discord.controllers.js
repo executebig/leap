@@ -104,7 +104,8 @@ client.on('message', async (message) => {
       'ungrant',
       'refresh',
       'role_all',
-      'create_roles'
+      'create_roles',
+      'create_channels'
     ]
     if (adminOnlyCommands.includes(args[0]) && !isStaff) {
       return message.reply('You do not have permission for this command.')
