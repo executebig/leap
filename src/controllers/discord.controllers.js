@@ -176,7 +176,7 @@ const createProjectChannels = async () => {
   const projects = await ProjectController.listProjects()
   const current_week = await ConfigController.get('week')
 
-  const channels = projects.map((project) => {
+  const channels = projects.map(async (project) => {
     const projectRoleName = `W${current_week}P${project.project_id}`
     const projectRoleId = client.guilds.cache
       .get(config.discord.guild)
@@ -187,7 +187,7 @@ const createProjectChannels = async () => {
 
     console.log(projectRoleId)
 
-    return client.guilds.cache
+    await client.guilds.cache
       .get(config.discord.guild)
       .channels.create(projectRoleName.toLowerCase(), {
         type: 'text',
@@ -215,8 +215,6 @@ const createProjectChannels = async () => {
         )
       })
   })
-
-  return Promise.all(channels)
 }
 
 const updateProjectRole = async (message, args) => {
