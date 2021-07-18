@@ -5,6 +5,7 @@ const Discord = require('discord.js')
 const client = new Discord.Client()
 
 const UserController = require('@controllers/user.controllers')
+const ConfigController = require('@controllers/config.controllers')
 const ModuleController = require('@controllers/module.controllers')
 const ProjectController = require('@controllers/project.controllers')
 const BadgeController = require('@controllers/badge.controllers')
@@ -81,23 +82,6 @@ exports.grantRole = async (discord_id, role_name) => {
   }
 }
 
-exports.clearAllProjectRoles = async (discord_id) => {
-  const guild = client.guilds.cache.get(config.discord.guild)
-  const member = guild.members.cache.get(discord_id)
-
-  if (!member) {
-    return
-  }
-
-  const roles = member.roles.cache.map((role) => role)
-
-  roles.forEach((role) => {
-    if (role.name.startsWith('P#')) {
-      member.roles.remove(role)
-    }
-  })
-}
-
 client.on('message', async (message) => {
   if (message.author.bot) return
 
@@ -112,7 +96,7 @@ client.on('message', async (message) => {
       return message.reply('Sup, no directive found.')
     }
 
-    const adminOnlyCommands = ['user', 'm', 'p', 'grant', 'ungrant', 'refresh']
+    const adminOnlyCommands = ['user', 'm', 'p', 'grant', 'ungrant', 'refresh', 'role_all']
     if (adminOnlyCommands.includes(args[0]) && !isStaff) {
       return message.reply('You do not have permission for this command.')
     }
@@ -120,6 +104,12 @@ client.on('message', async (message) => {
     const cmdArgs = args.slice(1)
 
     switch (args[0]) {
+      case 'role':
+        return await updateProjectRole(message, cmdArgs)
+        break
+      case 'role_all':
+        return await regrantAllProjectRoles()
+        break
       case 'user':
         return await getUserByDiscord(message, cmdArgs)
         break
@@ -146,6 +136,56 @@ client.on('message', async (message) => {
     }
   }
 })
+
+const updateProjectRole = async (message, args) => {
+  const user = await UserController.getUserByDiscord(message.author.id)
+
+  if (!user) {
+    return message.channel.send('You are not registered.')
+  }
+
+  const server_week = await ConfigController.get('week')
+  if (user.current_week !== parseInt(server_week)) {
+    return message.channel.send(
+      'You are not registered for this week. Come back after you pick your project!'
+    )
+  } else if (user.current_project === -1) {
+    return message.channel.send(
+      'You are not registered for a project. Come back after you pick your project!'
+    )
+  }
+
+  const roleName = 'W' + server_week + 'P' + user.current_project
+  await exports.grantRole(message.author.id, roleName)
+}
+
+// read all discord users from the guild, and grant them their project roles
+// depending on their current_project
+// if the discord user is not in the database, skip
+// if the user's current week does not match the 'week' config, skip
+// if the user's current project is -1, skip
+// print skipped conditions
+const regrantAllProjectRoles = async () => {
+  const guild = client.guilds.cache.get(config.discord.guild)
+  const users = guild.members.cache.keyArray()
+
+  const server_week = await ConfigController.get('week')
+  const roleName = 'W' + server_week + 'P'
+
+  for (let user of users) {
+    const u = await UserController.getUserByDiscord(user)
+
+    if (!u) {
+      continue
+    } else if (u.current_week !== parseInt(server_week)) {
+      continue
+    } else if (u.current_project === -1) {
+      continue
+    }
+
+    await exports.grantRole(user, roleName + u.current_project)
+  }
+}
 
 const getUserByDiscord = async (message, args) => {
   const user = await getUserFromMention(args[0])

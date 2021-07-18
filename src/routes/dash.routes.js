@@ -55,8 +55,7 @@ router.post('/', async (req, res) => {
 
   // grant Discord role 
   if (req.user.discord_id) {
-    const roleName = "P#" + req.body?.project_id
-    await DiscordController.clearAllProjectRoles(req.user.discord_id)
+    const roleName = "W" + req.user.current_week + "P" + req.body?.project_id
     await DiscordController.grantRole(req.user.discord_id, roleName)
   }
 
