@@ -1,0 +1,86 @@
+{{#extend "title"}}
+    Raffle Reward #{{@root/reward.reward_id}}
+{{/extend}}
+<style>
+    .box.raffle {
+        transition: all .3s linear;
+        border: 3px solid #3d6aff;
+    }
+</style>
+<section class="section header">
+    <div class="container">
+        <h1 class="title">Now Raffling: {{reward.name}}</h1>
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+            <ul>
+                <li><a href="/admin/rewards">Rewards</a></li>
+                <li class="is-active"><a href="#" aria-current="page">Raffle R#{{@root/reward.reward_id}}</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
+<section class="section pb-0">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-half">
+                <p>Total Entries</p>
+                <h2 class="title has-text-primary">{{stats.total}}</h2>
+            </div>
+            <div class="column is-half">
+                <p>Unique Players</p>
+                <h2 class="title has-text-primary">{{stats.unique}}</h2>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section pb-0">
+    <div class="container">
+        <div class="card">
+            <div class="card-content" id="drawingCard">
+                <h1 class="title is-4 has-text-primary">Draw Winner</h1>
+                <button class="button is-danger" type="none" id="drawButton">Draw Now</button>
+                <form id="confirmWinner" class="mt-5" method="POST" style="display: none;">
+                    <label class="label">Winner Order ID</label>
+                    <input class="input" id="winnerField" name="winner" required readonly />
+                    <button type="submit" class="mt-3 button is-danger">Confirm Winner & Reject Others</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section" id="entries">
+    <div class="container">
+        <div class="columns is-multiline is-mobile">
+            {{#each orders}}
+                <div class="column is-2-desktop">
+                    <div class="box raffle" id="entry_{{order_id}}">
+                        <p>Order ID: {{order_id}}</p>
+                        <p>User ID: {{user_id}}</p>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</section>
+<script nonce="{{nonce}}">
+    const items = {{{stringify order_array}}}
+    const entriesTable = document.getElementById("entries")
+    const drawButton = document.getElementById("drawButton")
+    const drawingCard = document.getElementById("drawingCard")
+    const confirmWinner = document.getElementById("confirmWinner")
+    const winnerField = document.getElementById("winnerField")
+
+    drawButton.addEventListener('click', () => {
+        const winner = items[Math.floor(Math.random() * items.length)]
+        const winningCard = document.getElementById("entry_" + winner.order_id)
+        winningCard.classList.add('winner')
+        entriesTable.querySelectorAll(".box.raffle").forEach(el => {
+            if (!el.classList.contains('winner')) {
+                el.style.opacity = ".2"
+                el.style.filter = "blur(10px)"
+            }
+        })
+        drawButton.style.display = "none"
+        confirmWinner.style.display = "block"
+        winnerField.value = winner.order_id
+    })
+</script>

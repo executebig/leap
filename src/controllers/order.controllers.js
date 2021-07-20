@@ -27,6 +27,16 @@ exports.listUserOrders = async (user_id) => {
   return q?.rows
 }
 
+exports.getOrdersByReward = async (reward_id) => {
+  const q = await db.query('SELECT * FROM orders WHERE reward_id = $1', [reward_id])
+  return q?.rows
+}
+
+exports.setRaffleWinner = async (reward_id, winner_id) => {
+  await db.query('UPDATE orders SET status = $1, updated_at = NOW() WHERE reward_id = $2 AND order_id = $3', ["Order placed", reward_id, winner_id])
+  await db.query('UPDATE orders SET status = $1, updated_at = NOW() WHERE reward_id = $2 AND status = $3 AND order_id <> $4', [`Raffle lost - Winning entry #${winner_id}`, reward_id, "Pending raffle", winner_id])
+}
+
 exports.updateStatus = async(order_id, status) => {
    const q = await db.query('UPDATE orders SET status = $1, updated_at = NOW() WHERE order_id = $2', [status, order_id])
 }

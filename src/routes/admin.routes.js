@@ -61,7 +61,7 @@ router.get('/users/batch', (req, res) => {
 })
 
 router.post('/users/batch', async (req, res) => {
-  const ids = req.body.user_ids.split(/[\n,]+/).map(item => parseInt(item.trim()))
+  const ids = req.body.user_ids.split(/[\n,]+/).map((item) => parseInt(item.trim()))
   const change = req.body.change
 
   const q = await UserController.batchGrantPoints(ids, change)
@@ -761,8 +761,18 @@ router.get('/rewards/new', (req, res) => {
 })
 
 router.post('/rewards/new', async (req, res) => {
-  let { name, description, image, quantity, needs_shipping, enabled, price, delivery, raffle, international } =
-    req.body
+  let {
+    name,
+    description,
+    image,
+    quantity,
+    needs_shipping,
+    enabled,
+    price,
+    delivery,
+    raffle,
+    international
+  } = req.body
   enabled = !!enabled
   needs_shipping = !!needs_shipping
   raffle = !!raffle
@@ -796,8 +806,18 @@ router.get('/rewards/edit/:id', async (req, res) => {
 })
 
 router.post('/rewards/edit/:id', async (req, res) => {
-  let { name, description, image, quantity, needs_shipping, enabled, price, delivery, raffle, international } =
-    req.body
+  let {
+    name,
+    description,
+    image,
+    quantity,
+    needs_shipping,
+    enabled,
+    price,
+    delivery,
+    raffle,
+    international
+  } = req.body
   enabled = !!enabled
   needs_shipping = !!needs_shipping
   raffle = !!raffle
@@ -818,6 +838,44 @@ router.post('/rewards/edit/:id', async (req, res) => {
 
   req.flash('success', `Reward #${reward_id} updated successfully!`)
   res.redirect(`/admin/rewards`)
+})
+
+router.get('/rewards/raffle/:id', async (req, res) => {
+  const [reward, orders] = await Promise.all([
+    ExchangeController.getRewardById(req.params.id),
+    OrderController.getOrdersByReward(req.params.id)
+  ])
+
+  res.render('pages/admin/rewards/raffle', {
+    reward,
+    orders,
+    order_array: orders.map(v => {
+      return {
+        order_id: v.order_id,
+        user_id: v.user_id
+      }
+    }),
+    stats: {
+      total: orders.length,
+      unique: orders.reduce(
+        (values, v) => {
+          if (!values.set[v.user_id]) {
+            values.set[v.user_id] = 1
+            values.count++
+          }
+          return values
+        },
+        { set: {}, count: 0 }
+      ).count
+    }
+  })
+})
+
+router.post('/rewards/raffle/:id', async (req, res) => {
+  await OrderController.setRaffleWinner(req.params.id, req.body.winner)
+  req.flash('success', `Successfully set order ${req.body.winner} as winner!`)
+  
+  res.redirect('/admin/rewards')
 })
 
 router.get('/orders/edit/:id', async (req, res) => {
