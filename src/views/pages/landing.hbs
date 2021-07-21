@@ -14,6 +14,12 @@
     <meta name="twitter:description" content="Tech Roulette is a free game for the summer where you (and 500 students) get the chance to take a leap into fields of technology through a variety of random intro projects while earning rewards and prizes — all in your free time." />
     <meta name="twitter:image" content="https://techroulette.xyz/static/card.png" />
 {{/extend}}
+{{#notEq env "development"}}
+    <!-- no hCaptcha during dev -->
+    {{#extend "header-scripts"}}
+        <script src="https://hcaptcha.com/1/api.js" async defer></script>
+    {{/extend}}
+{{/notEq}}
 <div class="page__landing">
     <div class="waves"></div>
     <section class="section landing">

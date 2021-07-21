@@ -7,6 +7,7 @@ const db = require('@db')
 
 const router = require('express').Router()
 const crypto = require('crypto')
+const { customAlphabet } = require('nanoid')
 
 const UserController = require('@controllers/user.controllers')
 const generateLoginJWT = require('@libs/jwt').generateLoginJWT
@@ -17,7 +18,8 @@ const reflash = require('@libs/reflash')
 const redis = require('@db/redis').client
 
 const TOKEN_EXPIRATION = 15 * 60 // 15 mins
-const HASH_LENGTH = 12
+const CODE_LENGTH = 7
+const nanoid = customAlphabet('123456789ABCDEFGHIJKLMNPQRSTUVWXYZ', 3)
 
 const stopLoggedInUsers = (req, res, next) => {
   if (req.user) {
@@ -28,7 +30,7 @@ const stopLoggedInUsers = (req, res, next) => {
   }
 }
 
-/** /login accepts the token only. hashes should be request to /magic */
+/** /login accepts the token only. code should be request to /magic */
 router.get(
   '/login',
   stopLoggedInUsers,
@@ -67,35 +69,35 @@ router.get(
   }
 )
 
-/** /magic accepts the hash and translates it to the token if possible */
+/** /magic accepts the magic code and translates it to the token if possible */
 router.get('/magic', stopLoggedInUsers, (req, res) => {
-  const hash = req.query.hash
+  const magic_code = req.query.code
 
-  if (!hash || hash.length !== HASH_LENGTH) {
+  if (!magic_code || magic_code.length !== CODE_LENGTH) {
     req.flash('error', 'Invalid login link. Please try logging in again.')
-    return res.redirect('/')
+    return res.redirect('/login')
   }
 
   redis
-    .get(`magic:${hash}`)
+    .get(`magic:${magic_code}`)
     .then((token) => {
       if (token) {
-        redis.del(`magic:${hash}`)
+        redis.del(`magic:${magic_code}`)
         req.flash('success', 'Welcome! You are now logged in.')
         return res.redirect('/auth/login?token=' + token)
       } else {
         req.flash('error', 'Invalid login link. Please try logging in again.')
-        return res.redirect('/')
+        return res.redirect('/login')
       }
     })
     .catch((err) => {
       req.flash('error', 'Error mapping token. Please try logging in again.')
-      return res.redirect('/')
+      return res.redirect('/login')
     })
 })
 
-const generateTokenHash = (token) => {
-  return crypto.createHash('sha1').update(token).digest('hex').substring(0, HASH_LENGTH)
+const generateMagicCode = () => {
+  return nanoid() + '-' + nanoid()
 }
 
 router.post('/login', stopLoggedInUsers, hcaptcha.validate, async (req, res) => {
@@ -103,7 +105,8 @@ router.post('/login', stopLoggedInUsers, hcaptcha.validate, async (req, res) => 
   const validate = require('@libs/validateEmail')
 
   if (!validate(email)) {
-    return req.flash('error', 'Invalid email format. Please check your input and try again!')
+    req.flash('error', 'Invalid email format. Please check your input and try again!')
+    return res.redirect('/login')
   }
 
   // valid email from this point on
@@ -116,14 +119,14 @@ router.post('/login', stopLoggedInUsers, hcaptcha.validate, async (req, res) => 
   // user with $email now exists, send magic link
   generateLoginJWT(user)
     .then((token) => {
-      const hash = generateTokenHash(token)
-      mailer.sendMagic(email, hash)
-      redis.set(`magic:${hash}`, token, 'ex', TOKEN_EXPIRATION)
+      const magic_code = generateMagicCode(token)
+      mailer.sendMagic(email, magic_code)
+      redis.set(`magic:${magic_code}`, token, 'ex', TOKEN_EXPIRATION)
       res.redirect(`/auth/sent?email=${email}`)
     })
     .catch((error) => {
       req.flash('error', 'Error generating token: ' + error.message)
-      res.redirect('/')
+      res.redirect('/login')
     })
 })
 

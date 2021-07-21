@@ -36,6 +36,7 @@ specifiers:
   mocha-suppress-logs: ^0.2.0
   module-alias: ^2.2.2
   morgan: ^1.10.0
+  nanoid: ^3.1.23
   node-sass-middleware: ^0.11.0
   passport: ^0.4.1
   passport-jwt: ^4.0.0
@@ -77,6 +78,7 @@ dependencies:
   marked: 2.1.1
   module-alias: 2.2.2
   morgan: 1.10.0
+  nanoid: 3.1.23
   node-sass-middleware: 0.11.0
   passport: 0.4.1
   passport-jwt: 4.0.0
@@ -2269,6 +2271,12 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
     dev: true
+
+  /nanoid/3.1.23:
+    resolution: {integrity: sha512-FiB0kzdP0FFVGDKlRLEQ1BgDzU87dy5NnzjeW9YZNt+/c3+q82EQDUwniSAUxp/F0gFNI1ZhKU1FqYsMuqZVnw==}
+    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
+    hasBin: true
+    dev: false
 
   /negotiator/0.6.2:
     resolution: {integrity: sha512-hZXc7K2e+PgeI1eDBe/10Ard4ekbfrrqG8Ep+8Jmf4JID2bNg7NvCPOZN+kfF574pFQI7mum2AUqDidoKqcTOw==}

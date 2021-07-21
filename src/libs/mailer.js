@@ -9,21 +9,23 @@ const ModuleController = require('@controllers/module.controllers')
 
 const client = new postmark.ServerClient(config.postmark.apiKey)
 
-exports.sendMagic = async (email, hash) => {
-  let magicLink = `https://${config.domain}/auth/magic?hash=${hash}`
+exports.sendMagic = async (email, magic_code) => {
+  let magic_link = `https://${config.domain}/auth/magic?code=${magic_code}`
 
   if (config.flags.includes('print_email')) {
     // dev flag to print the token instead of sending
-    console.log('Magic link: ' + magicLink.replace('https://', 'http://'))
+    console.log('Magic Link: ' + magic_link.replace('https://', 'http://'))
+    console.log('Magic Code: ' + magic_code)
     return
   }
 
   client.sendEmailWithTemplate({
     From: config.postmark.from,
     To: email,
-    TemplateAlias: 'magic-link',
+    TemplateAlias: 'magic-link-with-code',
     TemplateModel: {
-      magic: magicLink
+      magic_link,
+      magic_code
     }
   })
 }

@@ -22,7 +22,7 @@ router.get('/', authMiddlewares.optionalAuth, (req, res) => {
 })
 
 router.get('/login', authMiddlewares.optionalAuth, (req, res) => {
-  res.render('pages/login', {
+  res.render('pages/auth/login', {
     hCaptcha: config.hCaptcha
   })
 })
