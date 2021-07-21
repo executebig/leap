@@ -25,20 +25,17 @@
           </li>
           <li>
             <a href="/admin/submissions/{{project_id}}">
-              P
-              {{project_id}}
+              P{{project_id}}
             </a>
           </li>
           <li>
             <a href="/admin/submissions/{{project_id}}/{{module_id}}">
-              M
-              {{module_id}}
+              M{{module_id}}
             </a>
           </li>
           <li class="is-active">
             <a aria-current="page">
-              S
-              {{submission_id}}
+              S{{submission_id}}
             </a>
           </li>
         </ul>
@@ -55,18 +52,13 @@
         </h2>
         <div class="tags are-medium">
           <span class="tag is-primary">
-            P
-            {{project_id}}
-            M
-            {{module_id}}
+            P{{project_id}}M{{module_id}}
           </span>
           <span class="tag is-primary">
-            U#
-            {{user_id}}
+            U#{{user_id}}
           </span>
           <span class="tag is-primary">
-            S#
-            {{submission_id}}
+            S#{{submission_id}}
           </span>
           <span class="tag is-primary">
             {{prettyTime created_at}}
