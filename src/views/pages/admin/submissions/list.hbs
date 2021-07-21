@@ -56,11 +56,19 @@
                             <td>
                                 {{#eq ../filter "pending"}}
                                     <a href="/admin/submissions/edit/{{../submission_id}}">
-                                        Grade
-                                    </a>
+                                        Review S{{../submission_id}}
+                                    </a> /
+
+                                    <form action="/admin/submissions/edit/{{../submission_id}}" method="POST">
+                                        <input type="hidden" name="comments" value="" />
+                                        <input type="hidden" name="state" value="accepted" />
+                                        <input type="hidden" name="grader" value="{{@root/user.first_name}}" />
+
+                                        <a>Accept</a>
+                                    </form>
                                 {{else}}
                                     <a href="/admin/submissions/update/{{../submission_id}}">
-                                        Update
+                                        Update S{{../submission_id}}
                                     </a>
                                 {{/eq}}
                             </td>
@@ -79,3 +87,13 @@
         {{/notEq}}
     </div>
 </section>
+
+{{#extend 'scripts'}}
+<script nonce="{{@root/nonce}}">
+    document.querySelectorAll('form > a').forEach(node => {
+        node.addEventListener('click', (e) => {
+            node.parentNode.submit()
+        })
+    })
+</script>
+{{/extend}}
