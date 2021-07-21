@@ -155,6 +155,7 @@ router.get('/logout', (req, res) => {
 router.get('/code', stopLoggedInUsers, (req, res) => {
   res.render('pages/auth/code', {
     hide_auth: true,
+    hCaptcha: config.hCaptcha,
     email: req.query.email,
     sent: req.query.sent ? true : false
   })
