@@ -1,0 +1,89 @@
+{{#extend "title"}}
+    Link Sent
+{{/extend}}
+{{#notEq env "development"}}
+    <!-- no hCaptcha during dev -->
+    {{#extend "header-scripts"}}
+        <script src="https://hcaptcha.com/1/api.js" async defer></script>
+    {{/extend}}
+{{/notEq}}
+<div class="page__pending">
+    {{#if sent}}
+        <section class="section">
+            <div class="container has-text-centered">
+                <h1 class="title">
+                    <ion-icon name="mail-unread-outline"></ion-icon>
+                    <span class="header-text">Log in link sent!</span>
+                </h1>
+                <p class="backup-link">Your single-use log in link has been sent to <strong>{{email}}</strong>! Please check your email on this device and click the button in the email to log in.</p>
+                <p class="mt-2">Need help? Shoot us an email at <a href="mailto:hi@techroulette.xyz" target="_blank">hi@techroulette.xyz.</a></p>
+            </div>
+        </section>
+        <hr />
+        <div class="has-text-centered">
+            <p class="mb-3"><strong>Alternatively, you can log in by typing in a magic code.</strong></p>
+        </div>
+    {{/if}}
+    <section class="section p-0">
+        <div class="container has-text-centered mt-5">
+            {{#unless sent}}
+                <h1 class="title mb-3">
+                    <span class="header-text">Got a code for me?</span>
+                </h1>
+                <p class="mb-5"><strong>Sign in by typing/pasting in a magic code. Magic codes are only valid for 15 minutes.</strong></p>
+            {{/unless}}
+            <div class="magic_code_form form-wrapper">
+                <form class="form" id="magicCodeForm" method="POST" action="/auth/code">
+                    <input id="codeLoginField" class="input" type="text" placeholder="EXE-BIG" name="code" required="true" maxlength="7" {{#unless @root/sent}}autofocus{{/unless}}>
+                    {{#notEq env "development"}}
+                        <!-- no hCaptcha during dev -->
+                        <div id="hcaptcha" class="h-captcha" data-sitekey="{{@root/hCaptcha.siteKey}}" data-callback="onCodeLogin" data-size="invisible"></div>
+                    {{/notEq}}
+                    <button class="button is-primary" id="codeLoginButton" disabled="true">Login with Code</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <script nonce='{{@root/nonce}}'>
+        const codeLoginButton = document.getElementById('codeLoginButton')
+        const codeLoginField = document.getElementById('codeLoginField')
+
+        codeLoginField.addEventListener('input', (e) => {
+            // strip all non-alphanumeric characters except for dashes
+            codeLoginField.value = codeLoginField.value.replace(/[^a-zA-Z0-9\-]/g, '')
+
+            // if the input is more than 3 characters long, make sure there's a dash at the 4th character
+            if (codeLoginField.value.length === 3) {
+                codeLoginField.value = codeLoginField.value + '-'
+            }
+
+            if (codeLoginField.value.length < 7) {
+                codeLoginButton.disabled = true
+            } else {
+                codeLoginButton.disabled = false
+            }
+        })
+    </script>
+    {{#notEq env "development"}}
+        {{#extend "scripts"}}
+            <script nonce='{{@root/nonce}}'>
+                function onCodeLogin(token) {
+                    document.getElementById('magicCodeForm').submit()
+                }
+
+                function validateMagicCode(event) {
+                    const input = document.querySelector('#codeLoginField')
+                    event.preventDefault();
+
+                    if (!input.checkValidity()) {
+                        input.reportValidity()
+                    } else {
+                        hcaptcha.execute()
+                    }
+                }
+
+                document.getElementById('codeLoginButton').addEventListener('click', validateMagicCode)
+            </script>
+        {{/extend}}
+    {{/notEq}}
+</div>

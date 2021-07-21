@@ -8,6 +8,8 @@ const db = require('@db')
 const router = require('express').Router()
 const crypto = require('crypto')
 const { customAlphabet } = require('nanoid')
+const RateLimit = require('express-rate-limit')
+const RedisStore = require('rate-limit-redis')
 
 const UserController = require('@controllers/user.controllers')
 const generateLoginJWT = require('@libs/jwt').generateLoginJWT
@@ -69,8 +71,21 @@ router.get(
   }
 )
 
+// prevent bulk attacks on the /magic endpoint
+const magicLimiter = RateLimit({
+  store: new RedisStore({
+    client: require('@db/redis').client
+  }),
+  windowMs: 60 * 10 * 1000, // 10 min
+  max: 10,
+  handler: (req, res) => {
+    req.flash('error', 'Too many attempts. Please try again in 10 minutes!')
+    res.redirect('/login')
+  }
+})
+
 /** /magic accepts the magic code and translates it to the token if possible */
-router.get('/magic', stopLoggedInUsers, (req, res) => {
+router.get('/magic', magicLimiter, stopLoggedInUsers, (req, res) => {
   const magic_code = req.query.code
 
   if (!magic_code || magic_code.length !== CODE_LENGTH) {
@@ -122,7 +137,7 @@ router.post('/login', stopLoggedInUsers, hcaptcha.validate, async (req, res) => 
       const magic_code = generateMagicCode(token)
       mailer.sendMagic(email, magic_code)
       redis.set(`magic:${magic_code}`, token, 'ex', TOKEN_EXPIRATION)
-      res.redirect(`/auth/sent?email=${email}`)
+      res.redirect(`/auth/code?email=${email}&sent=true`)
     })
     .catch((error) => {
       req.flash('error', 'Error generating token: ' + error.message)
@@ -137,13 +152,17 @@ router.get('/logout', (req, res) => {
   res.redirect('/')
 })
 
-router.get('/sent', stopLoggedInUsers, (req, res) => {
-  const email = req.query.email
-
-  res.render('pages/auth/sent', {
+router.get('/code', stopLoggedInUsers, (req, res) => {
+  res.render('pages/auth/code', {
     hide_auth: true,
-    email
+    email: req.query.email,
+    sent: req.query.sent ? true : false
   })
+})
+
+router.post('/code', stopLoggedInUsers, hcaptcha.validate, (req, res) => {
+  const code = req.body.code.toUpperCase()
+  res.redirect('/auth/magic/?code=' + code)
 })
 
 module.exports = router

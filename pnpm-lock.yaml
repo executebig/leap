@@ -22,6 +22,7 @@ specifiers:
   express: ^4.17.1
   express-handlebars: ^5.3.2
   express-minify-html-2: ^1.0.1
+  express-rate-limit: ^5.3.0
   express-request-id: ^1.4.1
   express-session: ^1.17.2
   hcaptcha: ^0.0.2
@@ -42,6 +43,7 @@ specifiers:
   passport-jwt: ^4.0.0
   pg: ^8.6.0
   postmark: ^2.7.4
+  rate-limit-redis: ^2.1.0
   socket.io: ^4.1.2
   us-state-codes: ^1.1.2
   xss: ^1.0.9
@@ -66,6 +68,7 @@ dependencies:
   express: 4.17.1
   express-handlebars: 5.3.2
   express-minify-html-2: 1.0.1
+  express-rate-limit: 5.3.0
   express-request-id: 1.4.1
   express-session: 1.17.2
   hcaptcha: 0.0.2
@@ -84,6 +87,7 @@ dependencies:
   passport-jwt: 4.0.0
   pg: 8.6.0
   postmark: 2.7.4
+  rate-limit-redis: 2.1.0
   socket.io: 4.1.2
   us-state-codes: 1.1.2
   xss: 1.0.9
@@ -780,6 +784,11 @@ packages:
       wrap-ansi: 7.0.0
     dev: true
 
+  /clone/1.0.4:
+    resolution: {integrity: sha1-2jCcwmPfFZlMaIypAheco8fNfH4=}
+    engines: {node: '>=0.8'}
+    dev: false
+
   /cluster-key-slot/1.1.0:
     resolution: {integrity: sha512-2Nii8p3RwAPiFwsnZvukotvow2rIHM+yQ6ZcBXGHdniadkYGZYiGmkHJIbZPIV9nfv7m/U1IPMVVcAhoWFeklw==}
     engines: {node: '>=0.10.0'}
@@ -1033,6 +1042,12 @@ packages:
     resolution: {integrity: sha1-s2nW+128E+7PUk+RsHD+7cNXzzQ=}
     dev: false
 
+  /defaults/1.0.3:
+    resolution: {integrity: sha1-xlYFHpgX2f8I7YgUd/P+QBnz730=}
+    dependencies:
+      clone: 1.0.4
+    dev: false
+
   /delayed-stream/1.0.0:
     resolution: {integrity: sha1-3zrhmayt+31ECqrgsp4icrJOxhk=}
     engines: {node: '>=0.4.0'}
@@ -1253,6 +1268,10 @@ packages:
     dependencies:
       html-minifier: 4.0.0
       lodash.merge: 4.6.2
+    dev: false
+
+  /express-rate-limit/5.3.0:
+    resolution: {integrity: sha512-qJhfEgCnmteSeZAeuOKQ2WEIFTX5ajrzE0xS6gCOBCoRQcU+xEzQmgYQQTpzCcqUAAzTEtu4YEih4pnLfvNtew==}
     dev: false
 
   /express-request-id/1.4.1:
@@ -2811,6 +2830,13 @@ packages:
     engines: {node: '>= 0.6'}
     dev: false
 
+  /rate-limit-redis/2.1.0:
+    resolution: {integrity: sha512-6SAsTCzY0v6UCIKLOLLYqR2XzFmgdtF7jWXlSPq2FrNIZk8tZ7xwBvyGW7GFMCe5I4S9lYNdrSJ9E84rz3/CpA==}
+    dependencies:
+      defaults: 1.0.3
+      redis: 3.1.2
+    dev: false
+
   /raw-body/2.4.0:
     resolution: {integrity: sha512-4Oz8DUIwdvoa5qMJelxipzi/iJIi40O5cGV1wNYp5hvZP8ZN0T+jiNkL0QepXs+EsQ9XJ8ipEDoiH70ySUJP3Q==}
     engines: {node: '>= 0.8'}
@@ -2897,6 +2923,16 @@ packages:
     engines: {node: '>=4'}
     dependencies:
       redis-errors: 1.2.0
+    dev: false
+
+  /redis/3.1.2:
+    resolution: {integrity: sha512-grn5KoZLr/qrRQVwoSkmzdbw6pwF+/rwODtrOr6vuBRiR/f3rjSTGupbF90Zpqm2oenix8Do6RV7pYEkGwlKkw==}
+    engines: {node: '>=10'}
+    dependencies:
+      denque: 1.5.0
+      redis-commands: 1.7.0
+      redis-errors: 1.2.0
+      redis-parser: 3.0.0
     dev: false
 
   /relateurl/0.2.7:
