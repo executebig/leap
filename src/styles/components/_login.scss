@@ -1,0 +1,90 @@
+.email-form {
+  .form {
+    max-width: 30rem;
+    padding: 0.3rem;
+    display: flex;
+    transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: $white-offset;
+    background-image: $wave-pattern;
+    background-repeat: repeat;
+    border: 2px solid $primary;
+    border-radius: 0.5rem;
+
+    &.is-prefilled {
+      display: block;
+      background: none;
+      border: transparent;
+      padding: 0;
+      max-width: none;
+
+      input.input {
+        display: none;
+      }
+
+      button.button {
+        margin-top: 1rem;
+      }
+    }
+
+    input.input {
+      box-shadow: none;
+      flex-grow: 1;
+      overflow: visible;
+      border: none;
+      outline: none;
+      background: none;
+      padding: calc(0.3em - 1px) calc(0.75em - 1px);
+      font-size: 1rem;
+    }
+
+    .button {
+      border-radius: 0.5rem;
+      white-space: nowrap;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      font-weight: bold;
+
+      &:hover {
+        transform: none;
+      }
+    }
+  }
+
+  p.hint {
+    color: $hint;
+    font-size: 0.8rem !important;
+    margin-top: 0.3rem;
+    padding-left: calc(0.75em - 1px);
+  }
+}
+
+.magic_code_form {
+  .form {
+    max-width: 30rem;
+
+    input {
+      text-transform: uppercase;
+      border-radius: 0.5rem;
+      padding: 0.3rem;
+      height: 3rem;
+      transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+      font-weight: bold;
+      font-size: 1.3rem;
+      text-align: center;
+      letter-spacing: 18px;
+      color: $primary;
+
+      &::placeholder {
+        color: $primary;
+        opacity: 0.2;
+      }
+    }
+
+    .button {
+      border-radius: 0.5rem;
+      white-space: nowrap;
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+  }
+}
