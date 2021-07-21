@@ -18,66 +18,7 @@
                 {{>landing/signup button="Log In"}}
             </div>
             <p class="help">We'll create an account for you if an account with that email address does not exist.</p>
+        <p class="mt-5 has-text-weight-bold">Alternatively, <a href="/auth/code">log in with a code »</a></p>
         </div>
     </section>
-    <hr />
-    <section class="section p-0">
-        <div class="container has-text-centered">
-            <div class="magic_code_form form-wrapper">
-                <p class="mb-3"><strong>Alternatively, you can log in by typing in a magic code.</strong></p>
-                <form class="form" id="magicCodeForm" method="get" action="/auth/magic">
-                    <input id="codeLoginField" class="input" type="text" placeholder="EXE-BIG" name="code" required="true" maxlength="7">
-                    {{#notEq env "development"}}
-                        <!-- no hCaptcha during dev -->
-                        <div id="hcaptcha" class="h-captcha" data-sitekey="{{@root/hCaptcha.siteKey}}" data-callback="onCodeLogin" data-size="invisible"></div>
-                    {{/notEq}}
-                    <button class="button is-primary" id="codeLoginButton" disabled="true">Login with Code</button>
-                </form>
-            </div>
-        </div>
-    </section>
-    <script nonce='{{@root/nonce}}'>
-        const codeLoginButton = document.getElementById('codeLoginButton')
-        const codeLoginField = document.getElementById('codeLoginField')
-
-        codeLoginField.addEventListener('input', (e) => {
-            codeLoginField.value = codeLoginField.value.toUpperCase()
-            // strip all non-alphanumeric characters except for dashes
-            codeLoginField.value = codeLoginField.value.replace(/[^a-zA-Z0-9\-]/g, '')
-
-            // if the input is more than 3 characters long, make sure there's a dash at the 4th character
-            if (codeLoginField.value.length === 3) {
-                codeLoginField.value = codeLoginField.value + '-'
-            }
-
-            if (codeLoginField.value.length < 7) {
-                codeLoginButton.disabled = true
-            }
-            else {
-                codeLoginButton.disabled = false
-            }
-        })
-    </script>
-    {{#notEq env "development"}}
-        {{#extend "scripts"}}
-            <script nonce='{{@root/nonce}}'>
-                function onCodeLogin(token) {
-                    document.getElementById('magicCodeForm').submit()
-                }
-
-                function validateMagicCode(event) {
-                    const input = document.querySelector('#codeLoginField')
-                    event.preventDefault();
-
-                    if (!input.checkValidity()) {
-                        input.reportValidity()
-                    } else {
-                        hcaptcha.execute()
-                    }
-                }
-
-                document.getElementById('codeLoginButton').addEventListener('click', validateMagicCode)
-            </script>
-        {{/extend}}
-    {{/notEq}}
 </div>
