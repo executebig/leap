@@ -105,7 +105,7 @@ exports.sanitize = (value, options) => {
 }
 
 exports.getUrl = (value, options) => {
-  const url = xss(value.match(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g))
+  const url = xss(value.match(/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/g))
 
   if (url) {
     return `<a href="${url}" target="_blank">${url}</a>`
