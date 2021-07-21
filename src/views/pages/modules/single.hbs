@@ -78,7 +78,7 @@
                   Module Overview
                 </span>
               </h1>
-              <span class="card-header-chip {{getSubmissionState @root/submissions module.module_id}}">
+              <span class="card-header-chip {{@root/submissions.0.state}}">
                 +{{module.points}}&nbsp;{{>chip}}
               </span>
             </div>
@@ -102,6 +102,31 @@
       </div>
     </div>
   </section>
+
+  {{#if @root/submissions.0.comments}}
+    <div class="container">
+      <div class="message is-light
+        {{#switch @root/submissions.0.state}}
+          {{#case 'accepted'}}
+            is-success
+          {{/case}}
+
+          {{#case 'rejected'}}
+            is-danger
+          {{/case}}
+        {{/switch}}
+      ">
+        <div class="message-header">
+          <p><strong>Reader's Comments</strong></p>
+        </div>
+
+        <div class="message-body">
+          <p id="submission-comment">{{@root/submissions.0.comments}}</p>
+        </div>
+      </div>
+    </div>
+  {{/if}}
+
   <section class='section'>
     <div class='container'>
       <div class="columns is-desktop">
