@@ -156,7 +156,7 @@
                         <td>{{points}}</td>
                         <td>{{{showBool required}}}</td>
                         <td>{{{showBool enabled}}}</td>
-                        <td style="white-space: nowrap;"><a href="https://module.techroulette.xyz/{{notion_link}}" target="_blank">Preview »</a></td>
+                        <td>{{#if notion_link}}<a href="https://module.techroulette.xyz/{{notion_link}}" target="_blank">N»</a>{{/if}}</td>
                         <td><a href="/admin/modules/edit/{{module_id}}">Edit</a></td>
                     </tr>
                 {{/each}}
