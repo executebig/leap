@@ -60,6 +60,8 @@ create table if not exists modules (
     points int not null,
     required bool not null default false,
 
+    notion_link text,
+
     project_id serial not null,
     constraint project_fk
         foreign key (project_id) references projects(project_id)
