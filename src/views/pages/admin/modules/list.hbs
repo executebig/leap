@@ -21,6 +21,7 @@
             <th><abbr title='points'>Points</abbr></th>
             <th><abbr title='required'>REQ?</abbr></th>
             <th><abbr title='enabled'>EN?</abbr></th>
+            <th><abbr title='notion'>Notion</abbr></th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -34,6 +35,7 @@
               <td>{{points}}</td>
               <td>{{{showBool required}}}</td>
               <td>{{{showBool enabled}}}</td>
+              <td style="white-space: nowrap;"><a href="https://module.techroulette.xyz/{{notion_link}}" target="_blank">Preview »</a></td>
               <td><a href='/admin/modules/edit/{{module_id}}'>Edit M{{module_id}}</a></td>
             </tr>
           {{/each}}

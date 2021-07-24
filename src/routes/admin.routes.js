@@ -424,13 +424,15 @@ router.get('/modules/new', async (req, res) => {
 })
 
 router.post('/modules/new', async (req, res) => {
-  let { title, description, content, points, required, enabled, project_id } = req.body
+  let { title, description, content, notion_link, points, required, enabled, project_id } = req.body
 
   if (!project_id) {
     req.flash('error', `Missing project_id`)
     res.redirect(req.originalUrl)
     return
   }
+
+  notion_link = notion_link.replace("https://executebig.notion.site/", "")
 
   required = !!required
   enabled = !!enabled
@@ -439,6 +441,7 @@ router.post('/modules/new', async (req, res) => {
     title,
     description,
     content,
+    notion_link,
     points,
     required,
     enabled
@@ -461,15 +464,18 @@ router.get('/modules/edit/:id', async (req, res) => {
 })
 
 router.post('/modules/edit/:id', async (req, res) => {
-  let { title, description, content, points, required, enabled } = req.body
+  let { title, description, content, notion_link, points, required, enabled } = req.body
 
   required = !!required
   enabled = !!enabled
+
+  notion_link = notion_link.replace("https://executebig.notion.site/", "")
 
   const { module_id } = await ModuleController.updateModule(req.params.id, {
     title,
     description,
     content,
+    notion_link,
     points,
     required,
     enabled
