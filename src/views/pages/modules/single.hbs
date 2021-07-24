@@ -3,6 +3,20 @@
 {{/extend}}
 {{#extend 'header-inject'}}
   <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/driver.js/dist/driver.min.css">
+  <style>
+    .intro_driver * {
+      font-family: 'Space Grotesk', sans-serif !important;
+    }
+
+    #driver-highlighted-element-stage {
+      border-radius: 0.5rem !important;
+    }
+
+    .intro_driver .driver-popover-title {
+      font-size: 1.1em !important;
+    }
+  </style>
 {{/extend}}
 {{#*inline "submissionStatus"}}
   {{#switch (getSubmissionState @root/submissions module.module_id)}}
@@ -34,7 +48,7 @@
       </strong>
     {{/case}}
     {{#case ''}}
-      <button class='button is-primary is-pulled-left modal-open' type='submit'>
+      <button class='button is-primary modal-open' type='submit'>
         <strong>Submit Module</strong>
         <span class='icon'>
           <ion-icon name='arrow-forward-outline'></ion-icon>
@@ -70,7 +84,7 @@
           <img src='{{project.thumbnail_url}}' alt='' class='card hero-image' />
         </div>
         <div class='column'>
-          <div class='card'>
+          <div class='card' id="module_overview">
             <div class='card-header'>
               <h1 class='card-header-title icon-field'>
                 <ion-icon name='information-circle-outline'></ion-icon>
@@ -94,7 +108,19 @@
             </div>
             <div class='card-footer'>
               <div class='card-content py-4'>
-                {{> submissionStatus}}
+                <div class="columns">
+                  <div class="column is-narrow is-flex is-align-items-center">
+                    <a id="read_module_button" class="button is-primary" href="https://module.techroulette.xyz/{{notion_link}}" target="_blank" />
+                    <span>Read Module</span>
+                    <span class='icon'>
+                      <ion-icon name='arrow-forward-outline'></ion-icon>
+                    </span>
+                    </a>
+                  </div>
+                  <div class="column is-flex is-align-items-center">
+                    {{> submissionStatus}}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -102,7 +128,6 @@
       </div>
     </div>
   </section>
-
   {{#if @root/submissions.0.comments}}
     <div class="container">
       <div class="message is-light
@@ -119,26 +144,12 @@
         <div class="message-header">
           <p><strong>Reader's Comments</strong></p>
         </div>
-
         <div class="message-body">
           <p id="submission-comment">{{@root/submissions.0.comments}}</p>
         </div>
       </div>
     </div>
   {{/if}}
-
-  <section class='section'>
-    <div class='container'>
-      <div class="columns is-desktop">
-        {{{MdToTableOfContents module.content}}}
-        <div class="column content" id="module_content">
-          {{{module.rendered_content}}}
-          <hr />
-          {{> submissionStatus}}
-        </div>
-      </div>
-    </div>
-  </section>
   <form class='modal' action='' method='POST'>
     <div class='modal-background'></div>
     <div class='modal-card'>
@@ -192,55 +203,39 @@
 </div>
 {{! prettier-ignore }}
 {{#extend 'scripts'}}
-  <script src="https://unpkg.com/prismjs/components/prism-core.min.js"></script>
-  <script src="https://unpkg.com/prismjs/plugins/autoloader/prism-autoloader.min.js"></script>
-  <script src="https://unpkg.com/prismjs/plugins/custom-class/prism-custom-class.min.js"></script>
   <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+  <script src="https://unpkg.com/driver.js/dist/driver.min.js"></script>
   <script nonce='{{@root/nonce}}'>
-    const contentContainer = document.getElementById('module_content')
+    const driver = new Driver({
+      className: 'intro_driver',
+      allowClose: false,
+      onReset: (Element) => {
+        localStorage.setItem('read_module_onboard', true)
+      }
+    });
 
-    Prism.plugins.customClass.prefix('prism__')
-
-    let copyPastedCount = 0
-
-    // warn copy/paste
-    contentContainer.querySelectorAll('pre').forEach(el => {
-      el.addEventListener('copy', function (event) {
-        copyPastedCount++
-        if (copyPastedCount === 1) {
-          notyf.open({
-            type: 'info',
-            message: 'Please use less copy & pasting. Try to understand the concept a little better!',
-            duration: 5000,
-            dismissible: true
-          })
-        } else if (copyPastedCount === 5) {
-          notyf.open({
-            type: 'warning',
-            message: 'Come on... I can\'t believe we\'re still doing this. Do better!',
-            duration: 5000,
-            dismissible: true
-          })
-        } else if (copyPastedCount === 8) {
-          notyf.open({
-            type: 'warning',
-            message: 'I\'m getting a little angry... <strong>3! 3 more times.</strong> No more.',
-            duration: 5000,
-            dismissible: true
-          })
-        } else if (copyPastedCount === 12) {
-          notyf.open({
-            type: 'special',
-            message: 'Ugh. You\'re an annoying one. Here you go: <span class="tag is-light"><span class="badge_code">COPYPASTA</span></span>. Take it, and promise that you won\'t do it again.',
-            duration: 0,
-            dismissible: true
-          })
-        } else if (copyPastedCount > 12) {
-          notyf.error('<strong>I SAID NO MORE!</strong>')
+    driver.defineSteps([
+      {
+        element: '#module_overview',
+        popover: {
+          title: 'The module-reading experience has changed!',
+          description: `We've move the module contents to an external website. From now on, you'll be able to enjoy\
+                        the modules with a better reading experience, dark mode, and cached!`,
+        },
+        position: 'left'
+      },
+      {
+        element: '#read_module_button',
+        popover: {
+          title: 'Click here to get started with the module.',
+          position: 'right'
         }
-      })
-    })
+      }
+    ]);
 
+    if (!localStorage.getItem('read_module_onboard')) {
+      driver.start();
+    }
     const modal = document.querySelector(".modal")
     const submissionLink = document.querySelector('#submission-link')
     const submissionLinkInput = submissionLink.querySelector('input')
@@ -297,11 +292,5 @@
           modal.classList.remove("is-active")
         })
       })
-
-    // open ext links in new tab
-    for (let c = contentContainer.getElementsByTagName("a"), a = 0; a < c.length; a++) {
-      let b = c[a];
-      b.getAttribute("href") && b.hostname !== location.hostname && (b.target = "_blank")
-    }
   </script>
 {{/extend}}

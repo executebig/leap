@@ -2,9 +2,6 @@
     {{#if ../edit}}Edit Module #{{../module.module_id}}{{else}}New Module{{/if}}
 {{/extend}}
 <!-- Markdown editor styling so it's not enabled everywhere -->
-{{#extend "header-inject"}}
-    <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
-{{/extend}}
 <section class="section header">
     <div class="container">
         <h1 class="title">{{#if edit}}Edit Module #{{module.module_id}}{{else}}New Module{{/if}}</h1>
@@ -53,25 +50,12 @@
                     </div>
                 </div>
             </div>
-             <div class="columns">
+            <div class="columns">
                 <div class="column">
                     <div class="field">
                         <label class="label">Notion Link/ID</label>
                         <p class="control">
-                            <input name="notion_link" class="input" type="text" value="{{module.notion_link}}" required></input>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="columns">
-                <div class="column">
-                    <div class="field">
-                        <label class="label mb-0">Content</label>
-                        <p class="help mb-2">
-                            Text highlighted in red may be spelled wrong. It is safe to ignore.
-                        </p>
-                        <p class="control">
-                            <textarea name="content" id="module-content-editor" class="textarea" type="text">{{module.content}}</textarea>
+                            <input name="notion_link" class="input" type="text" placeholder="https://executebig.notion.site/..." value="{{module.notion_link}}" required></input>
                         </p>
                     </div>
                 </div>
@@ -95,17 +79,10 @@
             <input type="hidden" name="project_id" value="{{project_id}}">
             <button type="submit" class="button is-primary">{{#if edit}}Update Module{{else}}Create Module{{/if}}</button>
         </form>
+        <hr />
+        <div>
+            <label class="label">A read-only copy of the module's contents &mdash; it has been deprecated.</label>
+            <textarea class="textarea" rows="30" readonly>{{module.content}}</textarea>
+        </div>
     </div>
 </section>
-{{#extend "scripts"}}
-    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
-    <script nonce="{{@root/nonce}}">
-        const editor = new EasyMDE({
-            element: document.querySelector("#module-content-editor"),
-            toolbar: ['preview'],
-            status: null,
-            forceSync: true,
-            spellChecker: true,
-        })
-    </script>
-{{/extend}}
