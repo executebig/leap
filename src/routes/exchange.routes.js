@@ -55,6 +55,9 @@ router.post('/purchase', async (req, res) => {
   } else if (orderQuantity > reward.quantity) {
     req.flash('error', `Your order quantity exceeds the amount of available stock for this product.`)
     return res.redirect('/exchange')
+  } else if (orderQuantity < 1) {
+    req.flash('error', `:(`)
+    return res.redirect('/exchange')
   } else if (orderPrice > req.user.points) {
     req.flash(
       'error',
