@@ -16,9 +16,10 @@
                             <tr>
                                 <th>Order #</th>
                                 <th>U</th>
-                                <th>Ordered At</th>
+                                <th>Quantity</th>
                                 <th>Reward Name</th>
                                 <th>Status</th>
+                                <th>Ordered At</th>
                                 <th>Updated At</th>
                                 <th>Actions</th>
                             </tr>
@@ -28,9 +29,10 @@
                                 <tr>
                                     <td>{{order_id}}</td>
                                     <td>{{user_id}}</td>
-                                    <td>{{prettyTime ordered_at}}</td>
+                                    <td>{{quantity}}</td>
                                     <td>R#{{reward_id}} {{reward_name}}</td>
                                     <td>{{status}}</td>
+                                    <td>{{prettyTime ordered_at}}</td>
                                     <td>{{prettyTime updated_at}}</td>
                                     <td><a href="/admin/orders/edit/{{order_id}}">Edit</a></td>
                                 </tr>

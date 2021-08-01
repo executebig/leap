@@ -186,6 +186,17 @@ exports.numSubmissionsAsColorWeight = (value, max, options) => {
     return 'is-primary'
 }
 
+exports.quantityAsColorWeight = (value, max, options) => {
+  max = parseInt(max, 10)
+
+  if (value >= max)
+    return 'is-primary'
+  else if (value >= max / 2)
+    return 'is-warning'
+  else
+    return 'is-danger'
+}
+
 exports.leq = (a, b, options) => {
   return a <= b ? options.fn(this) : options.inverse(this)
 }

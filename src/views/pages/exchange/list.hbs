@@ -69,7 +69,30 @@
             <div class="columns is-multiline">
                 {{#each rewards}}
                     <div class="column is-6 is-flex">
-                        <div class="card reward is-flex is-flex-direction-column{{#if raffle}} raffle{{/if}}" reward-id="{{reward_id}}" reward-name="{{name}}" reward-price="{{price}}">
+                        <div
+                            class="card reward is-flex is-flex-direction-column{{#if raffle}} raffle{{/if}}"
+                            reward-id="{{reward_id}}"
+                            reward-name="{{name}}"
+                            reward-description="{{description}}"
+                            reward-image="{{image}}"
+                            reward-price="{{price}}"
+                            reward-stock="{{quantity}}"
+                            reward-delivery='
+                                {{#if international}}
+                                    {{#if @root/user.international}}
+                                        <p class="mb-2">
+                                            This physical reward is available to international players.
+                                        </p>
+                                    {{/if}}
+                                {{/if}}
+                                <p class="mb-2">
+                                    <strong>Delivery Method & Timeline:</strong> {{delivery}}
+                                    {{#if needs_shipping}}
+                                        <strong>This reward requires physical shipping.</strong>
+                                    {{/if}}
+                                </p>
+                            '
+                        >
                             <div class="card-content is-flex-grow-1">
                                 <div class="columns">
                                     <div class="column is-3">
@@ -79,7 +102,17 @@
                                     </div>
                                     <div class="column">
                                         <div class="content">
-                                            <h1 class="title is-5 mb-3">{{name}}</h1>
+                                            <h1 class="title is-5 mb-2">{{name}}</h1>
+                                            <div class="tags are-medium">
+                                                {{#if raffle}}
+                                                    <span class="tag {{#if quantity}}is-primary{{/if}} is-light">{{price}}&nbsp;{{>chip}}&nbsp;per entry</span>
+                                                {{else}}
+                                                    <span class="tag {{#if quantity}}is-primary{{/if}} is-light">{{price}}&nbsp;{{>chip}}&nbsp;per item</span>
+                                                    {{#leq quantity 10000}}
+                                                        <span class="tag {{#if ../quantity}}{{quantityAsColorWeight ../quantity 100}}{{/if}} is-light">{{../quantity}} in stock</span>
+                                                    {{/leq}}
+                                                {{/if}}
+                                            </div>
                                             <p class="mb-2">
                                                 {{description}}
                                             </p>
@@ -103,12 +136,20 @@
                             <div class="card-footer">
                                 {{#if quantity}}
                                     {{#if raffle}}
-                                        <a class="purchase-button card-footer-item button is-primary is-light">
-                                            Buy a raffle entry for {{price}}&nbsp;{{>chip}}
+                                        <a class="card-footer-item button is-primary is-light is-static">
+                                            <span>
+                                                {{entries}} Current Entries
+                                            </span>
+                                            <span class="icon ml-2">
+                                                <ion-icon name="ticket" size="large"></ion-icon>
+                                            </span>
+                                        </a>
+                                        <a class="purchase-button card-footer-item button is-primary">
+                                            Purchase Entries
                                         </a>
                                     {{else}}
                                         <a class="purchase-button card-footer-item button is-primary">
-                                            Buy for {{price}}&nbsp;{{>chip}}
+                                            Purchase Item
                                         </a>
                                     {{/if}}
                                 {{else}}
@@ -121,48 +162,108 @@
             </div>
         </div>
     </section>
-</div>
-<div class="modal">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head">
-            <h1 class="modal-card-title">Heads up!</h1>
-        </header>
-        <section class="modal-card-body">
-            <p class="modal-message">
-                You're about to purchase <strong class="modal-reward-name has-text-primary"></strong> for
-                <strong class="modal-reward-price has-text-primary"></strong>{{>chip}} from the Roulette Exchange.
-            </p>
-            <p>All purchases at the Roulette Exchange are <strong>final</strong>.
-                Once you place your order, we cannot cancel your order or refund you for the cost of the item.
-            </p>
-            <strong class="has-text-primary">Are you sure you want to continue?</strong>
-        </section>
-        <footer class="modal-card-foot">
-            <form action="/exchange/purchase" method="POST" style="width: 100%">
-                <button class="button is-danger modal-cancel" type="reset">
-                    <span>Pick again</span>
-                    <span class="icon">
-                        <ion-icon name='refresh-outline'></ion-icon>
-                    </span>
-                </button>
-                <button class="button is-primary is-pulled-right" type="submit">
-                    <span>Purchase</span>
-                    <span class="icon">
-                        <ion-icon name='arrow-forward-outline'></ion-icon>
-                    </span>
-                </button>
-                <input type="hidden" name="reward_id" class="modal-reward-id">
-            </form>
-        </footer>
+
+    <form action="/exchange/purchase" method="POST" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <h1 class="modal-card-title">Order Item</h1>
+            </header>
+            <section class="modal-card-body">
+                <div class="columns">
+                    <div class="column is-3">
+                        <img class="modal-reward-image" src="" alt="">
+                    </div>
+                    <div class="column content">
+                        <h2 class="modal-reward-name"></h2>
+                        <p class="modal-reward-description"></p>
+                        <span class="modal-reward-delivery"></span>
+
+                        <div class="field has-addons mb-0 mt-5">
+                            <div class="control">
+                                <input class="input" type="number" name="reward_quantity" value="1" min="1" id="bal_change" />
+                            </div>
+                            <div class="control">
+                                <p class="button is-static">
+                                    <span class="modal-reward-stock"></span>&nbsp;Available
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="quick_change mb-3">
+                            <a class="button is-danger is-light qc_button" data-change=-5>-5</a>
+                            <a class="button is-danger is-light qc_button" data-change=-1>-1</a>
+                            <a class="button is-light qc_button" data-change=0>RESET</a>
+                            <a class="button is-success is-light qc_button" data-change=1>+1</a>
+                            <a class="button is-success is-light qc_button" data-change=5>+5</a>
+                        </div>
+
+
+                        <h3>Order Finalization</h3>
+                        <p>
+                            You're about to purchase <strong class="modal-reward-name has-text-primary"></strong> for
+                            <strong class="modal-reward-price has-text-primary"></strong>{{>chip}} from the Roulette Exchange.
+                        </p>
+                        <p>All purchases at the Roulette Exchange are <strong>final</strong>.
+                            Once you place your order, we cannot cancel your order or refund you for the cost of the item.
+                        </p>
+                        <strong class="has-text-primary">Are you sure you want to continue?</strong>
+                    </div>
+                </div>
+            </section>
+            <footer class="modal-card-foot">
+                <div style="width: 100%;">
+                    <button class="button is-danger modal-cancel" type="reset">
+                        <span>Cancel</span>
+                    </button>
+                    <button class="button is-primary is-pulled-right" type="submit">
+                        <span>Purchase</span>
+                        <span class="icon">
+                            <ion-icon name='arrow-forward-outline'></ion-icon>
+                        </span>
+                    </button>
+                    <input type="hidden" name="reward_id" class="modal-reward-id">
+                </div>
+            </footer>
+        </div>
+        <button class="modal-close modal-cancel is-large" aria-label="close"></button>
     </div>
-    <button class="modal-close modal-cancel is-large" aria-label="close"></button>
-</div>
+</form>
+
 <script nonce="{{@root/nonce}}">
     const modal = document.querySelector(".modal")
-    const modalRewardName = modal.querySelector('.modal-reward-name')
-    const modalRewardPrice = modal.querySelector('.modal-reward-price')
-    const modalRewardId = modal.querySelector('.modal-reward-id')
+    const submitButton = modal.querySelector('button[type=submit]')
+    const change = document.getElementById('bal_change')
+    const balance = {{@root/user.points}}
+
+    let attrs
+
+    const updateModal = (name, value, innerHTML) => {
+        if (value === undefined)
+            value = attrs[`reward-${name}`]?.value
+
+        modal.querySelectorAll(`.modal-reward-${name}`)
+            .forEach(node => {
+                if (innerHTML)
+                    node.innerHTML = value
+                else if (node.nodeName === 'INPUT')
+                    node.value = value
+                else if (node.nodeName === 'IMG')
+                    node.src = value
+                else
+                    node.textContent = value
+            })
+    }
+
+    const updatePreview = () => {
+        const price = change.value * attrs['reward-price'].value
+
+        updateModal('quantity', change.value)
+        updateModal('name', change.value + ' x ' + attrs['reward-name'].value)
+        updateModal('price', price)
+
+        submitButton.disabled = price > balance
+    }
 
     // Close modal on ESC keypress
     document.addEventListener('keydown', ({key}) => {
@@ -179,9 +280,17 @@
                 purchaseButton.addEventListener('click', () => {
                     modal.classList.add('is-active')
 
-                    modalRewardId.value = node.getAttribute('reward-id')
-                    modalRewardName.textContent = node.getAttribute('reward-name')
-                    modalRewardPrice.textContent = node.getAttribute('reward-price')
+                    attrs = node.attributes
+                    updateModal('name')
+                    updateModal('description')
+                    updateModal('delivery', undefined, true)
+                    updateModal('id')
+                    updateModal('image')
+                    updateModal('stock')
+                    change.value = change.min
+                    change.max = attrs['reward-stock'].value
+
+                    updatePreview()
                 })
             }
         })
@@ -194,4 +303,21 @@
             })
         })
 
+    // Bind button change handlers
+    change.addEventListener('change', updatePreview)
+
+    document.querySelectorAll('.qc_button').forEach(el => {
+        el.addEventListener('click', () => {
+            const diff = Number(el.dataset.change)
+
+            if (!diff)
+                change.value = change.min
+            else if (diff > 0)
+                change.value = Math.min(change.max, Number(change.value) + diff)
+            else
+                change.value = Math.max(change.min, Number(change.value) + diff)
+
+            updatePreview()
+        })
+    })
 </script>

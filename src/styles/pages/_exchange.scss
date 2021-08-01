@@ -1,5 +1,12 @@
 .page__exchange {
+  .modal-card {
+    width: auto;
+    max-width: 900px;
+  }
+
   .card.reward {
+    min-height: 350px;
+
     p.price {
       font-family: $family-header;
       font-weight: bold;
@@ -12,8 +19,7 @@
 
     .card-footer {
       .button {
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
+        border-radius: 0;
         height: 3rem;
 
         span.chip {
