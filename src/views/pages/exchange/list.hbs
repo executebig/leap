@@ -108,7 +108,9 @@
                                                     <span class="tag {{#if quantity}}is-primary{{/if}} is-light">{{price}}&nbsp;{{>chip}}&nbsp;per entry</span>
                                                 {{else}}
                                                     <span class="tag {{#if quantity}}is-primary{{/if}} is-light">{{price}}&nbsp;{{>chip}}&nbsp;per item</span>
-                                                    <span class="tag {{#if quantity}}{{quantityAsColorWeight quantity 100}}{{/if}} is-light">{{quantity}} in stock</span>
+                                                    {{#leq quantity 10000}}
+                                                        <span class="tag {{#if ../quantity}}{{quantityAsColorWeight ../quantity 100}}{{/if}} is-light">{{../quantity}} in stock</span>
+                                                    {{/leq}}
                                                 {{/if}}
                                             </div>
                                             <p class="mb-2">
@@ -143,21 +145,11 @@
                                             </span>
                                         </a>
                                         <a class="purchase-button card-footer-item button is-primary">
-                                            <span>
-                                                Purchase Entries
-                                            </span>
-                                            <span class="icon ml-2">
-                                                <ion-icon name="card" size="large"></ion-icon>
-                                            </span>
+                                            Purchase Entries
                                         </a>
                                     {{else}}
                                         <a class="purchase-button card-footer-item button is-primary">
-                                            <span>
-                                                Purchase Item
-                                            </span>
-                                            <span class="icon ml-2">
-                                                <ion-icon name="card" size="large"></ion-icon>
-                                            </span>
+                                            Purchase Item
                                         </a>
                                     {{/if}}
                                 {{else}}
@@ -240,7 +232,9 @@
 
 <script nonce="{{@root/nonce}}">
     const modal = document.querySelector(".modal")
+    const submitButton = modal.querySelector('button[type=submit]')
     const change = document.getElementById('bal_change')
+    const balance = {{@root/user.points}}
 
     let attrs
 
@@ -262,9 +256,13 @@
     }
 
     const updatePreview = () => {
+        const price = change.value * attrs['reward-price'].value
+
         updateModal('quantity', change.value)
         updateModal('name', change.value + ' x ' + attrs['reward-name'].value)
-        updateModal('price', change.value * attrs['reward-price'].value)
+        updateModal('price', price)
+
+        submitButton.disabled = price > balance
     }
 
     // Close modal on ESC keypress
