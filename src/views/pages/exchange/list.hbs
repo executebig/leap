@@ -79,7 +79,15 @@
                                     </div>
                                     <div class="column">
                                         <div class="content">
-                                            <h1 class="title is-5 mb-3">{{name}}</h1>
+                                            <h1 class="title is-5 mb-2">{{name}}</h1>
+                                            <div class="tags are-medium">
+                                                {{#if raffle}}
+                                                    <span class="tag {{#if quantity}}is-primary{{/if}} is-light">{{price}}&nbsp;{{>chip}}&nbsp;per entry</span>
+                                                {{else}}
+                                                    <span class="tag {{#if quantity}}is-primary{{/if}} is-light">{{price}}&nbsp;{{>chip}}&nbsp;per item</span>
+                                                    <span class="tag {{#if quantity}}{{quantityAsColorWeight quantity 100}}{{/if}} is-light">{{quantity}} in stock</span>
+                                                {{/if}}
+                                            </div>
                                             <p class="mb-2">
                                                 {{description}}
                                             </p>
@@ -103,12 +111,25 @@
                             <div class="card-footer">
                                 {{#if quantity}}
                                     {{#if raffle}}
-                                        <a class="purchase-button card-footer-item button is-primary is-light">
-                                            Buy a raffle entry for {{price}}&nbsp;{{>chip}}
+                                        <a class="card-footer-item button is-primary is-light">
+                                            {{entries}} Entries Currently
+                                        </a>
+                                        <a class="purchase-button card-footer-item button is-primary">
+                                            <span>
+                                                Purchase Entries
+                                            </span>
+                                            <span class="icon ml-2">
+                                                <ion-icon name="ticket" size="large"></ion-icon>
+                                            </span>
                                         </a>
                                     {{else}}
                                         <a class="purchase-button card-footer-item button is-primary">
-                                            Buy for {{price}}&nbsp;{{>chip}}
+                                            <span>
+                                                Purchase Item
+                                            </span>
+                                            <span class="icon ml-2">
+                                                <ion-icon name="card" size="large"></ion-icon>
+                                            </span>
                                         </a>
                                     {{/if}}
                                 {{else}}
