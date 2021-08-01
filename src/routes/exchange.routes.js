@@ -36,6 +36,7 @@ router.get('/', async (req, res) => {
 
 router.post('/purchase', async (req, res) => {
   const reward_id = parseInt(req.body.reward_id)
+  const orderQuantity = parseInt(req.body.reward_quantity)
   const exchangeStatus = await ConfigController.get('exchange')
 
   const [address, reward] = await Promise.all([
@@ -43,11 +44,22 @@ router.post('/purchase', async (req, res) => {
     ExchangeController.getRewardById(reward_id)
   ])
 
+  const orderPrice = orderQuantity * reward.price
+
   if (exchangeStatus !== 'enabled') {
     req.flash('error', `The Roulette Exchange is currently offline. Please check back later!`)
     return res.redirect('/exchange')
   } else if (!reward.enabled || reward.quantity <= 0) {
     req.flash('error', `This reward is no longer available.`)
+    return res.redirect('/exchange')
+  } else if (orderQuantity > reward.quantity) {
+    req.flash('error', `Your order quantity exceeds the amount of available stock for this product.`)
+    return res.redirect('/exchange')
+  } else if (orderPrice > req.user.points) {
+    req.flash(
+      'error',
+      `You do not have enough chips to purchase ${reward.name}! Need ${orderPrice - req.user.points} more chips.`
+    )
     return res.redirect('/exchange')
   } else if (
     req.user.no_shipping &&
@@ -60,17 +72,10 @@ router.post('/purchase', async (req, res) => {
       `You are not eligible for this reward. Please check your eligibility status or try another reward.`
     )
     return res.redirect('/exchange')
-  } else if (reward.price > req.user.points) {
-    const diff = reward.price - req.user.points
-    req.flash(
-      'error',
-      `You do not have enough chips to purchase ${reward.name}! Need ${diff} more chips.`
-    )
-    return res.redirect('/exchange')
   }
 
   const order = await OrderController.createOrder({
-    reward_id,
+    reward_id, quantity: orderQuantity,
     user_id: req.user.user_id,
     reward_name: reward.name,
     email: req.user.email,
@@ -82,8 +87,8 @@ router.post('/purchase', async (req, res) => {
       : 'Order placed'
   })
 
-  await UserController.updateUser(req.user.user_id, { points: req.user.points - reward.price })
-  await ExchangeController.sellOne(reward_id)
+  await UserController.updateUser(req.user.user_id, { points: req.user.points - orderPrice })
+  await ExchangeController.sell(reward_id, orderQuantity)
 
   req.flash('success', 'Thank you for your purchase!')
   return res.redirect('/exchange/orders')

@@ -130,16 +130,20 @@ create table rewards (
 create table orders (
     order_id serial not null constraint orders_pk primary key,
     ordered_at timestamp not null,
+    updated_at timestamp,
+
     user_id serial not null,
     reward_id serial not null,
+
     reward_name text not null,
+    quantity integer not null default 1,
     email text,
     address text,
     status text not null,
-    updated_at timestamp,
-    constraint reward_fk 
+
+    constraint reward_fk
         foreign key (reward_id) references rewards(reward_id)
-            on update set null 
+            on update set null
             on delete set null,
     constraint user_fk
 		foreign key (user_id) references users(user_id)

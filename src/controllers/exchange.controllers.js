@@ -78,9 +78,9 @@ exports.updateReward = async (reward_id, data) => {
 }
 
 // this assumes that the quantity check was performed ahead of this query
-exports.sellOne = async (reward_id) => {
-  const q = await db.query(`UPDATE rewards SET quantity = quantity - 1 WHERE reward_id = $1`, [
-    reward_id
+exports.sell = async (reward_id, quantity) => {
+  const q = await db.query(`UPDATE rewards SET quantity = quantity - $2 WHERE reward_id = $1`, [
+    reward_id, quantity
   ])
 }
 
@@ -111,6 +111,6 @@ exports.getRewardById = async (reward_id) => {
 }
 
 exports.getEntries = async (reward_id, user_id) => {
-  const q = await db.query('SELECT count(*) FROM orders WHERE reward_id = $1 AND user_id = $2', [reward_id, user_id])
-  return parseInt(q?.rows[0].count, 10)
+  const q = await db.query('SELECT sum(quantity) FROM orders WHERE reward_id = $1 AND user_id = $2', [reward_id, user_id])
+  return parseInt(q?.rows?.[0].sum, 10) || 0
 }
