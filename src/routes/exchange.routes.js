@@ -64,12 +64,7 @@ router.post('/purchase', async (req, res) => {
       `You do not have enough chips to purchase ${reward.name}! Need ${orderPrice - req.user.points} more chips.`
     )
     return res.redirect('/exchange')
-  } else if (
-    req.user.no_shipping &&
-    reward.needs_shipping &&
-    reward.international &&
-    !req.user.international
-  ) {
+  } else if ((req.user.no_shipping && reward.needs_shipping) && (!req.user.international || !reward.international)) {
     req.flash(
       'error',
       `You are not eligible for this reward. Please check your eligibility status or try another reward.`
