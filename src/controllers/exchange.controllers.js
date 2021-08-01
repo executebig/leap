@@ -89,7 +89,7 @@ exports.listAll = async () => {
   return q?.rows
 }
 
-exports.listAvailable = async (international, no_shipping) => {
+exports.listAvailable = async (international, no_shipping, user_id) => {
   // if international, only show rewards that does not need shipping or are marked as international
   if (international) {
     const q = await db.query(`SELECT * FROM rewards WHERE enabled = true AND (needs_shipping = false

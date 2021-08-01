@@ -111,8 +111,8 @@
                             <div class="card-footer">
                                 {{#if quantity}}
                                     {{#if raffle}}
-                                        <a class="card-footer-item button is-primary is-light">
-                                            {{entries}} Entries Currently
+                                        <a class="card-footer-item button is-primary is-light is-static">
+                                            {{entries}} Current Entries
                                         </a>
                                         <a class="purchase-button card-footer-item button is-primary">
                                             <span>
@@ -150,22 +150,43 @@
             <h1 class="modal-card-title">Heads up!</h1>
         </header>
         <section class="modal-card-body">
-            <p class="modal-message">
-                You're about to purchase <strong class="modal-reward-name has-text-primary"></strong> for
-                <strong class="modal-reward-price has-text-primary"></strong>{{>chip}} from the Roulette Exchange.
-            </p>
-            <p>All purchases at the Roulette Exchange are <strong>final</strong>.
-                Once you place your order, we cannot cancel your order or refund you for the cost of the item.
-            </p>
-            <strong class="has-text-primary">Are you sure you want to continue?</strong>
+            <div class="content">
+                <h3>Quantity Selection</h3>
+
+                <div class="field has-addons mb-0">
+                    <div class="control">
+                        <input class="input" type="number" name="change" value="1" min="1" max="100" id="bal_change" />
+                    </div>
+                    <div class="control">
+                        <p class="button is-static">
+                            Number of Items
+                        </p>
+                    </div>
+                </div>
+
+                <div class="quick_change mb-3">
+                    <a class="button is-danger is-light qc_button" data-change=-5>-5</a>
+                    <a class="button is-danger is-light qc_button" data-change=-1>-1</a>
+                    <a class="button is-light qc_button" data-change=0>RESET</a>
+                    <a class="button is-success is-light qc_button" data-change=1>+1</a>
+                    <a class="button is-success is-light qc_button" data-change=5>+5</a>
+                </div>
+
+                <h3>Order Finalization</h3>
+                <p>
+                    You're about to purchase <strong class="modal-reward-name has-text-primary"></strong> for
+                    <strong class="modal-reward-price has-text-primary"></strong>{{>chip}} from the Roulette Exchange.
+                </p>
+                <p>All purchases at the Roulette Exchange are <strong>final</strong>.
+                    Once you place your order, we cannot cancel your order or refund you for the cost of the item.
+                </p>
+                <strong class="has-text-primary">Are you sure you want to continue?</strong>
+            </div>
         </section>
         <footer class="modal-card-foot">
             <form action="/exchange/purchase" method="POST" style="width: 100%">
                 <button class="button is-danger modal-cancel" type="reset">
-                    <span>Pick again</span>
-                    <span class="icon">
-                        <ion-icon name='refresh-outline'></ion-icon>
-                    </span>
+                    <span>Cancel</span>
                 </button>
                 <button class="button is-primary is-pulled-right" type="submit">
                     <span>Purchase</span>
@@ -215,4 +236,19 @@
             })
         })
 
+    const change = document.getElementById('bal_change')
+    document.querySelectorAll('.qc_button').forEach(el => {
+        el.addEventListener('click', () => {
+            const diff = Number(el.dataset.change)
+            if (!diff) {
+                change.value = change.min
+            } else if (diff > 0) {
+                console.log(Math.min(change.max, Number(change.value) + diff))
+                change.value = Math.min(change.max, Number(change.value) + diff)
+            } else {
+                change.value = Math.max(change.min, Number(change.value) + diff)
+            }
+            updatePreview()
+        })
+    })
 </script>
