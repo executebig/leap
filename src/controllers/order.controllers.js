@@ -5,11 +5,11 @@
 const db = require('@db')
 
 exports.createOrder = async (data) => {
-  const { reward_id, user_id, reward_name, email, address, status } = data
+  const { reward_id, user_id, reward_name, email, address, status, quantity} = data
 
   const q = await db.query(
-    'INSERT INTO orders (ordered_at, reward_id, user_id, reward_name, email, address, status, updated_at) VALUES (NOW(), $1, $2, $3, $4, $5, $6, NOW())',
-    [reward_id, user_id, reward_name, email, address, status]
+    'INSERT INTO orders (ordered_at, reward_id, user_id, reward_name, email, address, status, quantity, updated_at) VALUES (NOW(), $1, $2, $3, $4, $5, $6, $7, NOW())',
+    [reward_id, user_id, reward_name, email, address, status, quantity]
   )
 
   return q.rows[0]

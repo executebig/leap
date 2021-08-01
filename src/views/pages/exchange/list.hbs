@@ -171,7 +171,7 @@
         </div>
     </section>
 
-    <div class="modal">
+    <form action="/exchange/purchase" method="POST" class="modal">
         <div class="modal-background"></div>
         <div class="modal-card">
             <header class="modal-card-head">
@@ -189,7 +189,7 @@
 
                         <div class="field has-addons mb-0 mt-5">
                             <div class="control">
-                                <input class="input" type="number" name="change" value="1" min="1" id="bal_change" />
+                                <input class="input" type="number" name="reward_quantity" value="1" min="1" id="bal_change" />
                             </div>
                             <div class="control">
                                 <p class="button is-static">
@@ -220,7 +220,7 @@
                 </div>
             </section>
             <footer class="modal-card-foot">
-                <form action="/exchange/purchase" method="POST" style="width: 100%">
+                <div style="width: 100%;">
                     <button class="button is-danger modal-cancel" type="reset">
                         <span>Cancel</span>
                     </button>
@@ -231,13 +231,12 @@
                         </span>
                     </button>
                     <input type="hidden" name="reward_id" class="modal-reward-id">
-                    <input type="hidden" name="reward_quantity" class="modal-reward-quantity">
-                </form>
+                </div>
             </footer>
         </div>
         <button class="modal-close modal-cancel is-large" aria-label="close"></button>
     </div>
-</div>
+</form>
 
 <script nonce="{{@root/nonce}}">
     const modal = document.querySelector(".modal")

@@ -7,9 +7,9 @@
             <h1 class="title">Past Roulette Exchange Orders</h1>
             <div class="notification is-primary is-light">
                 <p style="font-size: 1rem; line-height: 1.5">
-                    <strong>Fulfillment Schedule:</strong> non-physical rewards are fulfilled every week via email. 
+                    <strong>Fulfillment Schedule:</strong> non-physical rewards are fulfilled every week via email.
                     Physical rewards are fulfilled at the end of the program, so you will receive one and only one
-                    package. Hardware rewards are fulfilled within 2 weeks of you filling out the intent form. For 
+                    package. Hardware rewards are fulfilled within 2 weeks of you filling out the intent form. For
                     most shipments, we will not provide a tracking number.
                 </p>
             </div>
@@ -24,6 +24,7 @@
                             <th>Order #</th>
                             <th>Ordered At</th>
                             <th>Reward Name</th>
+                            <th>Quantity</th>
                             <th>Status</th>
                             <th>Updated At</th>
                         </tr>
@@ -34,6 +35,7 @@
                                 <td>{{order_id}}</td>
                                 <td>{{prettyTime ordered_at}}</td>
                                 <td>{{reward_name}}</td>
+                                <td>{{quantity}}</td>
                                 <td>{{status}}</td>
                                 <td>{{prettyTime updated_at}}</td>
                             </tr>
