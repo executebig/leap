@@ -89,7 +89,7 @@ exports.listAll = async () => {
   return q?.rows
 }
 
-exports.listAvailable = async (international, no_shipping, user_id) => {
+exports.listAvailable = async (international, no_shipping) => {
   // if international, only show rewards that does not need shipping or are marked as international
   if (international) {
     const q = await db.query(`SELECT * FROM rewards WHERE enabled = true AND (needs_shipping = false
@@ -108,4 +108,9 @@ exports.listAvailable = async (international, no_shipping, user_id) => {
 exports.getRewardById = async (reward_id) => {
   const q = await db.query('SELECT * FROM rewards WHERE reward_id = $1', [reward_id])
   return q?.rows[0]
+}
+
+exports.getEntries = async (reward_id, user_id) => {
+  const q = await db.query('SELECT count(*) FROM orders WHERE reward_id = $1 AND user_id = $2', [reward_id, user_id])
+  return parseInt(q?.rows[0].count, 10)
 }

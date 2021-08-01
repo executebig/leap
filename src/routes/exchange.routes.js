@@ -19,9 +19,16 @@ router.get('/', async (req, res) => {
   const exchangeStatus = await ConfigController.get('exchange')
 
   if (exchangeStatus === 'enabled') {
-    res.render('pages/exchange/list', {
-      rewards: await ExchangeController.listAvailable(req.user.international, req.user.no_shipping)
-    })
+    const rewards = await Promise.all((await ExchangeController.listAvailable(req.user.international, req.user.no_shipping))
+      .map(async reward => {
+        if (reward.raffle) {
+          reward.entries = await ExchangeController.getEntries(reward.reward_id, req.user.user_id)
+        }
+
+        return reward
+      }))
+
+    res.render('pages/exchange/list', { rewards })
   } else {
     res.render('pages/exchange/disabled')
   }
