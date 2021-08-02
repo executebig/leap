@@ -15,6 +15,7 @@ create table if not exists users (
     no_shipping boolean default false not null,
     referrer integer,
     international boolean default false not null,
+    project_id_override integer default -1 not null,
 
     discord_id text,
 

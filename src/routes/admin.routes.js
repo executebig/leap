@@ -236,6 +236,9 @@ router.get('/config', async (req, res) => {
 })
 
 router.post('/config', async (req, res, next) => {
+  req.body.hardwareWeek = !!req.body.hardwareWeek
+  req.body.exchange = !!req.body.exchange
+
   const badges = await BadgeController.listBadgeIds()
 
   if (req.body.weeklyBadges.trim() !== '') {
@@ -251,6 +254,8 @@ router.post('/config', async (req, res, next) => {
   } else {
     req.body.weeklyBadges = ''
   }
+
+  console.log(req.body)
 
   await ConfigController.setMultiple(req.body)
   await UserController.flagRefreshAll()
@@ -880,7 +885,7 @@ router.get('/rewards/raffle/:id', async (req, res) => {
 router.post('/rewards/raffle/:id', async (req, res) => {
   await OrderController.setRaffleWinner(req.params.id, req.body.winner)
   req.flash('success', `Successfully set order ${req.body.winner} as winner!`)
-  
+
   res.redirect('/admin/rewards')
 })
 
