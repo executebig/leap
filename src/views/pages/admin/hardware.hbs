@@ -1,0 +1,106 @@
+{{#extend "title"}}
+    Hardware Week Controls
+{{/extend}}
+
+<div class="page__admin__hardware">
+    <section class="section header">
+        <div class="container">
+            <h1 class="title">Hardware Controls</h1>
+        </div>
+    </section>
+    <section class="section badge">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <p class="card-header-title">Current Hardware Users</p>
+            </div>
+
+            <div class="card-content" style="height: 400px; overflow-y: auto; resize: vertical;">
+                <table class="table is-fullwidth is-hoverable is-striped">
+                    <thead>
+                    <tr>
+                        <th>UID</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Address</th>
+                        <th>Discord ID</th>
+                        <th>PID Override</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {{#each users}}
+                            <tr>
+                                <td>{{user_id}}</td>
+                                <td>{{first_name}} {{last_name}} ({{display_name}})</td>
+                                <td>{{age}}</td>
+                                <td>{{address}}</td>
+                                <td>{{discord_id}}</td>
+                                <td>{{project_id_override}}</td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card mt-5">
+            <div class="card-header">
+                <p class="card-header-title">User ID Selection</p>
+            </div>
+            <div class="card-content">
+                <div class="field">
+                    <div class="control">
+                        <textarea class="textarea" id="user_ids"></textarea>
+                    </div>
+                </div>
+                <a class="button is-primary mt-2" id="sanitize">Sanitize & Dedupe</a>
+                <p id="report" class="mt-2"></p>
+            </div>
+        </div>
+
+        <div class="card mt-5">
+            <div class="card-header">
+                <p class="card-header-title">Actions</p>
+            </div>
+            <div class="card-content">
+                <form class="field has-addons" action="/admin/hardware/flag" method="POST">
+                    <input type="hidden" name="user_ids" id="sanitized_ids">
+
+                    <div class="control">
+                        <input class="input" type="number" name="project_id" min="1" required>
+                    </div>
+
+                    <div class="control">
+                        <button class="button is-primary" type="submit" id="flag-button" disabled>Flag w/ PID</button>
+                    </div>
+                </form>
+
+                <form class="field" action="/admin/hardware/reset" method="POST">
+                    <button class="button is-danger" type="submit">Reset All Overrides</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script nonce={{nonce}}>
+    const sanitizeButton = document.getElementById('sanitize')
+    const idsField = document.getElementById('user_ids')
+    const report = document.getElementById('report')
+    const sanitizedIdsField = document.getElementById('sanitized_ids')
+    const flagButton = document.getElementById('flag-button')
+
+    sanitizeButton.addEventListener('click', () => {
+        const ids = idsField.value.split(/[\n,]+/).map(item => parseInt(item.trim()))
+        const sanitized = [...new Set(ids)].sort((a, b) => a - b).filter(n => n >= 0)
+
+        idsField.value = sanitized
+        sanitizedIdsField.value = sanitized
+
+        report.textContent = `Sanitized ${ids.length} values, remaining ${sanitized.length} valid values.`
+
+        if (sanitized.length) {
+            flagButton.disabled = false
+        }
+    })
+</script>

@@ -926,4 +926,32 @@ router.get('/orders/:type?', async (req, res) => {
   }
 })
 
+// Hardware Controls
+router.get('/hardware', async (req, res) => {
+  const q = await db.query('SELECT * FROM users WHERE project_id_override != -1 ORDER BY user_id ASC')
+
+  res.render('pages/admin/hardware', {
+    users: q?.rows
+  })
+})
+
+router.post('/hardware/reset', async (req, res) => {
+  await db.query('UPDATE users SET project_id_override = -1')
+
+  req.flash('success', 'All PID overrides have been reset')
+  res.redirect('/admin/hardware')
+})
+
+router.post('/hardware/flag', async (req, res) => {
+  const ids = req.body.user_ids.split(/[\n,]+/).map((item) => parseInt(item.trim()))
+
+  console.log(ids)
+
+  await db.query('UPDATE users SET project_id_override = $1 WHERE (user_id = ANY ($2))', [parseInt(req.body.project_id, 10), ids])
+
+  req.flash('success', `PID overrides successfully updated`)
+  res.redirect('/admin/hardware')
+})
+
+
 module.exports = router
