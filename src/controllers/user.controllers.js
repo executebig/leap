@@ -24,6 +24,7 @@ const fields = [
   'no_shipping',
   // - referrer
   'international',
+  'project_id_override',
 
   // - created_at, updated_at
   'state',

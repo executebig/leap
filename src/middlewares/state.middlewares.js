@@ -5,10 +5,30 @@ const ConfigController = require('@controllers/config.controllers')
 exports.stateMiddleware = async (req, res, next) => {
   if (req.user.state !== 'onboarding') {
     const week = parseInt(await ConfigController.get('week'), 10)
+    const hardwareWeek = (await ConfigController.get('hardwareWeek')) === 'true'
 
-    // If user week is behind, (re)generate projects
-    if (req.user.current_week < week) {
-      const prevProjects = [...req.user.prev_projects, req.user.current_project]
+    const prevProjects = [...req.user.prev_projects, req.user.current_project]
+
+    if (hardwareWeek && req.user.project_id_override !== -1) {
+      // If hardware week enabled and user has a project override
+      const newUser = await UserController.updateUser(req.user.user_id, {
+        state: 'inprogress',
+        current_week: week,
+        current_project: req.user.project_id_override,
+        prev_projects: prevProjects,
+        project_pool: []
+      })
+
+      req.login(newUser, (err) => {
+        if (err) {
+          req.flash('error', err.message)
+        }
+
+        res.locals.user = req.user
+        next()
+      })
+    } else if (req.user.current_week < week) {
+      // If user week is behind, (re)generate projects
       const newUser = await UserController.updateUser(req.user.user_id, {
         state: 'pending',
         current_week: week,
@@ -16,8 +36,7 @@ exports.stateMiddleware = async (req, res, next) => {
         prev_projects: prevProjects,
         project_pool: await ProjectController.getRandomProjectIds(
           3,
-          prevProjects,
-          req.user.no_shipping
+          prevProjects
         )
       })
 
