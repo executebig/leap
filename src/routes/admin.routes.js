@@ -236,6 +236,9 @@ router.get('/config', async (req, res) => {
 })
 
 router.post('/config', async (req, res, next) => {
+  req.body.hardwareWeek = !!req.body.hardwareWeek
+  req.body.exchange = !!req.body.exchange
+
   const badges = await BadgeController.listBadgeIds()
 
   if (req.body.weeklyBadges.trim() !== '') {
@@ -251,6 +254,8 @@ router.post('/config', async (req, res, next) => {
   } else {
     req.body.weeklyBadges = ''
   }
+
+  console.log(req.body)
 
   await ConfigController.setMultiple(req.body)
   await UserController.flagRefreshAll()
@@ -880,7 +885,7 @@ router.get('/rewards/raffle/:id', async (req, res) => {
 router.post('/rewards/raffle/:id', async (req, res) => {
   await OrderController.setRaffleWinner(req.params.id, req.body.winner)
   req.flash('success', `Successfully set order ${req.body.winner} as winner!`)
-  
+
   res.redirect('/admin/rewards')
 })
 
@@ -920,5 +925,33 @@ router.get('/orders/:type?', async (req, res) => {
     })
   }
 })
+
+// Hardware Controls
+router.get('/hardware', async (req, res) => {
+  const q = await db.query('SELECT * FROM users WHERE project_id_override != -1 ORDER BY user_id ASC')
+
+  res.render('pages/admin/hardware', {
+    users: q?.rows
+  })
+})
+
+router.post('/hardware/reset', async (req, res) => {
+  await db.query('UPDATE users SET project_id_override = -1')
+
+  req.flash('success', 'All PID overrides have been reset')
+  res.redirect('/admin/hardware')
+})
+
+router.post('/hardware/flag', async (req, res) => {
+  const ids = req.body.user_ids.split(/[\n,]+/).map((item) => parseInt(item.trim()))
+
+  console.log(ids)
+
+  await db.query('UPDATE users SET project_id_override = $1 WHERE (user_id = ANY ($2))', [parseInt(req.body.project_id, 10), ids])
+
+  req.flash('success', `PID overrides successfully updated`)
+  res.redirect('/admin/hardware')
+})
+
 
 module.exports = router

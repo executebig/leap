@@ -18,7 +18,7 @@ router.use(checkAuth, flagMiddleware, banMiddleware, stateMiddleware)
 router.get('/', async (req, res) => {
   const exchangeStatus = await ConfigController.get('exchange')
 
-  if (exchangeStatus === 'enabled') {
+  if (exchangeStatus === 'true' || exchangeStatus === 'enabled') {
     const rewards = await Promise.all((await ExchangeController.listAvailable(req.user.international, req.user.no_shipping))
       .map(async reward => {
         if (reward.raffle) {

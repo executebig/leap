@@ -28,19 +28,19 @@ exports.getProjectsByIds = async (project_ids) => {
 }
 
 // Returns num amount of random project ids
-// Excludes hardware projects if no_shipping is true
+// Excludes hardware projects
 // Query doesn't scale well w/ larger datasets, but should be fine for our purposes
-exports.getRandomProjectIds = async (num, exclude, no_shipping) => {
+exports.getRandomProjectIds = async (num, exclude) => {
   const q = await db.query(
     `
     SELECT project_id FROM projects
     WHERE
       (NOT project_id = ANY ($2)) AND
       enabled = true AND
-      (hardware = false OR NOT $3)
+      hardware = false
     ORDER BY random()
     LIMIT $1`,
-    [num, exclude, no_shipping]
+    [num, exclude]
   )
 
   return q?.rows.map((e) => e.project_id)
