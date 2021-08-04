@@ -16,9 +16,9 @@ const OrderController = require('@controllers/order.controllers')
 router.use(checkAuth, flagMiddleware, banMiddleware, stateMiddleware)
 
 router.get('/', async (req, res) => {
-  const exchangeStatus = await ConfigController.get('exchange')
+  const exchangeEnabled = (await ConfigController.get('exchange')) === 'true'
 
-  if (exchangeStatus === 'true' || exchangeStatus === 'enabled') {
+  if (exchangeEnabled) {
     const rewards = await Promise.all((await ExchangeController.listAvailable(req.user.international, req.user.no_shipping))
       .map(async reward => {
         if (reward.raffle) {
@@ -37,7 +37,7 @@ router.get('/', async (req, res) => {
 router.post('/purchase', async (req, res) => {
   const reward_id = parseInt(req.body.reward_id)
   const orderQuantity = parseInt(req.body.reward_quantity)
-  const exchangeStatus = await ConfigController.get('exchange')
+  const exchangeEnabled = (await ConfigController.get('exchange')) === 'true'
 
   const [address, reward] = await Promise.all([
     UserController.getAddressById(req.user.user_id),
@@ -46,7 +46,7 @@ router.post('/purchase', async (req, res) => {
 
   const orderPrice = orderQuantity * reward.price
 
-  if (exchangeStatus !== 'enabled') {
+  if (!exchangeEnabled) {
     req.flash('error', `The Roulette Exchange is currently offline. Please check back later!`)
     return res.redirect('/exchange')
   } else if (!reward.enabled || reward.quantity <= 0) {
