@@ -227,10 +227,12 @@ if (config.env === 'production') {
 }
 
 /** Instantiate server */
-http.listen(config.port, () => {
+http.listen(config.port, async () => {
   console.log(
     `Leap started on ${config.env === 'production' ? 'https://' : 'http://'}${config.domain}\n`
   )
+
+  require('./onetime/fixHardwareWeek')()
 })
 
 /** Exports the server for testing */
