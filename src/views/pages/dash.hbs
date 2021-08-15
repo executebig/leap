@@ -1,6 +1,6 @@
 {{#extend "title"}}Dashboard{{/extend}}
   <div class='page__dash'>
-    <section class='section pb-3'>
+    <section class='section pb-0'>
       <div class='container content'>
         <h1 class='title has-text-primary'>Welcome back! Pick your adventure...</h1>
           <p class="is-size-5">
@@ -8,7 +8,7 @@
             be able to change it, and you will have a week to complete it.
           </p>
           <form action="/dash/reroll" method="POST">
-            <button class="button">Reroll for&nbsp;<strong>20</strong>&nbsp;{{>chip}}</button>
+            <button class="button is-primary" {{#ifCond @root/user.points '<' @root/rerollCost}}disabled{{/ifCond}}>Reroll for&nbsp;<strong>{{@root/rerollCost}}</strong>&nbsp;{{>chip}}</button>
           </form>
       </div>
     </section>

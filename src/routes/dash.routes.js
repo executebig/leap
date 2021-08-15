@@ -8,6 +8,7 @@ const router = require('express').Router()
 const ProjectController = require('@controllers/project.controllers')
 const UserController = require('@controllers/user.controllers')
 const DiscordController = require('@controllers/discord.controllers')
+const ConfigController = require('@controllers/config.controllers')
 
 const { flagMiddleware, stateMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
 const { checkAuth } = require('@middlewares/auth.middlewares')
@@ -35,13 +36,18 @@ router.use('/', (req, res, next) => {
 })
 
 router.get('/', async (req, res) => {
+  const rerollCost = parseInt(await ConfigController.get('rerollCost'), 10) || 20
+
   return res.render('pages/dash', {
-    projects: await ProjectController.getProjectsByIds(req.user.project_pool)
+    projects: await ProjectController.getProjectsByIds(req.user.project_pool),
+    rerollCost
   })
 })
 
 router.post('/reroll', async (req, res) => {
-  if (req.user.points < 20) {
+  const rerollCost = parseInt(await ConfigController.get('rerollCost'), 10) || 20
+
+  if (req.user.points < rerollCost) {
     req.flash('error', 'Insufficient funds!')
     res.redirect('/dash')
     return
@@ -49,7 +55,7 @@ router.post('/reroll', async (req, res) => {
 
   const randomProject = req.user.project_pool[Math.floor(Math.random() * req.user.project_pool.length)]
   await UserController.updateUser(req.user.user_id, {
-    points: req.user.points - 20,
+    points: req.user.points - rerollCost,
     project_pool: await ProjectController.getRandomProjectIds(
       3,
       [...req.user.prev_projects, randomProject]
