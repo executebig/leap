@@ -14,12 +14,22 @@
       <p class="help">Current week of program</p>
     </div>
 
-    <div class='field'>
-      <label class='label'>Chips per project</label>
-      <div class='control'>
-        <input class='input' name='pointsPerProject' type='number' placeholder='{{config.pointsPerProject}}' value='{{config.pointsPerProject}}' min='1' />
+    <div class='columns field mb-0'>
+      <div class="column">
+        <label class='label'>Chips per project</label>
+        <div class='control'>
+          <input class='input' name='pointsPerProject' type='number' placeholder='{{config.pointsPerProject}}' value='{{config.pointsPerProject}}' min='1' />
+        </div>
+        <p class="help">Chips granted upon required module completion</p>
       </div>
-      <p class="help">Chips granted upon required module completion</p>
+
+      <div class="column">
+        <label class='label'>Reroll cost</label>
+        <div class='control'>
+          <input class='input' name='rerollCost' type='number' placeholder='{{config.rerollCost}}' value='{{config.rerollCost}}' min='1' />
+        </div>
+        <p class="help">Cost for rerolling projects</p>
+      </div>
     </div>
 
     <div class='columns field mb-0'>

@@ -8,6 +8,7 @@ const router = require('express').Router()
 const ProjectController = require('@controllers/project.controllers')
 const UserController = require('@controllers/user.controllers')
 const DiscordController = require('@controllers/discord.controllers')
+const ConfigController = require('@controllers/config.controllers')
 
 const { flagMiddleware, stateMiddleware, banMiddleware } = require('@middlewares/state.middlewares')
 const { checkAuth } = require('@middlewares/auth.middlewares')
@@ -35,9 +36,36 @@ router.use('/', (req, res, next) => {
 })
 
 router.get('/', async (req, res) => {
+  const rerollCost = parseInt(await ConfigController.get('rerollCost'), 10) || 20
+
   return res.render('pages/dash', {
-    projects: await ProjectController.getProjectsByIds(req.user.project_pool)
+    projects: await ProjectController.getProjectsByIds(req.user.project_pool),
+    rerollCost
   })
+})
+
+router.post('/reroll', async (req, res) => {
+  const rerollCost = parseInt(await ConfigController.get('rerollCost'), 10) || 20
+
+  if (req.user.points < rerollCost) {
+    req.flash('error', 'Insufficient funds!')
+    res.redirect('/dash')
+    return
+  }
+
+  const randomProject = req.user.project_pool[Math.floor(Math.random() * req.user.project_pool.length)]
+  await UserController.updateUser(req.user.user_id, {
+    points: req.user.points - rerollCost,
+    project_pool: await ProjectController.getRandomProjectIds(
+      3,
+      [...req.user.prev_projects, randomProject]
+    )
+  })
+
+  await UserController.flagRefresh(req.user.user_id)
+
+  req.flash('success', 'Successfully regenerated project pool!')
+  res.redirect('/dash')
 })
 
 router.post('/', async (req, res) => {
@@ -53,7 +81,7 @@ router.post('/', async (req, res) => {
     current_project: req.body.project_id
   })
 
-  // grant Discord role 
+  // grant Discord role
   if (req.user.discord_id) {
     const roleName = "W" + req.user.current_week + "P" + req.body?.project_id
     await DiscordController.grantRole(req.user.discord_id, roleName)
