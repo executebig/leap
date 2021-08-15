@@ -40,6 +40,28 @@ router.get('/', async (req, res) => {
   })
 })
 
+router.post('/reroll', async (req, res) => {
+  if (req.user.points < 20) {
+    req.flash('error', 'Insufficient funds!')
+    res.redirect('/dash')
+    return
+  }
+
+  const randomProject = req.user.project_pool[Math.floor(Math.random() * req.user.project_pool.length)]
+  await UserController.updateUser(req.user.user_id, {
+    points: req.user.points - 20,
+    project_pool: await ProjectController.getRandomProjectIds(
+      3,
+      [...req.user.prev_projects, randomProject]
+    )
+  })
+
+  await UserController.flagRefresh(req.user.user_id)
+
+  req.flash('success', 'Successfully regenerated project pool!')
+  res.redirect('/dash')
+})
+
 router.post('/', async (req, res) => {
   // Check if project exists & user is allowed to pick
   if (!req.user.project_pool.includes(parseInt(req.body?.project_id, 10))) {
@@ -53,7 +75,7 @@ router.post('/', async (req, res) => {
     current_project: req.body.project_id
   })
 
-  // grant Discord role 
+  // grant Discord role
   if (req.user.discord_id) {
     const roleName = "W" + req.user.current_week + "P" + req.body?.project_id
     await DiscordController.grantRole(req.user.discord_id, roleName)

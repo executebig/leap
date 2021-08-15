@@ -1,12 +1,15 @@
 {{#extend "title"}}Dashboard{{/extend}}
   <div class='page__dash'>
-    <section class='section header pb-3'>
-      <div class='container'>
-        <h1 class='title is-primary'>Welcome back! Pick your adventure...</h1>
-        <p>
-          Task details will be presented to you once you select your task. Once selected, you will not
-          be able to change it, and you will have a week to complete it.
-        </p>
+    <section class='section pb-3'>
+      <div class='container content'>
+        <h1 class='title has-text-primary'>Welcome back! Pick your adventure...</h1>
+          <p class="is-size-5">
+            Task details will be presented to you once you select your task. Once selected, you will not
+            be able to change it, and you will have a week to complete it.
+          </p>
+          <form action="/dash/reroll" method="POST">
+            <button class="button">Reroll for&nbsp;<strong>20</strong>&nbsp;{{>chip}}</button>
+          </form>
       </div>
     </section>
     {{> survey}}
