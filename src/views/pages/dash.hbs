@@ -8,7 +8,7 @@
             be able to change it, and you will have a week to complete it.
           </p>
           <form action="/dash/reroll" method="POST">
-            <button class="button is-primary" {{#ifCond @root/user.points '<' @root/rerollCost}}disabled{{/ifCond}}>Reroll for&nbsp;<strong>{{@root/rerollCost}}</strong>&nbsp;{{>chip}}</button>
+            <button class="button is-primary" {{#ifCond @root/user.points '<' @root/rerollCost}}disabled{{/ifCond}}>Re-roll for&nbsp;<strong>{{@root/rerollCost}}</strong>&nbsp;{{>chip}}</button>
           </form>
       </div>
     </section>

@@ -64,7 +64,7 @@ router.post('/reroll', async (req, res) => {
 
   await UserController.flagRefresh(req.user.user_id)
 
-  req.flash('success', 'Successfully regenerated project pool!')
+  req.flash('success', 'Successfully re-rolled project pool!')
   res.redirect('/dash')
 })
 
