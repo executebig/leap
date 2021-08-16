@@ -86,8 +86,7 @@
           <p class='mb-4'><strong>You have not collected a badge yet.</strong></p>
         {{/unless}}
         <p>
-          You'll be able to see a list of available badges here after Tech Roulette starts. There
-          will also be a lot of secret hidden badges that you'll be able to collect in a variety of
+          <strong>Psst...</strong> there's a lot of secret badges hidden around Tech Roulette that you can collect in a variety of
           ways. Keep an eye out for the codes!
         </p>
       </div>
@@ -98,12 +97,12 @@
           Past Projects
         </h1>
 
-        <div class='columns'>
+        <div class='columns is-multiline'>
           {{#each @root/prevProjects}}
             <div class='column is-one-third'>
               <a
                 href="/submissions/{{project_id}}"
-                class="project project--mini card is-clickable"
+                class="project-mini card is-clickable"
                 tabindex='0'
               >
                 <h2>{{title}}</h2>
@@ -121,8 +120,8 @@
         {{/unless}}
 
         <p>
-          Your previously submitted/expired projects will appear here. You cannot go back to
-          complete them as they expire after the week, but you will be able to see your submissions.
+          Your previously submitted/expired projects will appear here. Note that you can't resubmit modules after
+          the deadline, but you'll still be able to see your previous submissions.
         </p>
       </div>
     </section>
