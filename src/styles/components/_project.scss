@@ -28,17 +28,6 @@
     background: none;
   }
 
-  &--mini {
-    &:hover > .project__overlay--1 {
-      background: rgba($primary, 0.4);
-    }
-
-    .project__overlay--1 {
-      background: rgba($primary, 0.2);
-      backdrop-filter: blur(4px);
-    }
-  }
-
   &__bg {
     position: absolute;
     z-index: -2;
@@ -80,5 +69,58 @@
     *:first-child {
       margin-right: auto;
     }
+  }
+}
+
+.project-mini {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  color: white;
+  font-weight: 500;
+  text-shadow: 0 2px 4px rgba(black, 0.25);
+
+  overflow: hidden;
+  border-radius: 20px;
+
+  box-sizing: border-box;
+  padding: 1.5rem;
+
+  min-height: 250px;
+
+  &:hover {
+    color: white;
+    text-decoration: none;
+  }
+
+  &:hover > .project__overlay--1 {
+    background: rgba($primary, 0.4);
+  }
+
+  .project__overlay--1 {
+    background: rgba($primary, 0.2);
+  }
+
+  &.card {
+    background: none;
+  }
+
+  &__bg {
+    position: absolute;
+    z-index: -2;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+
+  & > h2 {
+    font-size: 2rem;
+    font-weight: bold;
   }
 }

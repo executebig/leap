@@ -96,7 +96,7 @@
   {{#eq @root/user.state 'completed'}}
     <section class="section pb-0">
       <div class="container">
-        <div class="card is-success">
+        <div class="card is-success" style="overflow: visible;">
           <header class="card-header">
             <p class="card-header-title">🎉 Congratulations! You've completed Week {{@root/user.current_week}}.</p>
           </header>
@@ -119,7 +119,7 @@
             {{#if @root/newBadges}}
               <div class="badges is-flex-shrink-0 is-flex is-align-items-center mt-4">
                 {{#each @root/newBadges}}
-                  <figure class='image is-64x64 my-0 ml-0 mr-3' aria-label='{{name}}: {{description}}' data-balloon-pos='down-left' data-balloon-length='large' style="display: inline-block;">
+                  <figure class='image is-64x64 my-0 ml-0 mr-3' aria-label='{{name}}: {{description}}' data-balloon-pos='down-right' data-balloon-length='large' style="display: inline-block;">
                     <img class='badge large' src='{{icon}}' />
                   </figure>
                 {{/each}}
