@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an ide
+about: Suggest an idea
 title: ''
 labels: feature
 assignees: itsmingjie
