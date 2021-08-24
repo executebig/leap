@@ -9,7 +9,23 @@ exports.stateMiddleware = async (req, res, next) => {
 
     const prevProjects = [...req.user.prev_projects, req.user.current_project]
 
-    if (req.user.current_week < week) {
+    if (week === -1) {
+      const newUser = await UserController.updateUser(req.user.user_id, {
+        state: 'ready',
+        current_week: -1,
+        current_project: -1,
+        project_pool: []
+      })
+
+      req.login(newUser, (err) => {
+        if (err) {
+          req.flash('error', err.message)
+        }
+
+        res.locals.user = req.user
+        next()
+      })
+    } else if (req.user.current_week < week) {
       let newUser
 
       if (hardwareWeek && req.user.project_id_override !== -1) {
