@@ -13,22 +13,24 @@
                 </a>
             {{/if}}
             {{#if user}}
-                <span class="navbar-item has-text-weight-bold">
-                    <div class="tag is-primary expiration_timer">
-                        W{{@root/user.current_week}} Ends:&nbsp;
-                        <span class="days"></span>
-                        &nbsp;
-                        <span>Days</span>
-                        &nbsp;
-                        <span class="hours"></span>
-                        &nbsp;
-                        <span>Hours</span>
-                        &nbsp;
-                        <span class="minutes"></span>
-                        &nbsp;
-                        <span>Mins</span>
-                    </div>
-                </span>
+                {{#ifCond @root/user.current_week '!=' -1}}
+                    <span class="navbar-item has-text-weight-bold">
+                        <div class="tag is-primary expiration_timer">
+                            W{{@root/user.current_week}} Ends:&nbsp;
+                            <span class="days"></span>
+                            &nbsp;
+                            <span>Days</span>
+                            &nbsp;
+                            <span class="hours"></span>
+                            &nbsp;
+                            <span>Hours</span>
+                            &nbsp;
+                            <span class="minutes"></span>
+                            &nbsp;
+                            <span>Mins</span>
+                        </div>
+                    </span>
+                {{/ifCond}}
             {{/if}}
             <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
                 <span aria-hidden="true"></span>
