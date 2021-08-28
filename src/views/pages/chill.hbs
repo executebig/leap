@@ -4,70 +4,45 @@
 <div class="page__chill">
     <section class="section header">
         <div class="container">
-            <h1 class="title is-1">Chill Zone 🏖</h1>
+            <h1 class="title is-1">Chill Zone (Post-Program) 🏖</h1>
             <p>
-                Sup, welcome to Chill Zone. There are no apocalyptic events that require your immediate attention right now, so we brought you here.
-                You should relax and enjoy the summer with us.
+                Thank you so much for being a part of Tech Roulette! We hope you enjoyed it as much as we did :)
             </p>
         </div>
     </section>
     <section class="section activities pt-0">
         <div class="container">
             <div class="columns">
-                {{#if user.discord_id}}
-                    <div class="column">
-                        <div class="card">
-                            <div class="card-header">
-                                <h1 class="card-header-title">
-                                    <ion-icon name="logo-discord"></ion-icon><span>Keep an Eye on Discord!</span>
-                                </h1>
-                            </div>
-                            <div class="card-content">
-                                <p><strong>We'll be posting important updates about Tech Roulette on Discord!</strong></p>
-                                <p class="mt-2">
-                                    Join in on the conversations happening right now in our Discord server! Even better, you can suggest
-                                    cool features for Tech Roulette and the Discord server to make your experience better. 
-                                </p>
-                                <a href="https://discord.com/channels/856266812605988915" target="_blank" rel="noopener" class="button mt-5 is-primary">
-                                    <ion-icon name="chatbox-ellipses"></ion-icon><span>Head to Discord</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                {{else}}
-                    <div class="column">
-                        <div class="card">
-                            <div class="card-header">
-                                <h1 class="card-header-title">
-                                    <ion-icon name="logo-discord"></ion-icon><span>Link Your Discord Account!</span>
-                                </h1>
-                            </div>
-                            <div class="card-content">
-                                <p><strong>You haven't linked your Discord account yet!</strong></p>
-                                <p class="mt-2">Link your Discord account now to receive a special badge, get access to
-                                    a Discord community of Tech Roulette players, staff members, and mentors, and participate in fun community events!
-                                </p>
-                                <a href="/account/discord" class="button mt-5 is-primary">
-                                    <ion-icon name="link-outline"></ion-icon><span>Link Your Account Now</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                {{/if}}
                 <div class="column">
-                    <div class="card">
+                    <div class="card is-success">
                         <div class="card-header">
                             <h1 class="card-header-title">
-                                <ion-icon name="logo-youtube"></ion-icon><span>Missed the Opening Night Stream?</span>
+                                <ion-icon name="megaphone"></ion-icon><span>Final Survey</span>
                             </h1>
                         </div>
                         <div class="card-content">
-                            <p><strong>You can watch the full event replay on YouTube! </strong></p>
-                            <p class="mt-2">Learn more about the rules and procedures of Tech Roulette,
-                                see a cool demo of the interface, and hear some frequently asked questions answered.
+                            <p><strong>We'd love to hear your feedback!</strong></p>
+                            <p class="mt-2">We'll be giving away prizes to those who complete the post-event survey! In order to be eligible for the giveaway, you must complete the survey by <strong class="has-text-primary">Saturday, 9/4</strong>. Giveaway winners will be announced the same day.</p>
+                            <a href="#" class="button mt-5 is-primary" target="_blank" rel="noopener">
+                                <ion-icon name="clipboard"></ion-icon><span>Complete Survey</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="card is-success">
+                        <div class="card-header">
+                            <h1 class="card-header-title">
+                                <ion-icon name="people"></ion-icon><span>Fall Volunteering Opportunities</span>
+                            </h1>
+                        </div>
+                        <div class="card-content">
+                            <p><strong>Lorem Ipsum</strong></p>
+                            <p class="mt-2">
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
                             </p>
-                            <a href="https://youtu.be/sMzBPciPNX4" class="button mt-5 is-primary" target="_blank" rel="noopener">
-                                <ion-icon name="play"></ion-icon><span>Watch the Event</span>
+                            <a href="/exchange/order" class="button mt-5 is-primary" target="_blank" rel="noopener">
+                                <ion-icon name="list"></ion-icon><span>Volunteer Opportunities</span>
                             </a>
                         </div>
                     </div>
@@ -77,31 +52,24 @@
                 <div class="column spotify is-one-third">
                     <iframe class="card" src="https://open.spotify.com/embed/album/1KlU96Hw9nlvqpBPlSqcTV" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
                 </div>
-                {{!-- enable this chunk after program starts
-                <div class="column is-two-third">
-                    <h1 class="title is-5"><ion-icon name="trophy-outline"></ion-icon><span>Get Some Extra Rewards</span></h1>
-                </div>
-                --}}
-                {{!-- This block is for pre-program --}}
                 <div class="column is-two-third">
                     <div class="card">
                         <div class="card-header">
                             <h1 class="card-header-title">
-                                <ion-icon name="hourglass-outline"></ion-icon><span>Week 1 Project Release</span>
+                                <ion-icon name="archive"></ion-icon><span>Rewards, Badges, & Previous Projects</span>
                             </h1>
                         </div>
                         <div class="card-content">
-                            <p class="title is-2 countdown">
-                                <span class="days"></span> Days,
-                                <span class="hours"></span> Hours,<br />
-                                <span class="minutes"></span> Minutes,
-                                <span class="seconds"></span> Seconds<br />
-                            </p>
-                            <p style="font-weight: bold">Saturday, July 3, 2021 - 8:00 PM Eastern Time (GMT-4)</p>
-                            <p class="mt-2">
-                                Welcome to Tech Roulette! Your Week 1 projects will be ready for selection on Saturday.
-                                You'll get an email by then with a link to select your project of the week. See you then!
-                            </p>
+                            <p><strong>You can still view badges, order statuses, and previous projects!</strong></p>
+                            <p class="mt-2">Badges & previous submissions can be found on your account profile page. You can also view redeemed rewards & check up on your order status on your past orders page.</p>
+                            <span class="buttons">
+                                <a href="/account" class="button mt-5 is-primary" target="_blank" rel="noopener">
+                                    <ion-icon name="person"></ion-icon><span>View Account</span>
+                                </a>
+                                <a href="/exchange/orders" class="button mt-5 is-primary" target="_blank" rel="noopener">
+                                    <ion-icon name="time"></ion-icon><span>View Past Orders</span>
+                                </a>
+                            </span>
                         </div>
                     </div>
                 </div>
