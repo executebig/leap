@@ -1,6 +1,6 @@
 # Leap: The Platform for Tech Roulette
 
-Leap is the platform server for [Tech Roulette](https://techroulette.xyz). This project is used by Execute Big to run the 2020 Tech Roulette summer program, which means it's a **hyper-specific platform** suitable for only our needs. Of course, you can choose to use Leap for similar online programs like puzzle hunts or online courses, but chances are you'll have to modify a ton of code in this repository to make Leap fit your own needs. 
+Leap is the platform server for [Tech Roulette](https://techroulette.xyz). This project is used by Execute Big to run the 2021 Tech Roulette summer program, which means it's a **hyper-specific platform** suitable for only our needs. Of course, you can choose to use Leap for similar online programs like puzzle hunts or online courses, but chances are you'll have to modify a ton of code in this repository to make Leap fit your own needs. 
 
 If you are interested in learning how this platform works, please email [mingjie@executebig.org](mailto:mingjie@executebig.org). I'll be happy to answer any questions and explain how different parts of this codebase work together, but unfortunately, I won't be able to provide any support to help you adapt this platform for your own needs.
 
@@ -55,7 +55,7 @@ Due to the nature of Tech Roulette as a proprietary program of Execute Big, not 
 
 ## Credits
 
-This project is written by Mingjie Jiang ([@itsmingjie](https://github.com/itsmingjie)) and Brian Xiang ([@cf12](https://github.com/cf12) with contributions from the community for [Execute Big](https://executebig.org), a 501(c)(3) nonprofit.
+This project is written by Mingjie Jiang ([@itsmingjie](https://github.com/itsmingjie)) and Brian Xiang ([@cf12](https://github.com/cf12)) with contributions from the community for [Execute Big](https://executebig.org), a 501(c)(3) nonprofit.
 
 ## License
 
